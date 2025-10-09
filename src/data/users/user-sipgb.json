@@ -1,11 +1,18 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 50000,
-  "players": [],
+  "currency": 45918,
+  "players": [
+    {
+      "id": "Ruhestand-3160",
+      "purchasedAt": 1760013805410
+    }
+  ],
   "roster": {
     "lineup": [],
-    "bench": []
+    "bench": [
+      "Ruhestand-3160"
+    ]
   },
   "weeklyScores": {}
 }

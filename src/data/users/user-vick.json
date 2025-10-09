@@ -1,10 +1,17 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 50000,
-  "players": [],
+  "currency": 45084,
+  "players": [
+    {
+      "id": "Vick6804-2439",
+      "purchasedAt": 1760015622012
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Vick6804-2439"
+    ],
     "bench": []
   },
   "weeklyScores": {}

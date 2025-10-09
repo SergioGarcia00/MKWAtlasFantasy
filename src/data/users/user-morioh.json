@@ -1,11 +1,74 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 50000,
-  "players": [],
+  "currency": 23537,
+  "players": [
+    {
+      "id": "Hugo07-2439",
+      "purchasedAt": 1760014838481
+    },
+    {
+      "id": "Korni-2439",
+      "purchasedAt": 1760014871881
+    },
+    {
+      "id": "Ultramort-2439",
+      "purchasedAt": 1760014920481
+    },
+    {
+      "id": "LOLmdr-16",
+      "purchasedAt": 1760014930952
+    },
+    {
+      "id": "SungJinWoo-2439",
+      "purchasedAt": 1760014965851
+    },
+    {
+      "id": "Marronero-2439",
+      "purchasedAt": 1760014973077
+    },
+    {
+      "id": "Arezu-3090",
+      "purchasedAt": 1760015147996
+    }
+  ],
   "roster": {
-    "lineup": [],
-    "bench": []
+    "lineup": [
+      "Hugo07-2439",
+      "Ultramort-2439",
+      "Korni-2439",
+      "SungJinWoo-2439",
+      "LOLmdr-16",
+      "Marronero-2439"
+    ],
+    "bench": [
+      "Arezu-3090"
+    ]
   },
-  "weeklyScores": {}
+  "weeklyScores": {
+    "Hugo07-2439": {
+      "1": {
+        "race1": 120,
+        "race2": 122
+      }
+    },
+    "Ultramort-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "SungJinWoo-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "Marronero-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    }
+  }
 }

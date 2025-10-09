@@ -1,23 +1,31 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 28738,
+  "currency": 34736,
   "players": [
-    "Sipgb-2439",
-    "MaestroPastelero-2439",
-    "Vick6804-2439",
-    "MirianaConte-2439",
-    "JOYBOY-2439",
-    "Ruhestand-3160"
+    {
+      "id": "Sipgb-2439",
+      "purchasedAt": 1758717733360
+    },
+    {
+      "id": "MaestroPastelero-2439",
+      "purchasedAt": 1758717733360
+    },
+    {
+      "id": "MirianaConte-2439",
+      "purchasedAt": 1758717733360
+    },
+    {
+      "id": "JOYBOY-2439",
+      "purchasedAt": 1758717733360
+    }
   ],
   "roster": {
     "lineup": [
       "Sipgb-2439",
       "MaestroPastelero-2439",
-      "Vick6804-2439",
       "MirianaConte-2439",
-      "JOYBOY-2439",
-      "Ruhestand-3160"
+      "JOYBOY-2439"
     ],
     "bench": []
   },

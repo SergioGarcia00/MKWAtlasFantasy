@@ -31,12 +31,10 @@ export default function WeeklyMarketPage() {
 
     const availablePlayers = ALL_PLAYERS.filter(p => !ownedPlayerIds.has(p.id));
 
-    // Tiers by rank
     const highRankTier = availablePlayers.filter(p => p.rank && p.rank <= 200);
     const midRankTier = availablePlayers.filter(p => p.rank && p.rank > 200 && p.rank <= 500);
     const lowRankTier = availablePlayers.filter(p => p.rank && p.rank > 500);
 
-    // Tiers by cost
     const highCostTier = availablePlayers.filter(p => p.cost >= 4000);
     const midCostTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
     const lowCostTier = availablePlayers.filter(p => p.cost < 3000);
@@ -83,27 +81,6 @@ export default function WeeklyMarketPage() {
           Descubre nuevos talentos para tu equipo con estas recomendaciones aleatorias.
         </p>
       </header>
-
-      <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-6 mb-8">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Bot className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg">
-                Fichajes Recomendados de la Semana
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Una selección aleatoria de jugadores de distintos niveles para reforzar tu plantilla.
-              </p>
-            </div>
-          </div>
-          <Button onClick={fetchRecommendations} disabled={loading}>
-            {loading ? 'Generando...' : 'Regenerar Recomendaciones'}
-          </Button>
-        </div>
-      </div>
 
       <div>
         {loading ? (
