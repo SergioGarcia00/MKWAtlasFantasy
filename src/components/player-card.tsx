@@ -6,7 +6,7 @@ import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { DollarSign, BarChart2, TrendingUp, Star, Tower, Shield, Globe } from 'lucide-react';
+import { DollarSign, BarChart2, TrendingUp, Star, BarChartHorizontal, Shield, Globe } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 
@@ -35,6 +35,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const canAfford = (user?.currency ?? 0) >= player.cost;
 
   const handlePurchase = () => {
+    if (!user) return;
     purchasePlayer(player);
     setIsOpen(false);
   };
@@ -42,7 +43,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const additionalStats = [
     { label: 'MMR', value: player.mmr?.toLocaleString(), icon: <Star className="w-4 h-4 text-amber-500" /> },
     { label: 'Peak MMR', value: player.peak_mmr?.toLocaleString(), icon: <TrendingUp className="w-4 h-4 text-red-500" /> },
-    { label: 'Rank', value: player.rank ? `#${player.rank}`: 'N/A', icon: <Tower className="w-4 h-4 text-blue-500" /> },
+    { label: 'Rank', value: player.rank ? `#${player.rank}`: 'N/A', icon: <BarChartHorizontal className="w-4 h-4 text-blue-500" /> },
     { label: 'Events Played', value: player.events_played, icon: <Shield className="w-4 h-4 text-green-500" /> },
     { label: 'Country', value: player.country, icon: <Globe className="w-4 h-4 text-purple-500" /> },
   ].filter(stat => stat.value !== undefined && stat.value !== null);
@@ -116,7 +117,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 <div key={stat} className="grid grid-cols-5 items-center gap-2">
                   <span className="text-sm font-medium capitalize col-span-2">{stat}</span>
                   <div className="col-span-3 h-4 bg-muted rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${statColors[stat]}`} style={{ width: `${value * 10}%` }} />
+                    <div className={`h-full rounded-full ${statColors[stat]}`} style={{ width: `${(value || 0) * 10}%` }} />
                   </div>
                 </div>
               ))}
