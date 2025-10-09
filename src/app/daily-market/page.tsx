@@ -1,12 +1,13 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Loader2 } from 'lucide-react';
 import { PlayerCard } from '@/components/player-card';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ALL_PLAYERS } from '@/data/players';
+import { useToast } from '@/hooks/use-toast';
 
 const shuffleArray = (array: any[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -18,8 +19,10 @@ const shuffleArray = (array: any[]) => {
 
 export default function DailyMarketPage() {
   const { user, allUsers } = useUser();
+  const { toast } = useToast();
   const [recommendations, setRecommendations] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isLocking, setIsLocking] = useState(false);
 
   const fetchRecommendations = useCallback(() => {
     if (!user) return;
@@ -56,18 +59,53 @@ export default function DailyMarketPage() {
     }
   }, [user, allUsers, fetchRecommendations]);
 
+  const handleLockIn = async () => {
+    setIsLocking(true);
+    try {
+        const response = await fetch('/api/auctions/lock-in', { method: 'POST' });
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to lock in auctions');
+        }
+        const result = await response.json();
+        toast({
+            title: 'Subastas Cerradas!',
+            description: `${result.winners.length} jugadores han sido transferidos a sus nuevos dueños.`,
+        });
+        // Force a full reload to reflect all changes
+        window.location.reload();
+    } catch (error: any) {
+        toast({
+            variant: 'destructive',
+            title: 'Error al cerrar subastas',
+            description: error.message,
+        });
+    } finally {
+        setIsLocking(false);
+    }
+  };
+
+
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <header className="mb-8">
-        <div className="flex items-center gap-3">
-          <Sparkles className="w-8 h-8 text-primary" />
-          <h1 className="text-4xl font-bold font-headline">
-            Mercado Diario de Subastas
-          </h1>
+      <header className="mb-8 flex items-center justify-between">
+        <div>
+            <div className="flex items-center gap-3">
+            <Sparkles className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl font-bold font-headline">
+                Mercado Diario de Subastas
+            </h1>
+            </div>
+            <p className="text-muted-foreground mt-2">
+            ¡Puja por nuevos talentos! Las subastas duran 24 horas.
+            </p>
         </div>
-        <p className="text-muted-foreground mt-2">
-          ¡Puja por nuevos talentos! Las subastas duran 24 horas.
-        </p>
+        {user?.id === 'user-sipgb' && (
+            <Button onClick={handleLockIn} disabled={isLocking}>
+                {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Cerrar Subastas
+            </Button>
+        )}
       </header>
 
       <div>
