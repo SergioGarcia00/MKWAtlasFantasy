@@ -106,11 +106,11 @@ export default function SmallerRankingsPage() {
               <div className="flex items-center gap-4">
                 <PlayerIcon iconName={highestScorePlayer.player.icon} className="w-16 h-16" />
                 <div>
-                  <p className="text-3xl font-bold text-primary">{highestScorePlayer.score}</p>
                   <p className="font-semibold">{highestScorePlayer.player.name}</p>
                   <p className="text-sm text-muted-foreground">
                     Owned by {highestScorePlayer.user.name} (Week {highestScorePlayer.week})
                   </p>
+                  <p className="text-3xl font-bold text-primary mt-1">{highestScorePlayer.score}</p>
                 </div>
               </div>
             ) : (
