@@ -1,10 +1,10 @@
 'use client';
 
 import { useUser } from '@/context/user-context';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
 import { Award, DollarSign, Zap } from 'lucide-react';
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 
 type HighestScoreInfo = {
@@ -133,8 +133,8 @@ export default function SmallerRankingsPage() {
                     <DollarSign className="w-8 h-8 text-green-500"/>
                  </div>
                 <div>
-                  <p className="text-3xl font-bold text-green-500">{richestUser.currency.toLocaleString()}</p>
                   <p className="font-semibold">{richestUser.name}</p>
+                  <p className="text-3xl font-bold text-green-500">{richestUser.currency.toLocaleString()}</p>
                 </div>
               </div>
             ) : (
@@ -155,11 +155,11 @@ export default function SmallerRankingsPage() {
                  <div className="flex items-center gap-4">
                     <PlayerIcon iconName={topMMRPlayer.player.icon} className="w-16 h-16" />
                     <div>
-                        <p className="text-3xl font-bold text-blue-500">{topMMRPlayer.player.mmr?.toLocaleString()}</p>
                         <p className="font-semibold">{topMMRPlayer.player.name}</p>
-                        <p className="text-sm text-muted-foreground">
+                         <p className="text-sm text-muted-foreground">
                             Owned by {topMMRPlayer.user.name}
                         </p>
+                        <p className="text-3xl font-bold text-blue-500">{topMMRPlayer.player.mmr?.toLocaleString()}</p>
                     </div>
               </div>
             ) : (
