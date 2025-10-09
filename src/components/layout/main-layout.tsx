@@ -21,7 +21,8 @@ import {
   BarChart,
   Trophy,
   DollarSign,
-  ChevronDown
+  ChevronDown,
+  Calendar,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -38,6 +39,7 @@ const navItems = [
   { href: '/roster', label: 'My Roster', icon: Users },
   { href: '/rankings/players', label: 'Player Rankings', icon: BarChart },
   { href: '/rankings/users', label: 'User Rankings', icon: Trophy },
+  { href: '/next-week', label: 'Next Week', icon: Calendar },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
