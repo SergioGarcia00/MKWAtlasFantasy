@@ -111,20 +111,34 @@ export function PlayerCard({ player }: PlayerCardProps) {
               {gameStats1v1 && (
                 <div>
                   <h4 className="font-semibold mb-2">1v1 Stats</h4>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex flex-wrap gap-2 text-xs">
                     <Badge variant="outline">Win Rate: {gameStats1v1.win_rate}</Badge>
                     <Badge variant="outline">Events: {gameStats1v1.events_played}</Badge>
-                    <Badge variant="outline" className="col-span-2">Last 10: {gameStats1v1.win_loss_last_10}</Badge>
+                    <Badge variant="outline">Last 10: {gameStats1v1.win_loss_last_10}</Badge>
+                    <Badge variant="outline">Gain/Loss (L10): {gameStats1v1.gainloss_last_10}</Badge>
+                    <Badge variant="outline">Largest Gain: {gameStats1v1.largest_gain}</Badge>
+                    <Badge variant="outline">Avg Score: {gameStats1v1.average_score}</Badge>
+                    {gameStats1v1.average_score_no_sq && <Badge variant="outline">Avg Score (No SQ): {gameStats1v1.average_score_no_sq}</Badge>}
+                    <Badge variant="outline">Avg Score (L10): {gameStats1v1.average_score_last_10}</Badge>
+                    {gameStats1v1.partner_average_score && <Badge variant="outline">Partner Avg Score: {gameStats1v1.partner_average_score}</Badge>}
+                    {gameStats1v1.partner_average_score_no_sq && <Badge variant="outline">Partner Avg (No SQ): {gameStats1v1.partner_average_score_no_sq}</Badge>}
                   </div>
                 </div>
               )}
                {gameStats2v2 && (
                 <div>
                   <h4 className="font-semibold mb-2">2v2 Stats</h4>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="flex flex-wrap gap-2 text-xs">
                     <Badge variant="outline">Win Rate: {gameStats2v2.win_rate}</Badge>
                     <Badge variant="outline">Events: {gameStats2v2.events_played}</Badge>
-                    <Badge variant="outline" className="col-span-2">Last 10: {gameStats2v2.win_loss_last_10}</Badge>
+                    <Badge variant="outline">Last 10: {gameStats2v2.win_loss_last_10}</Badge>
+                    <Badge variant="outline">Gain/Loss (L10): {gameStats2v2.gainloss_last_10}</Badge>
+                    <Badge variant="outline">Largest Gain: {gameStats2v2.largest_gain}</Badge>
+                    <Badge variant="outline">Avg Score: {gameStats2v2.average_score}</Badge>
+                    {gameStats2v2.average_score_no_sq && <Badge variant="outline">Avg Score (No SQ): {gameStats2v2.average_score_no_sq}</Badge>}
+                    <Badge variant="outline">Avg Score (L10): {gameStats2v2.average_score_last_10}</Badge>
+                    {gameStats2v2.partner_average_score && <Badge variant="outline">Partner Avg Score: {gameStats2v2.partner_average_score}</Badge>}
+                    {gameStats2v2.partner_average_score_no_sq && <Badge variant="outline">Partner Avg (No SQ): {gameStats2v2.partner_average_score_no_sq}</Badge>}
                   </div>
                 </div>
               )}
