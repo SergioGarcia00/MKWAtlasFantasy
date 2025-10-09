@@ -99,10 +99,10 @@ export default function DailyMarketPage() {
   }, [allUsers, getPlayerById]);
 
   useEffect(() => {
-    if(allUsers.length > 0) {
+    if(allUsers.length > 0 && recommendations.length === 0) {
       fetchRecommendations();
     }
-  }, [allUsers, fetchRecommendations]);
+  }, [allUsers, recommendations.length, fetchRecommendations]);
 
   const handleLockIn = async () => {
     setIsLocking(true);
