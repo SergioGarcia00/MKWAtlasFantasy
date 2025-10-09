@@ -10,6 +10,7 @@ import { Trophy } from 'lucide-react';
 const calculateTotalScore = (user: User) => {
   if (user.roster.lineup.length < 6) return 0; // Only rank users with a full roster
   return user.roster.lineup.reduce((total, player) => {
+    if (!player) return total; // Safeguard against null/undefined players
     const scores = user.weeklyScores[player.id];
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
