@@ -32,16 +32,13 @@ export default function DailyMarketPage() {
         allUsers.flatMap(u => u.players.map(p => p.id))
     );
 
-    const availablePlayers = ALL_PLAYERS.filter(p => !allOwnedPlayerIds.has(p.id) && !p.auction);
-
+    const availablePlayers = ALL_PLAYERS.filter(p => !allOwnedPlayerIds.has(p.id));
+    
     const finalRecommendations = new Set<Player>();
 
-    // This is a temporary way to get some players for auction.
-    // In a real scenario, this would be driven by a daily cron job.
-    addPlayersToSet(availablePlayers, 10);
-
+    // Helper to add players to the set without duplicates
     function addPlayersToSet(players: Player[], count: number) {
-        const shuffled = shuffleArray(players);
+        const shuffled = shuffleArray([...players]);
         for(let i=0; i < shuffled.length && finalRecommendations.size < count; i++) {
             if (!finalRecommendations.has(shuffled[i])) {
                 finalRecommendations.add(shuffled[i]);
@@ -49,6 +46,26 @@ export default function DailyMarketPage() {
         }
     }
     
+    const highCostPlayers = availablePlayers.filter(p => p.cost >= 4000);
+    const midCostPlayers = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
+    const lowCostPlayers = availablePlayers.filter(p => p.cost < 3000);
+
+    const highRankPlayers = availablePlayers.filter(p => (p.rank || 9999) >= 1 && (p.rank || 9999) <= 200);
+    const midRankPlayers = availablePlayers.filter(p => (p.rank || 9999) >= 201 && (p.rank || 9999) <= 500);
+    const anyRankPlayers = availablePlayers;
+
+
+    addPlayersToSet(highRankPlayers, 3);
+    addPlayersToSet(midRankPlayers, 6);
+    addPlayersToSet(anyRankPlayers, 9);
+    addPlayersToSet(highCostPlayers, 12);
+    addPlayersToSet(midCostPlayers, 15);
+    addPlayersToSet(lowCostPlayers, 18);
+    
+    // Fallback in case categories are empty
+    addPlayersToSet(availablePlayers, 18);
+
+
     setRecommendations(Array.from(finalRecommendations));
     setLoading(false);
   }, [user, allUsers]);
@@ -57,7 +74,7 @@ export default function DailyMarketPage() {
     if(user && allUsers.length > 0) {
       fetchRecommendations();
     }
-  }, [allUsers, fetchRecommendations]); // Removed user from dependencies
+  }, [user, allUsers, fetchRecommendations]);
 
   const handleLockIn = async () => {
     setIsLocking(true);
