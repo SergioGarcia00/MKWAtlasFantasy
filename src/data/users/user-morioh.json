@@ -1,7 +1,7 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 23537,
+  "currency": 20341,
   "players": [
     {
       "id": "Hugo07-2439",
@@ -30,6 +30,10 @@
     {
       "id": "Arezu-3090",
       "purchasedAt": 1760015147996
+    },
+    {
+      "id": "daxx-118",
+      "purchasedAt": 1760029329145
     }
   ],
   "roster": {
@@ -42,7 +46,8 @@
       "Marronero-2439"
     ],
     "bench": [
-      "Arezu-3090"
+      "Arezu-3090",
+      "daxx-118"
     ]
   },
   "weeklyScores": {
