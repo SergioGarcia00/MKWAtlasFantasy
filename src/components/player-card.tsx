@@ -25,7 +25,12 @@ const statColors: Record<string, string> = {
 export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { user, purchasePlayer } = useUser();
-  const isOwned = user?.players.some(p => p.id === player.id) ?? false;
+
+  if (!player) {
+    return null;
+  }
+
+  const isOwned = user?.players.some(p => p && p.id === player.id) ?? false;
   const isRosterFull = (user?.players.length ?? 0) >= 10;
   const canAfford = (user?.currency ?? 0) >= player.cost;
 

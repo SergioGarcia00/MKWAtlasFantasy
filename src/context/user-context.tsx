@@ -22,12 +22,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // In a real app, you'd fetch the current user. Here we'll just use the first mock user.
-    setUser(JSON.parse(JSON.stringify(USERS[0])));
+    const initialUser = JSON.parse(JSON.stringify(USERS[0]));
+    // Filter out any null/undefined players that might have slipped in
+    initialUser.players = initialUser.players.filter(Boolean);
+    initialUser.roster.lineup = initialUser.roster.lineup.filter(Boolean);
+    initialUser.roster.bench = initialUser.roster.bench.filter(Boolean);
+    setUser(initialUser);
   }, []);
 
   const purchasePlayer = useCallback((player: Player) => {
     setUser(currentUser => {
-      if (!currentUser) return null;
+      if (!currentUser || !player) return currentUser;
 
       if (currentUser.players.length >= 10) {
         toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
@@ -37,7 +42,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
         return currentUser;
       }
-      if (currentUser.players.some(p => p.id === player.id)) {
+      if (currentUser.players.some(p => p && p.id === player.id)) {
         toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
         return currentUser;
       }
