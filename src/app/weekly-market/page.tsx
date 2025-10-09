@@ -4,33 +4,56 @@ import { useUser } from '@/context/user-context';
 import { Sparkles, Bot } from 'lucide-react';
 import { PlayerCard } from '@/components/player-card';
 import { Player } from '@/lib/types';
-import { useState, useEffect, use } from 'react';
-import { getPlayerRecommendations } from '@/ai/flows/recommend-players-flow';
+import { useState, useEffect, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ALL_PLAYERS } from '@/data/players';
+
+const shuffleArray = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
 
 export default function WeeklyMarketPage() {
-  const { user } = useUser();
+  const { user, allUsers } = useUser();
   const [recommendations, setRecommendations] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchRecommendations = async () => {
+  const fetchRecommendations = useCallback(() => {
     if (!user) return;
     setLoading(true);
-    try {
-      const recommendedPlayers = await getPlayerRecommendations({
-        user,
-      });
-      setRecommendations(recommendedPlayers);
-    } catch (error) {
-      console.error('Failed to get player recommendations:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+    const ownedPlayerIds = new Set(
+      allUsers.flatMap(u => u.players.map(p => (typeof p === 'string' ? p : p.id)))
+    );
+
+    const availablePlayers = ALL_PLAYERS.filter(p => !ownedPlayerIds.has(p.id));
+
+    const top200 = availablePlayers.filter(p => p.rank && p.rank >= 1 && p.rank <= 200);
+    const midTier = availablePlayers.filter(p => p.rank && p.rank > 200 && p.rank <= 500);
+    const rest = availablePlayers.filter(p => !p.rank || p.rank > 500);
+
+    const shuffledTop200 = shuffleArray(top200).slice(0, 3);
+    const shuffledMidTier = shuffleArray(midTier).slice(0, 3);
+    const shuffledRest = shuffleArray(rest).slice(0, 3);
+
+    const finalRecommendations = shuffleArray([
+        ...shuffledTop200,
+        ...shuffledMidTier,
+        ...shuffledRest
+    ]);
+    
+    setRecommendations(finalRecommendations);
+    setLoading(false);
+  }, [user, allUsers]);
 
   useEffect(() => {
-    fetchRecommendations();
-  }, [user]);
+    if(user && allUsers.length > 0) {
+      fetchRecommendations();
+    }
+  }, [user, allUsers, fetchRecommendations]);
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -42,8 +65,7 @@ export default function WeeklyMarketPage() {
           </h1>
         </div>
         <p className="text-muted-foreground mt-2">
-          Recibe recomendaciones de jugadores personalizadas por la IA para
-          mejorar tu equipo.
+          Descubre nuevos talentos para tu equipo con estas recomendaciones aleatorias.
         </p>
       </header>
 
@@ -55,11 +77,10 @@ export default function WeeklyMarketPage() {
             </div>
             <div>
               <h3 className="font-semibold text-lg">
-                Recomendaciones de la IA para ti
+                Fichajes Recomendados de la Semana
               </h3>
               <p className="text-sm text-muted-foreground">
-                Analizamos tu plantilla y presupuesto para sugerirte los mejores
-                fichajes.
+                Una selección aleatoria de jugadores de distintos niveles para reforzar tu plantilla.
               </p>
             </div>
           </div>
@@ -71,13 +92,11 @@ export default function WeeklyMarketPage() {
 
       <div>
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <Skeleton className="h-80 w-full" />
-            <Skeleton className="h-80 w-full" />
-            <Skeleton className="h-80 w-full" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {[...Array(9)].map((_, i) => <Skeleton key={i} className="h-80 w-full" />)}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {recommendations.map((player) => (
               <PlayerCard key={player.id} player={player} />
             ))}
