@@ -10,7 +10,6 @@ export type Bid = {
   userId: string;
   userName: string;
   amount: number;
-  timestamp: number;
 };
 
 export type Player = {
@@ -28,14 +27,7 @@ export type Player = {
     '1v1'?: GameStats;
     '2v2'?: GameStats;
   };
-  auction?: {
-    highestBid: {
-        userId: string;
-        userName: string;
-        amount: number;
-    };
-    endTime?: number;
-  } | null;
+  bids?: Bid[];
 };
 
 export type WeeklyScore = {

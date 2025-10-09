@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
 import { Sparkles, Loader2, RefreshCw, Gavel } from 'lucide-react';
-import { PlayerCard } from '@/components/player-card';
+import { AuctionListItem } from '@/components/auction-list-item';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -19,8 +19,10 @@ const shuffleArray = (array: any[]) => {
   return array;
 };
 
+export type Bid = { userId: string; userName: string; amount: number };
+
 export default function DailyMarketPage() {
-  const { user, allUsers, switchUser } = useUser();
+  const { user, allUsers, switchUser, getPlayerById } = useUser();
   const { toast } = useToast();
   const [recommendations, setRecommendations] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,11 +34,12 @@ export default function DailyMarketPage() {
   const [isBidLoading, setIsBidLoading] = useState(false);
 
   const allBidsByPlayer = useMemo(() => {
-    return allUsers.reduce<Record<string, { userId: string; userName: string; amount: number }>>((acc, u) => {
+    return allUsers.reduce<Record<string, Bid[]>>((acc, u) => {
         Object.entries(u.bids || {}).forEach(([playerId, amount]) => {
-            if (!acc[playerId] || amount > (acc[playerId]?.amount || 0)) {
-                acc[playerId] = { amount, userId: u.id, userName: u.name };
+            if (!acc[playerId]) {
+                acc[playerId] = [];
             }
+            acc[playerId].push({ amount, userId: u.id, userName: u.name });
         });
         return acc;
     }, {});
@@ -44,12 +47,13 @@ export default function DailyMarketPage() {
 
   const recommendationsWithBids = useMemo(() => {
     return recommendations.map(player => {
-        const highestBid = allBidsByPlayer[player.id];
+        const bids = allBidsByPlayer[player.id] || [];
+        const sortedBids = bids.sort((a, b) => b.amount - a.amount);
         return {
             ...player,
-            auction: highestBid ? { highestBid } : null,
+            bids: sortedBids,
         };
-    });
+    }).sort((a,b) => (b.bids?.length || 0) - (a.bids?.length || 0));
   }, [recommendations, allBidsByPlayer]);
 
   const fetchRecommendations = useCallback(() => {
@@ -65,8 +69,10 @@ export default function DailyMarketPage() {
     function addPlayersToSet(players: Player[], count: number) {
         const shuffled = shuffleArray([...players]);
         for(let i=0; i < shuffled.length && finalRecommendations.size < count; i++) {
-            if (!finalRecommendations.has(shuffled[i])) {
-                finalRecommendations.add(shuffled[i]);
+             const player = shuffled[i];
+             const fullPlayer = getPlayerById(player.id);
+             if (fullPlayer && !finalRecommendations.has(fullPlayer)) {
+                finalRecommendations.add(fullPlayer);
             }
         }
     }
@@ -90,11 +96,13 @@ export default function DailyMarketPage() {
 
     setRecommendations(Array.from(finalRecommendations));
     setLoading(false);
-  }, [allUsers]);
+  }, [allUsers, getPlayerById]);
 
   useEffect(() => {
-    fetchRecommendations();
-  }, [fetchRecommendations]);
+    if(allUsers.length > 0) {
+      fetchRecommendations();
+    }
+  }, [allUsers, fetchRecommendations]);
 
   const handleLockIn = async () => {
     setIsLocking(true);
@@ -127,8 +135,8 @@ export default function DailyMarketPage() {
   };
 
   const handleBidClick = (player: Player) => {
-    const highestBidAmount = player.auction?.highestBid?.amount || 0;
-    const nextBidAmount = highestBidAmount > 0 ? highestBidAmount + 1 : player.cost;
+    const highestBid = player.bids?.[0]?.amount || 0;
+    const nextBidAmount = highestBid > 0 ? highestBid + 1 : player.cost;
     setBidAmount(nextBidAmount);
     setBiddingPlayer(player);
     setIsBidding(true);
@@ -153,7 +161,7 @@ export default function DailyMarketPage() {
             description: `Has pujado ${bidAmount.toLocaleString()} por ${biddingPlayer.name}.`,
         });
         
-        switchUser(user.id, true); // Force context refresh
+        switchUser(user.id, true);
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -198,13 +206,13 @@ export default function DailyMarketPage() {
 
       <div>
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-80 w-full" />)}
+          <div className="space-y-6">
+            {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-40 w-full" />)}
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="space-y-6">
             {recommendationsWithBids.map((player) => (
-              <PlayerCard key={player.id} player={player} onBid={handleBidClick} />
+              <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
             ))}
           </div>
         )}
@@ -216,8 +224,8 @@ export default function DailyMarketPage() {
             <DialogHeader>
                 <DialogTitle>Pujar por {biddingPlayer.name}</DialogTitle>
                 <DialogDescription>
-                {biddingPlayer.auction?.highestBid 
-                    ? `La puja más alta actual es de ${biddingPlayer.auction.highestBid.amount.toLocaleString()}. Tu puja debe ser mayor.`
+                {biddingPlayer.bids?.[0]
+                    ? `La puja más alta actual es de ${biddingPlayer.bids[0].amount.toLocaleString()}. Tu puja debe ser mayor.`
                     : `El coste base es de ${biddingPlayer.cost.toLocaleString()}. La puja más alta al final de la subasta se lleva al jugador.`
                 }
                 </DialogDescription>
@@ -229,7 +237,7 @@ export default function DailyMarketPage() {
                     type="number"
                     value={bidAmount}
                     onChange={(e) => setBidAmount(Number(e.target.value))}
-                    min={biddingPlayer.auction?.highestBid ? biddingPlayer.auction.highestBid.amount + 1 : biddingPlayer.cost}
+                    min={biddingPlayer.bids?.[0] ? biddingPlayer.bids[0].amount + 1 : biddingPlayer.cost}
                 />
                 <span className="text-muted-foreground">monedas</span>
                 </div>
@@ -241,7 +249,7 @@ export default function DailyMarketPage() {
                 <DialogClose asChild>
                     <Button variant="outline">Cancelar</Button>
                 </DialogClose>
-                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < (biddingPlayer.auction?.highestBid?.amount || biddingPlayer.cost -1) + 1}>
+                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount <= (biddingPlayer.bids?.[0]?.amount || biddingPlayer.cost -1)}>
                     {isBidLoading ? <Loader2 className="animate-spin" /> : `Pujar ${bidAmount.toLocaleString()}`}
                 </Button>
             </DialogFooter>

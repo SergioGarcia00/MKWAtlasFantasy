@@ -19,7 +19,6 @@ import { usePathname } from 'next/navigation';
 
 interface PlayerCardProps {
   player: Player;
-  onBid?: (player: Player) => void;
 }
 
 const StatItem = ({ label, value, isBoolean }: { label: string; value: React.ReactNode; isBoolean?: boolean }) => (
@@ -36,7 +35,7 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
   );
 
 
-export function PlayerCard({ player, onBid }: PlayerCardProps) {
+export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   
   const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
@@ -82,19 +81,6 @@ export function PlayerCard({ player, onBid }: PlayerCardProps) {
   const gameStats2v2 = player.game_stats?.['2v2'];
 
   const getButton = () => {
-    const highestBidderIsCurrentUser = player.auction?.highestBid?.userId === user.id;
-
-    if (pathname === '/daily-market') {
-      if (isOwned) return <Button disabled className="w-full">Fichado</Button>;
-      if (highestBidderIsCurrentUser) return <Button disabled className="w-full">Eres el mejor postor</Button>;
-      return (
-        <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); onBid?.(player); }}>
-          <Gavel className="mr-2 h-4 w-4" />
-          Pujar
-        </Button>
-      );
-    }
-    
     if (isOwnedByCurrentUser) {
       return <Button className="w-full" disabled>Fichado por ti</Button>;
     }
@@ -137,20 +123,13 @@ export function PlayerCard({ player, onBid }: PlayerCardProps) {
     )
   }
   
-  const highestBidAmount = player.auction?.highestBid?.amount || 0;
-  const priceToShow = pathname === '/daily-market' && highestBidAmount > 0 ? highestBidAmount : player.cost;
+  const priceToShow = player.cost;
 
   return (
     <>
       <Card
         className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col cursor-pointer"
-        onClick={() => {
-            if (pathname === '/daily-market') {
-                if (!isOwned && onBid) onBid(player);
-            } else {
-                setIsOpen(true);
-            }
-        }}
+        onClick={() => setIsOpen(true)}
       >
         <CardHeader className="p-4">
           <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center rounded-lg">
@@ -173,11 +152,6 @@ export function PlayerCard({ player, onBid }: PlayerCardProps) {
               <DollarSign className="w-4 h-4" />
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
             </div>
-             {pathname === '/daily-market' && player.auction?.highestBid && (
-              <div className="text-xs mt-1 text-blue-600 font-medium">
-                Puja máxima: {player.auction.highestBid.amount.toLocaleString()} ({player.auction.highestBid.userName})
-              </div>
-            )}
         </CardContent>
         <CardFooter className="p-2 bg-secondary">
           {getButton()}
