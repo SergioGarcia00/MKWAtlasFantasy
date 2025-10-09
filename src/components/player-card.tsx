@@ -6,7 +6,7 @@ import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from './ui/dialog';
 import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe, ArrowRightLeft, Gavel, Loader2 } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
@@ -54,7 +54,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
   }
   
   const isOwnedByCurrentUser = user.players.some(p => p.id === player.id);
-  const hasBidOnPlayer = user.bids && player.id in user.bids;
   
   const ownerInfo = allUsers.map(u => {
     const userPlayer = u.players.find(p => p.id === player.id);
@@ -104,7 +103,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
               description: `Has pujado ${bidAmount.toLocaleString()} por ${player.name}.`,
           });
           // Optimistically update UI - this will be fully updated on context refresh
-          user.bids[player.id] = bidAmount;
+          if(user.bids) {
+            user.bids[player.id] = bidAmount;
+          } else {
+            user.bids = { [player.id]: bidAmount };
+          }
           switchUser(user.id, true); // Force context refresh
       } catch (error: any) {
           toast({
@@ -193,8 +196,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
             }
         }}
       >
-        <CardContent className="p-0 flex-grow flex flex-col">
-          <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center">
+        <CardHeader className="p-4">
+          <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center rounded-lg">
             {isOwnedByOtherUser && (
               <Badge variant="secondary" className="absolute top-2 right-2 z-10">
                 Fichado por: {owner.name}
@@ -207,8 +210,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
             )}
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
           </div>
-          <div className="p-4 flex-grow">
-            <h3 className="font-bold text-lg font-headline">{player.name}</h3>
+        </CardHeader>
+        <CardContent className="p-4 pt-0 flex-grow">
+          <h3 className="font-bold text-lg font-headline">{player.name}</h3>
             <div className="flex items-center gap-2 mt-2 text-primary">
               <DollarSign className="w-4 h-4" />
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
@@ -218,7 +222,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 Puja máxima: {player.auction.highestBid.amount.toLocaleString()} ({player.auction.highestBid.userName})
               </div>
             )}
-          </div>
         </CardContent>
         <CardFooter className="p-2 bg-secondary">
           {getButton()}
@@ -377,4 +380,4 @@ export function PlayerCard({ player }: PlayerCardProps) {
   );
 }
 
-
+    
