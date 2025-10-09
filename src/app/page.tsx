@@ -7,10 +7,13 @@ import Link from 'next/link';
 import { DollarSign, Users, Trophy, Shield } from 'lucide-react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { USERS } from '@/data/users';
+import { useEffect, useState } from 'react';
+import type { User } from '@/lib/types';
 
 const calculateTotalScore = (user: any) => {
   if (!user.roster.lineup) return 0;
   return user.roster.lineup.reduce((total: number, player: any) => {
+    if (!player) return total;
     const scores = user.weeklyScores[player.id];
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
@@ -19,21 +22,27 @@ const calculateTotalScore = (user: any) => {
 
 export default function DashboardPage() {
   const { user } = useUser();
+  const [allUsersWithScores, setAllUsersWithScores] = useState<(User & {totalScore: number})[]>([]);
+
+  useEffect(() => {
+    // This is a placeholder for fetching all users for ranking.
+    // In a real app, this would be a Firestore query.
+    const allUsers = USERS.map(u => ({
+      ...u,
+      totalScore: calculateTotalScore(u),
+    })).sort((a, b) => b.totalScore - a.totalScore);
+    setAllUsersWithScores(allUsers as (User & {totalScore: number})[]);
+  }, []);
 
   if (!user) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
 
-  const allUsersWithScores = USERS.map(u => ({
-    ...u,
-    totalScore: calculateTotalScore(u),
-  })).sort((a, b) => b.totalScore - a.totalScore);
-  
   const userRank = allUsersWithScores.findIndex(u => u.id === user.id) + 1;
 
 
   const stats = [
-    { title: 'Your Rank', value: `#${userRank}`, icon: <Trophy className="w-6 h-6 text-amber-500" /> },
+    { title: 'Your Rank', value: `#${userRank > 0 ? userRank : 'N/A'}`, icon: <Trophy className="w-6 h-6 text-amber-500" /> },
     { title: 'League Players', value: USERS.length, icon: <Users className="w-6 h-6 text-blue-500" /> },
     { title: 'Fantasy Coins', value: user.currency.toLocaleString(), icon: <DollarSign className="w-6 h-6 text-green-500" /> },
     { title: 'Players Owned', value: `${user.players.length} / 10`, icon: <Shield className="w-6 h-6 text-red-500" /> },

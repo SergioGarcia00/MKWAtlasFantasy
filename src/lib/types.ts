@@ -32,10 +32,10 @@ export type User = {
   id: string;
   name: string;
   currency: number;
-  players: Player[];
+  players: (Player | string)[]; // Can be full objects or just IDs
   roster: {
-    lineup: Player[];
-    bench: Player[];
+    lineup: (Player | string)[]; // Can be full objects or just IDs
+    bench: (Player | string)[]; // Can be full objects or just IDs
   };
   weeklyScores: Record<string, WeeklyScore>; // Keyed by player ID
 };

@@ -3,11 +3,9 @@
 import type { User } from '@/lib/types';
 import { ALL_PLAYERS } from './players';
 
-// A helper to quickly grab players by name. This is not robust for names with duplicates, but works for this dataset.
 const getPlayer = (name: string) => ALL_PLAYERS.find(p => p.name === name);
 
 const players = {
-  // Just grabbing a variety of players to distribute among users
   vincent: getPlayer('? Vincent ! Jeef'),
   ruhestand: getPlayer('Ruhestand'),
   coinBlockBuster: getPlayer('CoinBlockBuster'),
@@ -62,7 +60,6 @@ const players = {
   yegu: getPlayer('Yegu07'),
 };
 
-// Filter out any undefined players that might result from the getPlayer lookups
 const validPlayers = Object.values(players).filter(p => p !== undefined);
 
 export const USERS: User[] = [
@@ -144,14 +141,15 @@ export const USERS: User[] = [
     weeklyScores: {},
   },
 ].map(user => {
-  // Ensure players array and lineup/bench are valid and don't contain undefined
   const validPlayersForUser = user.players.filter(Boolean);
   const validLineup = user.roster.lineup.filter(Boolean);
   const validBench = user.roster.bench.filter(Boolean);
 
   const weeklyScores: User['weeklyScores'] = {};
   validLineup.forEach(p => {
-    weeklyScores[p.id] = { race1: Math.floor(Math.random() * 100) + 50, race2: Math.floor(Math.random() * 100) + 50 };
+    if (p && p.id) { // Check if p and p.id are not null/undefined
+      weeklyScores[p.id] = { race1: Math.floor(Math.random() * 100) + 50, race2: Math.floor(Math.random() * 100) + 50 };
+    }
   });
 
   return {
