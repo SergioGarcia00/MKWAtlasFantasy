@@ -6,20 +6,12 @@ import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { DollarSign, BarChart2, TrendingUp, Star, BarChartHorizontal, Shield, Globe } from 'lucide-react';
+import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 
 interface PlayerCardProps {
   player: Player;
-}
-
-const statColors: Record<string, string> = {
-    speed: 'bg-red-500',
-    acceleration: 'bg-yellow-500',
-    weight: 'bg-blue-500',
-    handling: 'bg-green-500',
-    traction: 'bg-purple-500',
 }
 
 export function PlayerCard({ player }: PlayerCardProps) {
@@ -111,17 +103,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
                       <span>{stat.label}</span>
                     </div>
                     <div className="mt-1 text-base font-bold">{stat.value}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="space-y-3">
-                 <h4 className="font-semibold flex items-center gap-2"><BarChart2 className="w-5 h-5 text-primary" /> Base Stats</h4>
-                {Object.entries(player.stats).map(([stat, value]) => (
-                  <div key={stat} className="grid grid-cols-5 items-center gap-2">
-                    <span className="text-sm font-medium capitalize col-span-2">{stat}</span>
-                    <div className="col-span-3 h-4 bg-muted rounded-full overflow-hidden">
-                      <div className={`h-full rounded-full ${statColors[stat]}`} style={{ width: `${(value || 0) * 10}%` }} />
-                    </div>
                   </div>
                 ))}
               </div>
