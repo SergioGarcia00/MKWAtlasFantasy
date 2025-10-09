@@ -7,10 +7,10 @@ import type { RosterTeam } from '@/lib/types';
 
 const ROSTER_DATA_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
 
-// This function applies a random multiplier between -2% and +2% to the MMR
+// This function applies a random multiplier between -10% and +10% to the MMR
 const randomizeMmr = (mmr: number): number => {
-    // Random multiplier between -0.02 and +0.02
-    const multiplier = (Math.random() * 0.04) - 0.02; 
+    // Random multiplier between -0.10 and +0.10
+    const multiplier = (Math.random() * 0.20) - 0.10; 
     const newMmr = Math.round(mmr * (1 + multiplier));
     // Ensure MMR stays within a reasonable range, e.g., 1000 to 13000
     return Math.max(1000, Math.min(newMmr, 13000));
