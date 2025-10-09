@@ -1,0 +1,32 @@
+{
+  "id": "user-morioh",
+  "name": "Morioh",
+  "currency": 50000,
+  "players": [
+    "Tomsu-36",
+    "Ty-36",
+    "Bery-36",
+    "Riize-36",
+    "Lore-36",
+    "Twingy-36"
+  ],
+  "roster": {
+    "lineup": [
+      "Tomsu-36",
+      "Ty-36",
+      "Bery-36",
+      "Riize-36",
+      "Lore-36",
+      "Twingy-36"
+    ],
+    "bench": []
+  },
+  "weeklyScores": {
+    "Tomsu-36": { "race1": 120, "race2": 130 },
+    "Ty-36": { "race1": 110, "race2": 125 },
+    "Bery-36": { "race1": 130, "race2": 140 },
+    "Riize-36": { "race1": 100, "race2": 110 },
+    "Lore-36": { "race1": 140, "race2": 150 },
+    "Twingy-36": { "race1": 125, "race2": 135 }
+  }
+}
