@@ -24,6 +24,7 @@ import {
   ChevronDown,
   Calendar,
   Award,
+  Settings,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,8 @@ const navItems = [
   { href: '/smaller-ranking', label: 'Smaller Rankings', icon: Award },
 ];
 
+const settingsItem = { href: '/settings', label: 'Settings', icon: Settings };
+
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, switchUser, allUsers } = useUser();
@@ -52,7 +55,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         const weekId = pathname.split('/')[2];
         return `Week ${weekId} Summary`;
     }
-    const currentNav = navItems.find(item => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)));
+    const allNavItems = user?.id === 'user-sipgb' ? [...navItems, settingsItem] : navItems;
+    const currentNav = allNavItems.find(item => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)));
     return currentNav?.label || 'Kart Fantasy League';
   }
 
@@ -88,6 +92,23 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+            {user.id === 'user-sipgb' && (
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                    asChild
+                    isActive={pathname === settingsItem.href}
+                    tooltip={{
+                        children: settingsItem.label,
+                        className: "font-body",
+                    }}
+                    >
+                    <Link href={settingsItem.href}>
+                        <settingsItem.icon />
+                        <span>{settingsItem.label}</span>
+                    </Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
