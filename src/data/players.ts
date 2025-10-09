@@ -1,19 +1,54 @@
-import type { Player } from '@/lib/types';
+import type { Player, RosterTeam } from '@/lib/types';
+import rosters from '@/lib/rosters_actualizado.json';
 
-export const ALL_PLAYERS: Player[] = [
-  { id: 'mario', name: 'Mario', icon: 'Mario', cost: 2300, stats: { speed: 7, acceleration: 6, weight: 6, handling: 5, traction: 6 } },
-  { id: 'luigi', name: 'Luigi', icon: 'Luigi', cost: 2200, stats: { speed: 6, acceleration: 7, weight: 5, handling: 6, traction: 5 } },
-  { id: 'peach', name: 'Peach', icon: 'Peach', cost: 2100, stats: { speed: 5, acceleration: 8, weight: 4, handling: 7, traction: 4 } },
-  { id: 'yoshi', name: 'Yoshi', icon: 'Yoshi', cost: 2400, stats: { speed: 6, acceleration: 7, weight: 4, handling: 8, traction: 6 } },
-  { id: 'bowser', name: 'Bowser', icon: 'Bowser', cost: 2800, stats: { speed: 9, acceleration: 3, weight: 10, handling: 2, traction: 8 } },
-  { id: 'dk', name: 'Donkey Kong', icon: 'DK', cost: 2600, stats: { speed: 8, acceleration: 4, weight: 9, handling: 3, traction: 7 } },
-  { id: 'toad', name: 'Toad', icon: 'Toad', cost: 2000, stats: { speed: 3, acceleration: 10, weight: 2, handling: 9, traction: 3 } },
-  { id: 'koopa', name: 'Koopa Troopa', icon: 'Koopa', cost: 1900, stats: { speed: 4, acceleration: 9, weight: 3, handling: 8, traction: 4 } },
-  { id: 'daisy', name: 'Daisy', cost: 2150, icon: 'Peach', stats: { speed: 5, acceleration: 8, weight: 4, handling: 8, traction: 4 } },
-  { id: 'wario', name: 'Wario', cost: 2750, icon: 'Bowser', stats: { speed: 9, acceleration: 3, weight: 9, handling: 3, traction: 7 } },
-  { id: 'waluigi', name: 'Waluigi', cost: 2550, icon: 'Luigi', stats: { speed: 7, acceleration: 5, weight: 7, handling: 5, traction: 6 } },
-  { id: 'rosalina', name: 'Rosalina', cost: 2450, icon: 'Peach', stats: { speed: 6, acceleration: 6, weight: 6, handling: 6, traction: 6 } },
-  { id: 'kingboo', name: 'King Boo', cost: 2700, icon: 'Bowser', stats: { speed: 8, acceleration: 4, weight: 8, handling: 4, traction: 7 } },
-  { id: 'shyguy', name: 'Shy Guy', cost: 2250, icon: 'Toad', stats: { speed: 6, acceleration: 7, weight: 5, handling: 7, traction: 5 } },
-  { id: 'lakitu', name: 'Lakitu', cost: 2050, icon: 'Koopa', stats: { speed: 4, acceleration: 9, weight: 3, handling: 9, traction: 3 } },
-];
+const characterIcons = ['Mario', 'Luigi', 'Peach', 'Yoshi', 'Bowser', 'DK', 'Toad', 'Koopa'];
+
+// Helper function to generate stats based on MMR
+const generateStatsFromMmr = (mmr: number = 5000) => {
+  const normalizedMmr = Math.max(1, Math.min(mmr, 12000)) / 12000; // Normalize MMR to 0-1 range
+  
+  const speed = Math.round(2 + normalizedMmr * 7); // Scale 2-9
+  const acceleration = Math.round(10 - normalizedMmr * 7); // Scale 3-10
+  const weight = Math.round(2 + normalizedMmr * 8); // Scale 2-10
+  const handling = Math.round(10 - normalizedMmr * 6); // Scale 4-10
+  const traction = Math.round(3 + normalizedMmr * 5); // Scale 3-8
+
+  return {
+    speed: Math.max(1, Math.min(speed, 10)),
+    acceleration: Math.max(1, Math.min(acceleration, 10)),
+    weight: Math.max(1, Math.min(weight, 10)),
+    handling: Math.max(1, Math.min(handling, 10)),
+    traction: Math.max(1, Math.min(traction, 10)),
+  };
+};
+
+// Helper function to generate cost based on MMR
+const generateCost = (mmr: number = 5000) => {
+  return 1500 + Math.round((Math.max(1, Math.min(mmr, 12000)) / 12000) * 3500);
+};
+
+const processedPlayers = new Map<string, Player>();
+
+(rosters as RosterTeam[]).forEach(team => {
+  team.players.forEach((playerData, index) => {
+    // Use a combination of name and team to create a unique ID
+    const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
+
+    if (!processedPlayers.has(playerId) && playerData.mmr) {
+      const stats = generateStatsFromMmr(playerData.mmr);
+      const cost = generateCost(playerData.mmr);
+
+      const player: Player = {
+        id: playerId,
+        name: playerData.name,
+        // Assign icons somewhat randomly but consistently
+        icon: characterIcons[index % characterIcons.length],
+        cost: cost,
+        stats: stats,
+      };
+      processedPlayers.set(playerId, player);
+    }
+  });
+});
+
+export const ALL_PLAYERS: Player[] = Array.from(processedPlayers.values());
