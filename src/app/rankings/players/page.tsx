@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { ALL_PLAYERS } from '@/data/players';
-import type { Player } from '@/lib/types';
+import type { Player, User } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { ArrowUpDown } from 'lucide-react';
@@ -12,12 +12,15 @@ import { useUser } from '@/context/user-context';
 
 type SortKey = 'name' | 'cost' | 'totalScore';
 
-const calculatePlayerTotalScore = (playerId: string, allUsers: any[]) => {
+const calculatePlayerTotalScore = (playerId: string, allUsers: User[]) => {
   let totalScore = 0;
   for (const user of allUsers) {
     if (user.weeklyScores && user.weeklyScores[playerId]) {
-      const scores = user.weeklyScores[playerId];
-      totalScore += (scores.race1 || 0) + (scores.race2 || 0);
+      const playerScoresByWeek = user.weeklyScores[playerId];
+      for (const week in playerScoresByWeek) {
+        const scores = playerScoresByWeek[week];
+        totalScore += (scores.race1 || 0) + (scores.race2 || 0);
+      }
       break; 
     }
   }

@@ -37,7 +37,7 @@ export type User = {
     lineup: (Player | string)[]; // Can be full objects or just IDs
     bench: (Player | string)[]; // Can be full objects or just IDs
   };
-  weeklyScores: Record<string, WeeklyScore>; // Keyed by player ID
+  weeklyScores: Record<string, Record<string, WeeklyScore>>; // Keyed by player ID, then by week ID
 };
 
 

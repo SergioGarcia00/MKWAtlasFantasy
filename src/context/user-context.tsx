@@ -12,7 +12,7 @@ interface UserContextType {
   allUsers: User[];
   purchasePlayer: (player: Player) => void;
   updateRoster: (lineup: Player[], bench: Player[]) => void;
-  updateWeeklyScores: (playerId: string, scores: WeeklyScore) => void;
+  updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
   switchUser: (userId: string) => void;
 }
 
@@ -111,7 +111,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const purchasePlayer = useCallback(async (player: Player) => {
     if (!user) return;
 
-    // Check if any other user owns the player
     const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
       anyUser.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
     );
@@ -120,11 +119,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased by another user.`, variant: 'destructive' });
       return;
     }
-
-    if (user.players.some(p => p.id === player.id)) {
-      toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
-      return;
-    }
+    
     if (user.players.length >= 10) {
       toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
       return;
@@ -158,16 +153,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await updateUserState(updatedUser);
   }, [user, toast, updateUserState]);
 
-  const updateWeeklyScores = useCallback(async (playerId: string, scores: WeeklyScore) => {
+  const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
     if (!user) return;
     const updatedUser = {
       ...user,
       weeklyScores: {
         ...user.weeklyScores,
-        [playerId]: scores,
+        [playerId]: {
+          ...user.weeklyScores[playerId],
+          [weekId]: scores,
+        }
       },
     };
-    toast({ title: 'Scores Updated', description: `Scores for player ${playerId} have been saved.` });
+    toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} have been saved.` });
     await updateUserState(updatedUser);
   }, [user, toast, updateUserState]);
 

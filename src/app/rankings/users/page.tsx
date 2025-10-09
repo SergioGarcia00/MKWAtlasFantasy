@@ -8,12 +8,18 @@ import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 
 const calculateTotalScore = (user: User): number => {
-  if (!user.roster || user.roster.lineup.length === 0) return 0;
-
-  return (user.roster.lineup as Player[]).reduce((total, player) => {
-    const scores = user.weeklyScores?.[player.id];
-    return total + (scores?.race1 || 0) + (scores?.race2 || 0);
-  }, 0);
+  if (!user.roster || user.roster.lineup.length === 0 || !user.weeklyScores) return 0;
+  
+  let totalScore = 0;
+  for (const player of user.roster.lineup as Player[]) {
+    if (typeof player === 'string' || !player || !user.weeklyScores[player.id]) continue;
+    
+    for (const week in user.weeklyScores[player.id]) {
+        const scores = user.weeklyScores[player.id][week];
+        totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
+    }
+  }
+  return totalScore;
 };
 
 

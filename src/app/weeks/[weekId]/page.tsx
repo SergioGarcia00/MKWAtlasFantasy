@@ -8,16 +8,15 @@ import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { useParams } from 'next/navigation';
 
-const getPlayerScores = (user: User, playerId: string) => {
-    // For now, we assume a single week structure. This can be adapted later.
-    return user.weeklyScores[playerId] || { race1: 0, race2: 0 };
+const getPlayerScores = (user: User, playerId: string, weekId: string) => {
+    return user.weeklyScores?.[playerId]?.[weekId] || { race1: 0, race2: 0 };
 }
 
-const calculateTotalScore = (user: User) => {
+const calculateTotalScore = (user: User, weekId: string) => {
   if (!user.roster || !user.roster.lineup) return 0;
   return user.roster.lineup.reduce((total: number, player: Player | string) => {
     if (typeof player === 'string' || !player) return total;
-    const scores = getPlayerScores(user, player.id);
+    const scores = getPlayerScores(user, player.id, weekId);
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
 };
@@ -41,7 +40,7 @@ export default function WeekSummaryPage() {
       <div className="space-y-8">
         {allUsers.length > 0 ? (
           allUsers.map(user => {
-            const totalScore = calculateTotalScore(user);
+            const totalScore = calculateTotalScore(user, weekId);
             return (
               <Card key={user.id}>
                 <CardHeader className="flex-row items-center justify-between">
@@ -56,8 +55,8 @@ export default function WeekSummaryPage() {
                     {user.roster.lineup.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {(user.roster.lineup as Player[]).map(player => {
-                          const scores = getPlayerScores(user, player.id);
-                          const totalPlayerScore = scores.race1 + scores.race2;
+                          const scores = getPlayerScores(user, player.id, weekId);
+                          const totalPlayerScore = (scores.race1 || 0) + (scores.race2 || 0);
                           return (
                               <div key={player.id} className="p-4 bg-secondary rounded-lg flex items-center justify-between">
                                   <div className="flex items-center gap-4">
@@ -65,8 +64,8 @@ export default function WeekSummaryPage() {
                                       <div>
                                           <p className="font-semibold text-sm">{player.name}</p>
                                           <div className="text-xs text-muted-foreground space-x-2">
-                                              <span>R1: {scores.race1}</span>
-                                              <span>R2: {scores.race2}</span>
+                                              <span>R1: {scores.race1 || 0}</span>
+                                              <span>R2: {scores.race2 || 0}</span>
                                           </div>
                                       </div>
                                   </div>
@@ -94,7 +93,7 @@ export default function WeekSummaryPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-muted-foreground italic">Bench is empty.</p>
+                      <p className="text-muted-foreground italic">Your bench is empty.</p>
                     )}
                   </div>
                 </CardContent>
