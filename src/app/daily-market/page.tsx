@@ -26,8 +26,8 @@ export default function DailyMarketPage() {
 
   const allBidsByPlayer = useMemo(() => {
     return allUsers.reduce<Record<string, { userId: string; userName: string; amount: number }>>((acc, u) => {
-        Object.entries(u.bids).forEach(([playerId, amount]) => {
-            if (!acc[playerId] || amount > acc[playerId].amount) {
+        Object.entries(u.bids || {}).forEach(([playerId, amount]) => {
+            if (!acc[playerId] || amount > (acc[playerId]?.amount || 0)) {
                 acc[playerId] = { amount, userId: u.id, userName: u.name };
             }
         });

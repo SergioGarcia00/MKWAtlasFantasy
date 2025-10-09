@@ -9,11 +9,13 @@
     }
   ],
   "roster": {
-    "lineup": [],
-    "bench": [
+    "lineup": [
       "Ruhestand-3160"
-    ]
+    ],
+    "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Greninja-7": 4700
+  }
 }

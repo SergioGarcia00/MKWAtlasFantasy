@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 31227,
+  "currency": 24707,
   "players": [
     {
       "id": "Sipgb-2439",
@@ -22,23 +22,31 @@
     {
       "id": "Pereeira7-7",
       "purchasedAt": 1760030160808
+    },
+    {
+      "id": "Nunatak-273",
+      "purchasedAt": 1760030589933
+    },
+    {
+      "id": "CoinBlockBuster-3160",
+      "purchasedAt": 1760030637027
     }
   ],
   "roster": {
     "lineup": [
       "Sipgb-2439",
-      "MaestroPastelero-2439",
       "MirianaConte-2439",
-      "JOYBOY-2439"
+      "JOYBOY-2439",
+      "Pereeira7-7",
+      "Nunatak-273",
+      "CoinBlockBuster-3160"
     ],
-    "bench": [
-      "Pereeira7-7"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "Sipgb-2439": {
       "1": {
-        "race1": 45,
+        "race1": 12,
         "race2": 12
       }
     },
@@ -69,7 +77,27 @@
         "race1": 12,
         "race2": 12
       }
+    },
+    "Pereeira7-7": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "Nunatak-273": {
+      "1": {
+        "race1": 120,
+        "race2": 100
+      }
+    },
+    "CoinBlockBuster-3160": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
     }
   },
-  "bids": {}
+  "bids": {
+    "FishboneLover-16": 3473
+  }
 }
