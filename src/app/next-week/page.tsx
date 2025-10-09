@@ -1,21 +1,67 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
-export default function WeeksListPage() {
-  // Start with one week and allow adding more.
-  const [weeks, setWeeks] = useState([
-    { id: '1', name: 'Week 1' },
-  ]);
+interface Week {
+  id: string;
+  name: string;
+}
 
-  const handleCreateNewWeek = () => {
+async function fetchWeeks(): Promise<Week[]> {
+  try {
+    const response = await fetch('/api/weeks');
+    if (!response.ok) {
+      console.error('Failed to fetch weeks');
+      return [];
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching weeks:', error);
+    return [];
+  }
+}
+
+async function createNewWeek(newWeek: Week): Promise<Week | null> {
+    try {
+        const response = await fetch('/api/weeks', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newWeek),
+        });
+        if (!response.ok) {
+            console.error('Failed to create week');
+            return null;
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error creating week:', error);
+        return null;
+    }
+}
+
+
+export default function WeeksListPage() {
+  const [weeks, setWeeks] = useState<Week[]>([]);
+
+  useEffect(() => {
+    async function loadWeeks() {
+      const weeksData = await fetchWeeks();
+      setWeeks(weeksData);
+    }
+    loadWeeks();
+  }, []);
+
+  const handleCreateNewWeek = async () => {
     const newWeekId = (weeks.length + 1).toString();
     const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
-    setWeeks(prevWeeks => [...prevWeeks, newWeek]);
+    const createdWeek = await createNewWeek(newWeek);
+    if (createdWeek) {
+        setWeeks(prevWeeks => [...prevWeeks, createdWeek]);
+    }
   };
 
   return (

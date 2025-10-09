@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { PlayerIcon } from './icons/player-icon';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from './ui/input';
-import { Label } from './ui/label';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useUser } from '@/context/user-context';
 import { ArrowDown, ArrowUp } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface RosterPlayerCardProps {
   player: Player;
@@ -23,15 +22,43 @@ interface RosterPlayerCardProps {
   canMoveToLineup: boolean;
 }
 
+interface Week {
+  id: string;
+  name: string;
+}
+
 const scoreSchema = z.object({
   weekId: z.string(),
   race1: z.coerce.number().min(12, 'Min score is 12').max(180, 'Max score is 180'),
-  race2: z.coerce.number().min(12, 'Min score is 12').max(180, 'Max score is 180'),
+  race2: z.coerce.number().min(12, 'Max score is 180'),
 });
+
+async function fetchWeeks(): Promise<Week[]> {
+    try {
+      const response = await fetch('/api/weeks');
+      if (!response.ok) {
+        console.error('Failed to fetch weeks');
+        return [];
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching weeks:', error);
+      return [];
+    }
+  }
 
 export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: RosterPlayerCardProps) {
   const { user, updateWeeklyScores } = useUser();
   const [selectedWeek, setSelectedWeek] = useState('1');
+  const [weeks, setWeeks] = useState<Week[]>([]);
+
+  useEffect(() => {
+    const loadWeeks = async () => {
+        const weeksData = await fetchWeeks();
+        setWeeks(weeksData);
+    };
+    loadWeeks();
+  }, [])
 
   const form = useForm<z.infer<typeof scoreSchema>>({
     resolver: zodResolver(scoreSchema),
@@ -50,13 +77,12 @@ export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: 
   }
 
   const onSubmit = (values: z.infer<typeof scoreSchema>) => {
+    if (!user) return;
     updateWeeklyScores(player.id, values.weekId, { race1: values.race1, race2: values.race2 });
   };
   
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
   const moveButtonTooltip = isLineup ? '' : !canMoveToLineup ? 'Lineup is full (6 players max)' : '';
-
-  const weekOptions = ['1', '2', '3', '4', '5']; // Example weeks
 
   return (
     <Card className="overflow-hidden">
@@ -81,68 +107,70 @@ export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: 
           </Button>
         </div>
       </CardContent>
-      <Accordion type="single" collapsible className="bg-secondary/50">
-        <AccordionItem value="scores" className="border-t">
-          <AccordionTrigger className="px-4 py-2 text-sm hover:no-underline">Update Weekly Scores</AccordionTrigger>
-          <AccordionContent className="p-4">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="weekId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Week</FormLabel>
-                      <Select onValueChange={handleWeekChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a week" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {weekOptions.map(week => (
-                            <SelectItem key={week} value={week}>Week {week}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
+      { isLineup && (
+        <Accordion type="single" collapsible className="bg-secondary/50">
+            <AccordionItem value="scores" className="border-t">
+            <AccordionTrigger className="px-4 py-2 text-sm hover:no-underline">Update Weekly Scores</AccordionTrigger>
+            <AccordionContent className="p-4">
+                <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
                     control={form.control}
-                    name="race1"
+                    name="weekId"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Race 1 Score</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
+                        <FormItem>
+                        <FormLabel>Week</FormLabel>
+                        <Select onValueChange={handleWeekChange} defaultValue={field.value}>
+                            <FormControl>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select a week" />
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                            {weeks.map(week => (
+                                <SelectItem key={week.id} value={week.id}>Week {week.id}</SelectItem>
+                            ))}
+                            </SelectContent>
+                        </Select>
                         <FormMessage />
-                      </FormItem>
+                        </FormItem>
                     )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="race2"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Race 2 Score</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <Button type="submit" size="sm" className="w-full">Save Scores</Button>
-              </form>
-            </Form>
-          </AccordionContent>
-        </AccordionItem>
-      </Accordion>
+                    />
+                    <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                        control={form.control}
+                        name="race1"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Race 1 Score</FormLabel>
+                            <FormControl>
+                            <Input type="number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="race2"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Race 2 Score</FormLabel>
+                            <FormControl>
+                            <Input type="number" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    </div>
+                    <Button type="submit" size="sm" className="w-full">Save Scores</Button>
+                </form>
+                </Form>
+            </AccordionContent>
+            </AccordionItem>
+        </Accordion>
+      )}
     </Card>
   );
 }
