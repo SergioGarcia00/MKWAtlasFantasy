@@ -8,44 +8,46 @@ import { PlayerIcon } from '@/components/icons/player-icon';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useRouter } from 'next/navigation';
+import { useUser } from '@/context/user-context';
 
-type SortKey = keyof Player['stats'] | 'name' | 'cost' | 'performance';
+type SortKey = 'name' | 'cost' | 'totalScore';
 
-const calculatePerformance = (player: Player) => {
-  const { speed, acceleration, handling, weight, traction } = player.stats;
-  // A weighted formula to calculate a general performance score
-  return Math.round((speed * 1.5 + acceleration * 1.2 + handling * 1.1 - weight * 0.5 + traction * 0.8) * 10);
+const calculatePlayerTotalScore = (playerId: string, allUsers: any[]) => {
+  let totalScore = 0;
+  for (const user of allUsers) {
+    if (user.weeklyScores && user.weeklyScores[playerId]) {
+      const scores = user.weeklyScores[playerId];
+      totalScore += (scores.race1 || 0) + (scores.race2 || 0);
+      break; 
+    }
+  }
+  return totalScore;
 };
 
 export default function PlayerRankingsPage() {
-  const router = useRouter();
-  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: 'performance', direction: 'desc' });
+  const { allUsers } = useUser();
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({ key: 'totalScore', direction: 'desc' });
   const [searchTerm, setSearchTerm] = useState('');
 
-  const playersWithPerformance = useMemo(() => 
-    ALL_PLAYERS.map(p => ({ ...p, performance: calculatePerformance(p) })),
-    []
-  );
+  const playersWithScores = useMemo(() => {
+    if (!allUsers) return [];
+    return ALL_PLAYERS.map(p => ({
+      ...p,
+      totalScore: calculatePlayerTotalScore(p.id, allUsers),
+    }));
+  }, [allUsers]);
 
   const filteredAndSortedPlayers = useMemo(() => {
-    let players = [...playersWithPerformance];
+    let players = [...playersWithScores];
 
     if (searchTerm) {
       players = players.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
     
     players.sort((a, b) => {
-      let valA, valB;
       const { key, direction } = sortConfig;
-
-      if (key === 'performance' || key === 'cost' || key === 'name') {
-        valA = a[key];
-        valB = b[key];
-      } else {
-        valA = a.stats[key as keyof Player['stats']];
-        valB = b.stats[key as keyof Player['stats']];
-      }
+      const valA = a[key];
+      const valB = b[key];
       
       if (valA < valB) return direction === 'asc' ? -1 : 1;
       if (valA > valB) return direction === 'asc' ? 1 : -1;
@@ -53,7 +55,7 @@ export default function PlayerRankingsPage() {
     });
 
     return players;
-  }, [playersWithPerformance, sortConfig, searchTerm]);
+  }, [playersWithScores, sortConfig, searchTerm]);
 
   const handleSort = (key: SortKey) => {
     setSortConfig(prev => ({
@@ -65,13 +67,16 @@ export default function PlayerRankingsPage() {
   const headers: { key: SortKey; label: string; className?: string }[] = [
     { key: 'name', label: 'Player' },
     { key: 'cost', label: 'Cost', className: 'text-right' },
-    { key: 'stats.speed', label: 'Speed', className: 'text-right hidden sm:table-cell' },
-    { key: 'stats.acceleration', label: 'Accel', className: 'text-right hidden sm:table-cell' },
-    { key: 'stats.weight', label: 'Weight', className: 'text-right hidden md:table-cell' },
-    { key: 'stats.handling', label: 'Handling', className: 'text-right hidden md:table-cell' },
-    { key: 'stats.traction', label: 'Traction', className: 'text-right hidden lg:table-cell' },
-    { key: 'performance', label: 'Perf. Score', className: 'text-right' },
+    { key: 'totalScore', label: 'Total Weekly Score', className: 'text-right' },
   ];
+
+  if (!allUsers || allUsers.length === 0) {
+      return (
+        <div className="flex h-48 items-center justify-center">
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      );
+  }
 
   return (
     <div className="w-full">
@@ -107,12 +112,7 @@ export default function PlayerRankingsPage() {
                   </div>
                 </TableCell>
                 <TableCell className="text-right font-mono">{player.cost.toLocaleString()}</TableCell>
-                <TableCell className="text-right hidden sm:table-cell">{player.stats.speed}</TableCell>
-                <TableCell className="text-right hidden sm:table-cell">{player.stats.acceleration}</TableCell>
-                <TableCell className="text-right hidden md:table-cell">{player.stats.weight}</TableCell>
-                <TableCell className="text-right hidden md:table-cell">{player.stats.handling}</TableCell>
-                <TableCell className="text-right hidden lg:table-cell">{player.stats.traction}</TableCell>
-                <TableCell className="font-semibold text-primary text-right">{player.performance}</TableCell>
+                <TableCell className="font-semibold text-primary text-right text-lg">{player.totalScore}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -123,6 +123,7 @@ export default function PlayerRankingsPage() {
               <p className="text-lg text-muted-foreground">No players found for "{searchTerm}".</p>
           </div>
       )}
+       <p className="text-xs text-muted-foreground mt-4">*Only players with scores from the latest week are shown.</p>
     </div>
   );
 }
