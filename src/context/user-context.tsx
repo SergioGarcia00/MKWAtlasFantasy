@@ -14,6 +14,7 @@ interface UserContextType {
   updateRoster: (lineup: Player[], bench: Player[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
   switchUser: (userId: string) => void;
+  buyoutPlayer: (player: Player, owner: User) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -88,11 +89,19 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [loadData]);
 
 
-  const updateUserState = useCallback(async (updatedUser: User) => {
-    const savedUser = await updateUser(updatedUser);
+  const updateUserState = useCallback(async (updatedUser: User, otherUpdatedUser?: User) => {
+    const userPromise = updateUser(updatedUser);
+    const otherUserPromise = otherUpdatedUser ? updateUser(otherUpdatedUser) : Promise.resolve(null);
+    
+    const [savedUser, savedOtherUser] = await Promise.all([userPromise, otherUserPromise]);
+
     if (savedUser) {
         setUser(savedUser);
-        setAllUsers(prevUsers => prevUsers.map(u => u.id === savedUser.id ? savedUser : u));
+        setAllUsers(prevUsers => prevUsers.map(u => {
+            if (u.id === savedUser.id) return savedUser;
+            if (savedOtherUser && u.id === savedOtherUser.id) return savedOtherUser;
+            return u;
+        }));
     } else {
         toast({ title: 'Error', description: 'Failed to save your changes. Please try again.', variant: 'destructive'});
         loadData(); // Re-fetch to revert optimistic updates
@@ -143,6 +152,43 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await updateUserState(updatedUser);
   }, [user, allUsers, toast, updateUserState]);
 
+  const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
+    if (!user) return;
+
+    const buyoutPrice = Math.round(player.cost * 1.5);
+    if (user.currency < buyoutPrice) {
+        toast({ title: 'Insufficient Funds', description: 'You cannot afford the buyout price.', variant: 'destructive' });
+        return;
+    }
+    if (user.players.length >= 10) {
+        toast({ title: 'Roster Full', description: 'Your roster is full.', variant: 'destructive' });
+        return;
+    }
+
+    // New owner (current user)
+    const newOwnerUser = {
+        ...user,
+        currency: user.currency - buyoutPrice,
+        players: [...user.players, player],
+        roster: { ...user.roster, bench: [...user.roster.bench, player] }
+    };
+
+    // Previous owner
+    const previousOwnerUser = {
+        ...owner,
+        currency: owner.currency + player.cost, // Refund original cost
+        players: owner.players.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
+        roster: {
+            lineup: owner.roster.lineup.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
+            bench: owner.roster.bench.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
+        }
+    };
+    
+    toast({ title: 'Buyout Successful!', description: `You have purchased ${player.name} from ${owner.name}!` });
+    await updateUserState(newOwnerUser, previousOwnerUser);
+
+  }, [user, toast, updateUserState]);
+
   const updateRoster = useCallback(async (lineup: Player[], bench: Player[]) => {
     if (!user) return;
     const updatedUser = {
@@ -170,7 +216,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, purchasePlayer, updateRoster, updateWeeklyScores, switchUser }}>
+    <UserContext.Provider value={{ user, allUsers, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer }}>
       {children}
     </UserContext.Provider>
   );

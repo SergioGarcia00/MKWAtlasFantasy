@@ -6,11 +6,12 @@ import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe, ArrowRightLeft } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 
 interface PlayerCardProps {
   player: Player;
@@ -32,7 +33,7 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
 
 export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, allUsers, purchasePlayer } = useUser();
+  const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
 
   if (!player) {
     return null;
@@ -50,21 +51,56 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const isRosterFull = (user?.players.length ?? 0) >= 10;
   const canAfford = (user?.currency ?? 0) >= player.cost;
 
+  const buyoutPrice = Math.round(player.cost * 1.5);
+  const canAffordBuyout = (user?.currency ?? 0) >= buyoutPrice;
+
+
   const handlePurchase = () => {
     if (!user) return;
     purchasePlayer(player);
+    setIsOpen(false);
+  };
+  
+  const handleBuyout = () => {
+    if (!user || !owner) return;
+    buyoutPlayer(player, owner);
     setIsOpen(false);
   };
 
   const gameStats1v1 = player.game_stats?.['1v1'];
   const gameStats2v2 = player.game_stats?.['2v2'];
 
-  const purchaseButtonText = () => {
-    if (isOwnedByCurrentUser) return 'Owned';
-    if (isOwnedByOtherUser) return 'Unavailable';
-    if (isRosterFull) return 'Roster Full';
-    if (!canAfford) return 'Not Enough Coins'
-    return 'Purchase Player';
+  const getButton = () => {
+    if (isOwnedByCurrentUser) {
+      return (
+        <Button className="w-full" disabled>
+            Owned by You
+        </Button>
+      );
+    }
+    if (isOwnedByOtherUser) {
+        return (
+            <Button 
+                className="w-full bg-amber-500 hover:bg-amber-600 text-white"
+                onClick={(e) => { e.stopPropagation(); setIsOpen(true); }}
+            >
+                <ArrowRightLeft className="mr-2 h-4 w-4" />
+                Make Offer
+            </Button>
+        )
+    }
+     return (
+        <Button
+            className="w-full bg-accent hover:bg-accent/90"
+            disabled={isOwned || isRosterFull || !canAfford}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsOpen(true);
+            }}
+        >
+            {isRosterFull ? 'Roster Full' : !canAfford ? 'Not Enough Coins' : 'View Details'}
+        </Button>
+    )
   }
 
 
@@ -77,7 +113,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
         <CardContent className="p-0 flex-grow flex flex-col">
           <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center">
             {isOwnedByOtherUser && (
-              <Badge variant="destructive" className="absolute top-2 right-2 z-10">
+              <Badge variant="secondary" className="absolute top-2 right-2 z-10">
                 Owned by: {owner.name}
               </Badge>
             )}
@@ -97,16 +133,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
           </div>
         </CardContent>
         <CardFooter className="p-2 bg-secondary">
-          <Button
-            className="w-full bg-accent hover:bg-accent/90"
-            disabled={isOwned || isRosterFull || !canAfford}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsOpen(true);
-            }}
-          >
-            {isOwned ? 'Owned' : isRosterFull ? 'Roster Full' : 'View'}
-          </Button>
+          {getButton()}
         </CardFooter>
       </Card>
 
@@ -172,14 +199,44 @@ export function PlayerCard({ player }: PlayerCardProps) {
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>Close</Button>
-            <Button
-              className="bg-accent hover:bg-accent/90"
-              onClick={handlePurchase}
-              disabled={isOwned || isRosterFull || !canAfford}
-            >
-              {purchaseButtonText()}
-            </Button>
+            <DialogClose asChild>
+                <Button variant="outline">Close</Button>
+            </DialogClose>
+            {!isOwnedByCurrentUser && !isOwnedByOtherUser && (
+                 <Button
+                    className="bg-accent hover:bg-accent/90"
+                    onClick={handlePurchase}
+                    disabled={isRosterFull || !canAfford}
+                >
+                    {isRosterFull ? 'Roster Full' : !canAfford ? 'Not Enough Coins' : 'Purchase Player'}
+                </Button>
+            )}
+            {isOwnedByOtherUser && (
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                         <Button
+                            className="bg-amber-500 hover:bg-amber-600 text-white"
+                            disabled={isRosterFull || !canAffordBuyout}
+                         >
+                            <ArrowRightLeft className="mr-2" />
+                            {isRosterFull ? 'Roster Full' : !canAffordBuyout ? 'Cannot Afford Buyout' : `Buyout for ${buyoutPrice.toLocaleString()}`}
+                         </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Confirm Player Buyout</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This will purchase {player.name} from {owner.name} for a buyout price of {buyoutPrice.toLocaleString()} coins. 
+                            The original owner will be refunded their purchase cost. This action is irreversible.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleBuyout}>Confirm Buyout</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
