@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import { ALL_PLAYERS } from '@/data/players';
-import { USER_IDS } from '@/data/users';
 import type { User, Player } from '@/lib/types';
 
 const USERS_DATA_DIR = path.join(process.cwd(), 'src', 'data', 'users');
@@ -22,20 +21,27 @@ const hydrateUser = (user: any): User => {
             lineup: hydratePlayerArray(user.roster?.lineup),
             bench: hydratePlayerArray(user.roster?.bench),
         },
+        weeklyScores: user.weeklyScores || {},
     };
 };
 
 export async function GET(request: Request) {
   try {
+    const userFiles = await fs.readdir(USERS_DATA_DIR);
+    const jsonFiles = userFiles.filter(file => file.endsWith('.json'));
+
     const users = await Promise.all(
-      USER_IDS.map(async (userId) => {
-        const filePath = path.join(USERS_DATA_DIR, `${userId}.json`);
+      jsonFiles.map(async (fileName) => {
+        const filePath = path.join(USERS_DATA_DIR, fileName);
         try {
           const fileContent = await fs.readFile(filePath, 'utf-8');
-          const user = JSON.parse(fileContent);
-          return hydrateUser(user);
+          if (fileContent) {
+            const user = JSON.parse(fileContent);
+            return hydrateUser(user);
+          }
+          return null;
         } catch (error) {
-          console.warn(`Could not load user data for ${userId}, skipping. Error:`, error);
+          console.warn(`Could not load or parse user data for ${fileName}, skipping. Error:`, error);
           return null;
         }
       })
