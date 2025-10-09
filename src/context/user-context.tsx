@@ -1,16 +1,13 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
-import { useAuth, useFirestore, useUser as useFirebaseUser } from '@/firebase';
-import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
-import { signInAnonymously, onAuthStateChanged, Auth } from 'firebase/auth';
 import type { User, Player, WeeklyScore } from '@/lib/types';
 import { ALL_PLAYERS } from '@/data/players';
 import { useToast } from '@/hooks/use-toast';
-import { setDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { USERS } from '@/data/users';
 
-const FANTASY_LEAGUE_USER_ID = 'fantasy_league_user_id';
+const FANTASY_LEAGUE_USERS = 'fantasy_league_users';
+const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
 interface UserContextType {
   user: User | null;
@@ -23,138 +20,87 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-async function seedInitialUsers(auth: Auth, firestore: any) {
-    const userBatch = writeBatch(db);
-    USERS.forEach(user => {
-      const userDocRef = doc(usersCollection, user.id);
-      // Storing only player IDs
-      const firestoreUser = {
-        ...user,
-        players: user.players.map(p => p.id),
-        roster: {
-          lineup: user.roster.lineup.map(p => p.id),
-          bench: user.roster.bench.map(p => p.id)
-        }
-      }
-      userBatch.set(userDocRef, firestoreUser);
-    });
-    await userBatch.commit();
+const hydrateUser = (user: User) => {
+  if (!user) return null;
+  const hydratedPlayers = user.players
+    .map(p => typeof p === 'string' ? ALL_PLAYERS.find(ap => ap.id === p) : p)
+    .filter((p): p is Player => !!p);
+  const hydratedLineup = user.roster.lineup
+    .map(p => typeof p === 'string' ? ALL_PLAYERS.find(ap => ap.id === p) : p)
+    .filter((p): p is Player => !!p);
+  const hydratedBench = user.roster.bench
+    .map(p => typeof p === 'string' ? ALL_PLAYERS.find(ap => ap.id === p) : p)
+    .filter((p): p is Player => !!p);
+  return {
+    ...user,
+    players: hydratedPlayers,
+    roster: {
+      lineup: hydratedLineup,
+      bench: hydratedBench
+    }
+  }
 }
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
-  const [activeUserId, setActiveUserId] = useState<string | null>(null);
   const { toast } = useToast();
-  const firestore = useFirestore();
-  const auth = useAuth();
-  const { user: firebaseUser, isUserLoading } = useFirebaseUser();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUserId = localStorage.getItem(FANTASY_LEAGUE_USER_ID);
-      if (storedUserId) {
-        setActiveUserId(storedUserId);
-      } else {
-        // Default to the first user in the static list if none is set
-        const firstUserId = USERS[0]?.id;
-        if(firstUserId) {
-          setActiveUserId(firstUserId);
-          localStorage.setItem(FANTASY_LEAGUE_USER_ID, firstUserId);
-        }
+    // Load users from localStorage or initialize with static data
+    const storedUsers = localStorage.getItem(FANTASY_LEAGUE_USERS);
+    let usersToLoad: User[];
+    if (storedUsers) {
+      usersToLoad = JSON.parse(storedUsers);
+    } else {
+      usersToLoad = USERS;
+      localStorage.setItem(FANTASY_LEAGUE_USERS, JSON.stringify(USERS));
+    }
+    
+    const hydratedUsers = usersToLoad.map(u => hydrateUser(u)).filter(u => u !== null) as User[];
+    setAllUsers(hydratedUsers);
+
+    // Set active user
+    const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID);
+    const activeUser = hydratedUsers.find(u => u.id === activeUserId) || hydratedUsers[0];
+    if (activeUser) {
+      setUser(activeUser);
+      if (!activeUserId) {
+        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, activeUser.id);
       }
     }
   }, []);
 
-  useEffect(() => {
-    if (!firestore) return;
-
-    const fetchAllUsers = async () => {
-      const usersCollectionRef = collection(firestore, 'users');
-      const usersSnapshot = await getDocs(usersCollectionRef);
-      const usersList = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
-      setAllUsers(usersList);
-    };
-
-    fetchAllUsers();
-  }, [firestore]);
-
-
-  useEffect(() => {
-    const handleUser = async () => {
-      if (isUserLoading || !activeUserId || !firestore) {
-        return;
-      }
-      
-      if (!firebaseUser) {
-        try {
-          await signInAnonymously(auth);
-        } catch (error) {
-          console.error("Anonymous sign-in failed", error);
-        }
-        return; // Wait for user to be signed in on next effect run
-      }
-      
-      // We have a firebase user and an active user ID, fetch the data
-      const userDocRef = doc(firestore, 'users', activeUserId);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-          const userData = userDocSnap.data() as User;
-          const hydratedPlayers = userData.players?.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                      .filter((p): p is Player => !!p) || [];
-          const hydratedLineup = userData.roster?.lineup.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                     .filter((p): p is Player => !!p) || [];
-          const hydratedBench = userData.roster?.bench.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                    .filter((p): p is Player => !!p) || [];
-          setUser({
-            ...userData,
-            id: userDocSnap.id,
-            players: hydratedPlayers,
-            roster: {
-              lineup: hydratedLineup,
-              bench: hydratedBench
-            }
-          });
-      } else {
-         console.warn(`User document for ID ${activeUserId} not found. Seeding might be required.`);
-         // Optional: handle case where user doc doesn't exist, maybe select another user.
-      }
-    };
-
-    handleUser();
-  }, [activeUserId, firebaseUser, isUserLoading, firestore, auth]);
-
-
-  const updateUserStateAndFirestore = (updatedUser: User) => {
-    if (!updatedUser) return;
-    setUser(updatedUser);
-    const userDocRef = doc(firestore, 'users', updatedUser.id);
-
-    const firestoreUser = {
-        ...updatedUser,
-        players: updatedUser.players.map(p => p.id),
-        roster: {
-            lineup: updatedUser.roster.lineup.map(p => p.id),
-            bench: updatedUser.roster.bench.map(p => p.id),
-        }
-    };
+  const updateUserStateAndStorage = useCallback((updatedUser: User) => {
+    const hydratedUser = hydrateUser(updatedUser);
+    if (!hydratedUser) return;
     
-    setDocumentNonBlocking(userDocRef, firestoreUser, { merge: true });
-  }
+    setUser(hydratedUser);
+    
+    const newAllUsers = allUsers.map(u => u.id === hydratedUser.id ? hydratedUser : u);
+    setAllUsers(newAllUsers);
+
+    localStorage.setItem(FANTASY_LEAGUE_USERS, JSON.stringify(newAllUsers.map(u => ({
+        ...u,
+        players: u.players.map(p => p.id),
+        roster: {
+            lineup: u.roster.lineup.map(p => p.id),
+            bench: u.roster.bench.map(p => p.id),
+        }
+    }))));
+  }, [allUsers]);
 
   const switchUser = useCallback((userId: string) => {
-    if (userId) {
-        setUser(null); // Clear current user to show loading state
-        setActiveUserId(userId);
-        localStorage.setItem(FANTASY_LEAGUE_USER_ID, userId);
+    const userToSwitch = allUsers.find(u => u.id === userId);
+    if (userToSwitch) {
+      setUser(userToSwitch);
+      localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, userId);
     }
-  }, []);
+  }, [allUsers]);
 
   const purchasePlayer = useCallback((player: Player) => {
-    if (!user || !player) return;
-
-    if (user.players.some(p => p && p.id === player.id)) {
+    if (!user) return;
+    if (user.players.some(p => p.id === player.id)) {
       toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
       return;
     }
@@ -170,43 +116,37 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const newCurrency = user.currency - player.cost;
     const newPlayers = [...user.players, player];
     const newBench = [...user.roster.bench, player];
-
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-
-    const updatedUser = {
+    
+    updateUserStateAndStorage({
       ...user,
       currency: newCurrency,
       players: newPlayers,
       roster: { ...user.roster, bench: newBench },
-    };
-    updateUserStateAndFirestore(updatedUser);
-  }, [user, toast]);
+    });
+  }, [user, toast, updateUserStateAndStorage]);
 
   const updateRoster = useCallback((lineup: Player[], bench: Player[]) => {
     if (!user) return;
     toast({ title: 'Roster Updated', description: 'Your lineup and bench have been saved.' });
-    const updatedUser = {
+    updateUserStateAndStorage({
       ...user,
       roster: { lineup, bench },
-    };
-    updateUserStateAndFirestore(updatedUser);
-  }, [user, toast]);
+    });
+  }, [user, toast, updateUserStateAndStorage]);
 
   const updateWeeklyScores = useCallback((playerId: string, scores: WeeklyScore) => {
     if (!user) return;
-
     const newScores = {
       ...user.weeklyScores,
       [playerId]: scores,
     };
-
     toast({ title: 'Scores Updated', description: `Scores for player ID ${playerId} have been saved.` });
-    const updatedUser = {
+    updateUserStateAndStorage({
       ...user,
       weeklyScores: newScores,
-    };
-    updateUserStateAndFirestore(updatedUser);
-  }, [user, toast]);
+    });
+  }, [user, toast, updateUserStateAndStorage]);
 
   return (
     <UserContext.Provider value={{ user, allUsers, purchasePlayer, updateRoster, updateWeeklyScores, switchUser }}>

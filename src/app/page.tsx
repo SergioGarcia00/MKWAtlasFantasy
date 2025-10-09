@@ -8,9 +8,6 @@ import { DollarSign, Users, Trophy, Shield } from 'lucide-react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { useEffect, useState } from 'react';
 import type { User, Player } from '@/lib/types';
-import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, query } from 'firebase/firestore';
-import { useFirestore, useMemoFirebase } from '@/firebase';
 
 const calculateTotalScore = (user: User) => {
   if (!user.roster || !user.roster.lineup) return 0;

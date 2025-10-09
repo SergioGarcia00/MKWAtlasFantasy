@@ -1,56 +1,35 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { User } from '@/lib/types';
+import type { User, Player } from '@/lib/types';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Trophy } from 'lucide-react';
-import { useCollection } from '@/firebase/firestore/use-collection';
-import { collection, query } from 'firebase/firestore';
-import { useFirestore, useMemoFirebase } from '@/firebase';
-import { ALL_PLAYERS } from '@/data/players';
+import { useUser } from '@/context/user-context';
 
 const calculateTotalScore = (user: User) => {
   if (!user.roster || user.roster.lineup.length < 6) return 0;
   return user.roster.lineup.reduce((total, player) => {
-    if (!player) return total;
+    if (!player || typeof player === 'string') return total;
     const scores = user.weeklyScores[player.id];
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
 };
 
+
 export default function UserRankingsPage() {
-    const firestore = useFirestore();
-    const usersQuery = useMemoFirebase(() => query(collection(firestore, 'users')), [firestore]);
-    const { data: users, isLoading } = useCollection<User>(usersQuery);
+  const { allUsers } = useUser();
 
   const rankedUsers = useMemo(() => {
-    if (!users) return [];
-
-    const hydratedUsers = users.map(user => {
-        const hydratedPlayers = user.players?.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                      .filter((p): p is Player => !!p) || [];
-        const hydratedLineup = user.roster?.lineup.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                     .filter((p): p is Player => !!p) || [];
-        const hydratedBench = user.roster?.bench.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
-                                    .filter((p): p is Player => !!p) || [];
-        return {
-            ...user,
-            players: hydratedPlayers,
-            roster: {
-                lineup: hydratedLineup,
-                bench: hydratedBench
-            }
-        }
-    });
-
-    return hydratedUsers.map(user => ({
+    if (!allUsers) return [];
+    
+    return allUsers.map(user => ({
       ...user,
       totalScore: calculateTotalScore(user),
     }))
       .filter(user => user.totalScore > 0)
       .sort((a, b) => b.totalScore - a.totalScore);
-  }, [users]);
+  }, [allUsers]);
 
   const getRankBadge = (rank: number) => {
     if (rank === 1) return <Trophy className="w-5 h-5 text-amber-400" />;
@@ -59,7 +38,7 @@ export default function UserRankingsPage() {
     return <span className="font-mono text-sm text-muted-foreground">{rank}</span>;
   };
 
-  if (isLoading) {
+  if (!allUsers || allUsers.length === 0) {
       return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
 

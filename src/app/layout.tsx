@@ -4,7 +4,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { UserProvider } from '@/context/user-context';
 import { MainLayout } from '@/components/layout/main-layout';
-import { FirebaseClientProvider } from '@/firebase';
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ['latin'],
@@ -29,14 +28,12 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <FirebaseClientProvider>
-          <UserProvider>
-            <MainLayout>
-              {children}
-            </MainLayout>
-            <Toaster />
-          </UserProvider>
-        </FirebaseClientProvider>
+        <UserProvider>
+          <MainLayout>
+            {children}
+          </MainLayout>
+          <Toaster />
+        </UserProvider>
       </body>
     </html>
   );
