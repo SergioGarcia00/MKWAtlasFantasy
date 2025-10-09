@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 34736,
+  "currency": 31227,
   "players": [
     {
       "id": "Sipgb-2439",
@@ -18,6 +18,10 @@
     {
       "id": "JOYBOY-2439",
       "purchasedAt": 1758717733360
+    },
+    {
+      "id": "Pereeira7-7",
+      "purchasedAt": 1760030160808
     }
   ],
   "roster": {
@@ -27,7 +31,9 @@
       "MirianaConte-2439",
       "JOYBOY-2439"
     ],
-    "bench": []
+    "bench": [
+      "Pereeira7-7"
+    ]
   },
   "weeklyScores": {
     "Sipgb-2439": {

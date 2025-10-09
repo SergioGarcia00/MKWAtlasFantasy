@@ -38,10 +38,14 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
 export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isBidding, setIsBidding] = useState(false);
-  const [bidAmount, setBidAmount] = useState(player.cost);
+
+  const highestBidAmount = player.auction?.highestBid?.amount || 0;
+  const nextBidAmount = highestBidAmount > 0 ? highestBidAmount + 1 : player.cost;
+
+  const [bidAmount, setBidAmount] = useState(nextBidAmount);
   const [isBidLoading, setIsBidLoading] = useState(false);
   
-  const { user, allUsers, purchasePlayer, buyoutPlayer, getPlayerById } = useUser();
+  const { user, allUsers, purchasePlayer, buyoutPlayer, getPlayerById, switchUser } = useUser();
   const { toast } = useToast();
   const pathname = usePathname();
 
@@ -99,8 +103,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
               title: '¡Puja realizada!',
               description: `Has pujado ${bidAmount.toLocaleString()} por ${player.name}.`,
           });
-          // Optimistically update UI
+          // Optimistically update UI - this will be fully updated on context refresh
           user.bids[player.id] = bidAmount;
+          switchUser(user.id, true); // Force context refresh
       } catch (error: any) {
           toast({
               variant: 'destructive',
@@ -118,11 +123,13 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const gameStats2v2 = player.game_stats?.['2v2'];
 
   const getButton = () => {
+    const highestBidderIsCurrentUser = player.auction?.highestBid?.userId === user.id;
+
     if (pathname === '/daily-market') {
       if (isOwned) return <Button disabled className="w-full">Fichado</Button>;
-      if (hasBidOnPlayer) return <Button disabled className="w-full">Has pujado</Button>;
+      if (highestBidderIsCurrentUser) return <Button disabled className="w-full">Eres el mejor postor</Button>;
       return (
-        <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); setIsBidding(true); }}>
+        <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); setBidAmount(nextBidAmount); setIsBidding(true); }}>
           <Gavel className="mr-2 h-4 w-4" />
           Pujar
         </Button>
@@ -171,6 +178,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
     )
   }
 
+  const priceToShow = pathname === '/daily-market' && highestBidAmount > 0 ? highestBidAmount : player.cost;
 
   return (
     <>
@@ -179,8 +187,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
         onClick={() => {
             if (pathname !== '/daily-market') {
                 setIsOpen(true);
-            } else if (!isOwned && !hasBidOnPlayer) {
-                setIsBidding(true);
+            } else if (!isOwned) {
+                 setBidAmount(nextBidAmount);
+                 setIsBidding(true);
             }
         }}
       >
@@ -202,10 +211,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <h3 className="font-bold text-lg font-headline">{player.name}</h3>
             <div className="flex items-center gap-2 mt-2 text-primary">
               <DollarSign className="w-4 h-4" />
-              <span className="font-semibold">{player.cost.toLocaleString()}</span>
+              <span className="font-semibold">{priceToShow.toLocaleString()}</span>
             </div>
              {pathname === '/daily-market' && player.auction?.highestBid && (
-              <div className="text-xs mt-1 text-blue-600">
+              <div className="text-xs mt-1 text-blue-600 font-medium">
                 Puja máxima: {player.auction.highestBid.amount.toLocaleString()} ({player.auction.highestBid.userName})
               </div>
             )}
@@ -222,7 +231,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <DialogHeader>
             <DialogTitle>Pujar por {player.name}</DialogTitle>
             <DialogDescription>
-              La puja más alta al final de la subasta se lleva al jugador. Coste actual: {player.cost.toLocaleString()} monedas.
+              {highestBidAmount > 0 
+                ? `La puja más alta actual es de ${highestBidAmount.toLocaleString()}. Tu puja debe ser mayor.`
+                : `El coste base es de ${player.cost.toLocaleString()}. La puja más alta al final de la subasta se lleva al jugador.`
+              }
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
@@ -232,7 +244,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 type="number"
                 value={bidAmount}
                 onChange={(e) => setBidAmount(Number(e.target.value))}
-                min={player.cost}
+                min={nextBidAmount}
+                placeholder={`Puja mínima: ${nextBidAmount.toLocaleString()}`}
               />
               <span className="text-muted-foreground">monedas</span>
             </div>
@@ -244,7 +257,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <DialogClose asChild>
                 <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < player.cost}>
+            <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < nextBidAmount}>
                 {isBidLoading ? <Loader2 className="animate-spin" /> : `Pujar ${bidAmount.toLocaleString()}`}
             </Button>
           </DialogFooter>
@@ -363,4 +376,5 @@ export function PlayerCard({ player }: PlayerCardProps) {
     </>
   );
 }
+
 

@@ -15,7 +15,7 @@ interface UserContextType {
   purchasePlayer: (player: Player) => void;
   updateRoster: (lineup: string[], bench: string[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
-  switchUser: (userId: string) => void;
+  switchUser: (userId: string, force?: boolean) => void;
   buyoutPlayer: (player: Player, owner: User) => void;
   getPlayerById: (playerId: string) => Player | undefined;
 }
@@ -117,13 +117,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [toast, loadData]);
 
 
-  const switchUser = useCallback((userId: string) => {
+  const switchUser = useCallback((userId: string, force = false) => {
+    if (user?.id === userId && !force) return;
     const userToSwitch = allUsers.find(u => u.id === userId);
     if (userToSwitch) {
       setUser(userToSwitch);
-      localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, userId);
+      if (!force) {
+        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, userId);
+      }
     }
-  }, [allUsers]);
+  }, [allUsers, user?.id]);
 
   const purchasePlayer = useCallback(async (player: Player) => {
     if (!user) return;

@@ -4,7 +4,7 @@ import { useUser } from '@/context/user-context';
 import { Sparkles, Loader2, RefreshCw } from 'lucide-react';
 import { PlayerCard } from '@/components/player-card';
 import { Player } from '@/lib/types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ALL_PLAYERS } from '@/data/players';
 import { useToast } from '@/hooks/use-toast';
@@ -18,19 +18,36 @@ const shuffleArray = (array: any[]) => {
 };
 
 export default function DailyMarketPage() {
-  const { user, allUsers } = useUser();
+  const { user, allUsers, switchUser } = useUser();
   const { toast } = useToast();
   const [recommendations, setRecommendations] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLocking, setIsLocking] = useState(false);
 
+  const allBidsByPlayer = useMemo(() => {
+    return allUsers.reduce<Record<string, { userId: string; userName: string; amount: number }>>((acc, u) => {
+        Object.entries(u.bids).forEach(([playerId, amount]) => {
+            if (!acc[playerId] || amount > acc[playerId].amount) {
+                acc[playerId] = { amount, userId: u.id, userName: u.name };
+            }
+        });
+        return acc;
+    }, {});
+  }, [allUsers]);
+
+  const recommendationsWithBids = useMemo(() => {
+    return recommendations.map(player => {
+        const highestBid = allBidsByPlayer[player.id];
+        return {
+            ...player,
+            auction: highestBid ? { highestBid } : null,
+        };
+    });
+  }, [recommendations, allBidsByPlayer]);
+
   const fetchRecommendations = useCallback(() => {
     setLoading(true);
-    if (allUsers.length === 0) {
-      setLoading(false);
-      return;
-    };
-
+    // No dependency on allUsers here, so it's stable across user switches
     const allOwnedPlayerIds = new Set(
         allUsers.flatMap(u => u.players.map(p => p.id))
     );
@@ -39,7 +56,6 @@ export default function DailyMarketPage() {
     
     const finalRecommendations = new Set<Player>();
 
-    // Helper to add players to the set without duplicates
     function addPlayersToSet(players: Player[], count: number) {
         const shuffled = shuffleArray([...players]);
         for(let i=0; i < shuffled.length && finalRecommendations.size < count; i++) {
@@ -64,19 +80,15 @@ export default function DailyMarketPage() {
     addPlayersToSet(midCostPlayers, 15);
     addPlayersToSet(lowCostPlayers, 18);
     
-    // Fallback in case categories are empty
     addPlayersToSet(availablePlayers, 18);
-
 
     setRecommendations(Array.from(finalRecommendations));
     setLoading(false);
   }, [allUsers]);
 
   useEffect(() => {
-    if(allUsers.length > 0) {
-      fetchRecommendations();
-    }
-  }, [allUsers, fetchRecommendations]);
+    fetchRecommendations();
+  }, [fetchRecommendations]);
 
   const handleLockIn = async () => {
     setIsLocking(true);
@@ -91,8 +103,14 @@ export default function DailyMarketPage() {
             title: 'Subastas Cerradas!',
             description: `${result.winners.length} jugadores han sido transferidos a sus nuevos dueños.`,
         });
-        // Force a full reload to reflect all changes
-        window.location.reload();
+        
+        // After lock-in, we need to refresh the market and user data
+        fetchRecommendations(); // Refreshes the market to remove newly owned players
+        // Switch to the same user to force a context refresh
+        if (user) {
+          switchUser(user.id, true);
+        }
+
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -140,7 +158,7 @@ export default function DailyMarketPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {recommendations.map((player) => (
+            {recommendationsWithBids.map((player) => (
               <PlayerCard key={player.id} player={player} />
             ))}
           </div>

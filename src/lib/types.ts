@@ -29,8 +29,12 @@ export type Player = {
     '2v2'?: GameStats;
   };
   auction?: {
-    highestBid: Bid;
-    endTime: number; // Timestamp for when the auction ends
+    highestBid: {
+        userId: string;
+        userName: string;
+        amount: number;
+    };
+    endTime?: number;
   } | null;
 };
 
