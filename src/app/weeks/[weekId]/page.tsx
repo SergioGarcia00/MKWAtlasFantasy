@@ -13,15 +13,14 @@ const getPlayerScores = (user: User, playerId: string, weekId: string) => {
 
 const calculateTotalScore = (user: User, weekId: string) => {
   if (!user.roster || !user.roster.lineup) return 0;
-  return user.roster.lineup.reduce((total: number, player: Player | string) => {
-    if (typeof player === 'string' || !player) return total;
-    const scores = getPlayerScores(user, player.id, weekId);
+  return user.roster.lineup.reduce((total: number, playerId: string) => {
+    const scores = getPlayerScores(user, playerId, weekId);
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
 };
 
 export default function WeekSummaryPage({ params }: { params: { weekId: string } }) {
-  const { allUsers } = useUser();
+  const { allUsers, getPlayerById } = useUser();
   const weekId = params.weekId;
 
   return (
@@ -39,6 +38,9 @@ export default function WeekSummaryPage({ params }: { params: { weekId: string }
         {allUsers.length > 0 ? (
           allUsers.map(user => {
             const totalScore = calculateTotalScore(user, weekId);
+            const lineupPlayers = user.roster.lineup.map(id => getPlayerById(id)).filter(Boolean) as Player[];
+            const benchPlayers = user.roster.bench.map(id => getPlayerById(id)).filter(Boolean) as Player[];
+
             return (
               <Card key={user.id}>
                 <CardHeader className="flex-row items-center justify-between">
@@ -49,10 +51,10 @@ export default function WeekSummaryPage({ params }: { params: { weekId: string }
                 </CardHeader>
                 <CardContent>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Starting Lineup ({user.roster.lineup.length}/6)</h3>
-                    {user.roster.lineup.length > 0 ? (
+                    <h3 className="text-lg font-semibold mb-2">Starting Lineup ({lineupPlayers.length}/6)</h3>
+                    {lineupPlayers.length > 0 ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {(user.roster.lineup as Player[]).map(player => {
+                        {lineupPlayers.map(player => {
                           const scores = getPlayerScores(user, player.id, weekId);
                           const totalPlayerScore = (scores.race1 || 0) + (scores.race2 || 0);
                           return (
@@ -80,10 +82,10 @@ export default function WeekSummaryPage({ params }: { params: { weekId: string }
                   </div>
                   <Separator className="my-6" />
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">Bench ({user.roster.bench.length})</h3>
-                     {user.roster.bench.length > 0 ? (
+                    <h3 className="text-lg font-semibold mb-2">Bench ({benchPlayers.length})</h3>
+                     {benchPlayers.length > 0 ? (
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
-                        {(user.roster.bench as Player[]).map(player => (
+                        {benchPlayers.map(player => (
                           <div key={player.id} className="flex flex-col items-center justify-center p-2 bg-secondary/50 rounded-lg text-center">
                             <PlayerIcon iconName={player.icon} className="w-10 h-10" />
                             <p className="mt-1 font-medium text-xs">{player.name}</p>

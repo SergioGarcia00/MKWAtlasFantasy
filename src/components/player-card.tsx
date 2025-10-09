@@ -12,6 +12,7 @@ import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+import { differenceInDays } from 'date-fns';
 
 interface PlayerCardProps {
   player: Player;
@@ -39,12 +40,14 @@ export function PlayerCard({ player }: PlayerCardProps) {
     return null;
   }
   
-  const isOwnedByCurrentUser = user?.players.some(p => (typeof p === 'string' ? p : p.id) === player.id) ?? false;
+  const isOwnedByCurrentUser = user?.players.some(p => p.id === player.id) ?? false;
   
-  const owner = allUsers.find(u => 
-    u.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
-  );
+  const ownerInfo = allUsers.map(u => {
+    const userPlayer = u.players.find(p => p.id === player.id);
+    return userPlayer ? { user: u, purchasedAt: userPlayer.purchasedAt } : null;
+  }).find(info => info !== null);
 
+  const owner = ownerInfo?.user;
   const isOwnedByOtherUser = owner && owner.id !== user?.id;
   const isOwned = isOwnedByCurrentUser || isOwnedByOtherUser;
 
@@ -54,6 +57,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const buyoutPrice = Math.round(player.cost * 1.5);
   const canAffordBuyout = (user?.currency ?? 0) >= buyoutPrice;
 
+  const daysSincePurchase = ownerInfo ? differenceInDays(new Date(), new Date(ownerInfo.purchasedAt)) : 0;
+  const isBuyoutProtected = isOwnedByOtherUser && daysSincePurchase < 14;
+  const buyoutProtectionDaysLeft = 14 - daysSincePurchase;
 
   const handlePurchase = () => {
     if (!user) return;
@@ -79,6 +85,18 @@ export function PlayerCard({ player }: PlayerCardProps) {
       );
     }
     if (isOwnedByOtherUser) {
+        if (isBuyoutProtected) {
+             return (
+                <Button 
+                    className="w-full bg-gray-400"
+                    disabled
+                    title={`This player is protected from buyouts for ${buyoutProtectionDaysLeft} more day(s).`}
+                >
+                    <Shield className="mr-2 h-4 w-4" />
+                    Buyout Protected
+                </Button>
+            )
+        }
         return (
             <Button 
                 className="w-full bg-amber-500 hover:bg-amber-600 text-white"
@@ -212,14 +230,18 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 </Button>
             )}
             {isOwnedByOtherUser && (
-                <AlertDialog>
+                 <AlertDialog>
                     <AlertDialogTrigger asChild>
                          <Button
                             className="bg-amber-500 hover:bg-amber-600 text-white"
-                            disabled={isRosterFull || !canAffordBuyout}
+                            disabled={isRosterFull || !canAffordBuyout || isBuyoutProtected}
+                            title={isBuyoutProtected ? `This player is protected from buyouts for ${buyoutProtectionDaysLeft} more day(s).` : ''}
                          >
                             <ArrowRightLeft className="mr-2" />
-                            {isRosterFull ? 'Roster Full' : !canAffordBuyout ? 'Cannot Afford Buyout' : `Buyout for ${buyoutPrice.toLocaleString()}`}
+                            {isRosterFull ? 'Roster Full' 
+                            : !canAffordBuyout ? 'Cannot Afford Buyout' 
+                            : isBuyoutProtected ? `Protected (${buyoutProtectionDaysLeft}d left)`
+                            : `Buyout for ${buyoutPrice.toLocaleString()}`}
                          </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>

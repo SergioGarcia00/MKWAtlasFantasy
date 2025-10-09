@@ -1,20 +1,23 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
-import type { User, Player, WeeklyScore } from '@/lib/types';
+import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { USER_IDS } from '@/data/users';
+import { ALL_PLAYERS } from '@/data/players';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
 interface UserContextType {
   user: User | null;
   allUsers: User[];
+  allPlayers: Player[];
   purchasePlayer: (player: Player) => void;
-  updateRoster: (lineup: Player[], bench: Player[]) => void;
+  updateRoster: (lineup: string[], bench: string[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
   switchUser: (userId: string) => void;
   buyoutPlayer: (player: Player, owner: User) => void;
+  getPlayerById: (playerId: string) => Player | undefined;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -58,7 +61,9 @@ async function updateUser(user: User): Promise<User | null> {
             console.error(`Failed to update user ${user.id}: ${response.statusText}`);
             return null;
         }
-        return await response.json();
+        // The API now returns the dehydrated user, we need to re-hydrate it for the context
+        const savedDehydratedUser = await response.json();
+        return savedDehydratedUser; // This will be rehydrated in the provider
     } catch (error) {
         console.error(`Error updating user ${user.id}:`, error);
         return null;
@@ -70,6 +75,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const { toast } = useToast();
+
+  const getPlayerById = useCallback((playerId: string) => {
+    return ALL_PLAYERS.find(p => p.id === playerId);
+  }, []);
+
+  const hydrateUser = useCallback((userToHydrate: User) => {
+    const lineup = userToHydrate.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
+    const bench = userToHydrate.roster.bench.map(id => getPlayerById(id)).filter(p => p) as Player[];
+    return { ...userToHydrate, roster: { lineup, bench } };
+  }, [getPlayerById]);
+
 
   const loadData = useCallback(async () => {
     const users = await fetchAllUsers();
@@ -93,19 +109,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const userPromise = updateUser(updatedUser);
     const otherUserPromise = otherUpdatedUser ? updateUser(otherUpdatedUser) : Promise.resolve(null);
     
-    const [savedUser, savedOtherUser] = await Promise.all([userPromise, otherUserPromise]);
-
-    if (savedUser) {
-        setUser(savedUser);
-        setAllUsers(prevUsers => prevUsers.map(u => {
-            if (u.id === savedUser.id) return savedUser;
-            if (savedOtherUser && u.id === savedOtherUser.id) return savedOtherUser;
-            return u;
-        }));
-    } else {
-        toast({ title: 'Error', description: 'Failed to save your changes. Please try again.', variant: 'destructive'});
-        loadData(); // Re-fetch to revert optimistic updates
-    }
+    await Promise.all([userPromise, otherUserPromise]);
+    
+    // After updating, reload all data to ensure consistency across the app
+    await loadData();
+    
   }, [toast, loadData]);
 
 
@@ -121,7 +129,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (!user) return;
 
     const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
-      anyUser.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
+      anyUser.players.some(p => p.id === player.id)
     );
 
     if (isPlayerOwnedByAnyone) {
@@ -138,13 +146,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+
     const updatedUser = {
         ...user,
         currency: user.currency - player.cost,
-        players: [...user.players, player],
+        players: [...user.players, newUserPlayer],
         roster: {
             ...user.roster,
-            bench: [...user.roster.bench, player]
+            bench: [...user.roster.bench, player.id]
         }
     };
     
@@ -165,22 +175,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return;
     }
 
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+
     // New owner (current user)
     const newOwnerUser = {
         ...user,
         currency: user.currency - buyoutPrice,
-        players: [...user.players, player],
-        roster: { ...user.roster, bench: [...user.roster.bench, player] }
+        players: [...user.players, newUserPlayer],
+        roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
 
     // Previous owner
     const previousOwnerUser = {
         ...owner,
         currency: owner.currency + player.cost, // Refund original cost
-        players: owner.players.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
+        players: owner.players.filter(p => p.id !== player.id),
         roster: {
-            lineup: owner.roster.lineup.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
-            bench: owner.roster.bench.filter(p => (typeof p === 'string' ? p : p.id) !== player.id),
+            lineup: owner.roster.lineup.filter(id => id !== player.id),
+            bench: owner.roster.bench.filter(id => id !== player.id),
         }
     };
     
@@ -189,9 +201,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   }, [user, toast, updateUserState]);
 
-  const updateRoster = useCallback(async (lineup: Player[], bench: Player[]) => {
+  const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
-    const updatedUser = {
+    const updatedUser: User = {
         ...user,
         roster: { lineup, bench },
     };
@@ -206,7 +218,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       weeklyScores: {
         ...user.weeklyScores,
         [playerId]: {
-          ...user.weeklyScores[playerId],
+          ...user.weeklyScores?.[playerId],
           [weekId]: scores,
         }
       },
@@ -216,7 +228,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById }}>
       {children}
     </UserContext.Provider>
   );

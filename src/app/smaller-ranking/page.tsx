@@ -21,7 +21,7 @@ type TopMMRPlayerInfo = {
 } | null;
 
 export default function SmallerRankingsPage() {
-  const { allUsers } = useUser();
+  const { allUsers, getPlayerById } = useUser();
 
   const highestScorePlayer = useMemo((): HighestScoreInfo => {
     if (!allUsers || allUsers.length === 0) return null;
@@ -32,7 +32,7 @@ export default function SmallerRankingsPage() {
     for (const user of allUsers) {
       if (!user.weeklyScores) continue;
       for (const playerId in user.weeklyScores) {
-        const playerInRoster = user.players.find(p => (p as Player).id === playerId) as Player;
+        const playerInRoster = getPlayerById(playerId);
         if (!playerInRoster) continue;
 
         for (const weekId in user.weeklyScores[playerId]) {
@@ -52,7 +52,7 @@ export default function SmallerRankingsPage() {
       }
     }
     return topInfo;
-  }, [allUsers]);
+  }, [allUsers, getPlayerById]);
 
   const rankedUsersByCurrency = useMemo((): User[] => {
     if (!allUsers || allUsers.length === 0) return [];
@@ -66,8 +66,9 @@ export default function SmallerRankingsPage() {
     let owner: User | null = null;
 
     for (const user of allUsers) {
-        for (const player of user.players as Player[]) {
-            if (!topPlayer || (player.mmr || 0) > (topPlayer.mmr || 0)) {
+        for (const userPlayer of user.players) {
+            const player = getPlayerById(userPlayer.id);
+            if (player && (!topPlayer || (player.mmr || 0) > (topPlayer.mmr || 0))) {
                 topPlayer = player;
                 owner = user;
             }
@@ -79,7 +80,7 @@ export default function SmallerRankingsPage() {
     }
 
     return null;
-  }, [allUsers]);
+  }, [allUsers, getPlayerById]);
 
   if (allUsers.length === 0) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;

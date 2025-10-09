@@ -3,26 +3,16 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import { ALL_PLAYERS } from '@/data/players';
-import type { User, Player } from '@/lib/types';
+import type { User, UserPlayer } from '@/lib/types';
 
 const USERS_DATA_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
-const hydrateUser = (user: any): User => {
-    const playerIdsToObjects = new Map(ALL_PLAYERS.map(p => [p.id, p]));
-
-    const hydratePlayerArray = (arr: (string | Player)[]): Player[] =>
-        (arr || []).map(p => (typeof p === 'string' ? playerIdsToObjects.get(p) : p))
-           .filter((p): p is Player => p !== undefined);
-
-    return {
-        ...user,
-        players: hydratePlayerArray(user.players),
-        roster: {
-            lineup: hydratePlayerArray(user.roster?.lineup),
-            bench: hydratePlayerArray(user.roster?.bench),
-        },
-        weeklyScores: user.weeklyScores || {},
-    };
+const hydratePlayer = (p: string | UserPlayer): UserPlayer => {
+    if (typeof p === 'string') {
+        // For backward compatibility, assume old players are outside the buyout protection window
+        return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; 
+    }
+    return p;
 };
 
 export async function GET(request: Request) {
@@ -37,7 +27,14 @@ export async function GET(request: Request) {
           const fileContent = await fs.readFile(filePath, 'utf-8');
           if (fileContent) {
             const user = JSON.parse(fileContent);
-            return hydrateUser(user);
+            // Ensure all users have the new player structure
+            user.players = (user.players || []).map(hydratePlayer);
+            user.roster = {
+                lineup: user.roster?.lineup || [],
+                bench: user.roster?.bench || [],
+            }
+            user.weeklyScores = user.weeklyScores || {};
+            return user;
           }
           return null;
         } catch (error) {

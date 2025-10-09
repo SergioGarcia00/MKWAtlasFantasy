@@ -11,11 +11,11 @@ const calculateTotalScore = (user: User): number => {
   if (!user.roster || user.roster.lineup.length === 0 || !user.weeklyScores) return 0;
   
   let totalScore = 0;
-  for (const player of user.roster.lineup as Player[]) {
-    if (typeof player === 'string' || !player || !user.weeklyScores[player.id]) continue;
+  for (const playerId of user.roster.lineup) {
+    if (!user.weeklyScores[playerId]) continue;
     
-    for (const week in user.weeklyScores[player.id]) {
-        const scores = user.weeklyScores[player.id][week];
+    for (const week in user.weeklyScores[playerId]) {
+        const scores = user.weeklyScores[playerId][week];
         totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
     }
   }

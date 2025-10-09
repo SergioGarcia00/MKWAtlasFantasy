@@ -9,19 +9,20 @@ import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function PlayerMarketPage() {
-  const { user, allUsers } = useUser();
+  const { user, allUsers, getPlayerById } = useUser();
   const [searchTerm, setSearchTerm] = useState('');
 
   const ownedPlayers = useMemo(() => {
     if (!allUsers) return [];
     
-    const allOwnedPlayers = allUsers.flatMap(u => u.players.map(p => p as Player));
-    const uniquePlayers = Array.from(new Map(allOwnedPlayers.map(p => [p.id, p])).values());
+    const allOwnedPlayerIds = allUsers.flatMap(u => u.players.map(p => p.id));
+    const uniquePlayerIds = [...new Set(allOwnedPlayerIds)];
+    const uniquePlayers = uniquePlayerIds.map(id => getPlayerById(id)).filter(Boolean) as Player[];
 
     return uniquePlayers.filter(player =>
       player.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [allUsers, searchTerm]);
+  }, [allUsers, searchTerm, getPlayerById]);
 
 
   if (!user) {

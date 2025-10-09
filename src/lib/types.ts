@@ -28,14 +28,19 @@ export type WeeklyScore = {
   race2: number;
 };
 
+export type UserPlayer = {
+  id: string;
+  purchasedAt: number; // Timestamp of purchase
+}
+
 export type User = {
   id: string;
   name: string;
   currency: number;
-  players: (Player | string)[]; // Can be full objects or just IDs
+  players: UserPlayer[]; // Now stores player IDs with purchase dates
   roster: {
-    lineup: (Player | string)[]; // Can be full objects or just IDs
-    bench: (Player | string)[]; // Can be full objects or just IDs
+    lineup: string[]; // Store only player IDs
+    bench: string[]; // Store only player IDs
   };
   weeklyScores: Record<string, Record<string, WeeklyScore>>; // Keyed by player ID, then by week ID
 };

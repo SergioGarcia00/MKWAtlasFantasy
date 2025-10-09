@@ -9,15 +9,15 @@ import { PlayerIcon } from '@/components/icons/player-icon';
 import { useEffect, useState } from 'react';
 import type { User, Player } from '@/lib/types';
 
-const calculateTotalScore = (user: User): number => {
+const calculateTotalScore = (user: User, getPlayerById: (id: string) => Player | undefined): number => {
   if (!user.roster || !user.roster.lineup || !user.weeklyScores) return 0;
 
   let totalScore = 0;
-  for (const player of user.roster.lineup as Player[]) {
-    if (typeof player === 'string' || !player || !user.weeklyScores[player.id]) continue;
+  for (const playerId of user.roster.lineup) {
+    if (!user.weeklyScores[playerId]) continue;
     
-    for (const week in user.weeklyScores[player.id]) {
-        const scores = user.weeklyScores[player.id][week];
+    for (const week in user.weeklyScores[playerId]) {
+        const scores = user.weeklyScores[playerId][week];
         totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
     }
   }
@@ -25,7 +25,7 @@ const calculateTotalScore = (user: User): number => {
 };
 
 export default function DashboardPage() {
-  const { user, allUsers } = useUser();
+  const { user, allUsers, getPlayerById } = useUser();
   const [allUsersWithScores, setAllUsersWithScores] = useState<(User & {totalScore: number})[]>([]);
 
   useEffect(() => {
@@ -33,19 +33,20 @@ export default function DashboardPage() {
       const usersWithScores = allUsers
         .map(u => ({
             ...u,
-            totalScore: calculateTotalScore(u as User),
+            totalScore: calculateTotalScore(u as User, getPlayerById),
         }))
         .filter(u => u.roster.lineup.length >=6)
         .sort((a, b) => b.totalScore - a.totalScore);
 
       setAllUsersWithScores(usersWithScores as (User & {totalScore: number})[]);
     }
-  }, [allUsers]);
+  }, [allUsers, getPlayerById]);
 
   if (!user) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
-
+  
+  const lineupPlayers = user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
   const userRank = allUsersWithScores.findIndex(u => u.id === user.id) + 1;
 
 
@@ -82,13 +83,13 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Your Starting Lineup</CardTitle>
             <CardDescription>
-              {user.roster.lineup.length > 0 ? 'Your team is ready for the next race!' : 'Your lineup is empty. Go to your roster to add players.'}
+              {lineupPlayers.length > 0 ? 'Your team is ready for the next race!' : 'Your lineup is empty. Go to your roster to add players.'}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {user.roster.lineup.length > 0 ? (
+            {lineupPlayers.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {(user.roster.lineup as Player[]).map(player => (
+                {lineupPlayers.map(player => (
                   <div key={player.id} className="flex flex-col items-center justify-center p-4 bg-secondary rounded-lg text-center">
                     <PlayerIcon iconName={player.icon} className="w-16 h-16" />
                     <p className="mt-2 font-semibold text-sm">{player.name}</p>
