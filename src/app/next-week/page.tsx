@@ -1,22 +1,36 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
-// For now, we only have one week, but this can be expanded later.
-const weeks = [
-  { id: '1', name: 'Week 1' },
-];
-
 export default function WeeksListPage() {
+  // Start with one week and allow adding more.
+  const [weeks, setWeeks] = useState([
+    { id: '1', name: 'Week 1' },
+  ]);
+
+  const handleCreateNewWeek = () => {
+    const newWeekId = (weeks.length + 1).toString();
+    const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
+    setWeeks(prevWeeks => [...prevWeeks, newWeek]);
+  };
+
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Weekly Summaries</h1>
-        <p className="text-muted-foreground mt-2">
-          Select a week to view user lineups and scores.
-        </p>
+      <header className="mb-8 flex items-center justify-between">
+        <div>
+            <h1 className="text-4xl font-bold font-headline">Weekly Summaries</h1>
+            <p className="text-muted-foreground mt-2">
+            Select a week to view user lineups and scores.
+            </p>
+        </div>
+        <Button onClick={handleCreateNewWeek}>
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Create New Week
+        </Button>
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
