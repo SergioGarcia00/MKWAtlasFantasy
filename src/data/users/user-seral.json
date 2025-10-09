@@ -2,31 +2,10 @@
   "id": "user-seral",
   "name": "Seral",
   "currency": 50000,
-  "players": [
-    "SamuelBadcock-2457",
-    "buneary-2457",
-    "Luma-2457",
-    "HalieyWelch-2457",
-    "flora-2457",
-    "KingVon-2457"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "SamuelBadcock-2457",
-      "buneary-2457",
-      "Luma-2457",
-      "HalieyWelch-2457",
-      "flora-2457",
-      "KingVon-2457"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "SamuelBadcock-2457": { "race1": 110, "race2": 120 },
-    "buneary-2457": { "race1": 100, "race2": 115 },
-    "Luma-2457": { "race1": 120, "race2": 130 },
-    "HalieyWelch-2457": { "race1": 90, "race2": 100 },
-    "flora-2457": { "race1": 130, "race2": 140 },
-    "KingVon-2457": { "race1": 115, "race2": 125 }
-  }
+  "weeklyScores": {}
 }

@@ -2,31 +2,10 @@
   "id": "user-vick",
   "name": "Vick",
   "currency": 50000,
-  "players": [
-    "GrimsbyTown-3129",
-    "7o7-3129",
-    "Jsaav-3129",
-    "AddisonBarger-3129",
-    "Najman-3129",
-    "AlinePee-3129"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "GrimsbyTown-3129",
-      "7o7-3129",
-      "Jsaav-3129",
-      "AddisonBarger-3129",
-      "Najman-3129",
-      "AlinePee-3129"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "GrimsbyTown-3129": { "race1": 140, "race2": 150 },
-    "7o7-3129": { "race1": 130, "race2": 145 },
-    "Jsaav-3129": { "race1": 150, "race2": 160 },
-    "AddisonBarger-3129": { "race1": 120, "race2": 130 },
-    "Najman-3129": { "race1": 160, "race2": 170 },
-    "AlinePee-3129": { "race1": 145, "race2": 155 }
-  }
+  "weeklyScores": {}
 }

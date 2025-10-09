@@ -2,31 +2,10 @@
   "id": "user-sipgb",
   "name": "Sipgb",
   "currency": 50000,
-  "players": [
-    "VincentJeef-3160",
-    "Ruhestand-3160",
-    "CoinBlockBuster-3160",
-    "Bagz-3160",
-    "Froz_11-3160",
-    "Octo-3160"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "VincentJeef-3160",
-      "Ruhestand-3160",
-      "CoinBlockBuster-3160",
-      "Bagz-3160",
-      "Froz_11-3160",
-      "Octo-3160"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "VincentJeef-3160": { "race1": 100, "race2": 110 },
-    "Ruhestand-3160": { "race1": 90, "race2": 105 },
-    "CoinBlockBuster-3160": { "race1": 110, "race2": 120 },
-    "Bagz-3160": { "race1": 80, "race2": 90 },
-    "Froz_11-3160": { "race1": 120, "race2": 130 },
-    "Octo-3160": { "race1": 105, "race2": 115 }
-  }
+  "weeklyScores": {}
 }

@@ -2,31 +2,10 @@
   "id": "user-sonic",
   "name": "Sonic",
   "currency": 50000,
-  "players": [
-    "FeathersMcGraw-2457",
-    "UtahGrimReaper-2457",
-    "Steez-2457",
-    "Tylerrr-2457",
-    "Arti-36",
-    "rey-36"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "FeathersMcGraw-2457",
-      "UtahGrimReaper-2457",
-      "Steez-2457",
-      "Tylerrr-2457",
-      "Arti-36",
-      "rey-36"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "FeathersMcGraw-2457": { "race1": 160, "race2": 170 },
-    "UtahGrimReaper-2457": { "race1": 150, "race2": 165 },
-    "Steez-2457": { "race1": 170, "race2": 180 },
-    "Tylerrr-2457": { "race1": 140, "race2": 150 },
-    "Arti-36": { "race1": 180, "race2": 175 },
-    "rey-36": { "race1": 165, "race2": 175 }
-  }
+  "weeklyScores": {}
 }

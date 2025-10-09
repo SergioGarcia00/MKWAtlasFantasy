@@ -2,31 +2,10 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 50000,
-  "players": [
-    "Azrok-2601",
-    "Chaozu-2601",
-    "nvm-2601",
-    "Incineroar-2601",
-    "ManDown-2601",
-    "Lock-in-2601"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Azrok-2601",
-      "Chaozu-2601",
-      "nvm-2601",
-      "Incineroar-2601",
-      "ManDown-2601",
-      "Lock-in-2601"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "Azrok-2601": { "race1": 150, "race2": 160 },
-    "Chaozu-2601": { "race1": 140, "race2": 155 },
-    "nvm-2601": { "race1": 160, "race2": 170 },
-    "Incineroar-2601": { "race1": 130, "race2": 140 },
-    "ManDown-2601": { "race1": 170, "race2": 180 },
-    "Lock-in-2601": { "race1": 155, "race2": 165 }
-  }
+  "weeklyScores": {}
 }

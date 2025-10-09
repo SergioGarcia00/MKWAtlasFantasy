@@ -2,31 +2,10 @@
   "id": "user-yegu",
   "name": "Yegu",
   "currency": 50000,
-  "players": [
-    "Toopa-2601",
-    "Yuki-2601",
-    "1Shurikn-2601",
-    "Caro-2601",
-    "gregFR-2601",
-    "Lecka-2601"
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Toopa-2601",
-      "Yuki-2601",
-      "1Shurikn-2601",
-      "Caro-2601",
-      "gregFR-2601",
-      "Lecka-2601"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "Toopa-2601": { "race1": 130, "race2": 140 },
-    "Yuki-2601": { "race1": 120, "race2": 135 },
-    "1Shurikn-2601": { "race1": 140, "race2": 150 },
-    "Caro-2601": { "race1": 110, "race2": 120 },
-    "gregFR-2601": { "race1": 150, "race2": 160 },
-    "Lecka-2601": { "race1": 135, "race2": 145 }
-  }
+  "weeklyScores": {}
 }
