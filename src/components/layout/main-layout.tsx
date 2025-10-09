@@ -20,10 +20,18 @@ import {
   Users,
   BarChart,
   Trophy,
-  DollarSign
+  DollarSign,
+  ChevronDown
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { USERS } from '@/data/users';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -35,11 +43,15 @@ const navItems = [
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user } = useUser();
+  const { user, switchUser } = useUser();
 
   const getPageTitle = () => {
     const currentNav = navItems.find(item => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)));
     return currentNav?.label || 'Kart Fantasy League';
+  }
+
+  if (!user) {
+    return <div className="flex h-screen items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
 
   return (
@@ -82,6 +94,21 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 <DollarSign className="w-5 h-5"/>
                 <span>{user ? user.currency.toLocaleString() : '...'}</span>
               </div>
+               <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <span>{user.name}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {USERS.map((u) => (
+                    <DropdownMenuItem key={u.id} onSelect={() => switchUser(u.id)} disabled={u.id === user.id}>
+                      {u.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
         </header>
         <main className="flex-1 overflow-auto">
