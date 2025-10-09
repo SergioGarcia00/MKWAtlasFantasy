@@ -25,8 +25,11 @@ export default function DailyMarketPage() {
   const [isLocking, setIsLocking] = useState(false);
 
   const fetchRecommendations = useCallback(() => {
-    if (!user) return;
     setLoading(true);
+    if (allUsers.length === 0) {
+      setLoading(false);
+      return;
+    };
 
     const allOwnedPlayerIds = new Set(
         allUsers.flatMap(u => u.players.map(p => p.id))
@@ -54,7 +57,6 @@ export default function DailyMarketPage() {
     const midRankPlayers = availablePlayers.filter(p => (p.rank || 9999) >= 201 && (p.rank || 9999) <= 500);
     const anyRankPlayers = availablePlayers;
 
-
     addPlayersToSet(highRankPlayers, 3);
     addPlayersToSet(midRankPlayers, 6);
     addPlayersToSet(anyRankPlayers, 9);
@@ -68,13 +70,13 @@ export default function DailyMarketPage() {
 
     setRecommendations(Array.from(finalRecommendations));
     setLoading(false);
-  }, [user, allUsers]);
+  }, [allUsers]);
 
   useEffect(() => {
-    if(user && allUsers.length > 0) {
+    if(allUsers.length > 0) {
       fetchRecommendations();
     }
-  }, [user, allUsers, fetchRecommendations]);
+  }, [allUsers, fetchRecommendations]);
 
   const handleLockIn = async () => {
     setIsLocking(true);
@@ -117,17 +119,17 @@ export default function DailyMarketPage() {
             ¡Puja por nuevos talentos! Las subastas duran 24 horas.
             </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button onClick={fetchRecommendations} variant="outline">
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Regenerar Mercado
-          </Button>
-          {user?.id === 'user-sipgb' && (
-              <Button onClick={handleLockIn} disabled={isLocking}>
-                  {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Cerrar Subastas
-              </Button>
-          )}
+         <div className="flex items-center gap-2">
+            <Button onClick={fetchRecommendations} variant="outline">
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Regenerar Mercado
+            </Button>
+            {user?.id === 'user-sipgb' && (
+                <Button onClick={handleLockIn} disabled={isLocking}>
+                    {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Cerrar Subastas
+                </Button>
+            )}
         </div>
       </header>
 
