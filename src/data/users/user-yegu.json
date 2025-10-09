@@ -6,10 +6,15 @@
     "Froz11-3160"
   ],
   "roster": {
-    "lineup": [],
-    "bench": [
+    "lineup": [
       "Froz11-3160"
-    ]
+    ],
+    "bench": []
   },
-  "weeklyScores": {}
+  "weeklyScores": {
+    "Froz11-3160": {
+      "race1": 123,
+      "race2": 56
+    }
+  }
 }
