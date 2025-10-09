@@ -26,6 +26,7 @@ import {
   Award,
   Settings,
   Sparkles,
+  Repeat,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ import {
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/store', label: 'Player Store', icon: Store },
+  { href: '/player-market', label: 'Mercado de Fichajes', icon: Repeat },
   { href: '/roster', label: 'My Roster', icon: Users },
   { href: '/weekly-market', label: 'Mercado Semanal', icon: Sparkles },
   { href: '/rankings', label: 'Rankings', icon: BarChart },
