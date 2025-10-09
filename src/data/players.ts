@@ -32,27 +32,29 @@ const processedPlayers = new Map<string, Player>();
 (rosters as RosterTeam[]).forEach(team => {
   team.players.forEach((playerData, index) => {
     // Use a combination of name and team to create a unique ID
-    const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
+    if (playerData.name && playerData.mmr) {
+        const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
 
-    if (!processedPlayers.has(playerId) && playerData.mmr) {
-      const stats = generateStatsFromMmr(playerData.mmr);
-      const cost = generateCost(playerData.mmr);
+        if (!processedPlayers.has(playerId)) {
+        const stats = generateStatsFromMmr(playerData.mmr);
+        const cost = generateCost(playerData.mmr);
 
-      const player: Player = {
-        id: playerId,
-        name: playerData.name,
-        // Assign icons somewhat randomly but consistently
-        icon: characterIcons[index % characterIcons.length],
-        cost: cost,
-        stats: stats,
-        mmr: playerData.mmr,
-        peak_mmr: playerData.peak_mmr,
-        rank: playerData.rank,
-        events_played: playerData.events_played,
-        country: playerData.country,
-        game_stats: playerData.game_stats,
-      };
-      processedPlayers.set(playerId, player);
+        const player: Player = {
+            id: playerId,
+            name: playerData.name,
+            // Assign icons somewhat randomly but consistently
+            icon: characterIcons[index % characterIcons.length],
+            cost: cost,
+            stats: stats,
+            mmr: playerData.mmr,
+            peak_mmr: playerData.peak_mmr,
+            rank: playerData.rank,
+            events_played: playerData.events_played,
+            country: playerData.country,
+            game_stats: playerData.game_stats,
+        };
+        processedPlayers.set(playerId, player);
+        }
     }
   });
 });

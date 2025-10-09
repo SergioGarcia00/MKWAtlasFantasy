@@ -1,58 +1,166 @@
+'use client';
+
 import type { User } from '@/lib/types';
 import { ALL_PLAYERS } from './players';
 
-const playersById = Object.fromEntries(ALL_PLAYERS.map(p => [p.id, p]));
+// A helper to quickly grab players by name. This is not robust for names with duplicates, but works for this dataset.
+const getPlayer = (name: string) => ALL_PLAYERS.find(p => p.name === name);
+
+const players = {
+  // Just grabbing a variety of players to distribute among users
+  vincent: getPlayer('? Vincent ! Jeef'),
+  ruhestand: getPlayer('Ruhestand'),
+  coinBlockBuster: getPlayer('CoinBlockBuster'),
+  bagz: getPlayer('Bagz'),
+  froz: getPlayer('Froz_11'),
+  octo: getPlayer('Octo'),
+  zadi: getPlayer('ZaDi'),
+  samuel: getPlayer('Samuel Badcock'),
+  buneary: getPlayer('buneary'),
+  luma: getPlayer('Luma'),
+  haliey: getPlayer('Haliey Welch'),
+  flora: getPlayer('flora'),
+  kingVon: getPlayer('King Von'),
+  feathers: getPlayer('Feathers McGraw'),
+  reaper: getPlayer('Utah Grim Reaper'),
+  steez: getPlayer('Steez'),
+  tylerrr: getPlayer('Tylerrr'),
+  arti: getPlayer('Arti'),
+  rey: getPlayer('rey'),
+  tomsu: getPlayer('Tomsu'),
+  ty: getPlayer('Ty'),
+  bery: getPlayer('Bery'),
+  riize: getPlayer('Riize'),
+  lore: getPlayer('Lore'),
+  twingy: getPlayer('Twingy'),
+  grimbsy: getPlayer('Grimsby Town'),
+  seven: getPlayer('7o7'),
+  jsaav: getPlayer('Jsaav'),
+  bargner: getPlayer('Addison Barger'),
+  najman: getPlayer('Najman'),
+  aline: getPlayer('Aline Pee'),
+  azrok: getPlayer('Azrok'),
+  chaozu: getPlayer('Chaozu'),
+  nvm: getPlayer('nvm'),
+  incineroar: getPlayer('Incineroar'),
+  mandown: getPlayer('ManDown'),
+  lockin: getPlayer('Lock-in'),
+  toopa: getPlayer('Toopa'),
+  yuki: getPlayer('Yuki'),
+  shurikn: getPlayer('1Shurikn'),
+  caro: getPlayer('Caro'),
+  greg: getPlayer('gregFR'),
+  lecka: getPlayer('Lecka'),
+  milovan: getPlayer('Milovan'),
+  nissou: getPlayer('Nissou'),
+  sipgb: getPlayer('Sipgb'),
+  seral: getPlayer('Seral'),
+  sonic: getPlayer('Sonic'),
+  morioh: getPlayer('Morioh'),
+  vick: getPlayer('Vick'),
+  elgraco: getPlayer('elgraco'),
+  yegu: getPlayer('Yegu07'),
+};
+
+// Filter out any undefined players that might result from the getPlayer lookups
+const validPlayers = Object.values(players).filter(p => p !== undefined);
 
 export const USERS: User[] = [
   {
-    id: 'user1',
-    name: 'Player One',
+    id: 'user-sipgb',
+    name: 'Sipgb',
     currency: 50000,
-    players: [playersById['mario'], playersById['luigi'], playersById['peach'], playersById['yoshi'], playersById['bowser'], playersById['dk']],
+    players: [players.vincent, players.ruhestand, players.coinBlockBuster, players.bagz, players.froz, players.octo].filter(Boolean) as Player[],
     roster: {
-      lineup: [playersById['mario'], playersById['luigi'], playersById['peach'], playersById['yoshi'], playersById['bowser'], playersById['dk']],
+      lineup: [players.vincent, players.ruhestand, players.coinBlockBuster, players.bagz, players.froz, players.octo].filter(Boolean) as Player[],
       bench: [],
     },
-    weeklyScores: {
-      mario: { race1: 150, race2: 130 },
-      luigi: { race1: 140, race2: 120 },
-      peach: { race1: 160, race2: 155 },
-      yoshi: { race1: 170, race2: 160 },
-      bowser: { race1: 110, race2: 115 },
-      dk: { race1: 100, race2: 125 },
-    },
+    weeklyScores: {},
   },
   {
-    id: 'user2',
-    name: 'Speed Demon',
-    currency: 30000,
-    players: [playersById['toad'], playersById['koopa'], playersById['daisy'], playersById['wario'], playersById['waluigi'], playersById['rosalina']],
+    id: 'user-seral',
+    name: 'Seral',
+    currency: 50000,
+    players: [players.samuel, players.buneary, players.luma, players.haliey, players.flora, players.kingVon].filter(Boolean) as Player[],
     roster: {
-      lineup: [playersById['toad'], playersById['koopa'], playersById['daisy'], playersById['wario'], playersById['waluigi'], playersById['rosalina']],
+      lineup: [players.samuel, players.buneary, players.luma, players.haliey, players.flora, players.kingVon].filter(Boolean) as Player[],
       bench: [],
     },
-    weeklyScores: {
-      toad: { race1: 180, race2: 170 },
-      koopa: { race1: 175, race2: 165 },
-      daisy: { race1: 150, race2: 145 },
-      wario: { race1: 100, race2: 90 },
-      waluigi: { race1: 120, race2: 130 },
-      rosalina: { race1: 135, race2: 140 },
-    },
+    weeklyScores: {},
   },
   {
-    id: 'user3',
-    name: 'Newbie Racer',
-    currency: 60000,
-    players: [playersById['shyguy'], playersById['lakitu'], playersById['kingboo']],
+    id: 'user-sonic',
+    name: 'Sonic',
+    currency: 50000,
+    players: [players.feathers, players.reaper, players.steez, players.tylerrr, players.arti, players.rey].filter(Boolean) as Player[],
     roster: {
-      lineup: [playersById['shyguy'], playersById['lakitu'], playersById['kingboo']],
+      lineup: [players.feathers, players.reaper, players.steez, players.tylerrr, players.arti, players.rey].filter(Boolean) as Player[],
       bench: [],
     },
-    weeklyScores: {
-      shyguy: { race1: 120, race2: 110 },
-      lakitu: { race1: 130, race2: 140 },
-      kingboo: { race1: 115, race2: 105 },
-    },
+    weeklyScores: {},
   },
-];
+  {
+    id: 'user-morioh',
+    name: 'Morioh',
+    currency: 50000,
+    players: [players.tomsu, players.ty, players.bery, players.riize, players.lore, players.twingy].filter(Boolean) as Player[],
+    roster: {
+      lineup: [players.tomsu, players.ty, players.bery, players.riize, players.lore, players.twingy].filter(Boolean) as Player[],
+      bench: [],
+    },
+    weeklyScores: {},
+  },
+  {
+    id: 'user-vick',
+    name: 'Vick',
+    currency: 50000,
+    players: [players.grimbsy, players.seven, players.jsaav, players.bargner, players.najman, players.aline].filter(Boolean) as Player[],
+    roster: {
+      lineup: [players.grimbsy, players.seven, players.jsaav, players.bargner, players.najman, players.aline].filter(Boolean) as Player[],
+      bench: [],
+    },
+    weeklyScores: {},
+  },
+  {
+    id: 'user-elgraco',
+    name: 'Elgraco',
+    currency: 50000,
+    players: [players.azrok, players.chaozu, players.nvm, players.incineroar, players.mandown, players.lockin].filter(Boolean) as Player[],
+    roster: {
+      lineup: [players.azrok, players.chaozu, players.nvm, players.incineroar, players.mandown, players.lockin].filter(Boolean) as Player[],
+      bench: [],
+    },
+    weeklyScores: {},
+  },
+  {
+    id: 'user-yegu',
+    name: 'Yegu',
+    currency: 50000,
+    players: [players.toopa, players.yuki, players.shurikn, players.caro, players.greg, players.lecka].filter(Boolean) as Player[],
+    roster: {
+      lineup: [players.toopa, players.yuki, players.shurikn, players.caro, players.greg, players.lecka].filter(Boolean) as Player[],
+      bench: [],
+    },
+    weeklyScores: {},
+  },
+].map(user => {
+  // Ensure players array and lineup/bench are valid and don't contain undefined
+  const validPlayersForUser = user.players.filter(Boolean);
+  const validLineup = user.roster.lineup.filter(Boolean);
+  const validBench = user.roster.bench.filter(Boolean);
+
+  const weeklyScores: User['weeklyScores'] = {};
+  validLineup.forEach(p => {
+    weeklyScores[p.id] = { race1: Math.floor(Math.random() * 100) + 50, race2: Math.floor(Math.random() * 100) + 50 };
+  });
+
+  return {
+    ...user,
+    players: validPlayersForUser,
+    roster: {
+      lineup: validLineup,
+      bench: validBench,
+    },
+    weeklyScores,
+  };
+});
