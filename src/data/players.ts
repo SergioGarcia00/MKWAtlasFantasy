@@ -49,7 +49,8 @@ const processedPlayers = new Map<string, Player>();
         peak_mmr: playerData.peak_mmr,
         rank: playerData.rank,
         events_played: playerData.events_played,
-        country: playerData.country
+        country: playerData.country,
+        game_stats: playerData.game_stats,
       };
       processedPlayers.set(playerId, player);
     }

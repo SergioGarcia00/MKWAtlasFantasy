@@ -17,6 +17,10 @@ export type Player = {
   rank?: number;
   events_played?: number;
   country?: string;
+  game_stats?: {
+    '1v1'?: GameStats;
+    '2v2'?: GameStats;
+  };
 };
 
 export type WeeklyScore = {

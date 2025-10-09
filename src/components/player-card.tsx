@@ -48,6 +48,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
     { label: 'Country', value: player.country, icon: <Globe className="w-4 h-4 text-purple-500" /> },
   ].filter(stat => stat.value !== undefined && stat.value !== null);
 
+  const gameStats1v1 = player.game_stats?.['1v1'];
+  const gameStats2v2 = player.game_stats?.['2v2'];
+
   return (
     <>
       <Card
@@ -81,7 +84,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-4">
               <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
@@ -91,36 +94,59 @@ export function PlayerCard({ player }: PlayerCardProps) {
               Review the player's stats and decide if they are a good fit for your team.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-6 py-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="flex items-center justify-between p-3 bg-secondary rounded-lg col-span-full">
-                  <div className="flex items-center gap-2 font-semibold">
-                      <DollarSign className="w-5 h-5 text-primary"/>
-                      Cost
+          <div className="grid md:grid-cols-2 gap-6 py-4">
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="flex items-center justify-between p-3 bg-secondary rounded-lg col-span-full">
+                    <div className="flex items-center gap-2 font-semibold">
+                        <DollarSign className="w-5 h-5 text-primary"/>
+                        Cost
+                    </div>
+                    <span className="font-bold text-lg">{player.cost.toLocaleString()}</span>
+                </div>
+                {additionalStats.map(stat => (
+                  <div key={stat.label} className="p-3 bg-secondary rounded-lg">
+                    <div className="flex items-center gap-2 font-medium text-muted-foreground">
+                      {stat.icon}
+                      <span>{stat.label}</span>
+                    </div>
+                    <div className="mt-1 text-base font-bold">{stat.value}</div>
                   </div>
-                  <span className="font-bold text-lg">{player.cost.toLocaleString()}</span>
+                ))}
               </div>
-              {additionalStats.map(stat => (
-                <div key={stat.label} className="p-3 bg-secondary rounded-lg">
-                  <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                    {stat.icon}
-                    <span>{stat.label}</span>
+              <div className="space-y-3">
+                 <h4 className="font-semibold flex items-center gap-2"><BarChart2 className="w-5 h-5 text-primary" /> Base Stats</h4>
+                {Object.entries(player.stats).map(([stat, value]) => (
+                  <div key={stat} className="grid grid-cols-5 items-center gap-2">
+                    <span className="text-sm font-medium capitalize col-span-2">{stat}</span>
+                    <div className="col-span-3 h-4 bg-muted rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full ${statColors[stat]}`} style={{ width: `${(value || 0) * 10}%` }} />
+                    </div>
                   </div>
-                  <div className="mt-1 text-lg font-bold">{stat.value}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-            
-            <div className="space-y-3">
-               <h4 className="font-semibold flex items-center gap-2"><BarChart2 className="w-5 h-5 text-primary" /> Base Stats</h4>
-              {Object.entries(player.stats).map(([stat, value]) => (
-                <div key={stat} className="grid grid-cols-5 items-center gap-2">
-                  <span className="text-sm font-medium capitalize col-span-2">{stat}</span>
-                  <div className="col-span-3 h-4 bg-muted rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${statColors[stat]}`} style={{ width: `${(value || 0) * 10}%` }} />
+            <div className="space-y-4">
+              {gameStats1v1 && (
+                <div>
+                  <h4 className="font-semibold mb-2">1v1 Stats</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <Badge variant="outline">Win Rate: {gameStats1v1.win_rate}</Badge>
+                    <Badge variant="outline">Events: {gameStats1v1.events_played}</Badge>
+                    <Badge variant="outline" className="col-span-2">Last 10: {gameStats1v1.win_loss_last_10}</Badge>
                   </div>
                 </div>
-              ))}
+              )}
+               {gameStats2v2 && (
+                <div>
+                  <h4 className="font-semibold mb-2">2v2 Stats</h4>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <Badge variant="outline">Win Rate: {gameStats2v2.win_rate}</Badge>
+                    <Badge variant="outline">Events: {gameStats2v2.events_played}</Badge>
+                    <Badge variant="outline" className="col-span-2">Last 10: {gameStats2v2.win_loss_last_10}</Badge>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           <DialogFooter>
