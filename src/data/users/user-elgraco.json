@@ -1,11 +1,60 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 50000,
-  "players": [],
+  "currency": 28738,
+  "players": [
+    "Sipgb-2439",
+    "MaestroPastelero-2439",
+    "Vick6804-2439",
+    "MirianaConte-2439",
+    "JOYBOY-2439",
+    "Ruhestand-3160"
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Sipgb-2439",
+      "MaestroPastelero-2439",
+      "Vick6804-2439",
+      "MirianaConte-2439",
+      "JOYBOY-2439",
+      "Ruhestand-3160"
+    ],
     "bench": []
   },
-  "weeklyScores": {}
+  "weeklyScores": {
+    "Sipgb-2439": {
+      "1": {
+        "race1": 45,
+        "race2": 12
+      }
+    },
+    "MaestroPastelero-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      },
+      "2": {
+        "race1": 120,
+        "race2": 12
+      }
+    },
+    "MirianaConte-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "Ruhestand-3160": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "JOYBOY-2439": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    }
+  }
 }
