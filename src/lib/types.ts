@@ -12,6 +12,11 @@ export type Player = {
   icon: string;
   cost: number;
   stats: PlayerStats;
+  mmr?: number;
+  peak_mmr?: number;
+  rank?: number;
+  events_played?: number;
+  country?: string;
 };
 
 export type WeeklyScore = {

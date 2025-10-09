@@ -45,6 +45,11 @@ const processedPlayers = new Map<string, Player>();
         icon: characterIcons[index % characterIcons.length],
         cost: cost,
         stats: stats,
+        mmr: playerData.mmr,
+        peak_mmr: playerData.peak_mmr,
+        rank: playerData.rank,
+        events_played: playerData.events_played,
+        country: playerData.country
       };
       processedPlayers.set(playerId, player);
     }
