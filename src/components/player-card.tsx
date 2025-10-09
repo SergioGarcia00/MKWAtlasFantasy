@@ -81,6 +81,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 Owned by: {owner.name}
               </Badge>
             )}
+             {isOwnedByCurrentUser && (
+              <Badge variant="default" className="absolute top-2 right-2 z-10">
+                You own this player
+              </Badge>
+            )}
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
           </div>
           <div className="p-4 flex-grow">
@@ -113,7 +118,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
               </div>
               <div className="pt-2">
-                <DialogTitle className="text-4xl font-bold font-headline mb-1">{player.name}</DialogTitle>
+                <DialogTitle className="text-4xl font-bold font-headline mb-1 flex items-center gap-4">{player.name}
+                 {isOwnedByCurrentUser && <Badge variant="default">Owned by you</Badge>}
+                 {isOwnedByOtherUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
+                </DialogTitle>
                 <DialogDescription>Review the player's stats and decide if they are a good fit for your team.</DialogDescription>
                 <div className="flex items-baseline gap-2 mt-3 text-primary">
                   <DollarSign className="w-6 h-6" />
@@ -178,4 +186,3 @@ export function PlayerCard({ player }: PlayerCardProps) {
     </>
   );
 }
-
