@@ -1,13 +1,15 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
-import { Sparkles, Loader2, RefreshCw } from 'lucide-react';
+import { Sparkles, Loader2, RefreshCw, Gavel } from 'lucide-react';
 import { PlayerCard } from '@/components/player-card';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ALL_PLAYERS } from '@/data/players';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 
 const shuffleArray = (array: any[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -23,6 +25,11 @@ export default function DailyMarketPage() {
   const [recommendations, setRecommendations] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLocking, setIsLocking] = useState(false);
+
+  const [isBidding, setIsBidding] = useState(false);
+  const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
+  const [bidAmount, setBidAmount] = useState(0);
+  const [isBidLoading, setIsBidLoading] = useState(false);
 
   const allBidsByPlayer = useMemo(() => {
     return allUsers.reduce<Record<string, { userId: string; userName: string; amount: number }>>((acc, u) => {
@@ -47,7 +54,6 @@ export default function DailyMarketPage() {
 
   const fetchRecommendations = useCallback(() => {
     setLoading(true);
-    // No dependency on allUsers here, so it's stable across user switches
     const allOwnedPlayerIds = new Set(
         allUsers.flatMap(u => u.players.map(p => p.id))
     );
@@ -104,9 +110,7 @@ export default function DailyMarketPage() {
             description: `${result.winners.length} jugadores han sido transferidos a sus nuevos dueños.`,
         });
         
-        // After lock-in, we need to refresh the market and user data
-        fetchRecommendations(); // Refreshes the market to remove newly owned players
-        // Switch to the same user to force a context refresh
+        fetchRecommendations();
         if (user) {
           switchUser(user.id, true);
         }
@@ -119,6 +123,47 @@ export default function DailyMarketPage() {
         });
     } finally {
         setIsLocking(false);
+    }
+  };
+
+  const handleBidClick = (player: Player) => {
+    const highestBidAmount = player.auction?.highestBid?.amount || 0;
+    const nextBidAmount = highestBidAmount > 0 ? highestBidAmount + 1 : player.cost;
+    setBidAmount(nextBidAmount);
+    setBiddingPlayer(player);
+    setIsBidding(true);
+  };
+
+  const handlePlaceBid = async () => {
+    if (!biddingPlayer || !user) return;
+    setIsBidLoading(true);
+    try {
+        const response = await fetch(`/api/players/${biddingPlayer.id}/bid`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.id, bidAmount }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to place bid');
+        }
+        toast({
+            title: '¡Puja realizada!',
+            description: `Has pujado ${bidAmount.toLocaleString()} por ${biddingPlayer.name}.`,
+        });
+        
+        switchUser(user.id, true); // Force context refresh
+    } catch (error: any) {
+        toast({
+            variant: 'destructive',
+            title: 'Error en la puja',
+            description: error.message,
+        });
+    } finally {
+        setIsBidLoading(false);
+        setIsBidding(false);
+        setBiddingPlayer(null);
     }
   };
 
@@ -138,13 +183,13 @@ export default function DailyMarketPage() {
             </p>
         </div>
          <div className="flex items-center gap-2">
-            <Button onClick={fetchRecommendations} variant="outline">
-                <RefreshCw className="mr-2 h-4 w-4" />
+            <Button onClick={fetchRecommendations} variant="outline" disabled={loading}>
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
                 Regenerar Mercado
             </Button>
             {user?.id === 'user-sipgb' && (
                 <Button onClick={handleLockIn} disabled={isLocking}>
-                    {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isLocking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Gavel className="mr-2 h-4 w-4" />}
                     Cerrar Subastas
                 </Button>
             )}
@@ -159,11 +204,50 @@ export default function DailyMarketPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {recommendationsWithBids.map((player) => (
-              <PlayerCard key={player.id} player={player} />
+              <PlayerCard key={player.id} player={player} onBid={handleBidClick} />
             ))}
           </div>
         )}
       </div>
+
+       {biddingPlayer && (
+        <Dialog open={isBidding} onOpenChange={setIsBidding}>
+            <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Pujar por {biddingPlayer.name}</DialogTitle>
+                <DialogDescription>
+                {biddingPlayer.auction?.highestBid 
+                    ? `La puja más alta actual es de ${biddingPlayer.auction.highestBid.amount.toLocaleString()}. Tu puja debe ser mayor.`
+                    : `El coste base es de ${biddingPlayer.cost.toLocaleString()}. La puja más alta al final de la subasta se lleva al jugador.`
+                }
+                </DialogDescription>
+            </DialogHeader>
+            <div className="py-4">
+                <div className="flex items-center gap-2">
+                <Input 
+                    id="bidAmount"
+                    type="number"
+                    value={bidAmount}
+                    onChange={(e) => setBidAmount(Number(e.target.value))}
+                    min={biddingPlayer.auction?.highestBid ? biddingPlayer.auction.highestBid.amount + 1 : biddingPlayer.cost}
+                />
+                <span className="text-muted-foreground">monedas</span>
+                </div>
+                {user && <p className="text-xs text-muted-foreground mt-2">
+                    Tu saldo: {user.currency.toLocaleString()} monedas.
+                </p>}
+            </div>
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button variant="outline">Cancelar</Button>
+                </DialogClose>
+                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < (biddingPlayer.auction?.highestBid?.amount || biddingPlayer.cost -1) + 1}>
+                    {isBidLoading ? <Loader2 className="animate-spin" /> : `Pujar ${bidAmount.toLocaleString()}`}
+                </Button>
+            </DialogFooter>
+            </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

@@ -19,6 +19,7 @@ import { usePathname } from 'next/navigation';
 
 interface PlayerCardProps {
   player: Player;
+  onBid?: (player: Player) => void;
 }
 
 const StatItem = ({ label, value, isBoolean }: { label: string; value: React.ReactNode; isBoolean?: boolean }) => (
@@ -35,18 +36,10 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
   );
 
 
-export function PlayerCard({ player }: PlayerCardProps) {
+export function PlayerCard({ player, onBid }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isBidding, setIsBidding] = useState(false);
-
-  const highestBidAmount = player.auction?.highestBid?.amount || 0;
-  const nextBidAmount = highestBidAmount > 0 ? highestBidAmount + 1 : player.cost;
-
-  const [bidAmount, setBidAmount] = useState(nextBidAmount);
-  const [isBidLoading, setIsBidLoading] = useState(false);
   
-  const { user, allUsers, purchasePlayer, buyoutPlayer, getPlayerById, switchUser } = useUser();
-  const { toast } = useToast();
+  const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
   const pathname = usePathname();
 
   if (!player || !user) {
@@ -85,43 +78,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
     setIsOpen(false);
   };
   
-  const handlePlaceBid = async () => {
-      setIsBidLoading(true);
-      try {
-          const response = await fetch(`/api/players/${player.id}/bid`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ userId: user.id, bidAmount }),
-          });
-
-          if (!response.ok) {
-              const error = await response.json();
-              throw new Error(error.message || 'Failed to place bid');
-          }
-          toast({
-              title: '¡Puja realizada!',
-              description: `Has pujado ${bidAmount.toLocaleString()} por ${player.name}.`,
-          });
-          // Optimistically update UI - this will be fully updated on context refresh
-          if(user.bids) {
-            user.bids[player.id] = bidAmount;
-          } else {
-            user.bids = { [player.id]: bidAmount };
-          }
-          switchUser(user.id, true); // Force context refresh
-      } catch (error: any) {
-          toast({
-              variant: 'destructive',
-              title: 'Error en la puja',
-              description: error.message,
-          });
-      } finally {
-          setIsBidLoading(false);
-          setIsBidding(false);
-      }
-  };
-
-
   const gameStats1v1 = player.game_stats?.['1v1'];
   const gameStats2v2 = player.game_stats?.['2v2'];
 
@@ -132,7 +88,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       if (isOwned) return <Button disabled className="w-full">Fichado</Button>;
       if (highestBidderIsCurrentUser) return <Button disabled className="w-full">Eres el mejor postor</Button>;
       return (
-        <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); setBidAmount(nextBidAmount); setIsBidding(true); }}>
+        <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); onBid?.(player); }}>
           <Gavel className="mr-2 h-4 w-4" />
           Pujar
         </Button>
@@ -180,7 +136,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
         </Button>
     )
   }
-
+  
+  const highestBidAmount = player.auction?.highestBid?.amount || 0;
   const priceToShow = pathname === '/daily-market' && highestBidAmount > 0 ? highestBidAmount : player.cost;
 
   return (
@@ -188,11 +145,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
       <Card
         className="overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col cursor-pointer"
         onClick={() => {
-            if (pathname !== '/daily-market') {
+            if (pathname === '/daily-market') {
+                if (!isOwned && onBid) onBid(player);
+            } else {
                 setIsOpen(true);
-            } else if (!isOwned) {
-                 setBidAmount(nextBidAmount);
-                 setIsBidding(true);
             }
         }}
       >
@@ -227,46 +183,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
           {getButton()}
         </CardFooter>
       </Card>
-      
-      {/* Bidding Dialog */}
-      <Dialog open={isBidding} onOpenChange={setIsBidding}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Pujar por {player.name}</DialogTitle>
-            <DialogDescription>
-              {highestBidAmount > 0 
-                ? `La puja más alta actual es de ${highestBidAmount.toLocaleString()}. Tu puja debe ser mayor.`
-                : `El coste base es de ${player.cost.toLocaleString()}. La puja más alta al final de la subasta se lleva al jugador.`
-              }
-            </DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <div className="flex items-center gap-2">
-              <Input 
-                id="bidAmount"
-                type="number"
-                value={bidAmount}
-                onChange={(e) => setBidAmount(Number(e.target.value))}
-                min={nextBidAmount}
-                placeholder={`Puja mínima: ${nextBidAmount.toLocaleString()}`}
-              />
-              <span className="text-muted-foreground">monedas</span>
-            </div>
-             <p className="text-xs text-muted-foreground mt-2">
-                Tu saldo: {user.currency.toLocaleString()} monedas.
-            </p>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-                <Button variant="outline">Cancelar</Button>
-            </DialogClose>
-            <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < nextBidAmount}>
-                {isBidLoading ? <Loader2 className="animate-spin" /> : `Pujar ${bidAmount.toLocaleString()}`}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
 
       {/* Player Details Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -379,5 +295,3 @@ export function PlayerCard({ player }: PlayerCardProps) {
     </>
   );
 }
-
-    
