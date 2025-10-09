@@ -23,6 +23,7 @@ import {
   DollarSign,
   ChevronDown,
   Calendar,
+  Award,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,7 @@ const navItems = [
   { href: '/roster', label: 'My Roster', icon: Users },
   { href: '/rankings', label: 'Rankings', icon: BarChart },
   { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
+  { href: '/smaller-ranking', label: 'Smaller Rankings', icon: Award },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
