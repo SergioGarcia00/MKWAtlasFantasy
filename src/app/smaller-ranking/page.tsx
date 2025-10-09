@@ -55,6 +55,7 @@ export default function SmallerRankingsPage() {
 
   const richestUser = useMemo((): User | null => {
     if (!allUsers || allUsers.length === 0) return null;
+    // The sort is not stable, so we need to copy the array to not mutate the original
     return [...allUsers].sort((a, b) => b.currency - a.currency)[0];
   }, [allUsers]);
 
