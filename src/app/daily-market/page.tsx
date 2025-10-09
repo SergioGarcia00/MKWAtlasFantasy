@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Sparkles, Loader2, RefreshCw } from 'lucide-react';
 import { PlayerCard } from '@/components/player-card';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback } from 'react';
@@ -57,7 +57,7 @@ export default function DailyMarketPage() {
     if(user && allUsers.length > 0) {
       fetchRecommendations();
     }
-  }, [user, allUsers, fetchRecommendations]);
+  }, [allUsers, fetchRecommendations]); // Removed user from dependencies
 
   const handleLockIn = async () => {
     setIsLocking(true);
@@ -100,12 +100,18 @@ export default function DailyMarketPage() {
             ¡Puja por nuevos talentos! Las subastas duran 24 horas.
             </p>
         </div>
-        {user?.id === 'user-sipgb' && (
-            <Button onClick={handleLockIn} disabled={isLocking}>
-                {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Cerrar Subastas
-            </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <Button onClick={fetchRecommendations} variant="outline">
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Regenerar Mercado
+          </Button>
+          {user?.id === 'user-sipgb' && (
+              <Button onClick={handleLockIn} disabled={isLocking}>
+                  {isLocking && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Cerrar Subastas
+              </Button>
+          )}
+        </div>
       </header>
 
       <div>
