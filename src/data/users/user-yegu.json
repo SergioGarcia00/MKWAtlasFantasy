@@ -3,7 +3,10 @@
   "name": "Yegu",
   "currency": 47238,
   "players": [
-    "Froz11-3160"
+    {
+      "id": "Froz11-3160",
+      "purchasedAt": 1758717733360
+    }
   ],
   "roster": {
     "lineup": [
@@ -22,5 +25,6 @@
         "race2": 12
       }
     }
-  }
+  },
+  "bids": {}
 }

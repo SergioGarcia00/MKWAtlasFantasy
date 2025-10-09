@@ -25,7 +25,7 @@ import {
   Calendar,
   Award,
   Settings,
-  Sparkles,
+  Gavel,
   Repeat,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
@@ -42,7 +42,7 @@ const navItems = [
   { href: '/store', label: 'Player Store', icon: Store },
   { href: '/player-market', label: 'Mercado de Fichajes', icon: Repeat },
   { href: '/roster', label: 'My Roster', icon: Users },
-  { href: '/weekly-market', label: 'Mercado Semanal', icon: Sparkles },
+  { href: '/daily-market', label: 'Mercado Diario', icon: Gavel },
   { href: '/rankings', label: 'Rankings', icon: BarChart },
   { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
   { href: '/smaller-ranking', label: 'Smaller Rankings', icon: Award },

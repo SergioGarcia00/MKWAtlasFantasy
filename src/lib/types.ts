@@ -6,6 +6,13 @@ export type PlayerStats = {
   traction: number;
 };
 
+export type Bid = {
+  userId: string;
+  userName: string;
+  amount: number;
+  timestamp: number;
+};
+
 export type Player = {
   id: string;
   name: string;
@@ -21,6 +28,10 @@ export type Player = {
     '1v1'?: GameStats;
     '2v2'?: GameStats;
   };
+  auction?: {
+    highestBid: Bid;
+    endTime: number; // Timestamp for when the auction ends
+  } | null;
 };
 
 export type WeeklyScore = {
@@ -43,6 +54,7 @@ export type User = {
     bench: string[]; // Store only player IDs
   };
   weeklyScores: Record<string, Record<string, WeeklyScore>>; // Keyed by player ID, then by week ID
+  bids: Record<string, number>; // Keyed by player ID, value is bid amount
 };
 
 
