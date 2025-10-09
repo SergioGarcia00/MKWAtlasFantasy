@@ -6,27 +6,33 @@ import { AuctionListItem } from '@/components/auction-list-item';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ALL_PLAYERS } from '@/data/players';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 
-const shuffleArray = (array: any[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
 export type Bid = { userId: string; userName: string; amount: number };
 
+async function fetchMarketPlayers(): Promise<Player[]> {
+    try {
+        const response = await fetch('/api/market');
+        if (!response.ok) {
+            console.error('Failed to fetch market players');
+            return [];
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching market players:', error);
+        return [];
+    }
+}
+
 export default function DailyMarketPage() {
-  const { user, allUsers, switchUser, getPlayerById } = useUser();
+  const { user, allUsers, switchUser, getPlayerById, loadAllData } = useUser();
   const { toast } = useToast();
-  const [recommendations, setRecommendations] = useState<Player[]>([]);
+  const [marketPlayers, setMarketPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLocking, setIsLocking] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [isBidding, setIsBidding] = useState(false);
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
@@ -45,64 +51,45 @@ export default function DailyMarketPage() {
     }, {});
   }, [allUsers]);
 
-  const recommendationsWithBids = useMemo(() => {
-    return recommendations.map(player => {
+  const marketPlayersWithBids = useMemo(() => {
+    return marketPlayers.map(player => {
         const bids = allBidsByPlayer[player.id] || [];
         const sortedBids = bids.sort((a, b) => b.amount - a.amount);
+        const fullPlayer = getPlayerById(player.id);
         return {
-            ...player,
+            ...(fullPlayer || player),
             bids: sortedBids,
         };
-    }).sort((a,b) => (b.bids?.length || 0) - (a.bids?.length || 0));
-  }, [recommendations, allBidsByPlayer]);
-
-  const fetchRecommendations = useCallback(() => {
+    }).sort((a, b) => (b.bids?.length || 0) - (a.bids?.length || 0));
+  }, [marketPlayers, allBidsByPlayer, getPlayerById]);
+  
+  const fetchMarket = useCallback(async () => {
     setLoading(true);
-    const allOwnedPlayerIds = new Set(
-        allUsers.flatMap(u => u.players.map(p => p.id))
-    );
-
-    const availablePlayers = ALL_PLAYERS.filter(p => !allOwnedPlayerIds.has(p.id));
-    
-    const finalRecommendations = new Set<Player>();
-
-    function addPlayersToSet(players: Player[], count: number) {
-        const shuffled = shuffleArray([...players]);
-        for(let i=0; i < shuffled.length && finalRecommendations.size < count; i++) {
-             const player = shuffled[i];
-             const fullPlayer = getPlayerById(player.id);
-             if (fullPlayer && !finalRecommendations.has(fullPlayer)) {
-                finalRecommendations.add(fullPlayer);
-            }
-        }
-    }
-    
-    const highCostPlayers = availablePlayers.filter(p => p.cost >= 4000);
-    const midCostPlayers = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
-    const lowCostPlayers = availablePlayers.filter(p => p.cost < 3000);
-
-    const highRankPlayers = availablePlayers.filter(p => (p.rank || 9999) >= 1 && (p.rank || 9999) <= 200);
-    const midRankPlayers = availablePlayers.filter(p => (p.rank || 9999) >= 201 && (p.rank || 9999) <= 500);
-    const anyRankPlayers = availablePlayers;
-
-    addPlayersToSet(highRankPlayers, 3);
-    addPlayersToSet(midRankPlayers, 6);
-    addPlayersToSet(anyRankPlayers, 9);
-    addPlayersToSet(highCostPlayers, 12);
-    addPlayersToSet(midCostPlayers, 15);
-    addPlayersToSet(lowCostPlayers, 18);
-    
-    addPlayersToSet(availablePlayers, 18);
-
-    setRecommendations(Array.from(finalRecommendations));
+    const players = await fetchMarketPlayers();
+    setMarketPlayers(players);
     setLoading(false);
-  }, [allUsers, getPlayerById]);
+  }, []);
 
   useEffect(() => {
-    if(allUsers.length > 0 && recommendations.length === 0) {
-      fetchRecommendations();
+    if(allUsers.length > 0) {
+      fetchMarket();
     }
-  }, [allUsers, recommendations.length, fetchRecommendations]);
+  }, [allUsers.length, fetchMarket]);
+
+  const handleRefreshMarket = async () => {
+    setIsRefreshing(true);
+    try {
+        const response = await fetch('/api/market/refresh', { method: 'POST' });
+        if (!response.ok) throw new Error('Failed to refresh market');
+        toast({ title: '¡Mercado Actualizado!', description: 'Se ha generado una nueva selección de jugadores para subastar.' });
+        await loadAllData();
+        await fetchMarket();
+    } catch (error: any) {
+        toast({ variant: 'destructive', title: 'Error al refrescar', description: error.message });
+    } finally {
+        setIsRefreshing(false);
+    }
+  };
 
   const handleLockIn = async () => {
     setIsLocking(true);
@@ -114,14 +101,12 @@ export default function DailyMarketPage() {
         }
         const result = await response.json();
         toast({
-            title: 'Subastas Cerradas!',
+            title: '¡Subastas Cerradas!',
             description: `${result.winners.length} jugadores han sido transferidos a sus nuevos dueños.`,
         });
         
-        fetchRecommendations();
-        if (user) {
-          switchUser(user.id, true);
-        }
+        await loadAllData();
+        await fetchMarket();
 
     } catch (error: any) {
         toast({
@@ -161,7 +146,7 @@ export default function DailyMarketPage() {
             description: `Has pujado ${bidAmount.toLocaleString()} por ${biddingPlayer.name}.`,
         });
         
-        switchUser(user.id, true);
+        await loadAllData(); // This re-fetches all users, including the new bid data.
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -191,8 +176,8 @@ export default function DailyMarketPage() {
             </p>
         </div>
          <div className="flex items-center gap-2">
-            <Button onClick={fetchRecommendations} variant="outline" disabled={loading}>
-                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+            <Button onClick={handleRefreshMarket} variant="outline" disabled={loading || isRefreshing}>
+                {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
                 Regenerar Mercado
             </Button>
             {user?.id === 'user-sipgb' && (
@@ -211,9 +196,13 @@ export default function DailyMarketPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {recommendationsWithBids.map((player) => (
+            {marketPlayersWithBids.length > 0 ? marketPlayersWithBids.map((player) => (
               <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
-            ))}
+            )) : (
+              <div className="text-center py-20 border-2 border-dashed rounded-lg">
+                <p className="text-lg text-muted-foreground">El mercado está vacío. ¡Pulsa "Regenerar Mercado" para empezar!</p>
+              </div>
+            )}
           </div>
         )}
       </div>

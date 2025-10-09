@@ -18,6 +18,7 @@ interface UserContextType {
   switchUser: (userId: string, force?: boolean) => void;
   buyoutPlayer: (player: Player, owner: User) => void;
   getPlayerById: (playerId: string) => Player | undefined;
+  loadAllData: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -61,9 +62,8 @@ async function updateUser(user: User): Promise<User | null> {
             console.error(`Failed to update user ${user.id}: ${response.statusText}`);
             return null;
         }
-        // The API now returns the dehydrated user, we need to re-hydrate it for the context
         const savedDehydratedUser = await response.json();
-        return savedDehydratedUser; // This will be rehydrated in the provider
+        return savedDehydratedUser;
     } catch (error) {
         console.error(`Error updating user ${user.id}:`, error);
         return null;
@@ -80,14 +80,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return ALL_PLAYERS.find(p => p.id === playerId);
   }, []);
 
-  const hydrateUser = useCallback((userToHydrate: User) => {
-    const lineup = userToHydrate.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
-    const bench = userToHydrate.roster.bench.map(id => getPlayerById(id)).filter(p => p) as Player[];
-    return { ...userToHydrate, roster: { lineup, bench } };
-  }, [getPlayerById]);
-
-
-  const loadData = useCallback(async () => {
+  const loadAllData = useCallback(async () => {
     const users = await fetchAllUsers();
     setAllUsers(users);
 
@@ -101,8 +94,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    loadAllData();
+  }, [loadAllData]);
 
 
   const updateUserState = useCallback(async (updatedUser: User, otherUpdatedUser?: User) => {
@@ -111,10 +104,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
     
     await Promise.all([userPromise, otherUserPromise]);
     
-    // After updating, reload all data to ensure consistency across the app
-    await loadData();
+    await loadAllData();
     
-  }, [toast, loadData]);
+  }, [toast, loadAllData]);
 
 
   const switchUser = useCallback((userId: string, force = false) => {
@@ -180,7 +172,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
 
-    // New owner (current user)
     const newOwnerUser = {
         ...user,
         currency: user.currency - buyoutPrice,
@@ -188,7 +179,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
 
-    // Previous owner
     const previousOwnerUser = {
         ...owner,
         currency: owner.currency + player.cost, // Refund original cost
@@ -231,7 +221,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
       {children}
     </UserContext.Provider>
   );
