@@ -16,109 +16,127 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-const safeJsonParse = (json: string) => {
-  try {
-    return JSON.parse(json);
-  } catch (e) {
-    return null;
-  }
-};
+const AllUsersState: Record<string, User> = {};
+USERS.forEach(user => {
+  AllUsersState[user.id] = user;
+});
 
 const sanitizeUser = (user: User) => {
+  if (!user) return null;
   const sanitized = JSON.parse(JSON.stringify(user));
-  sanitized.players = sanitized.players.filter(Boolean);
-  if (sanitized.roster.lineup) {
+  if (sanitized.players) {
+    sanitized.players = sanitized.players.filter(Boolean);
+  }
+  if (sanitized.roster && sanitized.roster.lineup) {
     sanitized.roster.lineup = sanitized.roster.lineup.filter(Boolean);
   }
-  if (sanitized.roster.bench) {
+  if (sanitized.roster && sanitized.roster.bench) {
     sanitized.roster.bench = sanitized.roster.bench.filter(Boolean);
   }
   return sanitized;
 }
 
+const getInitialState = () => {
+    if (typeof window === 'undefined') {
+        return USERS[0];
+    }
+    const storedUsers = localStorage.getItem('allUsersData');
+    const storedUserId = localStorage.getItem('currentUserId');
+    
+    if (storedUsers) {
+        const allUsers = JSON.parse(storedUsers);
+        const userId = storedUserId || USERS[0].id;
+        return allUsers[userId] || USERS[0];
+    }
+    
+    localStorage.setItem('allUsersData', JSON.stringify(AllUsersState));
+    const userId = storedUserId || USERS[0].id;
+    return USERS.find(u => u.id === userId) || USERS[0];
+}
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem('currentUserId');
-    const initialUser = storedUserId
-      ? USERS.find(u => u.id === storedUserId)
-      : USERS[0];
-      
-    if (initialUser) {
-      setUser(sanitizeUser(initialUser));
-    }
+    const initialUser = getInitialState();
+    setUser(sanitizeUser(initialUser));
   }, []);
 
+  const updateUserStateAndStorage = (updatedUser: User) => {
+      setUser(updatedUser);
+      const allUsersData = JSON.parse(localStorage.getItem('allUsersData') || '{}');
+      allUsersData[updatedUser.id] = updatedUser;
+      localStorage.setItem('allUsersData', JSON.stringify(allUsersData));
+  }
+
   const switchUser = useCallback((userId: string) => {
-    const newUser = USERS.find(u => u.id === userId);
+    const allUsers = JSON.parse(localStorage.getItem('allUsersData') || '{}');
+    const newUser = allUsers[userId];
+    
     if (newUser) {
       setUser(sanitizeUser(newUser));
       localStorage.setItem('currentUserId', userId);
-      window.location.href = '/'; // Force a reload to ensure all components re-render with new user context
+      window.location.reload(); 
     }
   }, []);
 
   const purchasePlayer = useCallback((player: Player) => {
-    setUser(currentUser => {
-      if (!currentUser || !player) return currentUser;
-      if (currentUser.players.some(p => p && p.id === player.id)) {
-        toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
-        return currentUser;
-      }
-      if (currentUser.players.length >= 10) {
-        toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
-        return currentUser;
-      }
-      if (currentUser.currency < player.cost) {
-        toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
-        return currentUser;
-      }
+    if (!user || !player) return;
 
-      const newCurrency = currentUser.currency - player.cost;
-      const newPlayers = [...currentUser.players, player];
-      const newBench = [...currentUser.roster.bench, player];
+    if (user.players.some(p => p && p.id === player.id)) {
+      toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
+      return;
+    }
+    if (user.players.length >= 10) {
+      toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
+      return;
+    }
+    if (user.currency < player.cost) {
+      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
+      return;
+    }
 
-      toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
+    const newCurrency = user.currency - player.cost;
+    const newPlayers = [...user.players, player];
+    const newBench = [...user.roster.bench, player];
 
-      return {
-        ...currentUser,
-        currency: newCurrency,
-        players: newPlayers,
-        roster: { ...currentUser.roster, bench: newBench },
-      };
-    });
-  }, [toast]);
+    toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
+
+    const updatedUser = {
+      ...user,
+      currency: newCurrency,
+      players: newPlayers,
+      roster: { ...user.roster, bench: newBench },
+    };
+    updateUserStateAndStorage(updatedUser);
+  }, [user, toast]);
 
   const updateRoster = useCallback((lineup: Player[], bench: Player[]) => {
-    setUser(currentUser => {
-      if (!currentUser) return null;
-      toast({ title: 'Roster Updated', description: 'Your lineup and bench have been saved.' });
-      return {
-        ...currentUser,
-        roster: { lineup, bench },
-      };
-    });
-  }, [toast]);
+    if (!user) return;
+    toast({ title: 'Roster Updated', description: 'Your lineup and bench have been saved.' });
+    const updatedUser = {
+      ...user,
+      roster: { lineup, bench },
+    };
+    updateUserStateAndStorage(updatedUser);
+  }, [user, toast]);
 
   const updateWeeklyScores = useCallback((playerId: string, scores: WeeklyScore) => {
-    setUser(currentUser => {
-      if (!currentUser) return null;
+    if (!user) return;
 
-      const newScores = {
-        ...currentUser.weeklyScores,
-        [playerId]: scores,
-      };
+    const newScores = {
+      ...user.weeklyScores,
+      [playerId]: scores,
+    };
 
-      toast({ title: 'Scores Updated', description: `Scores for player ID ${playerId} have been saved.` });
-      return {
-        ...currentUser,
-        weeklyScores: newScores,
-      };
-    });
-  }, [toast]);
+    toast({ title: 'Scores Updated', description: `Scores for player ID ${playerId} have been saved.` });
+    const updatedUser = {
+      ...user,
+      weeklyScores: newScores,
+    };
+    updateUserStateAndStorage(updatedUser);
+  }, [user, toast]);
 
   return (
     <UserContext.Provider value={{ user, purchasePlayer, updateRoster, updateWeeklyScores, switchUser }}>
