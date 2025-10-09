@@ -31,18 +31,18 @@ export default function WeeklyMarketPage() {
 
     const availablePlayers = ALL_PLAYERS.filter(p => !ownedPlayerIds.has(p.id));
 
-    const top200 = availablePlayers.filter(p => p.rank && p.rank >= 1 && p.rank <= 200);
-    const midTier = availablePlayers.filter(p => p.rank && p.rank > 200 && p.rank <= 500);
-    const rest = availablePlayers.filter(p => !p.rank || p.rank > 500);
+    const highTier = availablePlayers.filter(p => p.cost >= 4000);
+    const midTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
+    const lowTier = availablePlayers.filter(p => p.cost < 3000);
 
-    const shuffledTop200 = shuffleArray(top200).slice(0, 3);
+    const shuffledHighTier = shuffleArray(highTier).slice(0, 3);
     const shuffledMidTier = shuffleArray(midTier).slice(0, 3);
-    const shuffledRest = shuffleArray(rest).slice(0, 3);
+    const shuffledLowTier = shuffleArray(lowTier).slice(0, 3);
 
     const finalRecommendations = shuffleArray([
-        ...shuffledTop200,
+        ...shuffledHighTier,
         ...shuffledMidTier,
-        ...shuffledRest
+        ...shuffledLowTier
     ]);
     
     setRecommendations(finalRecommendations);
