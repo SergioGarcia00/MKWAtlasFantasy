@@ -2,16 +2,19 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { useAuth, useFirestore, useUser as useFirebaseUser } from '@/firebase';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { signInAnonymously } from 'firebase/auth';
+import { doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { signInAnonymously, onAuthStateChanged, Auth } from 'firebase/auth';
 import type { User, Player, WeeklyScore } from '@/lib/types';
-import { USERS } from '@/data/users'; // We'll still use this for initial seeding
 import { ALL_PLAYERS } from '@/data/players';
 import { useToast } from '@/hooks/use-toast';
 import { setDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { USERS } from '@/data/users';
+
+const FANTASY_LEAGUE_USER_ID = 'fantasy_league_user_id';
 
 interface UserContextType {
   user: User | null;
+  allUsers: User[];
   purchasePlayer: (player: Player) => void;
   updateRoster: (lineup: Player[], bench: Player[]) => void;
   updateWeeklyScores: (playerId: string, scores: WeeklyScore) => void;
@@ -20,29 +23,83 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+async function seedInitialUsers(auth: Auth, firestore: any) {
+    const userBatch = writeBatch(db);
+    USERS.forEach(user => {
+      const userDocRef = doc(usersCollection, user.id);
+      // Storing only player IDs
+      const firestoreUser = {
+        ...user,
+        players: user.players.map(p => p.id),
+        roster: {
+          lineup: user.roster.lineup.map(p => p.id),
+          bench: user.roster.bench.map(p => p.id)
+        }
+      }
+      userBatch.set(userDocRef, firestoreUser);
+    });
+    await userBatch.commit();
+}
+
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [activeUserId, setActiveUserId] = useState<string | null>(null);
   const { toast } = useToast();
-  const { user: firebaseUser, isUserLoading } = useFirebaseUser();
   const firestore = useFirestore();
   const auth = useAuth();
-  
-  // This effect handles the initial sign-in and data fetching
+  const { user: firebaseUser, isUserLoading } = useFirebaseUser();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUserId = localStorage.getItem(FANTASY_LEAGUE_USER_ID);
+      if (storedUserId) {
+        setActiveUserId(storedUserId);
+      } else {
+        // Default to the first user in the static list if none is set
+        const firstUserId = USERS[0]?.id;
+        if(firstUserId) {
+          setActiveUserId(firstUserId);
+          localStorage.setItem(FANTASY_LEAGUE_USER_ID, firstUserId);
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!firestore) return;
+
+    const fetchAllUsers = async () => {
+      const usersCollectionRef = collection(firestore, 'users');
+      const usersSnapshot = await getDocs(usersCollectionRef);
+      const usersList = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+      setAllUsers(usersList);
+    };
+
+    fetchAllUsers();
+  }, [firestore]);
+
+
   useEffect(() => {
     const handleUser = async () => {
-      if (!isUserLoading && !firebaseUser) {
-        // Not logged in, so sign in anonymously
+      if (isUserLoading || !activeUserId || !firestore) {
+        return;
+      }
+      
+      if (!firebaseUser) {
         try {
           await signInAnonymously(auth);
         } catch (error) {
           console.error("Anonymous sign-in failed", error);
         }
-      } else if (firebaseUser) {
-        // User is logged in, now fetch their data
-        const userDocRef = doc(firestore, 'users', firebaseUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
+        return; // Wait for user to be signed in on next effect run
+      }
+      
+      // We have a firebase user and an active user ID, fetch the data
+      const userDocRef = doc(firestore, 'users', activeUserId);
+      const userDocSnap = await getDoc(userDocRef);
 
-        if (userDocSnap.exists()) {
+      if (userDocSnap.exists()) {
           const userData = userDocSnap.data() as User;
           const hydratedPlayers = userData.players?.map(pId => ALL_PLAYERS.find(p => p.id === (pId as unknown as string)))
                                       .filter((p): p is Player => !!p) || [];
@@ -59,46 +116,21 @@ export function UserProvider({ children }: { children: ReactNode }) {
               bench: hydratedBench
             }
           });
-        } else {
-          // New user, create their document from the default template
-          const defaultUser = USERS[0];
-          const newUser: User = {
-            ...defaultUser,
-            id: firebaseUser.uid,
-            name: 'New Player',
-             players: [],
-             roster: {
-                 lineup: [],
-                 bench: [],
-             },
-             weeklyScores: {},
-             currency: 50000,
-          };
-          // We only store IDs in firestore
-          const firestoreUser = {
-              ...newUser,
-              players: [],
-              roster: {
-                lineup: [],
-                bench: []
-              }
-          }
-          await setDoc(userDocRef, firestoreUser);
-          setUser(newUser);
-        }
+      } else {
+         console.warn(`User document for ID ${activeUserId} not found. Seeding might be required.`);
+         // Optional: handle case where user doc doesn't exist, maybe select another user.
       }
     };
 
     handleUser();
-  }, [firebaseUser, isUserLoading, firestore, auth]);
+  }, [activeUserId, firebaseUser, isUserLoading, firestore, auth]);
 
 
   const updateUserStateAndFirestore = (updatedUser: User) => {
-    if (!firebaseUser) return;
+    if (!updatedUser) return;
     setUser(updatedUser);
-    const userDocRef = doc(firestore, 'users', firebaseUser.uid);
+    const userDocRef = doc(firestore, 'users', updatedUser.id);
 
-    // Create a version of the user object with player IDs instead of full objects
     const firestoreUser = {
         ...updatedUser,
         players: updatedUser.players.map(p => p.id),
@@ -108,20 +140,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
     };
     
-    // Use the non-blocking update
     setDocumentNonBlocking(userDocRef, firestoreUser, { merge: true });
   }
 
   const switchUser = useCallback((userId: string) => {
-    // This functionality will change with real auth.
-    // For now, we can't really "switch" Firebase users easily.
-    // This will require a re-login flow in a real app.
-    // Let's just toast a message for now.
-    toast({
-        title: 'User Switching',
-        description: 'In a real app, this would log you out and back in as another user.'
-    });
-  }, [toast]);
+    if (userId) {
+        setUser(null); // Clear current user to show loading state
+        setActiveUserId(userId);
+        localStorage.setItem(FANTASY_LEAGUE_USER_ID, userId);
+    }
+  }, []);
 
   const purchasePlayer = useCallback((player: Player) => {
     if (!user || !player) return;
@@ -181,7 +209,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast]);
 
   return (
-    <UserContext.Provider value={{ user, purchasePlayer, updateRoster, updateWeeklyScores, switchUser }}>
+    <UserContext.Provider value={{ user, allUsers, purchasePlayer, updateRoster, updateWeeklyScores, switchUser }}>
       {children}
     </UserContext.Provider>
   );

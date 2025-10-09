@@ -31,7 +31,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { USERS } from '@/data/users';
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -43,7 +42,7 @@ const navItems = [
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, switchUser } = useUser();
+  const { user, switchUser, allUsers } = useUser();
 
   const getPageTitle = () => {
     const currentNav = navItems.find(item => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)));
@@ -102,7 +101,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  {USERS.map((u) => (
+                  {allUsers.map((u) => (
                     <DropdownMenuItem key={u.id} onSelect={() => switchUser(u.id)} disabled={u.id === user.id}>
                       {u.name}
                     </DropdownMenuItem>
