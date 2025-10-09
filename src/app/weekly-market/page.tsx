@@ -31,9 +31,10 @@ export default function WeeklyMarketPage() {
 
     const availablePlayers = ALL_PLAYERS.filter(p => !ownedPlayerIds.has(p.id));
 
-    const highTier = availablePlayers.filter(p => p.cost >= 4000);
-    const midTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
-    const lowTier = availablePlayers.filter(p => p.cost < 3000);
+    // Combine rank and cost for tiers
+    const highTier = availablePlayers.filter(p => p.cost >= 4000 && (p.rank && p.rank <= 200));
+    const midTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000 && (p.rank && p.rank > 200 && p.rank <= 500));
+    const lowTier = availablePlayers.filter(p => p.cost < 3000 && (p.rank && p.rank > 500));
 
     const shuffledHighTier = shuffleArray(highTier).slice(0, 3);
     const shuffledMidTier = shuffleArray(midTier).slice(0, 3);
