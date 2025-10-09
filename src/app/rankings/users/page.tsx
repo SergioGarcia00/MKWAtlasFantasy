@@ -7,11 +7,11 @@ import { Badge } from '@/components/ui/badge';
 import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 
-const calculateTotalScore = (user: User) => {
-  if (!user.roster || user.roster.lineup.length < 6) return 0;
-  return user.roster.lineup.reduce((total, player) => {
-    if (!player || typeof player === 'string') return total;
-    const scores = user.weeklyScores[player.id];
+const calculateTotalScore = (user: User): number => {
+  if (!user.roster || user.roster.lineup.length === 0) return 0;
+
+  return (user.roster.lineup as Player[]).reduce((total, player) => {
+    const scores = user.weeklyScores?.[player.id];
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
   }, 0);
 };
@@ -27,7 +27,7 @@ export default function UserRankingsPage() {
       ...user,
       totalScore: calculateTotalScore(user),
     }))
-      .filter(user => user.totalScore > 0)
+      .filter(user => user.roster.lineup.length >= 6) // Only rank users with a full lineup
       .sort((a, b) => b.totalScore - a.totalScore);
   }, [allUsers]);
 
@@ -39,7 +39,11 @@ export default function UserRankingsPage() {
   };
 
   if (!allUsers || allUsers.length === 0) {
-      return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
+      return (
+        <div className="flex h-48 items-center justify-center">
+            <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      );
   }
 
   return (
@@ -48,9 +52,9 @@ export default function UserRankingsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Rank</TableHead>
+              <TableHead className="w-[100px] text-center">Rank</TableHead>
               <TableHead>User</TableHead>
-              <TableHead>Players in Lineup</TableHead>
+              <TableHead className="text-center">Players in Lineup</TableHead>
               <TableHead className="text-right">Total Weekly Score</TableHead>
             </TableRow>
           </TableHeader>
@@ -63,16 +67,18 @@ export default function UserRankingsPage() {
                         {getRankBadge(index + 1)}
                     </div>
                   </TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{user.roster.lineup.length} / 6</Badge>
+                  <TableCell className="font-semibold">{user.name}</TableCell>
+                  <TableCell className="text-center">
+                    <Badge variant={user.roster.lineup.length === 6 ? "default" : "secondary"}>
+                      {user.roster.lineup.length} / 6
+                    </Badge>
                   </TableCell>
                   <TableCell className="text-right font-bold text-lg text-primary">{user.totalScore.toLocaleString()}</TableCell>
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
+                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                   No users are eligible for ranking yet. A full lineup of 6 players is required.
                 </TableCell>
               </TableRow>

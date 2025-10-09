@@ -11,6 +11,10 @@ export default function RankingsLayout({
 }) {
   const pathname = usePathname();
 
+  // Determine the active tab. It should be '/rankings/users' if the path is exactly that,
+  // otherwise default to player rankings for any other path under /rankings.
+  const activeTab = pathname === '/rankings/users' ? '/rankings/users' : '/rankings/players';
+
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
@@ -20,9 +24,9 @@ export default function RankingsLayout({
         </p>
       </header>
 
-      <Tabs value={pathname} className="w-full">
+      <Tabs value={activeTab} className="w-full">
         <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="/rankings" asChild>
+          <TabsTrigger value="/rankings/players" asChild>
             <Link href="/rankings/players">Player Rankings</Link>
           </TabsTrigger>
           <TabsTrigger value="/rankings/users" asChild>

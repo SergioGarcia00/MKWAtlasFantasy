@@ -9,9 +9,9 @@ import { PlayerIcon } from '@/components/icons/player-icon';
 import { useEffect, useState } from 'react';
 import type { User, Player } from '@/lib/types';
 
-const calculateTotalScore = (user: User) => {
+const calculateTotalScore = (user: User): number => {
   if (!user.roster || !user.roster.lineup) return 0;
-  return user.roster.lineup.reduce((total: number, player: Player | string) => {
+  return (user.roster.lineup as Player[]).reduce((total: number, player: Player | string) => {
     if (typeof player === 'string' || !player) return total;
     const scores = user.weeklyScores[player.id];
     return total + (scores?.race1 || 0) + (scores?.race2 || 0);
@@ -24,10 +24,14 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (allUsers.length > 0) {
-      const usersWithScores = allUsers.map(u => ({
-        ...u,
-        totalScore: calculateTotalScore(u as User),
-      })).sort((a, b) => b.totalScore - a.totalScore);
+      const usersWithScores = allUsers
+        .map(u => ({
+            ...u,
+            totalScore: calculateTotalScore(u as User),
+        }))
+        .filter(u => u.roster.lineup.length >=6)
+        .sort((a, b) => b.totalScore - a.totalScore);
+
       setAllUsersWithScores(usersWithScores as (User & {totalScore: number})[]);
     }
   }, [allUsers]);
@@ -40,7 +44,7 @@ export default function DashboardPage() {
 
 
   const stats = [
-    { title: 'Your Rank', value: `#${userRank > 0 ? userRank : 'N/A'}`, icon: <Trophy className="w-6 h-6 text-amber-500" /> },
+    { title: 'Your Rank', value: userRank > 0 ? `#${userRank}` : 'N/A', icon: <Trophy className="w-6 h-6 text-amber-500" /> },
     { title: 'League Players', value: allUsers.length, icon: <Users className="w-6 h-6 text-blue-500" /> },
     { title: 'Fantasy Coins', value: user.currency.toLocaleString(), icon: <DollarSign className="w-6 h-6 text-green-500" /> },
     { title: 'Players Owned', value: `${user.players.length} / 10`, icon: <Shield className="w-6 h-6 text-red-500" /> },
