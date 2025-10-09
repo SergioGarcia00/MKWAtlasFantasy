@@ -31,22 +31,36 @@ export default function WeeklyMarketPage() {
 
     const availablePlayers = ALL_PLAYERS.filter(p => !ownedPlayerIds.has(p.id));
 
-    // Combine rank and cost for tiers
-    const highTier = availablePlayers.filter(p => p.cost >= 4000 && (p.rank && p.rank <= 200));
-    const midTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000 && (p.rank && p.rank > 200 && p.rank <= 500));
-    const lowTier = availablePlayers.filter(p => p.cost < 3000 && (p.rank && p.rank > 500));
+    // Tiers by rank
+    const highRankTier = availablePlayers.filter(p => p.rank && p.rank <= 200);
+    const midRankTier = availablePlayers.filter(p => p.rank && p.rank > 200 && p.rank <= 500);
+    const lowRankTier = availablePlayers.filter(p => p.rank && p.rank > 500);
 
-    const shuffledHighTier = shuffleArray(highTier).slice(0, 3);
-    const shuffledMidTier = shuffleArray(midTier).slice(0, 3);
-    const shuffledLowTier = shuffleArray(lowTier).slice(0, 3);
+    // Tiers by cost
+    const highCostTier = availablePlayers.filter(p => p.cost >= 4000);
+    const midCostTier = availablePlayers.filter(p => p.cost >= 3000 && p.cost < 4000);
+    const lowCostTier = availablePlayers.filter(p => p.cost < 3000);
 
-    const finalRecommendations = shuffleArray([
-        ...shuffledHighTier,
-        ...shuffledMidTier,
-        ...shuffledLowTier
-    ]);
+    const finalRecommendations = new Set<Player>();
+
+    const addPlayersToSet = (players: Player[], count: number) => {
+        const shuffled = shuffleArray(players);
+        for(let i=0; i < shuffled.length && finalRecommendations.size < 18 && count > 0; i++) {
+            if (!finalRecommendations.has(shuffled[i])) {
+                finalRecommendations.add(shuffled[i]);
+                count--;
+            }
+        }
+    }
+
+    addPlayersToSet(highRankTier, 3);
+    addPlayersToSet(midRankTier, 3);
+    addPlayersToSet(lowRankTier, 3);
+    addPlayersToSet(highCostTier, 3);
+    addPlayersToSet(midCostTier, 3);
+    addPlayersToSet(lowCostTier, 3);
     
-    setRecommendations(finalRecommendations);
+    setRecommendations(Array.from(finalRecommendations));
     setLoading(false);
   }, [user, allUsers]);
 
@@ -94,7 +108,7 @@ export default function WeeklyMarketPage() {
       <div>
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {[...Array(9)].map((_, i) => <Skeleton key={i} className="h-80 w-full" />)}
+            {[...Array(18)].map((_, i) => <Skeleton key={i} className="h-80 w-full" />)}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
