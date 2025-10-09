@@ -6,6 +6,7 @@ import type { User, Player } from '@/lib/types';
 import { Award, DollarSign, Zap } from 'lucide-react';
 import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 type HighestScoreInfo = {
   user: User;
@@ -53,10 +54,9 @@ export default function SmallerRankingsPage() {
     return topInfo;
   }, [allUsers]);
 
-  const richestUser = useMemo((): User | null => {
-    if (!allUsers || allUsers.length === 0) return null;
-    // The sort is not stable, so we need to copy the array to not mutate the original
-    return [...allUsers].sort((a, b) => b.currency - a.currency)[0];
+  const rankedUsersByCurrency = useMemo((): User[] => {
+    if (!allUsers || allUsers.length === 0) return [];
+    return [...allUsers].sort((a, b) => b.currency - a.currency);
   }, [allUsers]);
 
   const topMMRPlayer = useMemo((): TopMMRPlayerInfo => {
@@ -94,7 +94,7 @@ export default function SmallerRankingsPage() {
         </p>
       </header>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -116,30 +116,6 @@ export default function SmallerRankingsPage() {
               </div>
             ) : (
               <p className="text-muted-foreground">No scores recorded yet.</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <DollarSign className="w-6 h-6 text-green-500" />
-              <span>Richest User</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-             {richestUser ? (
-              <div className="flex items-center gap-4">
-                 <div className="w-16 h-16 bg-green-500/10 rounded-full flex items-center justify-center">
-                    <DollarSign className="w-8 h-8 text-green-500"/>
-                 </div>
-                <div>
-                  <p className="font-semibold">{richestUser.name}</p>
-                  <p className="text-3xl font-bold text-green-500">{richestUser.currency.toLocaleString()}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No users found.</p>
             )}
           </CardContent>
         </Card>
@@ -169,6 +145,40 @@ export default function SmallerRankingsPage() {
           </CardContent>
         </Card>
       </div>
+      
+      <div className="mt-8">
+        <Card className="col-span-1 lg:col-span-2">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <DollarSign className="w-6 h-6 text-green-500" />
+                    <span>Richest Users</span>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="rounded-lg border">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead className="w-[80px] text-center">Rank</TableHead>
+                            <TableHead>User</TableHead>
+                            <TableHead className="text-right">Fantasy Coins</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {rankedUsersByCurrency.map((user, index) => (
+                            <TableRow key={user.id}>
+                                <TableCell className="text-center font-medium">{index + 1}</TableCell>
+                                <TableCell className="font-semibold">{user.name}</TableCell>
+                                <TableCell className="text-right font-bold text-lg text-green-500">{user.currency.toLocaleString()}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </CardContent>
+        </Card>
+      </div>
+
     </div>
   );
 }
