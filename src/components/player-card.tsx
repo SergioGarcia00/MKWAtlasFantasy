@@ -3,16 +3,25 @@
 import { useState } from 'react';
 import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
+import { Separator } from './ui/separator';
 
 interface PlayerCardProps {
   player: Player;
 }
+
+const StatItem = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="flex justify-between items-center text-sm">
+    <p className="text-muted-foreground">{label}</p>
+    <p className="font-semibold">{value}</p>
+  </div>
+);
+
 
 export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +31,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
     return null;
   }
 
-  const isOwned = user?.players.some(p => p && p.id === player.id) ?? false;
+  const isOwned = user?.players.some(p => p.id === player.id) ?? false;
   const isRosterFull = (user?.players.length ?? 0) >= 10;
   const canAfford = (user?.currency ?? 0) >= player.cost;
 
@@ -76,73 +85,75 @@ export function PlayerCard({ player }: PlayerCardProps) {
       </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="sm:max-w-3xl">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-4">
-              <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
-              <span className="text-2xl font-bold font-headline">{player.name}</span>
-            </DialogTitle>
-            <DialogDescription>
-              Review the player's stats and decide if they are a good fit for your team.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="grid md:grid-cols-2 gap-6 py-4">
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center justify-between p-3 bg-secondary rounded-lg col-span-full">
-                    <div className="flex items-center gap-2 font-semibold">
-                        <DollarSign className="w-5 h-5 text-primary"/>
-                        Cost
-                    </div>
-                    <span className="font-bold text-lg">{player.cost.toLocaleString()}</span>
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-br from-primary/20 to-secondary p-2 rounded-lg">
+                <PlayerIcon iconName={player.icon} className="w-16 h-16 text-primary" />
+              </div>
+              <div>
+                <DialogTitle className="text-3xl font-bold font-headline">{player.name}</DialogTitle>
+                <div className="flex items-center gap-2 mt-1 text-primary">
+                  <DollarSign className="w-5 h-5" />
+                  <span className="font-bold text-xl">{player.cost.toLocaleString()}</span>
+                  <span className="text-sm text-muted-foreground ml-1">cost</span>
                 </div>
-                {additionalStats.map(stat => (
-                  <div key={stat.label} className="p-3 bg-secondary rounded-lg">
-                    <div className="flex items-center gap-2 font-medium text-muted-foreground">
-                      {stat.icon}
-                      <span>{stat.label}</span>
-                    </div>
-                    <div className="mt-1 text-base font-bold">{stat.value}</div>
-                  </div>
-                ))}
               </div>
             </div>
+          </DialogHeader>
+
+          <div className="grid md:grid-cols-3 gap-6 py-4">
+            {/* General Stats */}
             <div className="space-y-4">
-              {gameStats1v1 && (
-                <div>
-                  <h4 className="font-semibold mb-2">1v1 Stats</h4>
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    <Badge variant="outline">Win Rate: {gameStats1v1.win_rate}</Badge>
-                    <Badge variant="outline">Events: {gameStats1v1.events_played}</Badge>
-                    <Badge variant="outline">Last 10: {gameStats1v1.win_loss_last_10}</Badge>
-                    <Badge variant="outline">Gain/Loss (L10): {gameStats1v1.gainloss_last_10}</Badge>
-                    <Badge variant="outline">Largest Gain: {gameStats1v1.largest_gain}</Badge>
-                    <Badge variant="outline">Avg Score: {gameStats1v1.average_score}</Badge>
-                    {gameStats1v1.average_score_no_sq && <Badge variant="outline">Avg Score (No SQ): {gameStats1v1.average_score_no_sq}</Badge>}
-                    <Badge variant="outline">Avg Score (L10): {gameStats1v1.average_score_last_10}</Badge>
-                    {gameStats1v1.partner_average_score && <Badge variant="outline">Partner Avg Score: {gameStats1v1.partner_average_score}</Badge>}
-                    {gameStats1v1.partner_average_score_no_sq && <Badge variant="outline">Partner Avg (No SQ): {gameStats1v1.partner_average_score_no_sq}</Badge>}
-                  </div>
-                </div>
-              )}
-               {gameStats2v2 && (
-                <div>
-                  <h4 className="font-semibold mb-2">2v2 Stats</h4>
-                  <div className="flex flex-wrap gap-2 text-xs">
-                    <Badge variant="outline">Win Rate: {gameStats2v2.win_rate}</Badge>
-                    <Badge variant="outline">Events: {gameStats2v2.events_played}</Badge>
-                    <Badge variant="outline">Last 10: {gameStats2v2.win_loss_last_10}</Badge>
-                    <Badge variant="outline">Gain/Loss (L10): {gameStats2v2.gainloss_last_10}</Badge>
-                    <Badge variant="outline">Largest Gain: {gameStats2v2.largest_gain}</Badge>
-                    <Badge variant="outline">Avg Score: {gameStats2v2.average_score}</Badge>
-                    {gameStats2v2.average_score_no_sq && <Badge variant="outline">Avg Score (No SQ): {gameStats2v2.average_score_no_sq}</Badge>}
-                    <Badge variant="outline">Avg Score (L10): {gameStats2v2.average_score_last_10}</Badge>
-                    {gameStats2v2.partner_average_score && <Badge variant="outline">Partner Avg Score: {gameStats2v2.partner_average_score}</Badge>}
-                    {gameStats2v2.partner_average_score_no_sq && <Badge variant="outline">Partner Avg (No SQ): {gameStats2v2.partner_average_score_no_sq}</Badge>}
-                  </div>
-                </div>
-              )}
+              <h4 className="font-semibold text-lg">Career Stats</h4>
+              <Card className="bg-secondary/50">
+                <CardContent className="p-4 space-y-2">
+                  <StatItem label="MMR" value={player.mmr?.toLocaleString() || 'N/A'} />
+                  <StatItem label="Peak MMR" value={player.peak_mmr?.toLocaleString() || 'N/A'} />
+                  <StatItem label="Rank" value={player.rank ? `#${player.rank}`: 'N/A'} />
+                  <StatItem label="Events Played" value={player.events_played || 'N/A'} />
+                  <StatItem label="Country" value={player.country || 'N/A'} />
+                </CardContent>
+              </Card>
             </div>
+            
+            {/* 1v1 Stats */}
+            {gameStats1v1 && (
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg">1v1 Stats</h4>
+                <Card className="bg-secondary/50">
+                  <CardContent className="p-4 space-y-2">
+                    <StatItem label="Win Rate" value={gameStats1v1.win_rate} />
+                    <StatItem label="Events Played" value={gameStats1v1.events_played} />
+                    <StatItem label="Last 10" value={gameStats1v1.win_loss_last_10} />
+                    <StatItem label="Gain/Loss (L10)" value={gameStats1v1.gainloss_last_10} />
+                    <StatItem label="Largest Gain" value={gameStats1v1.largest_gain} />
+                    <StatItem label="Avg Score" value={gameStats1v1.average_score} />
+                    {gameStats1v1.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats1v1.average_score_no_sq} />}
+                    {gameStats1v1.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats1v1.partner_average_score} />}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+             
+            {/* 2v2 Stats */}
+            {gameStats2v2 && (
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg">2v2 Stats</h4>
+                <Card className="bg-secondary/50">
+                  <CardContent className="p-4 space-y-2">
+                    <StatItem label="Win Rate" value={gameStats2v2.win_rate} />
+                    <StatItem label="Events Played" value={gameStats2v2.events_played} />
+                    <StatItem label="Last 10" value={gameStats2v2.win_loss_last_10} />
+                    <StatItem label="Gain/Loss (L10)" value={gameStats2v2.gainloss_last_10} />
+                    <StatItem label="Largest Gain" value={gameStats2v2.largest_gain} />
+                    <StatItem label="Avg Score" value={gameStats2v2.average_score} />
+                     {gameStats2v2.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats2v2.average_score_no_sq} />}
+                    {gameStats2v2.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats2v2.partner_average_score} />}
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsOpen(false)}>Close</Button>
