@@ -1,11 +1,15 @@
 {
   "id": "user-yegu",
   "name": "Yegu",
-  "currency": 50000,
-  "players": [],
+  "currency": 47238,
+  "players": [
+    "Froz11-3160"
+  ],
   "roster": {
     "lineup": [],
-    "bench": []
+    "bench": [
+      "Froz11-3160"
+    ]
   },
   "weeklyScores": {}
 }

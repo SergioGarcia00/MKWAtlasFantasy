@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -39,10 +40,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
   
   const isOwnedByCurrentUser = user?.players.some(p => (typeof p === 'string' ? p : p.id) === player.id) ?? false;
   
-  const isOwnedByOtherUser = allUsers.some(u => 
-      u.id !== user?.id && u.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
+  const owner = allUsers.find(u => 
+    u.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
   );
-  
+
+  const isOwnedByOtherUser = owner && owner.id !== user?.id;
   const isOwned = isOwnedByCurrentUser || isOwnedByOtherUser;
 
   const isRosterFull = (user?.players.length ?? 0) >= 10;
@@ -73,7 +75,12 @@ export function PlayerCard({ player }: PlayerCardProps) {
         onClick={() => setIsOpen(true)}
       >
         <CardContent className="p-0 flex-grow flex flex-col">
-          <div className="bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center">
+          <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center">
+            {isOwnedByOtherUser && (
+              <Badge variant="destructive" className="absolute top-2 right-2 z-10">
+                Owned by: {owner.name}
+              </Badge>
+            )}
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
           </div>
           <div className="p-4 flex-grow">
@@ -171,3 +178,4 @@ export function PlayerCard({ player }: PlayerCardProps) {
     </>
   );
 }
+
