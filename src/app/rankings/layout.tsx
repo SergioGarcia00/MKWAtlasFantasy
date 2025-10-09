@@ -22,7 +22,7 @@ export default function RankingsLayout({
 
       <Tabs value={pathname} className="w-full">
         <TabsList className="grid w-full max-w-md grid-cols-2">
-          <TabsTrigger value="/rankings/players" asChild>
+          <TabsTrigger value="/rankings" asChild>
             <Link href="/rankings/players">Player Rankings</Link>
           </TabsTrigger>
           <TabsTrigger value="/rankings/users" asChild>

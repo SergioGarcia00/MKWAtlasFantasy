@@ -37,9 +37,8 @@ const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/store', label: 'Player Store', icon: Store },
   { href: '/roster', label: 'My Roster', icon: Users },
-  { href: '/rankings/players', label: 'Player Rankings', icon: BarChart },
-  { href: '/rankings/users', label: 'User Rankings', icon: Trophy },
-  { href: '/next-week', label: 'Next Week', icon: Calendar },
+  { href: '/rankings', label: 'Rankings', icon: BarChart },
+  { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
@@ -47,6 +46,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const { user, switchUser, allUsers } = useUser();
 
   const getPageTitle = () => {
+    if (pathname.startsWith('/weeks/')) {
+        const weekId = pathname.split('/')[2];
+        return `Week ${weekId} Summary`;
+    }
     const currentNav = navItems.find(item => pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href)));
     return currentNav?.label || 'Kart Fantasy League';
   }
