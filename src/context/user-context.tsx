@@ -110,6 +110,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const purchasePlayer = useCallback(async (player: Player) => {
     if (!user) return;
+
+    // Check if any other user owns the player
+    const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
+      anyUser.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
+    );
+
+    if (isPlayerOwnedByAnyone) {
+      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased by another user.`, variant: 'destructive' });
+      return;
+    }
+
     if (user.players.some(p => p.id === player.id)) {
       toast({ title: 'Already Owned', description: 'You already own this player.', variant: 'destructive' });
       return;
@@ -135,7 +146,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
     await updateUserState(updatedUser);
-  }, [user, toast, updateUserState]);
+  }, [user, allUsers, toast, updateUserState]);
 
   const updateRoster = useCallback(async (lineup: Player[], bench: Player[]) => {
     if (!user) return;

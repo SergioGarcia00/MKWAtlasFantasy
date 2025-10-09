@@ -15,23 +15,36 @@ interface PlayerCardProps {
   player: Player;
 }
 
-const StatItem = ({ label, value }: { label: string; value: React.ReactNode }) => (
-  <div className="flex justify-between items-center text-sm">
-    <p className="text-muted-foreground">{label}</p>
-    <p className="font-semibold">{value}</p>
-  </div>
-);
+const StatItem = ({ label, value, isBoolean }: { label: string; value: React.ReactNode; isBoolean?: boolean }) => (
+    <div className="flex justify-between items-center text-sm py-1">
+      <p className="text-muted-foreground">{label}</p>
+      {isBoolean ? (
+        <Badge variant={value ? 'default' : 'destructive'} className="text-xs">
+          {value ? 'Yes' : 'No'}
+        </Badge>
+      ) : (
+        <p className="font-semibold">{value}</p>
+      )}
+    </div>
+  );
 
 
 export function PlayerCard({ player }: PlayerCardProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, purchasePlayer } = useUser();
+  const { user, allUsers, purchasePlayer } = useUser();
 
   if (!player) {
     return null;
   }
+  
+  const isOwnedByCurrentUser = user?.players.some(p => (typeof p === 'string' ? p : p.id) === player.id) ?? false;
+  
+  const isOwnedByOtherUser = allUsers.some(u => 
+      u.id !== user?.id && u.players.some(p => (typeof p === 'string' ? p : p.id) === player.id)
+  );
+  
+  const isOwned = isOwnedByCurrentUser || isOwnedByOtherUser;
 
-  const isOwned = user?.players.some(p => p.id === player.id) ?? false;
   const isRosterFull = (user?.players.length ?? 0) >= 10;
   const canAfford = (user?.currency ?? 0) >= player.cost;
 
@@ -40,17 +53,18 @@ export function PlayerCard({ player }: PlayerCardProps) {
     purchasePlayer(player);
     setIsOpen(false);
   };
-  
-  const additionalStats = [
-    { label: 'MMR', value: player.mmr?.toLocaleString(), icon: <Star className="w-4 h-4 text-amber-500" /> },
-    { label: 'Peak MMR', value: player.peak_mmr?.toLocaleString(), icon: <TrendingUp className="w-4 h-4 text-red-500" /> },
-    { label: 'Rank', value: player.rank ? `#${player.rank}`: 'N/A', icon: <BarChartHorizontal className="w-4 h-4 text-blue-500" /> },
-    { label: 'Events Played', value: player.events_played, icon: <Shield className="w-4 h-4 text-green-500" /> },
-    { label: 'Country', value: player.country, icon: <Globe className="w-4 h-4 text-purple-500" /> },
-  ].filter(stat => stat.value !== undefined && stat.value !== null);
 
   const gameStats1v1 = player.game_stats?.['1v1'];
   const gameStats2v2 = player.game_stats?.['2v2'];
+
+  const purchaseButtonText = () => {
+    if (isOwnedByCurrentUser) return 'Owned';
+    if (isOwnedByOtherUser) return 'Unavailable';
+    if (isRosterFull) return 'Roster Full';
+    if (!canAfford) return 'Not Enough Coins'
+    return 'Purchase Player';
+  }
+
 
   return (
     <>
@@ -85,17 +99,18 @@ export function PlayerCard({ player }: PlayerCardProps) {
       </Card>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-3xl">
+        <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
-            <div className="flex items-center gap-4">
-              <div className="bg-gradient-to-br from-primary/20 to-secondary p-2 rounded-lg">
-                <PlayerIcon iconName={player.icon} className="w-16 h-16 text-primary" />
+            <div className="flex items-start gap-6">
+              <div className="bg-gradient-to-br from-primary/20 to-secondary p-4 rounded-lg">
+                <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
               </div>
-              <div>
-                <DialogTitle className="text-3xl font-bold font-headline">{player.name}</DialogTitle>
-                <div className="flex items-center gap-2 mt-1 text-primary">
-                  <DollarSign className="w-5 h-5" />
-                  <span className="font-bold text-xl">{player.cost.toLocaleString()}</span>
+              <div className="pt-2">
+                <DialogTitle className="text-4xl font-bold font-headline mb-1">{player.name}</DialogTitle>
+                <DialogDescription>Review the player's stats and decide if they are a good fit for your team.</DialogDescription>
+                <div className="flex items-baseline gap-2 mt-3 text-primary">
+                  <DollarSign className="w-6 h-6" />
+                  <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
                   <span className="text-sm text-muted-foreground ml-1">cost</span>
                 </div>
               </div>
@@ -103,55 +118,41 @@ export function PlayerCard({ player }: PlayerCardProps) {
           </DialogHeader>
 
           <div className="grid md:grid-cols-3 gap-6 py-4">
-            {/* General Stats */}
+            
             <div className="space-y-4">
-              <h4 className="font-semibold text-lg">Career Stats</h4>
-              <Card className="bg-secondary/50">
-                <CardContent className="p-4 space-y-2">
-                  <StatItem label="MMR" value={player.mmr?.toLocaleString() || 'N/A'} />
-                  <StatItem label="Peak MMR" value={player.peak_mmr?.toLocaleString() || 'N/A'} />
-                  <StatItem label="Rank" value={player.rank ? `#${player.rank}`: 'N/A'} />
-                  <StatItem label="Events Played" value={player.events_played || 'N/A'} />
-                  <StatItem label="Country" value={player.country || 'N/A'} />
-                </CardContent>
-              </Card>
+              <h4 className="font-semibold text-lg border-b pb-2">Career Stats</h4>
+              <StatItem label="MMR" value={player.mmr?.toLocaleString() || 'N/A'} />
+              <StatItem label="Peak MMR" value={player.peak_mmr?.toLocaleString() || 'N/A'} />
+              <StatItem label="Rank" value={player.rank ? `#${player.rank}`: 'N/A'} />
+              <StatItem label="Events Played" value={player.events_played || 'N/A'} />
+              <StatItem label="Country" value={player.country || 'N/A'} />
             </div>
             
-            {/* 1v1 Stats */}
             {gameStats1v1 && (
               <div className="space-y-4">
-                <h4 className="font-semibold text-lg">1v1 Stats</h4>
-                <Card className="bg-secondary/50">
-                  <CardContent className="p-4 space-y-2">
-                    <StatItem label="Win Rate" value={gameStats1v1.win_rate} />
-                    <StatItem label="Events Played" value={gameStats1v1.events_played} />
-                    <StatItem label="Last 10" value={gameStats1v1.win_loss_last_10} />
-                    <StatItem label="Gain/Loss (L10)" value={gameStats1v1.gainloss_last_10} />
-                    <StatItem label="Largest Gain" value={gameStats1v1.largest_gain} />
-                    <StatItem label="Avg Score" value={gameStats1v1.average_score} />
-                    {gameStats1v1.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats1v1.average_score_no_sq} />}
-                    {gameStats1v1.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats1v1.partner_average_score} />}
-                  </CardContent>
-                </Card>
+                <h4 className="font-semibold text-lg border-b pb-2">1v1 Stats</h4>
+                <StatItem label="Win Rate" value={gameStats1v1.win_rate} />
+                <StatItem label="Events Played" value={gameStats1v1.events_played} />
+                <StatItem label="Last 10" value={gameStats1v1.win_loss_last_10} />
+                <StatItem label="Gain/Loss (L10)" value={gameStats1v1.gainloss_last_10} />
+                <StatItem label="Largest Gain" value={gameStats1v1.largest_gain} />
+                <StatItem label="Avg Score" value={gameStats1v1.average_score} />
+                {gameStats1v1.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats1v1.average_score_no_sq} />}
+                {gameStats1v1.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats1v1.partner_average_score} />}
               </div>
             )}
              
-            {/* 2v2 Stats */}
             {gameStats2v2 && (
-              <div className="space-y-4">
-                <h4 className="font-semibold text-lg">2v2 Stats</h4>
-                <Card className="bg-secondary/50">
-                  <CardContent className="p-4 space-y-2">
-                    <StatItem label="Win Rate" value={gameStats2v2.win_rate} />
-                    <StatItem label="Events Played" value={gameStats2v2.events_played} />
-                    <StatItem label="Last 10" value={gameStats2v2.win_loss_last_10} />
-                    <StatItem label="Gain/Loss (L10)" value={gameStats2v2.gainloss_last_10} />
-                    <StatItem label="Largest Gain" value={gameStats2v2.largest_gain} />
-                    <StatItem label="Avg Score" value={gameStats2v2.average_score} />
-                     {gameStats2v2.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats2v2.average_score_no_sq} />}
-                    {gameStats2v2.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats2v2.partner_average_score} />}
-                  </CardContent>
-                </Card>
+               <div className="space-y-4">
+                <h4 className="font-semibold text-lg border-b pb-2">2v2 Stats</h4>
+                <StatItem label="Win Rate" value={gameStats2v2.win_rate} />
+                <StatItem label="Events Played" value={gameStats2v2.events_played} />
+                <StatItem label="Last 10" value={gameStats2v2.win_loss_last_10} />
+                <StatItem label="Gain/Loss (L10)" value={gameStats2v2.gainloss_last_10} />
+                <StatItem label="Largest Gain" value={gameStats2v2.largest_gain} />
+                <StatItem label="Avg Score" value={gameStats2v2.average_score} />
+                {gameStats2v2.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats2v2.average_score_no_sq} />}
+                {gameStats2v2.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats2v2.partner_average_score} />}
               </div>
             )}
           </div>
@@ -162,7 +163,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
               onClick={handlePurchase}
               disabled={isOwned || isRosterFull || !canAfford}
             >
-              {isOwned ? 'Already Owned' : isRosterFull ? 'Roster Full' : !canAfford ? 'Not Enough Coins' : 'Purchase Player'}
+              {purchaseButtonText()}
             </Button>
           </DialogFooter>
         </DialogContent>
