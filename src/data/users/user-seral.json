@@ -2,41 +2,9 @@
   "id": "user-seral",
   "name": "Seral",
   "currency": 17000,
-  "players": [
-    {
-      "id": "Heb-3153",
-      "purchasedAt": 1760128111102
-    },
-    {
-      "id": "annyrosario-3367",
-      "purchasedAt": 1760128111102
-    },
-    {
-      "id": "eniPelbidE-1607",
-      "purchasedAt": 1760128111102
-    },
-    {
-      "id": "Alvaroce10-222",
-      "purchasedAt": 1760128111102
-    },
-    {
-      "id": "Laurie-3277",
-      "purchasedAt": 1760128111102
-    },
-    {
-      "id": "Lora-1783",
-      "purchasedAt": 1760128111102
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Heb-3153",
-      "annyrosario-3367",
-      "eniPelbidE-1607",
-      "Alvaroce10-222",
-      "Laurie-3277",
-      "Lora-1783"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

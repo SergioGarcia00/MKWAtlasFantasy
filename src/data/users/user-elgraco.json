@@ -2,41 +2,9 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 17000,
-  "players": [
-    {
-      "id": "JACKPOT-3361",
-      "purchasedAt": 1760128110651
-    },
-    {
-      "id": "CarCorSnoAllen-3090",
-      "purchasedAt": 1760128110651
-    },
-    {
-      "id": "Royales-7",
-      "purchasedAt": 1760128110651
-    },
-    {
-      "id": "Loucaluz33-1411",
-      "purchasedAt": 1760128110652
-    },
-    {
-      "id": "Robin2-35",
-      "purchasedAt": 1760128110652
-    },
-    {
-      "id": "rhii-2771",
-      "purchasedAt": 1760128110652
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "JACKPOT-3361",
-      "CarCorSnoAllen-3090",
-      "Royales-7",
-      "Loucaluz33-1411",
-      "Robin2-35",
-      "rhii-2771"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

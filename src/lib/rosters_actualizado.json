@@ -50,7 +50,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 83.4
           }
-        }
+        },
+        "cost": 5765
       },
       {
         "name": "Alya",
@@ -84,7 +85,8 @@
             "partner_average_score_no_sq": 90.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5033
       },
       {
         "name": "CoinBlockBuster",
@@ -112,7 +114,8 @@
             "partner_average_score_no_sq": 82.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6319
       },
       {
         "name": "Countez",
@@ -155,7 +158,8 @@
             "average_score_no_sq": 95,
             "average_score_last_10": 95
           }
-        }
+        },
+        "cost": 6529
       },
       {
         "name": "Froz_11",
@@ -277,7 +281,8 @@
             "partner_average_score_no_sq": 84.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5540
       },
       {
         "name": "Schmettalink/Tanja",
@@ -351,7 +356,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 82.8
           }
-        }
+        },
+        "cost": 5596
       },
       {
         "name": "Valnuss",
@@ -395,7 +401,8 @@
             "average_score_last_10": 75.2,
             "partner_average_score": 73.9
           }
-        }
+        },
+        "cost": 7563
       }
     ]
   },
@@ -435,7 +442,8 @@
             "partner_average_score_no_sq": 80.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 10848
       },
       {
         "name": "Samuel Badcock",
@@ -471,7 +479,8 @@
             "average_score_no_sq": 60,
             "average_score_last_10": 60
           }
-        }
+        },
+        "cost": 7461
       },
       {
         "name": "buneary",
@@ -509,7 +518,8 @@
             "average_score_last_10": 80.5,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 8241
       },
       {
         "name": "Luma",
@@ -546,7 +556,8 @@
             "average_score_no_sq": 90,
             "average_score_last_10": 90
           }
-        }
+        },
+        "cost": 10626
       },
       {
         "name": "Danny Fathom",
@@ -586,7 +597,8 @@
             "partner_average_score_no_sq": 84.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5810
       },
       {
         "name": "flora",
@@ -614,7 +626,8 @@
             "partner_average_score_no_sq": 81.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 9768
       },
       {
         "name": "Francis",
@@ -687,7 +700,8 @@
             "average_score_no_sq": 100,
             "average_score_last_10": 100
           }
-        }
+        },
+        "cost": 8638
       },
       {
         "name": "SixSeven",
@@ -742,7 +756,8 @@
             "partner_average_score_no_sq": 99
           },
           "2v2": {}
-        }
+        },
+        "cost": 8097
       },
       {
         "name": "LunchTrey",
@@ -804,7 +819,8 @@
             "average_score_last_10": 84.4,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 10741
       },
       {
         "name": "SideB NITA",
@@ -853,7 +869,8 @@
             "average_score_no_sq": 71.3,
             "average_score_last_10": 71.3
           }
-        }
+        },
+        "cost": 8162
       },
       {
         "name": "Tylerrr",
@@ -881,7 +898,8 @@
             "partner_average_score_no_sq": 86.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6527
       }
     ]
   },
@@ -949,7 +967,8 @@
             "average_score_last_10": 78.3,
             "partner_average_score": 74
           }
-        }
+        },
+        "cost": 11897
       },
       {
         "name": "Brandon24",
@@ -977,7 +996,8 @@
             "partner_average_score_no_sq": 75
           },
           "2v2": {}
-        }
+        },
+        "cost": 4500
       },
       {
         "name": "CanosoJr / Hu Tao",
@@ -1055,7 +1075,8 @@
             "average_score_no_sq": 66,
             "average_score_last_10": 66
           }
-        }
+        },
+        "cost": 3807
       },
       {
         "name": "rey",
@@ -1093,7 +1114,8 @@
             "average_score_last_10": 81.1,
             "partner_average_score": 99
           }
-        }
+        },
+        "cost": 9149
       },
       {
         "name": "RageBaiter",
@@ -1145,7 +1167,8 @@
             "partner_average_score_no_sq": 80.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 7873
       },
       {
         "name": "Tomsu",
@@ -1173,7 +1196,8 @@
             "partner_average_score_no_sq": 81.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5297
       },
       {
         "name": "Ty",
@@ -1200,7 +1224,8 @@
             "partner_average_score": 76.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5684
       }
     ]
   },
@@ -1271,7 +1296,8 @@
             "partner_average_score_no_sq": 86.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 7437
       },
       {
         "name": "Riize",
@@ -1398,7 +1424,8 @@
             "average_score_no_sq": 74.7,
             "average_score_last_10": 74.7
           }
-        }
+        },
+        "cost": 6879
       },
       {
         "name": "Magya0",
@@ -1466,7 +1493,8 @@
             "average_score_last_10": 76.8,
             "partner_average_score": 54
           }
-        }
+        },
+        "cost": 6932
       },
       {
         "name": "★Jesse",
@@ -1534,7 +1562,8 @@
             "average_score_last_10": 86,
             "partner_average_score": 70.3
           }
-        }
+        },
+        "cost": 6948
       },
       {
         "name": "Grimsby Town",
@@ -1570,7 +1599,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 58
           }
-        }
+        },
+        "cost": 9675
       },
       {
         "name": "7o7",
@@ -1607,7 +1637,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 60.3
           }
-        }
+        },
+        "cost": 7456
       },
       {
         "name": "Droogles / CRJ",
@@ -1647,7 +1678,8 @@
             "partner_average_score_no_sq": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 7166
       },
       {
         "name": "JSouth887",
@@ -1681,7 +1713,8 @@
             "partner_average_score_no_sq": 80.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 6916
       },
       {
         "name": "Najman",
@@ -1719,7 +1752,8 @@
             "average_score_last_10": 71.1,
             "partner_average_score": 71.8
           }
-        }
+        },
+        "cost": 7503
       },
       {
         "name": "Pop2pop",
@@ -1786,7 +1820,8 @@
             "partner_average_score_no_sq": 80.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 7492
       },
       {
         "name": "Yutopia / Ptooie",
@@ -1847,7 +1882,8 @@
             "average_score_no_sq": 65.8,
             "average_score_last_10": 65.8
           }
-        }
+        },
+        "cost": 8851
       },
       {
         "name": "Chiaki Nanami",
@@ -1881,7 +1917,8 @@
             "partner_average_score_no_sq": 81.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 9406
       },
       {
         "name": "Incineroar",
@@ -1962,7 +1999,8 @@
             "average_score_last_10": 77.8,
             "partner_average_score": 74.1
           }
-        }
+        },
+        "cost": 8962
       },
       {
         "name": "Kuru / Yuta Okkotsu",
@@ -2004,7 +2042,8 @@
             "average_score_last_10": 68.5,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 8456
       },
       {
         "name": "Phenix",
@@ -2071,7 +2110,8 @@
             "average_score_last_10": 67.3,
             "partner_average_score": 78.7
           }
-        }
+        },
+        "cost": 6745
       },
       {
         "name": "Yotano / Grotono",
@@ -2105,7 +2145,8 @@
             "partner_average_score_no_sq": 88.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 7857
       },
       {
         "name": "YuzaX / Gaúcho",
@@ -2163,7 +2204,8 @@
             "average_score_last_10": 51,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 5318
       },
       {
         "name": "Caro",
@@ -2226,7 +2268,8 @@
             "partner_average_score": 82.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5822
       },
       {
         "name": "Ika_",
@@ -2266,7 +2309,8 @@
             "partner_average_score_no_sq": 79.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 6582
       },
       {
         "name": "Milovan",
@@ -2346,7 +2390,8 @@
             "partner_average_score_no_sq": 80.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6961
       },
       {
         "name": "RhayKou",
@@ -2396,7 +2441,8 @@
             "average_score_last_10": 92.7,
             "partner_average_score": 63.8
           }
-        }
+        },
+        "cost": 8787
       },
       {
         "name": "Simon F",
@@ -2461,7 +2507,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 74.4
           }
-        }
+        },
+        "cost": 5204
       },
       {
         "name": "Butter_chicken",
@@ -2527,7 +2574,8 @@
             "average_score_last_10": 53,
             "partner_average_score": 70.9
           }
-        }
+        },
+        "cost": 5084
       },
       {
         "name": "emily_mk",
@@ -2563,7 +2611,8 @@
             "average_score_last_10": 61,
             "partner_average_score": 69.7
           }
-        }
+        },
+        "cost": 4793
       },
       {
         "name": "Frapix",
@@ -2601,7 +2650,8 @@
             "average_score_last_10": 75.4,
             "partner_average_score": 72.1
           }
-        }
+        },
+        "cost": 6182
       },
       {
         "name": "FraX",
@@ -2638,7 +2688,8 @@
             "average_score_last_10": 83.4,
             "partner_average_score": 68.4
           }
-        }
+        },
+        "cost": 6100
       },
       {
         "name": "izzy",
@@ -2675,7 +2726,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 83
           }
-        }
+        },
+        "cost": 6118
       },
       {
         "name": "Jo5hy",
@@ -2722,7 +2774,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 4448
       },
       {
         "name": "Futaba Sakura",
@@ -2750,7 +2803,8 @@
             "partner_average_score_no_sq": 92
           },
           "2v2": {}
-        }
+        },
+        "cost": 5389
       },
       {
         "name": "Nyvo",
@@ -2799,7 +2853,8 @@
             "average_score_no_sq": 67.5,
             "average_score_last_10": 67.5
           }
-        }
+        },
+        "cost": 4656
       },
       {
         "name": "Snormanda",
@@ -2841,7 +2896,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 73.2
           }
-        }
+        },
+        "cost": 5554
       },
       {
         "name": "Trappi",
@@ -2884,7 +2940,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 74.8
           }
-        }
+        },
+        "cost": 5117
       },
       {
         "name": "Yasn",
@@ -2912,7 +2969,8 @@
             "partner_average_score_no_sq": 107.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5231
       }
     ]
   },
@@ -2964,7 +3022,8 @@
             "partner_average_score_no_sq": 86.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 8402
       },
       {
         "name": "MegaJkeezy",
@@ -3004,7 +3063,8 @@
             "partner_average_score_no_sq": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 3471
       },
       {
         "name": "Ty Beyonce",
@@ -3039,7 +3099,8 @@
             "average_score_no_sq": 24,
             "average_score_last_10": 24
           }
-        }
+        },
+        "cost": 3703
       },
       {
         "name": "TheMagicalLoaf",
@@ -3067,7 +3128,8 @@
             "partner_average_score_no_sq": 78.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5840
       },
       {
         "name": "TJ / Mr. i",
@@ -3157,7 +3219,8 @@
             "average_score_last_10": 48.5,
             "partner_average_score": 80.7
           }
-        }
+        },
+        "cost": 4620
       },
       {
         "name": "Amia",
@@ -3252,7 +3315,8 @@
             "partner_average_score_no_sq": 79.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 6152
       },
       {
         "name": "narder21",
@@ -3318,7 +3382,8 @@
             "average_score_last_10": 83,
             "partner_average_score": 60
           }
-        }
+        },
+        "cost": 5560
       },
       {
         "name": "the ghasts fire",
@@ -3352,7 +3417,8 @@
             "partner_average_score_no_sq": 80.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 4930
       },
       {
         "name": "Kanade",
@@ -3380,7 +3446,8 @@
             "partner_average_score_no_sq": 79
           },
           "2v2": {}
-        }
+        },
+        "cost": 6975
       },
       {
         "name": "catc",
@@ -3454,7 +3521,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 7134
       },
       {
         "name": "Alexxx",
@@ -3516,7 +3584,8 @@
             "average_score_last_10": 77.4,
             "partner_average_score": 70.5
           }
-        }
+        },
+        "cost": 9593
       },
       {
         "name": "Fox15",
@@ -3590,7 +3659,8 @@
             "average_score_no_sq": 40.7,
             "average_score_last_10": 40.7
           }
-        }
+        },
+        "cost": 2398
       },
       {
         "name": "Fuzzy Horde",
@@ -3642,7 +3712,8 @@
             "partner_average_score_no_sq": 86
           },
           "2v2": {}
-        }
+        },
+        "cost": 4801
       },
       {
         "name": "Lodon",
@@ -3728,7 +3799,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 66.8
           }
-        }
+        },
+        "cost": 9133
       },
       {
         "name": "Nicola",
@@ -3770,7 +3842,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 70
           }
-        }
+        },
+        "cost": 5887
       },
       {
         "name": "Polaris / Palafin",
@@ -3812,7 +3885,8 @@
             "average_score_last_10": 58.8,
             "partner_average_score": 74.3
           }
-        }
+        },
+        "cost": 7227
       },
       {
         "name": "HABIBI",
@@ -3850,7 +3924,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 71.2
           }
-        }
+        },
+        "cost": 6441
       },
       {
         "name": "Don Malapalma",
@@ -3917,7 +3992,8 @@
             "partner_average_score_no_sq": 82
           },
           "2v2": {}
-        }
+        },
+        "cost": 6537
       },
       {
         "name": "Dan",
@@ -3990,7 +4066,8 @@
             "average_score_no_sq": 105,
             "average_score_last_10": 105
           }
-        }
+        },
+        "cost": 6923
       },
       {
         "name": "Froyo",
@@ -4018,7 +4095,8 @@
             "partner_average_score_no_sq": 78.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5522
       },
       {
         "name": "50 avg",
@@ -4081,7 +4159,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 68.3
           }
-        }
+        },
+        "cost": 6303
       },
       {
         "name": "Jack93",
@@ -4121,7 +4200,8 @@
             "partner_average_score_no_sq": 82.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6334
       },
       {
         "name": "Nunatak",
@@ -4149,7 +4229,8 @@
             "partner_average_score_no_sq": 82.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5126
       },
       {
         "name": "Ls = Esel",
@@ -4189,7 +4270,8 @@
             "partner_average_score_no_sq": 76.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6133
       },
       {
         "name": "Mintyy",
@@ -4268,7 +4350,8 @@
             "partner_average_score_no_sq": 79.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6204
       },
       {
         "name": "ballhog",
@@ -4296,7 +4379,8 @@
             "partner_average_score_no_sq": 73.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7102
       },
       {
         "name": "Kenai",
@@ -4324,7 +4408,8 @@
             "partner_average_score_no_sq": 82.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 7732
       },
       {
         "name": "Washed indiv",
@@ -4438,7 +4523,8 @@
             "partner_average_score_no_sq": 78.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5812
       },
       {
         "name": "Melody",
@@ -4550,7 +4636,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6439
       },
       {
         "name": "Maatpac",
@@ -4653,7 +4740,8 @@
             "average_score_last_10": 71.6,
             "partner_average_score": 77.4
           }
-        }
+        },
+        "cost": 9475
       },
       {
         "name": "Dman",
@@ -4691,7 +4779,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 11520
       },
       {
         "name": "Félix Fresh",
@@ -4725,7 +4814,8 @@
             "partner_average_score_no_sq": 77.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 6983
       },
       {
         "name": "JAMES EventsKing",
@@ -4763,7 +4853,8 @@
             "average_score_last_10": 77.4,
             "partner_average_score": 68.7
           }
-        }
+        },
+        "cost": 8575
       },
       {
         "name": "Jelledot / Kaii",
@@ -4805,7 +4896,8 @@
             "average_score_last_10": 54,
             "partner_average_score": 63
           }
-        }
+        },
+        "cost": 6862
       },
       {
         "name": "Melonz",
@@ -4833,7 +4925,8 @@
             "partner_average_score_no_sq": 82.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7625
       },
       {
         "name": "mhs",
@@ -4861,7 +4954,8 @@
             "partner_average_score_no_sq": 93.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 7962
       },
       {
         "name": "Nx",
@@ -4897,7 +4991,8 @@
             "average_score_no_sq": 68,
             "average_score_last_10": 68
           }
-        }
+        },
+        "cost": 7886
       },
       {
         "name": "BIRD UP",
@@ -4962,7 +5057,8 @@
             "average_score_no_sq": 74,
             "average_score_last_10": 74
           }
-        }
+        },
+        "cost": 7344
       },
       {
         "name": "syn.",
@@ -4999,7 +5095,8 @@
             "average_score_no_sq": 75.6,
             "average_score_last_10": 76.1
           }
-        }
+        },
+        "cost": 8757
       },
       {
         "name": "Sphinx",
@@ -5035,7 +5132,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 55
           }
-        }
+        },
+        "cost": 7767
       },
       {
         "name": "Umbre",
@@ -5072,7 +5170,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 72.5
           }
-        }
+        },
+        "cost": 7054
       }
     ]
   },
@@ -5145,7 +5244,8 @@
             "average_score_last_10": 53,
             "partner_average_score": 60
           }
-        }
+        },
+        "cost": 5689
       },
       {
         "name": "Brainiac327",
@@ -5269,7 +5369,8 @@
             "partner_average_score_no_sq": 83.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 4629
       },
       {
         "name": "Conor",
@@ -5327,7 +5428,8 @@
             "partner_average_score_no_sq": 112
           },
           "2v2": {}
-        }
+        },
+        "cost": 5232
       },
       {
         "name": "INFERNUS",
@@ -5367,7 +5469,8 @@
             "partner_average_score_no_sq": 81.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6723
       },
       {
         "name": "LuisAlf",
@@ -5484,7 +5587,8 @@
             "average_score_no_sq": 67,
             "average_score_last_10": 67
           }
-        }
+        },
+        "cost": 5378
       }
     ]
   },
@@ -5536,7 +5640,8 @@
             "partner_average_score_no_sq": 78.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 4391
       },
       {
         "name": "sen",
@@ -5596,7 +5701,8 @@
             "average_score_no_sq": 83,
             "average_score_last_10": 83
           }
-        }
+        },
+        "cost": 5089
       },
       {
         "name": "dan!_lol",
@@ -5630,7 +5736,8 @@
             "partner_average_score_no_sq": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 4676
       },
       {
         "name": "Jairby",
@@ -5729,7 +5836,8 @@
             "average_score_last_10": 53.7,
             "partner_average_score": 64.8
           }
-        }
+        },
+        "cost": 4294
       },
       {
         "name": "Sanvera",
@@ -5803,7 +5911,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 53.2
           }
-        }
+        },
+        "cost": 5515
       }
     ]
   },
@@ -5923,7 +6032,8 @@
             "average_score_last_10": 79.6,
             "partner_average_score": 74.1
           }
-        }
+        },
+        "cost": 5504
       },
       {
         "name": "Dogma",
@@ -5961,7 +6071,8 @@
             "average_score_last_10": 76.1,
             "partner_average_score": 71.2
           }
-        }
+        },
+        "cost": 5707
       },
       {
         "name": "Gl0",
@@ -5998,7 +6109,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 67.8
           }
-        }
+        },
+        "cost": 7005
       },
       {
         "name": "Halaffa",
@@ -6035,7 +6147,8 @@
             "average_score_last_10": 71.8,
             "partner_average_score": 95.7
           }
-        }
+        },
+        "cost": 4826
       },
       {
         "name": "Minh",
@@ -6073,7 +6186,8 @@
             "average_score_last_10": 72.4,
             "partner_average_score": 67.2
           }
-        }
+        },
+        "cost": 7497
       },
       {
         "name": "picklepete",
@@ -6127,7 +6241,8 @@
             "partner_average_score_no_sq": 81
           },
           "2v2": {}
-        }
+        },
+        "cost": 5622
       },
       {
         "name": "SuperNoah925",
@@ -6164,7 +6279,8 @@
             "average_score_last_10": 73.4,
             "partner_average_score": 71.3
           }
-        }
+        },
+        "cost": 6113
       },
       {
         "name": "SwagGamer47",
@@ -6202,7 +6318,8 @@
             "average_score_last_10": 78.9,
             "partner_average_score": 70.9
           }
-        }
+        },
+        "cost": 5947
       },
       {
         "name": "The_mystery4321",
@@ -6239,7 +6356,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 67.7
           }
-        }
+        },
+        "cost": 6480
       },
       {
         "name": "Catma",
@@ -6277,7 +6395,8 @@
             "average_score_last_10": 75.3,
             "partner_average_score": 73.7
           }
-        }
+        },
+        "cost": 5814
       },
       {
         "name": "JACKPOT",
@@ -6305,7 +6424,8 @@
             "partner_average_score_no_sq": 82.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5654
       }
     ]
   },
@@ -6345,7 +6465,8 @@
             "partner_average_score_no_sq": 82.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6137
       },
       {
         "name": "Flexing",
@@ -6382,7 +6503,8 @@
             "average_score_no_sq": 81,
             "average_score_last_10": 81
           }
-        }
+        },
+        "cost": 4810
       },
       {
         "name": "I AM ERROR",
@@ -6446,7 +6568,8 @@
             "average_score_last_10": 70.1,
             "partner_average_score": 72.9
           }
-        }
+        },
+        "cost": 5887
       },
       {
         "name": "Aronified",
@@ -6482,7 +6605,8 @@
             "average_score_last_10": 64.5,
             "partner_average_score": 66.7
           }
-        }
+        },
+        "cost": 5661
       },
       {
         "name": "Quinten",
@@ -6516,7 +6640,8 @@
             "partner_average_score_no_sq": 79.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5503
       },
       {
         "name": "Sneaky Golem",
@@ -6553,7 +6678,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 91
           }
-        }
+        },
+        "cost": 7599
       },
       {
         "name": "TechyAlex",
@@ -6590,7 +6716,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 78.6
           }
-        }
+        },
+        "cost": 6038
       },
       {
         "name": "Valentijn",
@@ -6628,7 +6755,8 @@
             "average_score_last_10": 69.3,
             "partner_average_score": 71.7
           }
-        }
+        },
+        "cost": 5966
       },
       {
         "name": "YuFuu",
@@ -6665,7 +6793,8 @@
             "average_score_last_10": 68.4,
             "partner_average_score": 76.7
           }
-        }
+        },
+        "cost": 5072
       },
       {
         "name": "EDM Baby Park",
@@ -6702,7 +6831,8 @@
             "average_score_last_10": 52,
             "partner_average_score": 74.2
           }
-        }
+        },
+        "cost": 4959
       }
     ]
   },
@@ -6762,7 +6892,8 @@
             "average_score_last_10": 84,
             "partner_average_score": 70.3
           }
-        }
+        },
+        "cost": 8210
       },
       {
         "name": "Gity",
@@ -6790,7 +6921,8 @@
             "partner_average_score_no_sq": 83.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5188
       },
       {
         "name": "h3ylloo",
@@ -6859,7 +6991,8 @@
             "average_score_last_10": 64.8,
             "partner_average_score": 75
           }
-        }
+        },
+        "cost": 7812
       },
       {
         "name": "Mukuro Ikusaba",
@@ -6940,7 +7073,8 @@
             "average_score_last_10": 114,
             "partner_average_score": 66
           }
-        }
+        },
+        "cost": 7772
       },
       {
         "name": "1PLIKE140",
@@ -7134,7 +7268,8 @@
             "average_score_no_sq": 74.2,
             "average_score_last_10": 76.2
           }
-        }
+        },
+        "cost": 9875
       },
       {
         "name": "macy",
@@ -7161,7 +7296,8 @@
             "partner_average_score": 90.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5539
       },
       {
         "name": "Maki Zenin",
@@ -7219,7 +7355,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 8651
       },
       {
         "name": "Pxnda",
@@ -7247,7 +7384,8 @@
             "partner_average_score_no_sq": 83.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6632
       },
       {
         "name": "Ricky / the nibbler",
@@ -7281,7 +7419,8 @@
             "partner_average_score_no_sq": 79.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 10154
       },
       {
         "name": "Riot Mortdog",
@@ -7317,7 +7456,8 @@
             "average_score_no_sq": 59,
             "average_score_last_10": 59
           }
-        }
+        },
+        "cost": 5899
       },
       {
         "name": "scones",
@@ -7353,7 +7493,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 6637
       },
       {
         "name": "iced up conk",
@@ -7381,7 +7522,8 @@
             "partner_average_score_no_sq": 83
           },
           "2v2": {}
-        }
+        },
+        "cost": 7293
       },
       {
         "name": "TwoFlips / lil bingo",
@@ -7460,7 +7602,8 @@
             "average_score_no_sq": 72,
             "average_score_last_10": 72
           }
-        }
+        },
+        "cost": 5674
       },
       {
         "name": "Dragzy",
@@ -7526,7 +7669,8 @@
             "partner_average_score_no_sq": 82.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5723
       },
       {
         "name": "Lars",
@@ -7600,7 +7744,8 @@
             "average_score_last_10": 88,
             "partner_average_score": 60.3
           }
-        }
+        },
+        "cost": 7158
       },
       {
         "name": "NFO_keule",
@@ -7634,7 +7779,8 @@
             "partner_average_score_no_sq": 81
           },
           "2v2": {}
-        }
+        },
+        "cost": 5169
       },
       {
         "name": "Pauly",
@@ -7697,7 +7843,8 @@
             "average_score_last_10": 76.8,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 7192
       },
       {
         "name": "Roofuzz",
@@ -7740,7 +7887,8 @@
             "average_score_last_10": 52.2,
             "partner_average_score": 78.6
           }
-        }
+        },
+        "cost": 4764
       },
       {
         "name": "Sp3dy",
@@ -7776,7 +7924,8 @@
             "average_score_no_sq": 56,
             "average_score_last_10": 56
           }
-        }
+        },
+        "cost": 6969
       },
       {
         "name": "tmx",
@@ -7825,7 +7974,8 @@
             "average_score_last_10": 73,
             "partner_average_score": 69.9
           }
-        }
+        },
+        "cost": 5852
       }
     ]
   },
@@ -7875,7 +8025,8 @@
             "average_score_last_10": 55.7,
             "partner_average_score": 77.5
           }
-        }
+        },
+        "cost": 5067
       },
       {
         "name": "UB Bobo",
@@ -7936,7 +8087,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 6611
       },
       {
         "name": "eXpanda",
@@ -7973,7 +8125,8 @@
             "average_score_last_10": 59.2,
             "partner_average_score": 75.5
           }
-        }
+        },
+        "cost": 6026
       },
       {
         "name": "Fabse",
@@ -8006,7 +8159,8 @@
             "partner_average_score": 82
           },
           "2v2": {}
-        }
+        },
+        "cost": 5645
       },
       {
         "name": "Impact",
@@ -8044,7 +8198,8 @@
             "average_score_last_10": 84.8,
             "partner_average_score": 68.6
           }
-        }
+        },
+        "cost": 8037
       },
       {
         "name": "Kaamos",
@@ -8088,7 +8243,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 73.2
           }
-        }
+        },
+        "cost": 7209
       },
       {
         "name": "Mage",
@@ -8129,7 +8285,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 76.2
           }
-        }
+        },
+        "cost": 5780
       },
       {
         "name": "MkwYoshi",
@@ -8157,7 +8314,8 @@
             "partner_average_score_no_sq": 87.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5498
       },
       {
         "name": "paul ♕",
@@ -8217,7 +8375,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 6421
       },
       {
         "name": "dannygg",
@@ -8245,7 +8404,8 @@
             "partner_average_score_no_sq": 93
           },
           "2v2": {}
-        }
+        },
+        "cost": 5300
       },
       {
         "name": "Nikes",
@@ -8281,7 +8441,8 @@
             "average_score_no_sq": 67,
             "average_score_last_10": 67
           }
-        }
+        },
+        "cost": 7257
       },
       {
         "name": "erupt",
@@ -8309,7 +8470,8 @@
             "partner_average_score_no_sq": 34
           },
           "2v2": {}
-        }
+        },
+        "cost": 5038
       },
       {
         "name": "Fenn",
@@ -8345,7 +8507,8 @@
             "average_score_no_sq": 64,
             "average_score_last_10": 64
           }
-        }
+        },
+        "cost": 5369
       },
       {
         "name": "puppy",
@@ -8381,7 +8544,8 @@
             "average_score_no_sq": 62,
             "average_score_last_10": 62
           }
-        }
+        },
+        "cost": 5976
       },
       {
         "name": "I need a Goth Gf",
@@ -8417,7 +8581,8 @@
             "average_score_no_sq": 62,
             "average_score_last_10": 62
           }
-        }
+        },
+        "cost": 7564
       },
       {
         "name": "Meowser",
@@ -8445,7 +8610,8 @@
             "partner_average_score_no_sq": 80.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 6629
       },
       {
         "name": "Mist_06",
@@ -8471,7 +8637,8 @@
             "average_score_no_sq": 73.6,
             "average_score_last_10": 78.4
           }
-        }
+        },
+        "cost": 7917
       },
       {
         "name": "Nix",
@@ -8507,7 +8674,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 57
           }
-        }
+        },
+        "cost": 9077
       },
       {
         "name": "Process",
@@ -8535,7 +8703,8 @@
             "partner_average_score_no_sq": 77
           },
           "2v2": {}
-        }
+        },
+        "cost": 7242
       },
       {
         "name": "revvylo",
@@ -8572,7 +8741,8 @@
             "average_score_last_10": 58.7,
             "partner_average_score": 73.3
           }
-        }
+        },
+        "cost": 7628
       },
       {
         "name": "Rompe",
@@ -8600,7 +8770,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 8245
       },
       {
         "name": "sry retire mkw",
@@ -8664,7 +8835,8 @@
             "partner_average_score_no_sq": 74.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5591
       },
       {
         "name": "Chippy",
@@ -8700,7 +8872,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 42
           }
-        }
+        },
+        "cost": 6815
       },
       {
         "name": "Chumbo",
@@ -8738,7 +8911,8 @@
             "partner_average_score": 84.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5382
       },
       {
         "name": "JM Edge",
@@ -8829,7 +9003,8 @@
             "partner_average_score_no_sq": 90.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5179
       },
       {
         "name": "Majin gam",
@@ -8863,7 +9038,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 5117
       },
       {
         "name": "Maq",
@@ -8891,7 +9067,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5541
       },
       {
         "name": "Maxi",
@@ -8973,7 +9150,8 @@
             "partner_average_score_no_sq": 89.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5860
       },
       {
         "name": "Yeff",
@@ -9009,7 +9187,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 52.5
           }
-        }
+        },
+        "cost": 5807
       },
       {
         "name": "z joe",
@@ -9129,7 +9308,8 @@
             "partner_average_score": 79
           },
           "2v2": {}
-        }
+        },
+        "cost": 5782
       },
       {
         "name": "Kaede Manyuda",
@@ -9164,7 +9344,8 @@
             "average_score_last_10": 40,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 5862
       },
       {
         "name": "Rhett",
@@ -9192,7 +9373,8 @@
             "partner_average_score_no_sq": 81.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6939
       },
       {
         "name": "SergNga",
@@ -9224,7 +9406,8 @@
             "average_score_last_10": 83.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 9546
       },
       {
         "name": "Weegah",
@@ -9252,7 +9435,8 @@
             "partner_average_score_no_sq": 81.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5493
       }
     ]
   },
@@ -9322,7 +9506,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 5902
       },
       {
         "name": "Gonuhkun",
@@ -9356,7 +9541,8 @@
             "partner_average_score_no_sq": 87.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5322
       },
       {
         "name": "Hollend",
@@ -9398,7 +9584,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 6172
       },
       {
         "name": "Nadzaa",
@@ -9434,7 +9621,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 70
           }
-        }
+        },
+        "cost": 6328
       },
       {
         "name": "Nono",
@@ -9476,7 +9664,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 6268
       },
       {
         "name": "Saezuri",
@@ -9510,7 +9699,8 @@
             "partner_average_score_no_sq": 89
           },
           "2v2": {}
-        }
+        },
+        "cost": 6154
       },
       {
         "name": "Toma Indig",
@@ -9639,7 +9829,8 @@
             "average_score_no_sq": 71,
             "average_score_last_10": 71
           }
-        }
+        },
+        "cost": 8377
       },
       {
         "name": "JustTut_ / Neuro-sama",
@@ -9695,7 +9886,8 @@
             "average_score_last_10": 66.2,
             "partner_average_score": 70.5
           }
-        }
+        },
+        "cost": 7501
       },
       {
         "name": "kennW",
@@ -9740,7 +9932,8 @@
             "partner_average_score_no_sq": 76
           },
           "2v2": {}
-        }
+        },
+        "cost": 3512
       },
       {
         "name": "M4E",
@@ -9778,7 +9971,8 @@
             "average_score_last_10": 61.1,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 6855
       },
       {
         "name": "Mints1104",
@@ -9814,7 +10008,8 @@
             "average_score_no_sq": 61,
             "average_score_last_10": 61
           }
-        }
+        },
+        "cost": 6090
       },
       {
         "name": "RikaFurude",
@@ -9893,7 +10088,8 @@
             "partner_average_score_no_sq": 80.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6000
       },
       {
         "name": "Voix00",
@@ -9929,7 +10125,8 @@
             "average_score_last_10": 67,
             "partner_average_score": 47
           }
-        }
+        },
+        "cost": 5215
       },
       {
         "name": "Willo",
@@ -9957,7 +10154,8 @@
             "partner_average_score_no_sq": 84.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6798
       }
     ]
   },
@@ -10006,7 +10204,8 @@
             "average_score_last_10": 56.5,
             "partner_average_score": 79.9
           }
-        }
+        },
+        "cost": 5261
       },
       {
         "name": "MermaidPink",
@@ -10043,7 +10242,8 @@
             "average_score_last_10": 73.5,
             "partner_average_score": 76.8
           }
-        }
+        },
+        "cost": 4675
       },
       {
         "name": "Dirt",
@@ -10077,7 +10277,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 72.8
           }
-        }
+        },
+        "cost": 4360
       },
       {
         "name": "Grape",
@@ -10104,7 +10305,8 @@
             "partner_average_score": 86
           },
           "2v2": {}
-        }
+        },
+        "cost": 5119
       },
       {
         "name": "J4y",
@@ -10165,7 +10367,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 5508
       },
       {
         "name": "Judgesphinx",
@@ -10201,7 +10404,8 @@
             "average_score_last_10": 81,
             "partner_average_score": 63.5
           }
-        }
+        },
+        "cost": 7655
       },
       {
         "name": "Kikita",
@@ -10229,7 +10433,8 @@
             "partner_average_score_no_sq": 71
           },
           "2v2": {}
-        }
+        },
+        "cost": 5066
       },
       {
         "name": "kkoshi",
@@ -10265,7 +10470,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 75.5
           }
-        }
+        },
+        "cost": 5207
       },
       {
         "name": "mikuwi",
@@ -10331,7 +10537,8 @@
             "partner_average_score_no_sq": 85.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6578
       },
       {
         "name": "SushiYoshi",
@@ -10392,7 +10599,8 @@
             "average_score_last_10": 99.7,
             "partner_average_score": 61.8
           }
-        }
+        },
+        "cost": 6781
       },
       {
         "name": "Wunder",
@@ -10463,7 +10671,8 @@
             "average_score_last_10": 60,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 6281
       }
     ]
   },
@@ -10512,7 +10721,8 @@
             "average_score_last_10": 64,
             "partner_average_score": 81
           }
-        }
+        },
+        "cost": 6508
       },
       {
         "name": "clout",
@@ -10540,7 +10750,8 @@
             "partner_average_score_no_sq": 90.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5520
       },
       {
         "name": "Freddy Fishbone",
@@ -10576,7 +10787,8 @@
             "average_score_last_10": 61,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 7105
       },
       {
         "name": "swooper blooper",
@@ -10604,7 +10816,8 @@
             "partner_average_score_no_sq": 92
           },
           "2v2": {}
-        }
+        },
+        "cost": 6025
       },
       {
         "name": "Deci",
@@ -10648,7 +10861,8 @@
             "average_score_last_10": 77.4,
             "partner_average_score": 47
           }
-        }
+        },
+        "cost": 7129
       },
       {
         "name": "Flurry64",
@@ -10685,7 +10899,8 @@
             "average_score_last_10": 56.5,
             "partner_average_score": 92.7
           }
-        }
+        },
+        "cost": 4414
       },
       {
         "name": "grimshadow10",
@@ -10753,7 +10968,8 @@
             "average_score_last_10": 85.5,
             "partner_average_score": 54
           }
-        }
+        },
+        "cost": 8565
       },
       {
         "name": "Kensa Dudu",
@@ -10902,7 +11118,8 @@
             "average_score_last_10": 86,
             "partner_average_score": 66.4
           }
-        }
+        },
+        "cost": 5893
       },
       {
         "name": "TheKoopaGuy",
@@ -11011,7 +11228,8 @@
             "partner_average_score_no_sq": 78.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 8619
       },
       {
         "name": "green",
@@ -11039,7 +11257,8 @@
             "partner_average_score_no_sq": 97
           },
           "2v2": {}
-        }
+        },
+        "cost": 6458
       },
       {
         "name": "jamie",
@@ -11083,7 +11302,8 @@
             "average_score_last_10": 81.8,
             "partner_average_score": 74.5
           }
-        }
+        },
+        "cost": 11644
       },
       {
         "name": "K4I",
@@ -11119,7 +11339,8 @@
             "average_score_last_10": 83.8,
             "partner_average_score": 72.2
           }
-        }
+        },
+        "cost": 6796
       },
       {
         "name": "K11y",
@@ -11154,7 +11375,8 @@
             "average_score_no_sq": 71.5,
             "average_score_last_10": 72.8
           }
-        }
+        },
+        "cost": 5017
       },
       {
         "name": "lukeOLD",
@@ -11180,7 +11402,8 @@
             "average_score_last_10": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5768
       },
       {
         "name": "rcs",
@@ -11222,7 +11445,8 @@
             "average_score_last_10": 61,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 7593
       },
       {
         "name": "rubified",
@@ -11250,7 +11474,8 @@
             "partner_average_score_no_sq": 72
           },
           "2v2": {}
-        }
+        },
+        "cost": 7577
       },
       {
         "name": "Sgt",
@@ -11293,7 +11518,8 @@
             "average_score_no_sq": 82.5,
             "average_score_last_10": 82.5
           }
-        }
+        },
+        "cost": 9544
       },
       {
         "name": "sopt",
@@ -11330,7 +11556,8 @@
             "average_score_no_sq": 69,
             "average_score_last_10": 69
           }
-        }
+        },
+        "cost": 9631
       },
       {
         "name": "Starlow",
@@ -11368,7 +11595,8 @@
             "average_score_last_10": 87.1,
             "partner_average_score": 90.5
           }
-        }
+        },
+        "cost": 12146
       },
       {
         "name": "SuperFX",
@@ -11402,7 +11630,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 3930
       },
       {
         "name": "Xander",
@@ -11541,7 +11770,8 @@
             "partner_average_score_no_sq": 77.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 2262
       },
       {
         "name": "Hoshi",
@@ -11583,7 +11813,8 @@
             "average_score_last_10": 43,
             "partner_average_score": 50
           }
-        }
+        },
+        "cost": 5662
       },
       {
         "name": "King lou",
@@ -11735,7 +11966,8 @@
             "average_score_last_10": 58,
             "partner_average_score": 61.8
           }
-        }
+        },
+        "cost": 6799
       },
       {
         "name": "で • Kakay",
@@ -11791,7 +12023,8 @@
             "average_score_last_10": 71.3,
             "partner_average_score": 80
           }
-        }
+        },
+        "cost": 6221
       },
       {
         "name": "chiZZo-",
@@ -11826,7 +12059,8 @@
             "average_score_last_10": 41,
             "partner_average_score": 72.5
           }
-        }
+        },
+        "cost": 2530
       },
       {
         "name": "Chuela",
@@ -11862,7 +12096,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 2497
       },
       {
         "name": "Curious Guy",
@@ -11920,7 +12155,8 @@
             "partner_average_score_no_sq": 87.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6174
       },
       {
         "name": "LuquitasTkm",
@@ -11975,7 +12211,8 @@
             "average_score_last_10": 85,
             "partner_average_score": 53.3
           }
-        }
+        },
+        "cost": 6948
       },
       {
         "name": "Warangaron",
@@ -12037,7 +12274,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 59.5
           }
-        }
+        },
+        "cost": 6269
       },
       {
         "name": "Ulquiorra",
@@ -12075,7 +12313,8 @@
             "average_score_last_10": 76.6,
             "partner_average_score": 72.8
           }
-        }
+        },
+        "cost": 7218
       },
       {
         "name": "GLEISON BREMER",
@@ -12112,7 +12351,8 @@
             "average_score_last_10": 78.2,
             "partner_average_score": 69.1
           }
-        }
+        },
+        "cost": 8109
       },
       {
         "name": "JackShady80",
@@ -12155,7 +12395,8 @@
             "average_score_last_10": 67.2,
             "partner_average_score": 66.6
           }
-        }
+        },
+        "cost": 6556
       },
       {
         "name": "Marcosky",
@@ -12189,7 +12430,8 @@
             "partner_average_score_no_sq": 71
           },
           "2v2": {}
-        }
+        },
+        "cost": 5486
       },
       {
         "name": "Sasino",
@@ -12226,7 +12468,8 @@
             "average_score_last_10": 71.8,
             "partner_average_score": 76.9
           }
-        }
+        },
+        "cost": 5502
       },
       {
         "name": "Sushi susu gogo",
@@ -12264,7 +12507,8 @@
             "average_score_last_10": 73.8,
             "partner_average_score": 66
           }
-        }
+        },
+        "cost": 6536
       },
       {
         "name": "Zero-One",
@@ -12302,7 +12546,8 @@
             "average_score_last_10": 54.3,
             "partner_average_score": 75.6
           }
-        }
+        },
+        "cost": 4496
       }
     ]
   },
@@ -12389,7 +12634,8 @@
             "average_score_last_10": 52.5,
             "partner_average_score": 73.7
           }
-        }
+        },
+        "cost": 5877
       },
       {
         "name": "Eren / Asso",
@@ -12441,7 +12687,8 @@
             "partner_average_score_no_sq": 79.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6265
       },
       {
         "name": "Misaka92",
@@ -12483,7 +12730,8 @@
             "average_score_no_sq": 62,
             "average_score_last_10": 62
           }
-        }
+        },
+        "cost": 4212
       },
       {
         "name": "Tony1UP",
@@ -12545,7 +12793,8 @@
             "partner_average_score_no_sq": 81.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 5025
       },
       {
         "name": "Zexal",
@@ -12600,7 +12849,8 @@
             "average_score_last_10": 87,
             "partner_average_score": 58
           }
-        }
+        },
+        "cost": 4579
       },
       {
         "name": "Dianny",
@@ -12626,7 +12876,8 @@
             "partner_average_score": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 4068
       },
       {
         "name": "Fulcrum",
@@ -12714,7 +12965,8 @@
             "average_score_last_10": 74.5,
             "partner_average_score": 64
           }
-        }
+        },
+        "cost": 4784
       },
       {
         "name": "MRZ",
@@ -12749,7 +13001,8 @@
             "average_score_last_10": 60.5,
             "partner_average_score": 82.5
           }
-        }
+        },
+        "cost": 4111
       },
       {
         "name": "NinjaMario",
@@ -12882,7 +13135,8 @@
             "partner_average_score_no_sq": 86.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5719
       },
       {
         "name": "ραυパウロ",
@@ -12952,7 +13206,8 @@
             "partner_average_score_no_sq": 97
           },
           "2v2": {}
-        }
+        },
+        "cost": 5276
       },
       {
         "name": "milololo1",
@@ -13044,7 +13299,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4366
       },
       {
         "name": "TITl",
@@ -13146,7 +13402,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 61.4
           }
-        }
+        },
+        "cost": 7509
       },
       {
         "name": "Hysilens",
@@ -13184,7 +13441,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 8148
       },
       {
         "name": "Galax / gx / Sung J.",
@@ -13226,7 +13484,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 61.5
           }
-        }
+        },
+        "cost": 7598
       },
       {
         "name": "Yune",
@@ -13262,7 +13521,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 59.4
           }
-        }
+        },
+        "cost": 7794
       },
       {
         "name": "Origin",
@@ -13290,7 +13550,8 @@
             "partner_average_score_no_sq": 74.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 8549
       },
       {
         "name": "Nox",
@@ -13336,7 +13597,8 @@
             "partner_average_score_no_sq": 84.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 7992
       },
       {
         "name": "Rayzopp / Yamal",
@@ -13378,7 +13640,8 @@
             "average_score_last_10": 73,
             "partner_average_score": 59.2
           }
-        }
+        },
+        "cost": 8864
       },
       {
         "name": "Naked Toad",
@@ -13406,7 +13669,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 2974
       },
       {
         "name": "Tost 34",
@@ -13518,7 +13782,8 @@
             "partner_average_score_no_sq": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 6018
       },
       {
         "name": "Parker",
@@ -13576,7 +13841,8 @@
             "partner_average_score_no_sq": 89.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5846
       },
       {
         "name": "Sweq32",
@@ -13640,7 +13906,8 @@
             "partner_average_score_no_sq": 79.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7642
       },
       {
         "name": "Fernan",
@@ -13725,7 +13992,8 @@
             "average_score_no_sq": 55.5,
             "average_score_last_10": 55.5
           }
-        }
+        },
+        "cost": 7963
       },
       {
         "name": "OcellCanari",
@@ -13777,7 +14045,8 @@
             "partner_average_score_no_sq": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6163
       },
       {
         "name": "Virtual Diva",
@@ -13805,7 +14074,8 @@
             "partner_average_score_no_sq": 86.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5207
       },
       {
         "name": "Vlue",
@@ -13867,7 +14137,8 @@
             "average_score_last_10": 73.9,
             "partner_average_score": 68.3
           }
-        }
+        },
+        "cost": 9523
       },
       {
         "name": "Cleisii",
@@ -13904,7 +14175,8 @@
             "average_score_last_10": 69.5,
             "partner_average_score": 70.6
           }
-        }
+        },
+        "cost": 10325
       },
       {
         "name": "Elyoyer",
@@ -13942,7 +14214,8 @@
             "average_score_last_10": 76.5,
             "partner_average_score": 68.2
           }
-        }
+        },
+        "cost": 8260
       },
       {
         "name": "JOYBOY",
@@ -13980,7 +14253,8 @@
             "average_score_last_10": 85,
             "partner_average_score": 67.2
           }
-        }
+        },
+        "cost": 11799
       },
       {
         "name": "LeBron James",
@@ -14016,7 +14290,8 @@
             "average_score_last_10": 61.1,
             "partner_average_score": 84.5
           }
-        }
+        },
+        "cost": 4895
       },
       {
         "name": "MortLas",
@@ -14053,7 +14328,8 @@
             "average_score_last_10": 81.1,
             "partner_average_score": 68.8
           }
-        }
+        },
+        "cost": 8428
       },
       {
         "name": "Sergio Ramos 2.0",
@@ -14091,7 +14367,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 70.5
           }
-        }
+        },
+        "cost": 8272
       },
       {
         "name": "Paco_Gaita",
@@ -14132,7 +14409,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 72.8
           }
-        }
+        },
+        "cost": 6929
       },
       {
         "name": "Genocide Jack",
@@ -14170,7 +14448,8 @@
             "average_score_last_10": 75.7,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 9242
       },
       {
         "name": "Splendy",
@@ -14208,7 +14487,8 @@
             "average_score_last_10": 76.6,
             "partner_average_score": 73.9
           }
-        }
+        },
+        "cost": 10336
       },
       {
         "name": "Timo",
@@ -14246,7 +14526,8 @@
             "average_score_last_10": 67.6,
             "partner_average_score": 72.2
           }
-        }
+        },
+        "cost": 9074
       }
     ]
   },
@@ -14296,7 +14577,8 @@
             "average_score_last_10": 69.1,
             "partner_average_score": 79
           }
-        }
+        },
+        "cost": 6590
       },
       {
         "name": "Aleek",
@@ -14334,7 +14616,8 @@
             "average_score_last_10": 68.1,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 8101
       },
       {
         "name": "Biz",
@@ -14376,7 +14659,8 @@
             "average_score_last_10": 49.7,
             "partner_average_score": 72.2
           }
-        }
+        },
+        "cost": 7036
       },
       {
         "name": "iLyOniiX",
@@ -14413,7 +14697,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 76.6
           }
-        }
+        },
+        "cost": 7084
       },
       {
         "name": "ItsJulian47 / Yulien",
@@ -14456,7 +14741,8 @@
             "average_score_last_10": 53.3,
             "partner_average_score": 75.2
           }
-        }
+        },
+        "cost": 6760
       },
       {
         "name": "Matedy",
@@ -14492,7 +14778,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 60
           }
-        }
+        },
+        "cost": 8059
       },
       {
         "name": "PabloGKR",
@@ -14530,7 +14817,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 8375
       },
       {
         "name": "Rocar",
@@ -14558,7 +14846,8 @@
             "partner_average_score_no_sq": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6916
       },
       {
         "name": "Seral",
@@ -14595,7 +14884,8 @@
             "average_score_last_10": 65.5,
             "partner_average_score": 83.5
           }
-        }
+        },
+        "cost": 7615
       },
       {
         "name": "Miriana Conte",
@@ -14632,7 +14922,8 @@
             "average_score_last_10": 64.5,
             "partner_average_score": 82.6
           }
-        }
+        },
+        "cost": 8248
       },
       {
         "name": "Yiyo",
@@ -14672,7 +14963,7 @@
             "gainloss_last_10": 181,
             "largest_gain": 219,
             "average_score": 83.9,
-            "average_score_no_sq": 85.0,
+            "average_score_no_sq": 85,
             "average_score_last_10": 84.7,
             "partner_average_score": 83.3,
             "partner_average_score_no_sq": 85.3
@@ -14683,11 +14974,12 @@
             "win_loss_last_10": "0 - 1",
             "gainloss_last_10": -124,
             "largest_gain": null,
-            "average_score": 56.0,
+            "average_score": 56,
             "average_score_last_10": null,
-            "partner_average_score": 81.0
+            "partner_average_score": 81
           }
-        }
+        },
+        "cost": 6407
       },
       {
         "name": "Attila 10",
@@ -14715,7 +15007,8 @@
             "partner_average_score_no_sq": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6501
       },
       {
         "name": "cano",
@@ -14743,7 +15036,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6338
       },
       {
         "name": "Edu",
@@ -14780,7 +15074,8 @@
             "average_score_last_10": 67.8,
             "partner_average_score": 74.5
           }
-        }
+        },
+        "cost": 6303
       },
       {
         "name": "elgraco",
@@ -14817,7 +15112,8 @@
             "average_score_last_10": 81.6,
             "partner_average_score": 74.1
           }
-        }
+        },
+        "cost": 5607
       },
       {
         "name": "El Canelita",
@@ -14922,7 +15218,8 @@
             "partner_average_score_no_sq": 86.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7606
       },
       {
         "name": "Tario",
@@ -14960,7 +15257,8 @@
             "average_score_last_10": 66.6,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 8469
       },
       {
         "name": "Vick6804",
@@ -14997,7 +15295,8 @@
             "average_score_last_10": 71.5,
             "partner_average_score": 83.2
           }
-        }
+        },
+        "cost": 6603
       },
       {
         "name": "Vomicia",
@@ -15025,7 +15324,8 @@
             "partner_average_score_no_sq": 74.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6275
       },
       {
         "name": "REDEMPTION",
@@ -15063,7 +15363,8 @@
             "average_score_last_10": 64.2,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 6691
       }
     ]
   },
@@ -15110,7 +15411,8 @@
             "average_score_last_10": 54.8,
             "partner_average_score": 78.5
           }
-        }
+        },
+        "cost": 5459
       },
       {
         "name": "BlazQ11",
@@ -15154,7 +15456,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 66.5
           }
-        }
+        },
+        "cost": 5403
       },
       {
         "name": "Brox",
@@ -15194,7 +15497,8 @@
             "partner_average_score_no_sq": 83.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 6248
       },
       {
         "name": "Dieguu",
@@ -15266,7 +15570,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 5738
       },
       {
         "name": "DK Spaceport",
@@ -15304,7 +15609,8 @@
             "average_score_last_10": 74.9,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 6864
       },
       {
         "name": "Endless Leach",
@@ -15332,7 +15638,8 @@
             "partner_average_score_no_sq": 75.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5750
       },
       {
         "name": "Korni",
@@ -15370,7 +15677,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 69.9
           }
-        }
+        },
+        "cost": 6865
       },
       {
         "name": "L-DIEGO!",
@@ -15410,7 +15718,8 @@
             "partner_average_score_no_sq": 84.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4221
       },
       {
         "name": "MrL7boi",
@@ -15480,7 +15789,8 @@
             "average_score_last_10": 68.5,
             "partner_average_score": 67.5
           }
-        }
+        },
+        "cost": 6003
       },
       {
         "name": "Poc a poc",
@@ -15518,7 +15828,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 91
           }
-        }
+        },
+        "cost": 5315
       },
       {
         "name": "Hugo07",
@@ -15554,7 +15865,8 @@
             "average_score_last_10": 64,
             "partner_average_score": 77
           }
-        }
+        },
+        "cost": 5439
       },
       {
         "name": "Yegu07",
@@ -15582,7 +15894,8 @@
             "partner_average_score_no_sq": 95
           },
           "2v2": {}
-        }
+        },
+        "cost": 4545
       }
     ]
   },
@@ -15636,7 +15949,8 @@
             "average_score_last_10": 56.5,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 6216
       },
       {
         "name": "Gos",
@@ -15674,7 +15988,8 @@
             "average_score_last_10": 64.5,
             "partner_average_score": 82.5
           }
-        }
+        },
+        "cost": 6150
       },
       {
         "name": "Jaime",
@@ -15702,7 +16017,8 @@
             "partner_average_score_no_sq": 76.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6507
       },
       {
         "name": "Mxku",
@@ -15739,7 +16055,8 @@
             "average_score_no_sq": 70.8,
             "average_score_last_10": 70.8
           }
-        }
+        },
+        "cost": 5558
       },
       {
         "name": "Morsy",
@@ -15767,7 +16084,8 @@
             "partner_average_score_no_sq": 71.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 4983
       },
       {
         "name": "Nandinio21",
@@ -15795,7 +16113,8 @@
             "partner_average_score_no_sq": 81.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5296
       },
       {
         "name": "FitnessBoy",
@@ -15823,7 +16142,8 @@
             "partner_average_score_no_sq": 79.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5889
       },
       {
         "name": "Dame Veneno ESP",
@@ -15851,7 +16171,8 @@
             "partner_average_score_no_sq": 76.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5173
       },
       {
         "name": "Rafa / TuGitano6",
@@ -15893,7 +16214,8 @@
             "average_score_last_10": 73.5,
             "partner_average_score": 56.5
           }
-        }
+        },
+        "cost": 5692
       },
       {
         "name": "Txustra",
@@ -16012,7 +16334,8 @@
             "average_score_last_10": 60,
             "partner_average_score": 92
           }
-        }
+        },
+        "cost": 4677
       },
       {
         "name": "FE Javi",
@@ -16066,7 +16389,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 4346
       },
       {
         "name": "Jerrynton",
@@ -16102,7 +16426,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 4177
       },
       {
         "name": "JonyTgn",
@@ -16186,7 +16511,8 @@
             "average_score_last_10": 79.5,
             "partner_average_score": 62.5
           }
-        }
+        },
+        "cost": 5310
       },
       {
         "name": "Miguelmc17",
@@ -16285,7 +16611,8 @@
             "partner_average_score_no_sq": 79
           },
           "2v2": {}
-        }
+        },
+        "cost": 3357
       },
       {
         "name": "Valera",
@@ -16359,7 +16686,8 @@
             "partner_average_score_no_sq": 61
           },
           "2v2": {}
-        }
+        },
+        "cost": 4645
       }
     ]
   },
@@ -16399,7 +16727,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4672
       },
       {
         "name": "Claude Fournier",
@@ -16435,7 +16764,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 61.5
           }
-        }
+        },
+        "cost": 5545
       },
       {
         "name": "Baptboy",
@@ -16463,7 +16793,8 @@
             "partner_average_score_no_sq": 61
           },
           "2v2": {}
-        }
+        },
+        "cost": 5461
       },
       {
         "name": "Djan God",
@@ -16491,7 +16822,8 @@
             "partner_average_score_no_sq": 68
           },
           "2v2": {}
-        }
+        },
+        "cost": 4469
       },
       {
         "name": "Dudu_ne",
@@ -16574,7 +16906,8 @@
             "partner_average_score": 84.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5376
       },
       {
         "name": "Jonaq",
@@ -16609,7 +16942,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 77.2
           }
-        }
+        },
+        "cost": 5086
       },
       {
         "name": "Kyorai",
@@ -16682,7 +17016,8 @@
             "average_score_last_10": 52,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 5252
       },
       {
         "name": "Sarei",
@@ -16786,7 +17121,8 @@
             "average_score_last_10": 85,
             "partner_average_score": 46.5
           }
-        }
+        },
+        "cost": 4491
       },
       {
         "name": "Cosmonova",
@@ -16914,7 +17250,8 @@
             "average_score_last_10": 44.8,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 2016
       },
       {
         "name": "SolarAaron",
@@ -17012,7 +17349,8 @@
             "average_score_last_10": 82.3,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 5318
       },
       {
         "name": "Eucratide",
@@ -17039,7 +17377,8 @@
             "partner_average_score": 88.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 4929
       },
       {
         "name": "Evernest",
@@ -17066,7 +17405,8 @@
             "partner_average_score": 83
           },
           "2v2": {}
-        }
+        },
+        "cost": 4464
       },
       {
         "name": "gwendal",
@@ -17121,7 +17461,8 @@
             "partner_average_score_no_sq": 76.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5477
       },
       {
         "name": "Gros Clebz",
@@ -17158,7 +17499,8 @@
             "average_score_last_10": 67,
             "partner_average_score": 91.5
           }
-        }
+        },
+        "cost": 5196
       },
       {
         "name": "KyheroO",
@@ -17237,7 +17579,8 @@
             "partner_average_score_no_sq": 74.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 5314
       },
       {
         "name": "Swayz",
@@ -17273,7 +17616,8 @@
             "average_score_no_sq": 39,
             "average_score_last_10": 39
           }
-        }
+        },
+        "cost": 3934
       },
       {
         "name": "TourneviZ",
@@ -17315,7 +17659,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 5437
       },
       {
         "name": "Yumerios",
@@ -17390,7 +17735,8 @@
             "average_score_last_10": 81.5,
             "partner_average_score": 76.2
           }
-        }
+        },
+        "cost": 6966
       },
       {
         "name": "Deltaa / SAE / gnt",
@@ -17433,7 +17779,8 @@
             "average_score_last_10": 67.7,
             "partner_average_score": 69.6
           }
-        }
+        },
+        "cost": 6757
       },
       {
         "name": "GagouKing",
@@ -17470,7 +17817,8 @@
             "average_score_last_10": 83.2,
             "partner_average_score": 70.9
           }
-        }
+        },
+        "cost": 8953
       },
       {
         "name": "Kap2l",
@@ -17519,7 +17867,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 80
           }
-        }
+        },
+        "cost": 5324
       },
       {
         "name": "Nalid",
@@ -17561,7 +17910,8 @@
             "average_score_last_10": 78.5,
             "partner_average_score": 57.5
           }
-        }
+        },
+        "cost": 7505
       },
       {
         "name": "Palady / dih",
@@ -17676,7 +18026,8 @@
             "average_score_last_10": 71.9,
             "partner_average_score": 70.4
           }
-        }
+        },
+        "cost": 7437
       },
       {
         "name": "Skogen / Weddell",
@@ -17763,7 +18114,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 59
           }
-        }
+        },
+        "cost": 5776
       },
       {
         "name": "Corbs Myst Proto",
@@ -17823,7 +18175,8 @@
             "average_score_no_sq": 57,
             "average_score_last_10": 57
           }
-        }
+        },
+        "cost": 5540
       },
       {
         "name": "DEMISE",
@@ -17851,7 +18204,8 @@
             "partner_average_score_no_sq": 72.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 6491
       },
       {
         "name": "Dicey",
@@ -17879,7 +18233,8 @@
             "partner_average_score_no_sq": 87.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6865
       },
       {
         "name": "Jhay",
@@ -17916,7 +18271,8 @@
             "average_score_last_10": 76.5,
             "partner_average_score": 62.5
           }
-        }
+        },
+        "cost": 7024
       },
       {
         "name": "KingHuckster",
@@ -17954,7 +18310,8 @@
             "average_score_last_10": 93,
             "partner_average_score": 68.8
           }
-        }
+        },
+        "cost": 6139
       },
       {
         "name": "Minty",
@@ -18007,7 +18364,8 @@
             "partner_average_score_no_sq": 91.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5782
       },
       {
         "name": "Roxass",
@@ -18086,7 +18444,8 @@
             "partner_average_score_no_sq": 56.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4863
       },
       {
         "name": "Stickman ツ",
@@ -18129,7 +18488,8 @@
             "average_score_no_sq": 69,
             "average_score_last_10": 68.1
           }
-        }
+        },
+        "cost": 7250
       },
       {
         "name": "TKS_Memer2",
@@ -18167,7 +18527,8 @@
             "average_score_last_10": 73.2,
             "partner_average_score": 65.3
           }
-        }
+        },
+        "cost": 8161
       },
       {
         "name": "wìndward",
@@ -18201,7 +18562,8 @@
             "partner_average_score_no_sq": 76.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5128
       }
     ]
   },
@@ -18284,7 +18646,8 @@
             "average_score_last_10": 70.3,
             "partner_average_score": 69.1
           }
-        }
+        },
+        "cost": 7170
       },
       {
         "name": "KaZuToRa",
@@ -18365,7 +18728,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 68.8
           }
-        }
+        },
+        "cost": 5475
       },
       {
         "name": "LeoRex",
@@ -18414,7 +18778,8 @@
             "average_score_no_sq": 66,
             "average_score_last_10": 66
           }
-        }
+        },
+        "cost": 6112
       },
       {
         "name": "Tartar Sauce",
@@ -18477,7 +18842,8 @@
             "average_score_last_10": 63.5,
             "partner_average_score": 69.7
           }
-        }
+        },
+        "cost": 6443
       },
       {
         "name": "Purple",
@@ -18605,7 +18971,8 @@
             "partner_average_score_no_sq": 79.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5819
       },
       {
         "name": "[MT]Pastra",
@@ -18646,7 +19013,8 @@
             "average_score_last_10": 61,
             "partner_average_score": 71.8
           }
-        }
+        },
+        "cost": 4739
       },
       {
         "name": "AlbeSkrill",
@@ -18726,7 +19094,8 @@
             "partner_average_score_no_sq": 83.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6578
       },
       {
         "name": "Volcarona",
@@ -18754,7 +19123,8 @@
             "partner_average_score_no_sq": 87.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6466
       },
       {
         "name": "Balin4900",
@@ -18782,7 +19152,8 @@
             "partner_average_score_no_sq": 77.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 4768
       },
       {
         "name": "Birria",
@@ -18824,7 +19195,8 @@
             "average_score_last_10": 78.3,
             "partner_average_score": 67.9
           }
-        }
+        },
+        "cost": 5684
       },
       {
         "name": "Jak679",
@@ -18872,7 +19244,8 @@
             "average_score_last_10": 60,
             "partner_average_score": 73.8
           }
-        }
+        },
+        "cost": 4599
       },
       {
         "name": "Naldo",
@@ -18900,7 +19273,8 @@
             "partner_average_score_no_sq": 78.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7154
       },
       {
         "name": "Pleyades",
@@ -18928,7 +19302,8 @@
             "partner_average_score_no_sq": 76
           },
           "2v2": {}
-        }
+        },
+        "cost": 5576
       },
       {
         "name": "L.Yagami",
@@ -18955,7 +19330,8 @@
             "partner_average_score": 83.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5870
       },
       {
         "name": "Rodrigosai",
@@ -19030,7 +19406,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 68.2
           }
-        }
+        },
+        "cost": 5292
       },
       {
         "name": "Welcius",
@@ -19129,7 +19506,8 @@
             "average_score_no_sq": 55,
             "average_score_last_10": 55
           }
-        }
+        },
+        "cost": 6959
       },
       {
         "name": "WB Jonas",
@@ -19166,7 +19544,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 4979
       },
       {
         "name": "Joro",
@@ -19194,7 +19573,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 4696
       },
       {
         "name": "YamineLamal",
@@ -19222,7 +19602,8 @@
             "partner_average_score_no_sq": 69.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 4107
       },
       {
         "name": "Matthijs",
@@ -19301,7 +19682,8 @@
             "average_score_no_sq": 66,
             "average_score_last_10": 66
           }
-        }
+        },
+        "cost": 3842
       },
       {
         "name": "Orochi",
@@ -19329,7 +19711,8 @@
             "partner_average_score_no_sq": 36
           },
           "2v2": {}
-        }
+        },
+        "cost": 6211
       },
       {
         "name": "Pottary",
@@ -19369,7 +19752,8 @@
             "partner_average_score_no_sq": 74
           },
           "2v2": {}
-        }
+        },
+        "cost": 6084
       },
       {
         "name": "Spielpro",
@@ -19407,7 +19791,8 @@
             "average_score_last_10": 69.8,
             "partner_average_score": 64.5
           }
-        }
+        },
+        "cost": 5635
       },
       {
         "name": "Stroopwafl",
@@ -19445,7 +19830,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 7652
       }
     ]
   },
@@ -19553,7 +19939,8 @@
             "partner_average_score_no_sq": 83.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5579
       },
       {
         "name": "Bfams",
@@ -19591,7 +19978,8 @@
             "average_score_last_10": 85.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 4935
       },
       {
         "name": "Fir",
@@ -19634,7 +20022,8 @@
             "average_score_no_sq": 68,
             "average_score_last_10": 68
           }
-        }
+        },
+        "cost": 5281
       },
       {
         "name": "Juice",
@@ -19662,7 +20051,8 @@
             "partner_average_score_no_sq": 82.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5714
       },
       {
         "name": "Infear",
@@ -19758,7 +20148,8 @@
             "partner_average_score_no_sq": 92.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5087
       },
       {
         "name": "ProTimeIsNow",
@@ -19826,7 +20217,8 @@
             "average_score_last_10": 67.6,
             "partner_average_score": 71.2
           }
-        }
+        },
+        "cost": 6501
       },
       {
         "name": "Bhoney",
@@ -19854,7 +20246,8 @@
             "partner_average_score_no_sq": 85.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6422
       },
       {
         "name": "Carbuncle24",
@@ -19892,7 +20285,8 @@
             "average_score_last_10": 79.4,
             "partner_average_score": 67.9
           }
-        }
+        },
+        "cost": 8736
       },
       {
         "name": "DayNeptune",
@@ -19926,7 +20320,8 @@
             "partner_average_score_no_sq": 76
           },
           "2v2": {}
-        }
+        },
+        "cost": 5081
       },
       {
         "name": "NoJ0hnz",
@@ -19981,7 +20376,8 @@
             "partner_average_score_no_sq": 82
           },
           "2v2": {}
-        }
+        },
+        "cost": 6235
       },
       {
         "name": "tornado_",
@@ -20009,7 +20405,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6377
       },
       {
         "name": "vee367",
@@ -20037,7 +20434,8 @@
             "partner_average_score_no_sq": 76.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 7623
       },
       {
         "name": "Xerneas.exe",
@@ -20065,7 +20463,8 @@
             "partner_average_score_no_sq": 73.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5953
       }
     ]
   },
@@ -20111,7 +20510,8 @@
             "partner_average_score_no_sq": 82.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5435
       },
       {
         "name": "null",
@@ -20186,7 +20586,8 @@
             "average_score_no_sq": 66.8,
             "average_score_last_10": 66.8
           }
-        }
+        },
+        "cost": 5890
       },
       {
         "name": "Traviss1",
@@ -20222,7 +20623,8 @@
             "average_score_no_sq": 60,
             "average_score_last_10": 60
           }
-        }
+        },
+        "cost": 4351
       },
       {
         "name": "WilliamCree",
@@ -20249,7 +20651,8 @@
             "partner_average_score": 83.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5955
       },
       {
         "name": "WombatBaby",
@@ -20277,7 +20680,8 @@
             "partner_average_score_no_sq": 79.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6609
       },
       {
         "name": "yukino00000",
@@ -20314,7 +20718,8 @@
             "average_score_last_10": 54,
             "partner_average_score": 76.5
           }
-        }
+        },
+        "cost": 7287
       },
       {
         "name": "Zay",
@@ -20405,7 +20810,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 67.5
           }
-        }
+        },
+        "cost": 6361
       },
       {
         "name": "Kaizoku",
@@ -20465,7 +20871,8 @@
             "partner_average_score_no_sq": 71
           },
           "2v2": {}
-        }
+        },
+        "cost": 5045
       },
       {
         "name": "Roboppy83",
@@ -20501,7 +20908,8 @@
             "average_score_no_sq": 59.3,
             "average_score_last_10": 59.3
           }
-        }
+        },
+        "cost": 5563
       },
       {
         "name": "Slayyyy",
@@ -20529,7 +20937,8 @@
             "partner_average_score_no_sq": 82.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 7336
       },
       {
         "name": "MelwesT",
@@ -20576,7 +20985,8 @@
             "average_score_last_10": 58,
             "partner_average_score": 75.5
           }
-        }
+        },
+        "cost": 4670
       },
       {
         "name": "Sakray",
@@ -20626,7 +21036,8 @@
             "partner_average_score": 80.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 7299
       }
     ]
   },
@@ -20692,7 +21103,8 @@
             "average_score_last_10": 37,
             "partner_average_score": 73.8
           }
-        }
+        },
+        "cost": 2520
       },
       {
         "name": "Karma",
@@ -20744,7 +21156,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5420
       },
       {
         "name": "Pein36",
@@ -20781,7 +21194,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 69.4
           }
-        }
+        },
+        "cost": 5991
       },
       {
         "name": "Kirua",
@@ -20809,7 +21223,8 @@
             "partner_average_score_no_sq": 93.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5559
       },
       {
         "name": "Quent'",
@@ -20891,7 +21306,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 4988
       },
       {
         "name": "CowPizzaGamer",
@@ -20919,7 +21335,8 @@
             "partner_average_score_no_sq": 74.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6062
       },
       {
         "name": "XYZ",
@@ -20980,7 +21397,8 @@
             "average_score_last_10": 54,
             "partner_average_score": 79.1
           }
-        }
+        },
+        "cost": 3731
       },
       {
         "name": "Herojusthero",
@@ -21015,7 +21433,8 @@
             "average_score_last_10": 62,
             "partner_average_score": 73.7
           }
-        }
+        },
+        "cost": 4153
       },
       {
         "name": "JoshuaSonOfNun",
@@ -21052,7 +21471,8 @@
             "average_score_last_10": 77.2,
             "partner_average_score": 72.6
           }
-        }
+        },
+        "cost": 6452
       },
       {
         "name": "jvraroca",
@@ -21090,7 +21510,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 73.9
           }
-        }
+        },
+        "cost": 5343
       },
       {
         "name": "kurisiu",
@@ -21125,7 +21546,8 @@
             "average_score_last_10": 80.5,
             "partner_average_score": 70.2
           }
-        }
+        },
+        "cost": 5387
       },
       {
         "name": "mitzlplyk",
@@ -21162,7 +21584,8 @@
             "average_score_last_10": 58.5,
             "partner_average_score": 84.3
           }
-        }
+        },
+        "cost": 5288
       },
       {
         "name": "rclo",
@@ -21199,7 +21622,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 71.2
           }
-        }
+        },
+        "cost": 5346
       },
       {
         "name": "sambam",
@@ -21236,7 +21660,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 77.7
           }
-        }
+        },
+        "cost": 3231
       },
       {
         "name": "Tangerine",
@@ -21299,7 +21724,8 @@
             "average_score_last_10": 77.2,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 6600
       }
     ]
   },
@@ -21339,7 +21765,8 @@
             "partner_average_score_no_sq": 87.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6112
       },
       {
         "name": "Angle",
@@ -21366,7 +21793,8 @@
             "partner_average_score": 79
           },
           "2v2": {}
-        }
+        },
+        "cost": 5121
       },
       {
         "name": "Anomaly",
@@ -21530,7 +21958,8 @@
             "average_score_last_10": 87,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 6376
       }
     ]
   },
@@ -21582,7 +22011,8 @@
             "partner_average_score_no_sq": 81.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 8574
       },
       {
         "name": "Cynical",
@@ -21624,7 +22054,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 64
           }
-        }
+        },
+        "cost": 11281
       },
       {
         "name": "Harukaa",
@@ -21652,7 +22083,8 @@
             "partner_average_score_no_sq": 81.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 7392
       },
       {
         "name": "Fern",
@@ -21688,7 +22120,8 @@
             "average_score_no_sq": 67,
             "average_score_last_10": 67
           }
-        }
+        },
+        "cost": 5459
       },
       {
         "name": "Lil Uzi Squirt",
@@ -21724,7 +22157,8 @@
             "average_score_last_10": 37,
             "partner_average_score": 91
           }
-        }
+        },
+        "cost": 6217
       },
       {
         "name": "Recklessdriver67",
@@ -21798,7 +22232,8 @@
             "average_score_last_10": 80.3,
             "partner_average_score": 73.1
           }
-        }
+        },
+        "cost": 10941
       },
       {
         "name": "yz has aura",
@@ -21826,7 +22261,8 @@
             "partner_average_score_no_sq": 93.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 8330
       },
       {
         "name": "Slick",
@@ -21863,7 +22299,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 73
           }
-        }
+        },
+        "cost": 7740
       },
       {
         "name": "Snowy Summit",
@@ -21897,7 +22334,8 @@
             "partner_average_score_no_sq": 73.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6946
       },
       {
         "name": "yezy",
@@ -21935,7 +22373,8 @@
             "average_score_last_10": 90.4,
             "partner_average_score": 69.2
           }
-        }
+        },
+        "cost": 9737
       },
       {
         "name": "yoshira",
@@ -21973,7 +22412,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 68.8
           }
-        }
+        },
+        "cost": 11817
       },
       {
         "name": "ZonX24 / Megumi",
@@ -22229,7 +22669,8 @@
             "average_score_no_sq": 67,
             "average_score_last_10": 67
           }
-        }
+        },
+        "cost": 5836
       },
       {
         "name": "Maxoo",
@@ -22371,7 +22812,8 @@
             "partner_average_score_no_sq": 87
           },
           "2v2": {}
-        }
+        },
+        "cost": 5880
       },
       {
         "name": "Kracko",
@@ -22411,7 +22853,8 @@
             "partner_average_score_no_sq": 79.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6953
       },
       {
         "name": "Phrolova",
@@ -22447,7 +22890,8 @@
             "average_score_no_sq": 61,
             "average_score_last_10": 61
           }
-        }
+        },
+        "cost": 6660
       }
     ]
   },
@@ -22503,7 +22947,8 @@
             "average_score_last_10": 74.7,
             "partner_average_score": 77.8
           }
-        }
+        },
+        "cost": 6799
       },
       {
         "name": "Cipher Nine",
@@ -22545,7 +22990,8 @@
             "average_score_no_sq": 62,
             "average_score_last_10": 62
           }
-        }
+        },
+        "cost": 7187
       },
       {
         "name": "Hydro",
@@ -22578,7 +23024,8 @@
             "partner_average_score_no_sq": 74.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5769
       },
       {
         "name": "Lullaby",
@@ -22626,7 +23073,8 @@
             "average_score_last_10": 54,
             "partner_average_score": 73
           }
-        }
+        },
+        "cost": 7226
       },
       {
         "name": "SuperDuper",
@@ -22654,7 +23102,8 @@
             "partner_average_score_no_sq": 81.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6006
       }
     ]
   },
@@ -22703,7 +23152,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 75.3
           }
-        }
+        },
+        "cost": 5847
       },
       {
         "name": "Cadoizz",
@@ -22745,7 +23195,8 @@
             "average_score_last_10": 73,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 4692
       },
       {
         "name": "Chris",
@@ -22773,7 +23224,8 @@
             "partner_average_score_no_sq": 78.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 4994
       },
       {
         "name": "nifteindastjarna",
@@ -22809,7 +23261,8 @@
             "average_score_last_10": 64.6,
             "partner_average_score": 73.1
           }
-        }
+        },
+        "cost": 4861
       },
       {
         "name": "felyne",
@@ -22837,7 +23290,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6510
       },
       {
         "name": "Gasly",
@@ -22877,7 +23331,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 4584
       },
       {
         "name": "Jack041",
@@ -22915,7 +23370,8 @@
             "average_score_last_10": 74.3,
             "partner_average_score": 67
           }
-        }
+        },
+        "cost": 6502
       },
       {
         "name": "LaGeozone",
@@ -22958,7 +23414,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 74.8
           }
-        }
+        },
+        "cost": 5421
       },
       {
         "name": "Roni24",
@@ -22986,7 +23443,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6897
       },
       {
         "name": "SouKo",
@@ -23065,7 +23523,8 @@
             "partner_average_score_no_sq": 81.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 3791
       },
       {
         "name": "Wonder",
@@ -23102,7 +23561,8 @@
             "average_score_last_10": 78.6,
             "partner_average_score": 68.6
           }
-        }
+        },
+        "cost": 6392
       },
       {
         "name": "yosh",
@@ -23236,7 +23696,8 @@
             "average_score_no_sq": 69.8,
             "average_score_last_10": 73.1
           }
-        }
+        },
+        "cost": 7212
       },
       {
         "name": "Kennysonic / Messiah",
@@ -23326,7 +23787,8 @@
             "average_score_no_sq": 65,
             "average_score_last_10": 65
           }
-        }
+        },
+        "cost": 8185
       },
       {
         "name": "tab / Mirage",
@@ -23552,7 +24014,8 @@
             "average_score_last_10": 45,
             "partner_average_score": 104.5
           }
-        }
+        },
+        "cost": 4141
       }
     ]
   },
@@ -23624,7 +24087,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5309
       },
       {
         "name": "aranda",
@@ -23652,7 +24116,8 @@
             "partner_average_score_no_sq": 90.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4745
       },
       {
         "name": "Joel",
@@ -23752,7 +24217,8 @@
             "partner_average_score_no_sq": 86.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7201
       }
     ]
   },
@@ -23801,7 +24267,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 75
           }
-        }
+        },
+        "cost": 4682
       },
       {
         "name": "Doughet",
@@ -23862,7 +24329,8 @@
             "partner_average_score_no_sq": 69
           },
           "2v2": {}
-        }
+        },
+        "cost": 3016
       },
       {
         "name": "Kouy",
@@ -23898,7 +24366,8 @@
             "average_score_no_sq": 41,
             "average_score_last_10": 41
           }
-        }
+        },
+        "cost": 2361
       },
       {
         "name": "kraken8192",
@@ -23926,7 +24395,8 @@
             "partner_average_score_no_sq": 81.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6074
       },
       {
         "name": "kyoukyou",
@@ -24036,7 +24506,8 @@
             "partner_average_score": 90.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5017
       },
       {
         "name": "mio_min",
@@ -24064,7 +24535,8 @@
             "partner_average_score_no_sq": 81.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6526
       },
       {
         "name": "Navulox",
@@ -24092,7 +24564,8 @@
             "partner_average_score_no_sq": 82.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 4962
       },
       {
         "name": "Shaker",
@@ -24170,7 +24643,8 @@
             "average_score_last_10": 58,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 6521
       },
       {
         "name": "ekitikefanboy",
@@ -24198,7 +24672,8 @@
             "partner_average_score_no_sq": 77.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6651
       },
       {
         "name": "Guigs",
@@ -24273,7 +24748,8 @@
             "average_score_last_10": 94,
             "partner_average_score": 61.6
           }
-        }
+        },
+        "cost": 7602
       },
       {
         "name": "Kaguyo",
@@ -24301,7 +24777,8 @@
             "partner_average_score_no_sq": 82.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5382
       },
       {
         "name": "Lora",
@@ -24329,7 +24806,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 1998
       },
       {
         "name": "Luckyllua",
@@ -24366,7 +24844,8 @@
             "average_score_last_10": 81.7,
             "partner_average_score": 65.8
           }
-        }
+        },
+        "cost": 5970
       },
       {
         "name": "MKII",
@@ -24430,7 +24909,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 73.6
           }
-        }
+        },
+        "cost": 5085
       },
       {
         "name": "Monage",
@@ -24458,7 +24938,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 5976
       },
       {
         "name": "Neruow",
@@ -24486,7 +24967,8 @@
             "partner_average_score_no_sq": 80.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5619
       },
       {
         "name": "Oxaku",
@@ -24521,7 +25003,8 @@
             "average_score_last_10": 51,
             "partner_average_score": 72.6
           }
-        }
+        },
+        "cost": 4225
       },
       {
         "name": "MR TENNA TV TIME",
@@ -24558,7 +25041,8 @@
             "average_score_last_10": 61.2,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 6824
       },
       {
         "name": "Seraaph",
@@ -24594,7 +25078,8 @@
             "average_score_last_10": 64.5,
             "partner_average_score": 62.7
           }
-        }
+        },
+        "cost": 6271
       },
       {
         "name": "Ariana Grande",
@@ -24622,7 +25107,8 @@
             "partner_average_score_no_sq": 83.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5457
       }
     ]
   },
@@ -24701,7 +25187,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 64.3
           }
-        }
+        },
+        "cost": 5250
       },
       {
         "name": "Cole Palmer",
@@ -24737,7 +25224,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 59.3
           }
-        }
+        },
+        "cost": 5239
       },
       {
         "name": "DaniFr",
@@ -24823,7 +25311,8 @@
             "partner_average_score_no_sq": 72.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 2704
       },
       {
         "name": "Escoffier",
@@ -24892,7 +25381,8 @@
             "average_score_last_10": 42,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 6118
       },
       {
         "name": "M1gu3l_33",
@@ -24928,7 +25418,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 64
           }
-        }
+        },
+        "cost": 5187
       },
       {
         "name": "Michel_MK",
@@ -25119,7 +25610,8 @@
             "average_score_last_10": 81,
             "partner_average_score": 65.7
           }
-        }
+        },
+        "cost": 9027
       },
       {
         "name": "Kunder",
@@ -25156,7 +25648,8 @@
             "average_score_no_sq": 96,
             "average_score_last_10": 96
           }
-        }
+        },
+        "cost": 8141
       },
       {
         "name": "LooPer",
@@ -25197,7 +25690,8 @@
             "average_score_last_10": 97,
             "partner_average_score": 69.1
           }
-        }
+        },
+        "cost": 9458
       },
       {
         "name": "Pizzi",
@@ -25233,7 +25727,8 @@
             "average_score_no_sq": 66,
             "average_score_last_10": 66
           }
-        }
+        },
+        "cost": 8547
       },
       {
         "name": "Stone",
@@ -25299,7 +25794,8 @@
             "average_score_last_10": 69.5,
             "partner_average_score": 64.8
           }
-        }
+        },
+        "cost": 7082
       },
       {
         "name": "Waguri",
@@ -25336,7 +25832,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 73.1
           }
-        }
+        },
+        "cost": 7451
       }
     ]
   },
@@ -25425,7 +25922,8 @@
             "average_score_last_10": 79,
             "partner_average_score": 83.4
           }
-        }
+        },
+        "cost": 6485
       },
       {
         "name": "Suri / ryJiD / Silksong",
@@ -25501,7 +25999,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 72.8
           }
-        }
+        },
+        "cost": 6657
       },
       {
         "name": "WoomyJr / Pespi",
@@ -25541,7 +26040,8 @@
             "average_score_last_10": 56.7,
             "partner_average_score": 74.7
           }
-        }
+        },
+        "cost": 4611
       },
       {
         "name": "Motherflame",
@@ -25604,7 +26104,8 @@
             "average_score_last_10": 64,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 5862
       },
       {
         "name": "Kitura",
@@ -25640,7 +26141,8 @@
             "average_score_last_10": 50.7,
             "partner_average_score": 63.4
           }
-        }
+        },
+        "cost": 5381
       }
     ]
   },
@@ -25690,7 +26192,8 @@
             "average_score_last_10": 75.9,
             "partner_average_score": 70
           }
-        }
+        },
+        "cost": 5981
       },
       {
         "name": "BlazeFR",
@@ -25718,7 +26221,8 @@
             "partner_average_score_no_sq": 90
           },
           "2v2": {}
-        }
+        },
+        "cost": 4805
       },
       {
         "name": "Aki.",
@@ -25756,7 +26260,8 @@
             "average_score_last_10": 73.8,
             "partner_average_score": 70.7
           }
-        }
+        },
+        "cost": 6295
       },
       {
         "name": "CHAUSSETTE TROUE",
@@ -25794,7 +26299,8 @@
             "average_score_last_10": 73.8,
             "partner_average_score": 74
           }
-        }
+        },
+        "cost": 6145
       },
       {
         "name": "cant",
@@ -25832,7 +26338,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 69.3
           }
-        }
+        },
+        "cost": 7197
       },
       {
         "name": "Huglou",
@@ -25870,7 +26377,8 @@
             "average_score_last_10": 75.5,
             "partner_average_score": 77.2
           }
-        }
+        },
+        "cost": 6400
       },
       {
         "name": "nyanyadown",
@@ -25907,7 +26415,8 @@
             "average_score_last_10": 67,
             "partner_average_score": 82.4
           }
-        }
+        },
+        "cost": 5442
       },
       {
         "name": "Larias",
@@ -25978,7 +26487,8 @@
             "average_score_last_10": 73.7,
             "partner_average_score": 74.6
           }
-        }
+        },
+        "cost": 6704
       },
       {
         "name": "Marsy",
@@ -26006,7 +26516,8 @@
             "partner_average_score_no_sq": 78.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 4474
       },
       {
         "name": "Warmthaholic",
@@ -26043,7 +26554,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 7529
       },
       {
         "name": "Shawazer",
@@ -26071,7 +26583,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5643
       },
       {
         "name": "Slish",
@@ -26108,7 +26621,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 75.5
           }
-        }
+        },
+        "cost": 6045
       },
       {
         "name": "Soren",
@@ -26152,7 +26666,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 71.6
           }
-        }
+        },
+        "cost": 7558
       },
       {
         "name": "Sparks",
@@ -26189,7 +26704,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 76.3
           }
-        }
+        },
+        "cost": 6313
       },
       {
         "name": "Xosman",
@@ -26227,7 +26743,8 @@
             "average_score_last_10": 68.2,
             "partner_average_score": 74
           }
-        }
+        },
+        "cost": 6508
       },
       {
         "name": "Zakaria",
@@ -26254,7 +26771,8 @@
             "partner_average_score": 78.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5367
       }
     ]
   },
@@ -26355,7 +26873,8 @@
             "average_score_last_10": 70.6,
             "partner_average_score": 50.5
           }
-        }
+        },
+        "cost": 6184
       },
       {
         "name": "John117",
@@ -26397,7 +26916,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 94
           }
-        }
+        },
+        "cost": 3172
       },
       {
         "name": "Monnier / Bingo",
@@ -26461,7 +26981,8 @@
             "partner_average_score_no_sq": 84.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4397
       },
       {
         "name": "tomhand59",
@@ -26489,7 +27010,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 3089
       },
       {
         "name": "Vixy",
@@ -26623,7 +27145,8 @@
             "average_score_last_10": 74.8,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 5993
       },
       {
         "name": "carota",
@@ -26685,7 +27208,8 @@
             "partner_average_score_no_sq": 82.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4833
       },
       {
         "name": "LadroPigro",
@@ -26721,7 +27245,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 55
           }
-        }
+        },
+        "cost": 6058
       },
       {
         "name": "pearto",
@@ -26758,7 +27283,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 75.8
           }
-        }
+        },
+        "cost": 5922
       },
       {
         "name": "Matty22",
@@ -26811,7 +27337,8 @@
             "partner_average_score_no_sq": 76.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 6159
       },
       {
         "name": "nicolocom",
@@ -26845,7 +27372,8 @@
             "partner_average_score_no_sq": 68.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4947
       },
       {
         "name": "Sakai",
@@ -26878,7 +27406,8 @@
             "average_score_last_10": 61,
             "partner_average_score": 58.5
           }
-        }
+        },
+        "cost": 4344
       },
       {
         "name": "Ropollo",
@@ -26916,7 +27445,8 @@
             "average_score_last_10": 72.8,
             "partner_average_score": 69.1
           }
-        }
+        },
+        "cost": 5851
       },
       {
         "name": "S4M29",
@@ -27012,7 +27542,8 @@
             "partner_average_score_no_sq": 124
           },
           "2v2": {}
-        }
+        },
+        "cost": 4819
       },
       {
         "name": "Grav",
@@ -27104,7 +27635,8 @@
             "average_score_last_10": 76.3,
             "partner_average_score": 57.3
           }
-        }
+        },
+        "cost": 6608
       },
       {
         "name": "Peppe",
@@ -27319,7 +27851,8 @@
             "partner_average_score_no_sq": 79.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 13091
       },
       {
         "name": "Aurora",
@@ -27347,7 +27880,8 @@
             "partner_average_score_no_sq": 75.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 10466
       },
       {
         "name": "ETH4N",
@@ -27375,7 +27909,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5261
       },
       {
         "name": "ignite",
@@ -27428,7 +27963,8 @@
             "partner_average_score_no_sq": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 6684
       },
       {
         "name": "oj_",
@@ -27456,7 +27992,8 @@
             "partner_average_score_no_sq": 80.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 7407
       },
       {
         "name": "pepe8610",
@@ -27498,7 +28035,8 @@
             "average_score_no_sq": 41,
             "average_score_last_10": 41
           }
-        }
+        },
+        "cost": 4804
       },
       {
         "name": "Rock SaltWA/Echo",
@@ -27540,7 +28078,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 56.5
           }
-        }
+        },
+        "cost": 10176
       },
       {
         "name": "vanessa",
@@ -27602,7 +28141,8 @@
             "average_score_no_sq": 56,
             "average_score_last_10": 56
           }
-        }
+        },
+        "cost": 11127
       },
       {
         "name": "Thunder",
@@ -27639,7 +28179,8 @@
             "average_score_no_sq": 94,
             "average_score_last_10": 94
           }
-        }
+        },
+        "cost": 10121
       }
     ]
   },
@@ -27677,7 +28218,8 @@
             "partner_average_score": 68.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 7056
       },
       {
         "name": "Amanda",
@@ -27705,7 +28247,8 @@
             "partner_average_score_no_sq": 75.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 7537
       },
       {
         "name": "Cozmic",
@@ -27742,7 +28285,8 @@
             "average_score_last_10": 73.3,
             "partner_average_score": 68.7
           }
-        }
+        },
+        "cost": 6913
       },
       {
         "name": "Dawn",
@@ -27770,7 +28314,8 @@
             "partner_average_score_no_sq": 85.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 6190
       },
       {
         "name": "Cheez-It",
@@ -27798,7 +28343,8 @@
             "partner_average_score_no_sq": 83.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7141
       },
       {
         "name": "hazr",
@@ -27825,7 +28371,8 @@
             "partner_average_score": 83.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6438
       },
       {
         "name": "hiruko",
@@ -27884,7 +28431,8 @@
             "partner_average_score_no_sq": 71.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4551
       },
       {
         "name": "mattbutbritish",
@@ -27936,7 +28484,8 @@
             "partner_average_score_no_sq": 75.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 7103
       },
       {
         "name": "Rachy",
@@ -27963,7 +28512,8 @@
             "partner_average_score": 91.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5327
       },
       {
         "name": "SHAWN",
@@ -27991,7 +28541,8 @@
             "partner_average_score_no_sq": 97
           },
           "2v2": {}
-        }
+        },
+        "cost": 5985
       },
       {
         "name": "Sufy",
@@ -28049,7 +28600,8 @@
             "partner_average_score_no_sq": 88.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6419
       },
       {
         "name": "Zale / Adonis",
@@ -28091,7 +28643,8 @@
             "average_score_no_sq": 51,
             "average_score_last_10": 51
           }
-        }
+        },
+        "cost": 6368
       }
     ]
   },
@@ -28141,7 +28694,8 @@
             "average_score_last_10": 82.1,
             "partner_average_score": 74.7
           }
-        }
+        },
+        "cost": 11490
       },
       {
         "name": "Pink Blaze",
@@ -28203,7 +28757,8 @@
             "average_score_last_10": 77.6,
             "partner_average_score": 77.6
           }
-        }
+        },
+        "cost": 8595
       },
       {
         "name": "July",
@@ -28240,7 +28795,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 79
           }
-        }
+        },
+        "cost": 9586
       },
       {
         "name": "Toad Circuit",
@@ -28278,7 +28834,8 @@
             "average_score_last_10": 84.1,
             "partner_average_score": 58
           }
-        }
+        },
+        "cost": 13402
       },
       {
         "name": "Lef",
@@ -28315,7 +28872,8 @@
             "average_score_last_10": 66.8,
             "partner_average_score": 77.1
           }
-        }
+        },
+        "cost": 7144
       },
       {
         "name": "aya",
@@ -28353,7 +28911,8 @@
             "average_score_last_10": 88.5,
             "partner_average_score": 73.2
           }
-        }
+        },
+        "cost": 11330
       },
       {
         "name": "Rhys",
@@ -28422,7 +28981,8 @@
             "average_score_no_sq": 72.5,
             "average_score_last_10": 72.5
           }
-        }
+        },
+        "cost": 11315
       },
       {
         "name": "Shakira",
@@ -28459,7 +29019,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 80
           }
-        }
+        },
+        "cost": 7687
       },
       {
         "name": "tay",
@@ -28589,7 +29150,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 5958
       },
       {
         "name": "DashTidus",
@@ -28660,7 +29222,8 @@
             "average_score_last_10": 73,
             "partner_average_score": 56.5
           }
-        }
+        },
+        "cost": 6481
       },
       {
         "name": "Kirboo",
@@ -28694,7 +29257,8 @@
             "partner_average_score_no_sq": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 5846
       },
       {
         "name": "Lopes",
@@ -28753,7 +29317,8 @@
             "partner_average_score_no_sq": 80.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6748
       },
       {
         "name": "Maskou",
@@ -28791,7 +29356,8 @@
             "average_score_last_10": 66.7,
             "partner_average_score": 60.8
           }
-        }
+        },
+        "cost": 6015
       },
       {
         "name": "miakx",
@@ -28858,7 +29424,8 @@
             "average_score_no_sq": 70,
             "average_score_last_10": 70
           }
-        }
+        },
+        "cost": 6787
       }
     ]
   },
@@ -28908,7 +29475,8 @@
             "average_score_last_10": 83.8,
             "partner_average_score": 78
           }
-        }
+        },
+        "cost": 10153
       },
       {
         "name": "Antonio",
@@ -28942,7 +29510,8 @@
             "partner_average_score_no_sq": 85.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 7563
       },
       {
         "name": "Chibi",
@@ -29003,7 +29572,8 @@
             "average_score_last_10": 89,
             "partner_average_score": 73.2
           }
-        }
+        },
+        "cost": 9578
       },
       {
         "name": "DG_14",
@@ -29052,7 +29622,8 @@
             "average_score_no_sq": 106,
             "average_score_last_10": 106
           }
-        }
+        },
+        "cost": 9138
       },
       {
         "name": "Engel",
@@ -29089,7 +29660,8 @@
             "average_score_last_10": 64.5,
             "partner_average_score": 73.3
           }
-        }
+        },
+        "cost": 5358
       },
       {
         "name": "frozen",
@@ -29127,7 +29699,8 @@
             "average_score_last_10": 74.8,
             "partner_average_score": 87
           }
-        }
+        },
+        "cost": 8391
       },
       {
         "name": "D4N",
@@ -29165,7 +29738,8 @@
             "average_score_last_10": 69.8,
             "partner_average_score": 74.3
           }
-        }
+        },
+        "cost": 9659
       },
       {
         "name": "Kevo",
@@ -29202,7 +29776,8 @@
             "average_score_no_sq": 70.3,
             "average_score_last_10": 70.3
           }
-        }
+        },
+        "cost": 9317
       },
       {
         "name": "Luigeon",
@@ -29236,7 +29811,8 @@
             "partner_average_score_no_sq": 91.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7255
       },
       {
         "name": "Miiguel",
@@ -29278,7 +29854,8 @@
             "average_score_last_10": 69.5,
             "partner_average_score": 60.7
           }
-        }
+        },
+        "cost": 9696
       },
       {
         "name": "Parce",
@@ -29345,7 +29922,8 @@
             "average_score_last_10": 57,
             "partner_average_score": 79.5
           }
-        }
+        },
+        "cost": 5561
       },
       {
         "name": "Razhore",
@@ -29420,7 +29998,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 69
           }
-        }
+        },
+        "cost": 9060
       },
       {
         "name": "AxelTS",
@@ -29458,7 +30037,8 @@
             "average_score_last_10": 66.4,
             "partner_average_score": 73.9
           }
-        }
+        },
+        "cost": 7886
       },
       {
         "name": "RK Denial",
@@ -29494,7 +30074,8 @@
             "average_score_last_10": 62,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 5376
       },
       {
         "name": "Retirado",
@@ -29532,7 +30113,8 @@
             "average_score_last_10": 78.7,
             "partner_average_score": 58
           }
-        }
+        },
+        "cost": 6245
       },
       {
         "name": "Falco",
@@ -29560,7 +30142,8 @@
             "partner_average_score_no_sq": 106
           },
           "2v2": {}
-        }
+        },
+        "cost": 5297
       },
       {
         "name": "ivanchuu",
@@ -29597,7 +30180,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 83.2
           }
-        }
+        },
+        "cost": 6478
       },
       {
         "name": "JerWolf",
@@ -29634,7 +30218,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 5431
       },
       {
         "name": "Pereeira7",
@@ -29672,7 +30257,8 @@
             "average_score_last_10": 67.2,
             "partner_average_score": 66
           }
-        }
+        },
+        "cost": 7139
       },
       {
         "name": "Kevin26",
@@ -29708,7 +30294,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 66.2
           }
-        }
+        },
+        "cost": 5251
       },
       {
         "name": "PATATA",
@@ -29744,7 +30331,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 8227
       },
       {
         "name": "Coin Cofer",
@@ -29781,7 +30369,8 @@
             "average_score_last_10": 65.3,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 7101
       },
       {
         "name": "Sasuke yo",
@@ -29825,7 +30414,8 @@
             "average_score_last_10": 72.3,
             "partner_average_score": 67.5
           }
-        }
+        },
+        "cost": 8576
       },
       {
         "name": "Troita",
@@ -29880,7 +30470,8 @@
             "average_score_last_10": 91,
             "partner_average_score": 78
           }
-        }
+        },
+        "cost": 5552
       },
       {
         "name": "Bamtop",
@@ -29918,7 +30509,8 @@
             "average_score_last_10": 79,
             "partner_average_score": 70.8
           }
-        }
+        },
+        "cost": 6840
       },
       {
         "name": "Anginas",
@@ -29981,7 +30573,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 67.4
           }
-        }
+        },
+        "cost": 6872
       },
       {
         "name": "DISFRUTON",
@@ -30018,7 +30611,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 60.5
           }
-        }
+        },
+        "cost": 6099
       },
       {
         "name": "Enzinho",
@@ -30054,7 +30648,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 65.6
           }
-        }
+        },
+        "cost": 7395
       },
       {
         "name": "FlappinGoose",
@@ -30091,7 +30686,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 91
           }
-        }
+        },
+        "cost": 6638
       },
       {
         "name": "Ha1bara",
@@ -30119,7 +30715,8 @@
             "partner_average_score_no_sq": 85.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5243
       },
       {
         "name": "Jorgitum",
@@ -30155,7 +30752,8 @@
             "average_score_last_10": 83,
             "partner_average_score": 76.4
           }
-        }
+        },
+        "cost": 5679
       },
       {
         "name": "Karma0",
@@ -30192,7 +30790,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 77.6
           }
-        }
+        },
+        "cost": 6023
       },
       {
         "name": "Rimuru Tempesto",
@@ -30253,7 +30852,8 @@
             "average_score_last_10": 65.7,
             "partner_average_score": 69.7
           }
-        }
+        },
+        "cost": 8172
       },
       {
         "name": "Vlex05",
@@ -30291,7 +30891,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 67.8
           }
-        }
+        },
+        "cost": 5306
       }
     ]
   },
@@ -30330,7 +30931,8 @@
             "partner_average_score": 70
           },
           "2v2": {}
-        }
+        },
+        "cost": 5507
       },
       {
         "name": "Aruson",
@@ -30368,7 +30970,8 @@
             "average_score_last_10": 68.1,
             "partner_average_score": 75.7
           }
-        }
+        },
+        "cost": 5404
       },
       {
         "name": "Daanii",
@@ -30405,7 +31008,8 @@
             "average_score_last_10": 54,
             "partner_average_score": 81
           }
-        }
+        },
+        "cost": 5379
       },
       {
         "name": "fade away",
@@ -30442,7 +31046,8 @@
             "average_score_last_10": 71.5,
             "partner_average_score": 52
           }
-        }
+        },
+        "cost": 6816
       },
       {
         "name": "Francis",
@@ -30480,7 +31085,8 @@
             "average_score_last_10": 68.2,
             "partner_average_score": 69.5
           }
-        }
+        },
+        "cost": 6521
       },
       {
         "name": "Holy",
@@ -30545,7 +31151,8 @@
             "average_score_last_10": 73.3,
             "partner_average_score": 72.4
           }
-        }
+        },
+        "cost": 6480
       },
       {
         "name": "Lichtt",
@@ -30573,7 +31180,8 @@
             "partner_average_score_no_sq": 87.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 5252
       },
       {
         "name": "Mullo",
@@ -30634,7 +31242,8 @@
             "average_score_last_10": 96,
             "partner_average_score": 74.6
           }
-        }
+        },
+        "cost": 6520
       },
       {
         "name": "Norko",
@@ -30689,7 +31298,8 @@
             "partner_average_score_no_sq": 86.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5831
       },
       {
         "name": "Sokram",
@@ -30727,7 +31337,8 @@
             "average_score_last_10": 72.1,
             "partner_average_score": 74.2
           }
-        }
+        },
+        "cost": 6765
       },
       {
         "name": "Nono_brrw",
@@ -30824,7 +31435,8 @@
             "average_score_last_10": 67,
             "partner_average_score": 64.8
           }
-        }
+        },
+        "cost": 5364
       },
       {
         "name": "Chris96",
@@ -30852,7 +31464,8 @@
             "partner_average_score_no_sq": 82.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5236
       },
       {
         "name": "DuoBum",
@@ -30895,7 +31508,8 @@
             "average_score_last_10": 62,
             "partner_average_score": 79.4
           }
-        }
+        },
+        "cost": 5108
       },
       {
         "name": "Kaycu",
@@ -30931,7 +31545,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 67.2
           }
-        }
+        },
+        "cost": 5262
       },
       {
         "name": "Kike",
@@ -30968,7 +31583,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 69.3
           }
-        }
+        },
+        "cost": 5381
       },
       {
         "name": "M4nuu",
@@ -31004,7 +31620,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 74.2
           }
-        }
+        },
+        "cost": 4744
       },
       {
         "name": "Noss",
@@ -31053,7 +31670,8 @@
             "average_score_last_10": 65.7,
             "partner_average_score": 77.2
           }
-        }
+        },
+        "cost": 6185
       },
       {
         "name": "TiLeix",
@@ -31113,7 +31731,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 62.2
           }
-        }
+        },
+        "cost": 5556
       },
       {
         "name": "Danizel",
@@ -31141,7 +31760,8 @@
             "partner_average_score_no_sq": 93.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 4876
       }
     ]
   },
@@ -31190,7 +31810,8 @@
             "average_score_last_10": 55,
             "partner_average_score": 84
           }
-        }
+        },
+        "cost": 4929
       },
       {
         "name": "Bond",
@@ -31218,7 +31839,8 @@
             "partner_average_score_no_sq": 84.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 4113
       },
       {
         "name": "Booman",
@@ -31252,7 +31874,8 @@
             "partner_average_score_no_sq": 83.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 4482
       },
       {
         "name": "DANMA ダンマ",
@@ -31301,7 +31924,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 4685
       },
       {
         "name": "Kaofie",
@@ -31329,7 +31953,8 @@
             "partner_average_score_no_sq": 88
           },
           "2v2": {}
-        }
+        },
+        "cost": 5371
       },
       {
         "name": "Lsoo",
@@ -31357,7 +31982,8 @@
             "partner_average_score_no_sq": 59.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5134
       },
       {
         "name": "Man0tak0",
@@ -31384,7 +32010,8 @@
             "partner_average_score": 82.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5406
       },
       {
         "name": "Sombluz",
@@ -31421,7 +32048,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 5257
       },
       {
         "name": "Tu_Gordito",
@@ -31538,7 +32166,8 @@
             "average_score_last_10": 51.5,
             "partner_average_score": 67.4
           }
-        }
+        },
+        "cost": 5102
       },
       {
         "name": "BretZel",
@@ -31599,7 +32228,8 @@
             "average_score_no_sq": 72,
             "average_score_last_10": 72
           }
-        }
+        },
+        "cost": 5964
       },
       {
         "name": "Fosyy",
@@ -31674,7 +32304,8 @@
             "partner_average_score_no_sq": 99.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4882
       },
       {
         "name": "Jose Antonio",
@@ -31708,7 +32339,8 @@
             "partner_average_score_no_sq": 87.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5170
       },
       {
         "name": "P1bl0",
@@ -31734,7 +32366,8 @@
             "partner_average_score": 87.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 3718
       },
       {
         "name": "Paquirri",
@@ -31776,7 +32409,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 62.4
           }
-        }
+        },
+        "cost": 4285
       },
       {
         "name": "Rolling",
@@ -31818,7 +32452,8 @@
             "average_score_no_sq": 51,
             "average_score_last_10": 51
           }
-        }
+        },
+        "cost": 2929
       }
     ]
   },
@@ -31865,7 +32500,8 @@
             "average_score_last_10": 58.5,
             "partner_average_score": 73.1
           }
-        }
+        },
+        "cost": 4420
       },
       {
         "name": "Black Asta",
@@ -31907,7 +32543,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 56.4
           }
-        }
+        },
+        "cost": 4206
       },
       {
         "name": "Izhachu",
@@ -31940,7 +32577,8 @@
             "partner_average_score": 71.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5206
       },
       {
         "name": "Jeja :)",
@@ -31974,7 +32612,8 @@
             "partner_average_score_no_sq": 84.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 4486
       },
       {
         "name": "Misajumii",
@@ -32008,7 +32647,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 66.4
           }
-        }
+        },
+        "cost": 4758
       },
       {
         "name": "Naadal",
@@ -32044,7 +32684,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 57.6
           }
-        }
+        },
+        "cost": 4487
       },
       {
         "name": "Pablo236",
@@ -32080,7 +32721,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 69.4
           }
-        }
+        },
+        "cost": 4557
       },
       {
         "name": "Purruichi",
@@ -32116,7 +32758,8 @@
             "average_score_last_10": 67.5,
             "partner_average_score": 64.8
           }
-        }
+        },
+        "cost": 4658
       },
       {
         "name": "Ryokku",
@@ -32176,7 +32819,8 @@
             "average_score_last_10": 66,
             "partner_average_score": 65.2
           }
-        }
+        },
+        "cost": 4441
       }
     ]
   },
@@ -32228,7 +32872,8 @@
             "partner_average_score_no_sq": 85.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6854
       },
       {
         "name": "Connorsea / Wadar",
@@ -32270,7 +32915,8 @@
             "average_score_no_sq": 60,
             "average_score_last_10": 60
           }
-        }
+        },
+        "cost": 6273
       },
       {
         "name": "DekuMK8",
@@ -32310,7 +32956,8 @@
             "partner_average_score_no_sq": 100
           },
           "2v2": {}
-        }
+        },
+        "cost": 4789
       },
       {
         "name": "emilyp",
@@ -32365,7 +33012,8 @@
             "average_score_no_sq": 85.8,
             "average_score_last_10": 85.8
           }
-        }
+        },
+        "cost": 9198
       },
       {
         "name": "Lukealele",
@@ -32436,7 +33084,8 @@
             "average_score_last_10": 62,
             "partner_average_score": 73.7
           }
-        }
+        },
+        "cost": 4475
       },
       {
         "name": "pigeon",
@@ -32473,7 +33122,8 @@
             "average_score_last_10": 84,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 6491
       },
       {
         "name": "Pilotaraflo_",
@@ -32540,7 +33190,8 @@
             "average_score_no_sq": 82.5,
             "average_score_last_10": 82.5
           }
-        }
+        },
+        "cost": 6267
       },
       {
         "name": "YQ Oscar",
@@ -32619,7 +33270,8 @@
             "average_score_last_10": 103,
             "partner_average_score": 85
           }
-        }
+        },
+        "cost": 4861
       },
       {
         "name": "Daisam",
@@ -32647,7 +33299,8 @@
             "partner_average_score_no_sq": 84.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6049
       },
       {
         "name": "Delta",
@@ -32681,7 +33334,8 @@
             "partner_average_score_no_sq": 74.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 6639
       },
       {
         "name": "LazyLow",
@@ -32741,7 +33395,8 @@
             "average_score_no_sq": 62,
             "average_score_last_10": 62
           }
-        }
+        },
+        "cost": 5811
       },
       {
         "name": "TrikkyFeFox",
@@ -32793,7 +33448,8 @@
             "partner_average_score_no_sq": 84.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5790
       },
       {
         "name": "Tymbuh",
@@ -32841,7 +33497,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 56
           }
-        }
+        },
+        "cost": 5263
       }
     ]
   },
@@ -32888,7 +33545,8 @@
             "average_score_last_10": 52,
             "partner_average_score": 82
           }
-        }
+        },
+        "cost": 3705
       },
       {
         "name": "DJParty",
@@ -32949,7 +33607,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5053
       },
       {
         "name": "Firestone",
@@ -33041,7 +33700,8 @@
             "average_score_last_10": 73,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 4464
       },
       {
         "name": "NERD",
@@ -33077,7 +33737,8 @@
             "average_score_last_10": 57.7,
             "partner_average_score": 75.4
           }
-        }
+        },
+        "cost": 4697
       },
       {
         "name": "Nub",
@@ -33112,7 +33773,8 @@
             "average_score_last_10": 80,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 6108
       },
       {
         "name": "pepperjack",
@@ -33148,7 +33810,8 @@
             "average_score_last_10": 77,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 4586
       },
       {
         "name": "RoYLFeline",
@@ -33543,7 +34206,8 @@
             "partner_average_score_no_sq": 78.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4235
       },
       {
         "name": "Manuuu",
@@ -33779,7 +34443,8 @@
             "partner_average_score": 86.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6534
       },
       {
         "name": "BryWH",
@@ -33837,7 +34502,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5915
       },
       {
         "name": "Chrin",
@@ -33874,7 +34540,8 @@
             "average_score_no_sq": 75.5,
             "average_score_last_10": 79.9
           }
-        }
+        },
+        "cost": 8472
       },
       {
         "name": "Kod49",
@@ -33911,7 +34578,8 @@
             "average_score_no_sq": 75.2,
             "average_score_last_10": 75.2
           }
-        }
+        },
+        "cost": 6676
       },
       {
         "name": "Justin Case",
@@ -33939,7 +34607,8 @@
             "partner_average_score_no_sq": 81.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5363
       },
       {
         "name": "manks",
@@ -33988,7 +34657,8 @@
             "average_score_no_sq": 74.4,
             "average_score_last_10": 74.4
           }
-        }
+        },
+        "cost": 6025
       },
       {
         "name": "Truth Nuke",
@@ -34026,7 +34696,8 @@
             "average_score_last_10": 80.5,
             "partner_average_score": 66.1
           }
-        }
+        },
+        "cost": 7007
       },
       {
         "name": "Sand",
@@ -34091,7 +34762,8 @@
             "average_score_last_10": 66.7,
             "partner_average_score": 71.5
           }
-        }
+        },
+        "cost": 6183
       },
       {
         "name": "Spectrum",
@@ -34125,7 +34797,8 @@
             "partner_average_score_no_sq": 98.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5275
       },
       {
         "name": "Rexzi",
@@ -34163,7 +34836,8 @@
             "average_score_last_10": 74.1,
             "partner_average_score": 69.6
           }
-        }
+        },
+        "cost": 10231
       }
     ]
   },
@@ -34367,7 +35041,8 @@
             "average_score_last_10": 76.9,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 6659
       },
       {
         "name": "Deco",
@@ -34410,7 +35085,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 78
           }
-        }
+        },
+        "cost": 7871
       },
       {
         "name": "milano",
@@ -34448,7 +35124,8 @@
             "average_score_last_10": 65.5,
             "partner_average_score": 69.8
           }
-        }
+        },
+        "cost": 5867
       },
       {
         "name": "Mine",
@@ -34485,7 +35162,8 @@
             "average_score_last_10": 70.6,
             "partner_average_score": 70.8
           }
-        }
+        },
+        "cost": 6484
       },
       {
         "name": "mugino",
@@ -34523,7 +35201,8 @@
             "average_score_last_10": 75.4,
             "partner_average_score": 71.5
           }
-        }
+        },
+        "cost": 8551
       },
       {
         "name": "Nonge",
@@ -34561,7 +35240,8 @@
             "average_score_last_10": 77.2,
             "partner_average_score": 70.1
           }
-        }
+        },
+        "cost": 6682
       },
       {
         "name": "pikky",
@@ -34599,7 +35279,8 @@
             "average_score_last_10": 71.8,
             "partner_average_score": 64.7
           }
-        }
+        },
+        "cost": 8565
       },
       {
         "name": "Nishioka",
@@ -34637,7 +35318,8 @@
             "average_score_last_10": 82.4,
             "partner_average_score": 75
           }
-        }
+        },
+        "cost": 10642
       },
       {
         "name": "Roast",
@@ -34671,7 +35353,8 @@
             "partner_average_score_no_sq": 78.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7782
       },
       {
         "name": "sumosuma",
@@ -34708,7 +35391,8 @@
             "average_score_no_sq": 69,
             "average_score_last_10": 69
           }
-        }
+        },
+        "cost": 8703
       },
       {
         "name": "upa.",
@@ -34735,7 +35419,8 @@
             "average_score_last_10": 81.2,
             "partner_average_score": 61.7
           }
-        }
+        },
+        "cost": 7145
       },
       {
         "name": "xincos",
@@ -34763,7 +35448,8 @@
             "partner_average_score_no_sq": 81.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6810
       },
       {
         "name": "Moriya",
@@ -34800,7 +35486,8 @@
             "average_score_no_sq": 72.2,
             "average_score_last_10": 72.2
           }
-        }
+        },
+        "cost": 7164
       },
       {
         "name": "ideally",
@@ -34838,7 +35525,8 @@
             "average_score_last_10": 74.1,
             "partner_average_score": 70.9
           }
-        }
+        },
+        "cost": 10155
       }
     ]
   },
@@ -34896,7 +35584,8 @@
             "partner_average_score_no_sq": 96
           },
           "2v2": {}
-        }
+        },
+        "cost": 4725
       },
       {
         "name": "Duckman",
@@ -34932,7 +35621,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 62
           }
-        }
+        },
+        "cost": 5714
       },
       {
         "name": "ElAron",
@@ -34960,7 +35650,8 @@
             "partner_average_score_no_sq": 69.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 4492
       },
       {
         "name": "Garysito",
@@ -34987,7 +35678,8 @@
             "partner_average_score_no_sq": 79
           },
           "2v2": {}
-        }
+        },
+        "cost": 3655
       },
       {
         "name": "Heb",
@@ -35022,7 +35714,8 @@
             "average_score_last_10": 76,
             "partner_average_score": 73.3
           }
-        }
+        },
+        "cost": 4299
       },
       {
         "name": "Iza - DPM - LMF",
@@ -35050,7 +35743,8 @@
             "partner_average_score_no_sq": 76
           },
           "2v2": {}
-        }
+        },
+        "cost": 3551
       },
       {
         "name": "Keinster",
@@ -35087,7 +35781,8 @@
             "average_score_last_10": 82,
             "partner_average_score": 77
           }
-        }
+        },
+        "cost": 6898
       },
       {
         "name": "Larry66",
@@ -35124,7 +35819,8 @@
             "average_score_last_10": 64,
             "partner_average_score": 86
           }
-        }
+        },
+        "cost": 5954
       },
       {
         "name": "Oziel / Ganso / Pyo Guwon",
@@ -35158,7 +35854,8 @@
             "partner_average_score_no_sq": 74
           },
           "2v2": {}
-        }
+        },
+        "cost": 3969
       },
       {
         "name": "revoltz3",
@@ -35194,7 +35891,8 @@
             "average_score_last_10": 52,
             "partner_average_score": 61
           }
-        }
+        },
+        "cost": 3955
       },
       {
         "name": "Uriel5_5",
@@ -35222,7 +35920,8 @@
             "partner_average_score_no_sq": 85.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6317
       },
       {
         "name": "Ângěl Âgěs",
@@ -35277,7 +35976,8 @@
             "average_score_last_10": 58.7,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 6251
       },
       {
         "name": "Mel-yoan",
@@ -35378,7 +36078,8 @@
             "partner_average_score_no_sq": 89.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5147
       },
       {
         "name": "weekeat",
@@ -35414,7 +36115,8 @@
             "average_score_no_sq": 59,
             "average_score_last_10": 59
           }
-        }
+        },
+        "cost": 6452
       },
       {
         "name": "gabe",
@@ -35454,7 +36156,8 @@
             "partner_average_score_no_sq": 78.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 4848
       },
       {
         "name": "LazerN",
@@ -35482,7 +36185,8 @@
             "partner_average_score_no_sq": 87.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4359
       },
       {
         "name": "Malware",
@@ -35518,7 +36222,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 57
           }
-        }
+        },
+        "cost": 5473
       },
       {
         "name": "meatball_mk",
@@ -35552,7 +36257,8 @@
             "partner_average_score_no_sq": 74.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 3665
       },
       {
         "name": "QSahab",
@@ -35589,7 +36295,8 @@
             "average_score_last_10": 63.4,
             "partner_average_score": 71.6
           }
-        }
+        },
+        "cost": 4683
       },
       {
         "name": "Revengestyle6",
@@ -35631,7 +36338,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 71.5
           }
-        }
+        },
+        "cost": 4294
       },
       {
         "name": "Snowdeer",
@@ -35667,7 +36375,8 @@
             "average_score_last_10": 48,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 3984
       },
       {
         "name": "SonicDude278",
@@ -35729,7 +36438,8 @@
             "average_score_no_sq": 74,
             "average_score_last_10": 74
           }
-        }
+        },
+        "cost": 6327
       },
       {
         "name": "Vrock02",
@@ -35775,7 +36485,8 @@
             "partner_average_score_no_sq": 82
           },
           "2v2": {}
-        }
+        },
+        "cost": 5185
       },
       {
         "name": "CAlexis",
@@ -35813,7 +36524,8 @@
             "average_score_last_10": 68.7,
             "partner_average_score": 51
           }
-        }
+        },
+        "cost": 8303
       },
       {
         "name": "Big Daddy",
@@ -35851,7 +36563,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 44.5
           }
-        }
+        },
+        "cost": 6875
       },
       {
         "name": "Akaza Hakuji",
@@ -35888,7 +36601,8 @@
             "average_score_last_10": 83.5,
             "partner_average_score": 68.7
           }
-        }
+        },
+        "cost": 5843
       },
       {
         "name": "Jepard / 7.50€ kebab",
@@ -35922,7 +36636,8 @@
             "partner_average_score_no_sq": 83.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5883
       },
       {
         "name": "Pierre",
@@ -35964,7 +36679,8 @@
             "average_score_last_10": 98,
             "partner_average_score": 66.3
           }
-        }
+        },
+        "cost": 6186
       },
       {
         "name": "Tanjiro Kamado",
@@ -36001,7 +36717,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 83
           }
-        }
+        },
+        "cost": 6428
       },
       {
         "name": "TheMax",
@@ -36028,7 +36745,8 @@
             "partner_average_score": 83.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5481
       },
       {
         "name": "XinShlag",
@@ -36099,7 +36817,8 @@
             "average_score_last_10": 79,
             "partner_average_score": 70.5
           }
-        }
+        },
+        "cost": 6491
       }
     ]
   },
@@ -36145,7 +36864,8 @@
             "partner_average_score_no_sq": 88.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 5186
       },
       {
         "name": "Hana-chan",
@@ -36181,7 +36901,8 @@
             "average_score_last_10": 56,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 4495
       },
       {
         "name": "coda599",
@@ -36262,7 +36983,8 @@
             "partner_average_score_no_sq": 92
           },
           "2v2": {}
-        }
+        },
+        "cost": 4874
       },
       {
         "name": "Loic",
@@ -36351,7 +37073,8 @@
             "partner_average_score_no_sq": 90
           },
           "2v2": {}
-        }
+        },
+        "cost": 4750
       },
       {
         "name": "Tagnon / MOSHlTO",
@@ -36491,7 +37214,8 @@
             "partner_average_score_no_sq": 77.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 5356
       },
       {
         "name": "Black Dash",
@@ -36549,7 +37273,8 @@
             "partner_average_score_no_sq": 84.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4864
       },
       {
         "name": "TropicoquetaP3",
@@ -36706,7 +37431,8 @@
             "partner_average_score_no_sq": 80.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4667
       }
     ]
   },
@@ -36755,7 +37481,8 @@
             "average_score_last_10": 77.8,
             "partner_average_score": 71.8
           }
-        }
+        },
+        "cost": 7618
       },
       {
         "name": "Alejo",
@@ -36795,7 +37522,8 @@
             "partner_average_score_no_sq": 98
           },
           "2v2": {}
-        }
+        },
+        "cost": 4893
       },
       {
         "name": "Cappy / Jalter / Playboi",
@@ -36838,7 +37566,8 @@
             "average_score_last_10": 100,
             "partner_average_score": 74.5
           }
-        }
+        },
+        "cost": 6054
       },
       {
         "name": "Clove",
@@ -36897,7 +37626,8 @@
             "partner_average_score_no_sq": 82.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 5056
       },
       {
         "name": "Mr Muffin",
@@ -36977,7 +37707,8 @@
             "partner_average_score_no_sq": 85.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5969
       },
       {
         "name": "Yazzita",
@@ -37005,7 +37736,8 @@
             "partner_average_score_no_sq": 81.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6925
       },
       {
         "name": "TLOZ",
@@ -37076,7 +37808,8 @@
             "partner_average_score_no_sq": 77.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 11665
       },
       {
         "name": "daxx",
@@ -37104,7 +37837,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 7123
       },
       {
         "name": "demon",
@@ -37130,7 +37864,8 @@
             "partner_average_score": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5954
       },
       {
         "name": "Kazuo",
@@ -37172,7 +37907,8 @@
             "average_score_no_sq": 53,
             "average_score_last_10": 53
           }
-        }
+        },
+        "cost": 8693
       },
       {
         "name": "JSUIS ADDICT",
@@ -37235,7 +37971,8 @@
             "average_score_last_10": 81.8,
             "partner_average_score": 71.6
           }
-        }
+        },
+        "cost": 8644
       },
       {
         "name": "Nitroco",
@@ -37303,7 +38040,8 @@
             "average_score_last_10": 81.5,
             "partner_average_score": 88
           }
-        }
+        },
+        "cost": 9927
       },
       {
         "name": "Wox",
@@ -37339,7 +38077,8 @@
             "average_score_last_10": 87,
             "partner_average_score": 73
           }
-        }
+        },
+        "cost": 8839
       },
       {
         "name": "xAlex",
@@ -37375,7 +38114,8 @@
             "average_score_no_sq": 66,
             "average_score_last_10": 66
           }
-        }
+        },
+        "cost": 9995
       },
       {
         "name": "Zouzou",
@@ -37403,7 +38143,8 @@
             "partner_average_score_no_sq": 80.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 7246
       },
       {
         "name": "swxft",
@@ -37476,7 +38217,8 @@
             "partner_average_score_no_sq": 90
           },
           "2v2": {}
-        }
+        },
+        "cost": 6134
       },
       {
         "name": "ErwanH",
@@ -37513,7 +38255,8 @@
             "average_score_last_10": 61.7,
             "partner_average_score": 72.6
           }
-        }
+        },
+        "cost": 6818
       },
       {
         "name": "Hakim",
@@ -37622,7 +38365,8 @@
             "partner_average_score_no_sq": 88.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5025
       },
       {
         "name": "Ryan's",
@@ -37658,7 +38402,8 @@
             "average_score_no_sq": 57,
             "average_score_last_10": 57
           }
-        }
+        },
+        "cost": 6558
       },
       {
         "name": "Silence Suzuka",
@@ -37720,7 +38465,8 @@
             "average_score_last_10": 78.3,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 9975
       },
       {
         "name": "APOCALYPSE",
@@ -37748,7 +38494,8 @@
             "partner_average_score_no_sq": 81.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 12351
       },
       {
         "name": "GL Papou",
@@ -37794,7 +38541,8 @@
             "partner_average_score_no_sq": 79.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 10681
       },
       {
         "name": "Maario",
@@ -37831,7 +38579,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 10247
       },
       {
         "name": "ras el-hanout",
@@ -37868,7 +38617,8 @@
             "average_score_no_sq": 73,
             "average_score_last_10": 73
           }
-        }
+        },
+        "cost": 12119
       },
       {
         "name": "olli",
@@ -37904,7 +38654,8 @@
             "average_score_last_10": 86,
             "partner_average_score": 52
           }
-        }
+        },
+        "cost": 8183
       },
       {
         "name": "SaGa",
@@ -37932,7 +38683,8 @@
             "partner_average_score_no_sq": 92.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 9851
       },
       {
         "name": "Fred Jones",
@@ -37969,7 +38721,8 @@
             "average_score_no_sq": 76.4,
             "average_score_last_10": 76.4
           }
-        }
+        },
+        "cost": 11913
       },
       {
         "name": "zPopoff",
@@ -38025,7 +38778,8 @@
             "average_score_last_10": 79.2,
             "partner_average_score": 73.8
           }
-        }
+        },
+        "cost": 6273
       },
       {
         "name": "Chomp",
@@ -38068,7 +38822,8 @@
             "average_score_no_sq": 69.5,
             "average_score_last_10": 69.5
           }
-        }
+        },
+        "cost": 6347
       },
       {
         "name": "Wednesday",
@@ -38129,7 +38884,8 @@
             "partner_average_score_no_sq": 82.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5942
       },
       {
         "name": "Insu",
@@ -38166,7 +38922,8 @@
             "average_score_last_10": 79,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 5290
       },
       {
         "name": "Jolak",
@@ -38209,7 +38966,8 @@
             "average_score_last_10": 69.2,
             "partner_average_score": 75.3
           }
-        }
+        },
+        "cost": 4964
       },
       {
         "name": "Tsukifan",
@@ -38280,7 +39038,8 @@
             "average_score_last_10": 73.1,
             "partner_average_score": 69.5
           }
-        }
+        },
+        "cost": 6707
       },
       {
         "name": "morgen / Evry",
@@ -38314,7 +39073,8 @@
             "partner_average_score_no_sq": 82.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5907
       },
       {
         "name": "Pyrhanox",
@@ -38351,7 +39111,8 @@
             "average_score_last_10": 67.2,
             "partner_average_score": 77.2
           }
-        }
+        },
+        "cost": 4954
       },
       {
         "name": "AX rapha",
@@ -38379,7 +39140,8 @@
             "partner_average_score_no_sq": 86.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 4658
       },
       {
         "name": "Sabre83",
@@ -38434,7 +39196,8 @@
             "average_score_last_10": 81.8,
             "partner_average_score": 71.5
           }
-        }
+        },
+        "cost": 6460
       },
       {
         "name": "Vayana",
@@ -38478,7 +39241,8 @@
             "average_score_last_10": 46,
             "partner_average_score": 78.8
           }
-        }
+        },
+        "cost": 3650
       },
       {
         "name": "Zepsis",
@@ -38524,7 +39288,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 4372
       },
       {
         "name": "GaMa / Narumi",
@@ -38593,7 +39358,8 @@
             "partner_average_score_no_sq": 83.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 5801
       },
       {
         "name": "Pili2.0",
@@ -38647,7 +39413,8 @@
             "partner_average_score_no_sq": 64
           },
           "2v2": {}
-        }
+        },
+        "cost": 5060
       },
       {
         "name": "Rosalyan/Miku/Vitinha",
@@ -38723,7 +39490,8 @@
             "partner_average_score_no_sq": 79.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 8220
       },
       {
         "name": "Shin Godzilla",
@@ -38751,7 +39519,8 @@
             "partner_average_score_no_sq": 90.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 7361
       },
       {
         "name": "mkl",
@@ -38787,7 +39556,8 @@
             "average_score_no_sq": 80.3,
             "average_score_last_10": 80.3
           }
-        }
+        },
+        "cost": 5452
       },
       {
         "name": "pizzapirate7",
@@ -38825,7 +39595,8 @@
             "average_score_last_10": 69.7,
             "partner_average_score": 73
           }
-        }
+        },
+        "cost": 6863
       },
       {
         "name": "Solution",
@@ -38853,7 +39624,8 @@
             "partner_average_score_no_sq": 56
           },
           "2v2": {}
-        }
+        },
+        "cost": 6272
       },
       {
         "name": "Tri / Willow / Silksong",
@@ -38896,7 +39668,8 @@
             "average_score_no_sq": 80.5,
             "average_score_last_10": 79
           }
-        }
+        },
+        "cost": 10591
       },
       {
         "name": "xWill",
@@ -38933,7 +39706,8 @@
             "average_score_no_sq": 81,
             "average_score_last_10": 81
           }
-        }
+        },
+        "cost": 10792
       },
       {
         "name": "Zay / Smino / N.W.A",
@@ -39060,7 +39834,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 104
           }
-        }
+        },
+        "cost": 3703
       },
       {
         "name": "Squid",
@@ -39098,7 +39873,8 @@
             "average_score_last_10": 59.9,
             "partner_average_score": 71.2
           }
-        }
+        },
+        "cost": 4310
       },
       {
         "name": "Tofutaku",
@@ -39156,7 +39932,8 @@
             "partner_average_score_no_sq": 86
           },
           "2v2": {}
-        }
+        },
+        "cost": 7624
       },
       {
         "name": "Leomartz",
@@ -39192,7 +39969,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 64.7
           }
-        }
+        },
+        "cost": 6290
       },
       {
         "name": "Grotazz",
@@ -39228,7 +40006,8 @@
             "average_score_last_10": 53,
             "partner_average_score": 70.2
           }
-        }
+        },
+        "cost": 6577
       },
       {
         "name": "Ibuki Mioda",
@@ -39299,7 +40078,8 @@
             "partner_average_score_no_sq": 81.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6073
       },
       {
         "name": "Abeille 20",
@@ -39335,7 +40115,8 @@
             "average_score_last_10": 60.7,
             "partner_average_score": 69.7
           }
-        }
+        },
+        "cost": 7560
       },
       {
         "name": "Y Que Fue",
@@ -39371,7 +40152,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 69.2
           }
-        }
+        },
+        "cost": 7483
       },
       {
         "name": "ZEBI",
@@ -39399,7 +40181,8 @@
             "partner_average_score_no_sq": 75.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6572
       }
     ]
   },
@@ -39454,7 +40237,8 @@
             "average_score_no_sq": 65.5,
             "average_score_last_10": 65.5
           }
-        }
+        },
+        "cost": 6196
       },
       {
         "name": "Chappell Roan",
@@ -39490,7 +40274,8 @@
             "average_score_last_10": 50,
             "partner_average_score": 59
           }
-        }
+        },
+        "cost": 6418
       },
       {
         "name": "eric from mario kart",
@@ -39536,7 +40321,8 @@
             "partner_average_score_no_sq": 90
           },
           "2v2": {}
-        }
+        },
+        "cost": 6808
       },
       {
         "name": "oxytocin",
@@ -39564,7 +40350,8 @@
             "partner_average_score_no_sq": 77.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5336
       },
       {
         "name": "Pacochef",
@@ -39623,7 +40410,8 @@
             "partner_average_score_no_sq": 81.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 7942
       },
       {
         "name": "Solitude",
@@ -39660,7 +40448,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 72.8
           }
-        }
+        },
+        "cost": 6786
       },
       {
         "name": "call_me_nyx._",
@@ -39688,7 +40477,8 @@
             "partner_average_score_no_sq": 81.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 7234
       },
       {
         "name": "Squidz",
@@ -39860,7 +40650,8 @@
             "average_score_last_10": 73.6,
             "partner_average_score": 69.5
           }
-        }
+        },
+        "cost": 6295
       },
       {
         "name": "SoMuchPuke",
@@ -39956,7 +40747,8 @@
             "average_score_last_10": 51,
             "partner_average_score": 58
           }
-        }
+        },
+        "cost": 2499
       },
       {
         "name": "Bertozzi",
@@ -40017,7 +40809,8 @@
             "average_score_last_10": 59,
             "partner_average_score": 71.8
           }
-        }
+        },
+        "cost": 6172
       },
       {
         "name": "Fewings",
@@ -40080,7 +40873,8 @@
             "average_score_last_10": 72.7,
             "partner_average_score": 81.8
           }
-        }
+        },
+        "cost": 5487
       },
       {
         "name": "Ktpg",
@@ -40118,7 +40912,8 @@
             "average_score_last_10": 73.8,
             "partner_average_score": 68.3
           }
-        }
+        },
+        "cost": 6661
       },
       {
         "name": "Kuri",
@@ -40145,7 +40940,8 @@
             "partner_average_score": 79.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 5282
       },
       {
         "name": "Lipix",
@@ -40214,7 +41010,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 90.2
           }
-        }
+        },
+        "cost": 6145
       },
       {
         "name": "MegaLeoMania (mlm)",
@@ -40264,7 +41061,8 @@
             "average_score_last_10": 70.5,
             "partner_average_score": 73.5
           }
-        }
+        },
+        "cost": 5533
       },
       {
         "name": "Zoot McSchmoove",
@@ -40292,7 +41090,8 @@
             "partner_average_score_no_sq": 86.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6582
       },
       {
         "name": "Slake",
@@ -40334,7 +41133,8 @@
             "average_score_no_sq": 57,
             "average_score_last_10": 57
           }
-        }
+        },
+        "cost": 4510
       }
     ]
   },
@@ -40383,7 +41183,8 @@
             "average_score_last_10": 60.5,
             "partner_average_score": 75.5
           }
-        }
+        },
+        "cost": 6290
       },
       {
         "name": "Artox",
@@ -40420,7 +41221,8 @@
             "average_score_last_10": 96,
             "partner_average_score": 66
           }
-        }
+        },
+        "cost": 7629
       },
       {
         "name": "Clementine",
@@ -40458,7 +41260,8 @@
             "average_score_last_10": 71.8,
             "partner_average_score": 78.3
           }
-        }
+        },
+        "cost": 5232
       },
       {
         "name": "Capitaine Flamme",
@@ -40486,7 +41289,8 @@
             "partner_average_score_no_sq": 77.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5035
       },
       {
         "name": "Nairolf59",
@@ -40562,7 +41366,8 @@
             "partner_average_score": 85
           },
           "2v2": {}
-        }
+        },
+        "cost": 6572
       },
       {
         "name": "photon / tachyon",
@@ -40596,7 +41401,8 @@
             "partner_average_score_no_sq": 81.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 9156
       },
       {
         "name": "Scoped",
@@ -40847,7 +41653,8 @@
             "partner_average_score_no_sq": 76.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 6613
       },
       {
         "name": "Waulth",
@@ -40898,7 +41705,8 @@
             "average_score_no_sq": 64,
             "average_score_last_10": 64
           }
-        }
+        },
+        "cost": 4253
       },
       {
         "name": "WEC Asuka",
@@ -40935,7 +41743,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 70.1
           }
-        }
+        },
+        "cost": 5366
       },
       {
         "name": "Falcon",
@@ -41058,7 +41867,8 @@
             "average_score_no_sq": 55,
             "average_score_last_10": 55
           }
-        }
+        },
+        "cost": 6384
       },
       {
         "name": "PASSIMANNPower",
@@ -41119,7 +41929,8 @@
             "average_score_no_sq": 76.2,
             "average_score_last_10": 76.2
           }
-        }
+        },
+        "cost": 6342
       },
       {
         "name": "Staticalx",
@@ -41156,7 +41967,8 @@
             "average_score_last_10": 91,
             "partner_average_score": 68.3
           }
-        }
+        },
+        "cost": 8036
       },
       {
         "name": "Tobse",
@@ -41194,7 +42006,8 @@
             "average_score_last_10": 78.5,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 7105
       },
       {
         "name": "Xeter",
@@ -41334,7 +42147,8 @@
             "average_score_last_10": 69,
             "partner_average_score": 72.3
           }
-        }
+        },
+        "cost": 5623
       },
       {
         "name": "Robin2",
@@ -41362,7 +42176,8 @@
             "partner_average_score_no_sq": 83.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 1145
       },
       {
         "name": "Ruka Go SQ",
@@ -41433,7 +42248,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 69.9
           }
-        }
+        },
+        "cost": 4984
       },
       {
         "name": "Steffi",
@@ -41470,7 +42286,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 69.1
           }
-        }
+        },
+        "cost": 5912
       },
       {
         "name": "Steifi",
@@ -41512,7 +42329,8 @@
             "average_score_last_10": 73.5,
             "partner_average_score": 71.1
           }
-        }
+        },
+        "cost": 5561
       }
     ]
   },
@@ -41608,7 +42426,8 @@
             "partner_average_score_no_sq": 82.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 4153
       },
       {
         "name": "Marvin",
@@ -41772,7 +42591,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 65
           }
-        }
+        },
+        "cost": 6216
       },
       {
         "name": "CAP ahaha",
@@ -41837,7 +42657,8 @@
             "partner_average_score_no_sq": 78.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6014
       },
       {
         "name": "guy laying down: >-|-〇",
@@ -41969,7 +42790,8 @@
             "average_score_last_10": 79.8,
             "partner_average_score": 75.7
           }
-        }
+        },
+        "cost": 7356
       },
       {
         "name": "shadowww / toge inumaki",
@@ -42011,7 +42833,8 @@
             "average_score_last_10": 65,
             "partner_average_score": 63
           }
-        }
+        },
+        "cost": 7397
       },
       {
         "name": "Simon The Digger",
@@ -42039,7 +42862,8 @@
             "partner_average_score_no_sq": 69.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5900
       },
       {
         "name": "Laki Wu",
@@ -42094,7 +42918,8 @@
             "partner_average_score_no_sq": 73.7
           },
           "2v2": {}
-        }
+        },
+        "cost": 5389
       },
       {
         "name": "TopHatBear/Topaz/Alex",
@@ -42160,7 +42985,8 @@
             "average_score_last_10": 68,
             "partner_average_score": 76
           }
-        }
+        },
+        "cost": 5934
       },
       {
         "name": "Bia",
@@ -42335,7 +43161,8 @@
             "average_score_last_10": 62,
             "partner_average_score": 66.3
           }
-        }
+        },
+        "cost": 6494
       },
       {
         "name": "georgio",
@@ -42371,7 +43198,8 @@
             "average_score_last_10": 78,
             "partner_average_score": 60
           }
-        }
+        },
+        "cost": 6536
       },
       {
         "name": "Kurt",
@@ -42422,7 +43250,8 @@
             "partner_average_score": 84.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 6846
       },
       {
         "name": "Lumpypy m",
@@ -42462,7 +43291,8 @@
             "partner_average_score_no_sq": 77.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4955
       },
       {
         "name": "Ryukano",
@@ -42498,7 +43328,8 @@
             "average_score_no_sq": 60,
             "average_score_last_10": 60
           }
-        }
+        },
+        "cost": 6137
       },
       {
         "name": "xTroy",
@@ -42534,7 +43365,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 63.5
           }
-        }
+        },
+        "cost": 6682
       },
       {
         "name": "Xenoz",
@@ -42562,7 +43394,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 5468
       }
     ]
   },
@@ -42698,7 +43531,8 @@
             "partner_average_score_no_sq": 94.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4938
       },
       {
         "name": "Chema",
@@ -42737,7 +43571,8 @@
             "partner_average_score": 85.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 5130
       },
       {
         "name": "DaRkZzZz",
@@ -42765,7 +43600,8 @@
             "partner_average_score_no_sq": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 4731
       },
       {
         "name": "viti",
@@ -42793,7 +43629,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 6127
       },
       {
         "name": "Ferry21",
@@ -42827,7 +43664,8 @@
             "partner_average_score_no_sq": 65
           },
           "2v2": {}
-        }
+        },
+        "cost": 5477
       },
       {
         "name": "mikailis",
@@ -42919,7 +43757,8 @@
             "partner_average_score_no_sq": 104
           },
           "2v2": {}
-        }
+        },
+        "cost": 2844
       },
       {
         "name": "Pelotore // Bunta",
@@ -43019,7 +43858,8 @@
             "partner_average_score_no_sq": 76.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5804
       },
       {
         "name": "jandro",
@@ -43047,7 +43887,8 @@
             "partner_average_score_no_sq": 85.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 6855
       },
       {
         "name": "Corvious",
@@ -43073,7 +43914,8 @@
             "average_score_last_10": 79.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5227
       },
       {
         "name": "Davimen",
@@ -43116,7 +43958,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 6315
       },
       {
         "name": "jacodv",
@@ -43210,7 +44053,8 @@
             "partner_average_score_no_sq": 88.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5727
       },
       {
         "name": "MK8D was better",
@@ -43319,7 +44163,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 5158
       },
       {
         "name": "zackdfilms",
@@ -43345,7 +44190,8 @@
             "average_score_last_10": 76.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5211
       },
       {
         "name": "london / deerb",
@@ -43429,7 +44275,8 @@
             "average_score_no_sq": 51,
             "average_score_last_10": 51
           }
-        }
+        },
+        "cost": 7157
       },
       {
         "name": "Astre",
@@ -43457,7 +44304,8 @@
             "partner_average_score_no_sq": 80.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 7192
       },
       {
         "name": "Diego",
@@ -43496,7 +44344,8 @@
             "partner_average_score": 87.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5875
       },
       {
         "name": "LOLmdr",
@@ -43534,7 +44383,8 @@
             "average_score_last_10": 83.8,
             "partner_average_score": 57.2
           }
-        }
+        },
+        "cost": 12484
       },
       {
         "name": "ry",
@@ -43562,7 +44412,8 @@
             "partner_average_score_no_sq": 86.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7697
       },
       {
         "name": "Tricky",
@@ -43590,7 +44441,8 @@
             "partner_average_score_no_sq": 91.3
           },
           "2v2": {}
-        }
+        },
+        "cost": 6858
       },
       {
         "name": "WillBoss",
@@ -43627,7 +44479,8 @@
             "average_score_no_sq": 66.7,
             "average_score_last_10": 66.7
           }
-        }
+        },
+        "cost": 7023
       },
       {
         "name": "Xewo",
@@ -43653,7 +44506,8 @@
             "average_score_no_sq": 82.4,
             "average_score_last_10": 82.4
           }
-        }
+        },
+        "cost": 8409
       }
     ]
   },
@@ -43693,7 +44547,8 @@
             "partner_average_score_no_sq": 81.4
           },
           "2v2": {}
-        }
+        },
+        "cost": 6074
       },
       {
         "name": "Babou",
@@ -43757,7 +44612,8 @@
             "partner_average_score_no_sq": 84
           },
           "2v2": {}
-        }
+        },
+        "cost": 6624
       },
       {
         "name": "vx Mat",
@@ -43794,7 +44650,8 @@
             "average_score_no_sq": 68.5,
             "average_score_last_10": 68.5
           }
-        }
+        },
+        "cost": 5857
       },
       {
         "name": "Romain",
@@ -43830,7 +44687,8 @@
             "average_score_no_sq": 51,
             "average_score_last_10": 51
           }
-        }
+        },
+        "cost": 6011
       }
     ]
   },
@@ -43894,7 +44752,8 @@
             "average_score_last_10": 63.5,
             "partner_average_score": 72.7
           }
-        }
+        },
+        "cost": 5685
       },
       {
         "name": "Daphné",
@@ -43942,7 +44801,8 @@
             "average_score_last_10": 72,
             "partner_average_score": 71
           }
-        }
+        },
+        "cost": 6453
       },
       {
         "name": "neyy / phi",
@@ -43996,7 +44856,8 @@
             "average_score_last_10": 50,
             "partner_average_score": 79
           }
-        }
+        },
+        "cost": 5113
       },
       {
         "name": "Shin",
@@ -44096,7 +44957,8 @@
             "average_score_last_10": 70,
             "partner_average_score": 69.2
           }
-        }
+        },
+        "cost": 7875
       },
       {
         "name": "Chinese Lakitu",
@@ -44132,7 +44994,8 @@
             "average_score_last_10": 65.5,
             "partner_average_score": 60.5
           }
-        }
+        },
+        "cost": 7800
       },
       {
         "name": "Kosta Vesta",
@@ -44166,7 +45029,8 @@
             "partner_average_score_no_sq": 77.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5749
       },
       {
         "name": "Shin Haein",
@@ -44194,7 +45058,8 @@
             "partner_average_score_no_sq": 80.2
           },
           "2v2": {}
-        }
+        },
+        "cost": 7059
       },
       {
         "name": "Emmentaler",
@@ -44231,7 +45096,8 @@
             "average_score_no_sq": 79.2,
             "average_score_last_10": 79.2
           }
-        }
+        },
+        "cost": 6265
       },
       {
         "name": "Crozie",
@@ -44298,7 +45164,8 @@
             "average_score_last_10": 60,
             "partner_average_score": 71.7
           }
-        }
+        },
+        "cost": 5764
       },
       {
         "name": "Starcast",
@@ -44335,7 +45202,8 @@
             "average_score_last_10": 94,
             "partner_average_score": 76.6
           }
-        }
+        },
+        "cost": 10250
       },
       {
         "name": "TKDropBear",
@@ -44372,7 +45240,8 @@
             "average_score_last_10": 74,
             "partner_average_score": 78.1
           }
-        }
+        },
+        "cost": 6540
       },
       {
         "name": "Vike",
@@ -44424,7 +45293,8 @@
             "partner_average_score_no_sq": 81
           },
           "2v2": {}
-        }
+        },
+        "cost": 7675
       },
       {
         "name": "Charlot",
@@ -44452,7 +45322,8 @@
             "partner_average_score_no_sq": 82.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 6878
       },
       {
         "name": "embrez",
@@ -44534,7 +45405,8 @@
             "partner_average_score_no_sq": 89.6
           },
           "2v2": {}
-        }
+        },
+        "cost": 7649
       },
       {
         "name": "Ivan Demidov",
@@ -44645,7 +45517,8 @@
             "partner_average_score_no_sq": 90.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4329
       },
       {
         "name": "BurnGamer",
@@ -44693,7 +45566,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 67.8
           }
-        }
+        },
+        "cost": 5561
       },
       {
         "name": "Jej",
@@ -44819,7 +45693,8 @@
             "average_score_last_10": 86,
             "partner_average_score": 64.5
           }
-        }
+        },
+        "cost": 7073
       },
       {
         "name": "tomiedronie",
@@ -44878,7 +45753,8 @@
             "partner_average_score_no_sq": 80.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5287
       },
       {
         "name": "Zakart_Qc",
@@ -44920,7 +45796,8 @@
             "average_score_last_10": 49,
             "partner_average_score": 68
           }
-        }
+        },
+        "cost": 4965
       }
     ]
   },
@@ -45045,7 +45922,8 @@
             "average_score_last_10": 63,
             "partner_average_score": 71.6
           }
-        }
+        },
+        "cost": 6349
       },
       {
         "name": "Player Austria",
@@ -45081,7 +45959,8 @@
             "average_score_last_10": 78.5,
             "partner_average_score": 70.8
           }
-        }
+        },
+        "cost": 8775
       },
       {
         "name": "Desert",
@@ -45118,7 +45997,8 @@
             "average_score_no_sq": 78,
             "average_score_last_10": 78
           }
-        }
+        },
+        "cost": 6487
       },
       {
         "name": "Dürni / mzinho",
@@ -45161,7 +46041,8 @@
             "average_score_no_sq": 57,
             "average_score_last_10": 57
           }
-        }
+        },
+        "cost": 7878
       },
       {
         "name": "FloaufmKlo",
@@ -45205,7 +46086,8 @@
             "average_score_last_10": 75.7,
             "partner_average_score": 72
           }
-        }
+        },
+        "cost": 6925
       },
       {
         "name": "ABC",
@@ -45242,7 +46124,8 @@
             "average_score_no_sq": 77.3,
             "average_score_last_10": 77.4
           }
-        }
+        },
+        "cost": 7469
       },
       {
         "name": "Lucker",
@@ -45362,7 +46245,8 @@
             "average_score_last_10": 62.4,
             "partner_average_score": 78.2
           }
-        }
+        },
+        "cost": 6878
       },
       {
         "name": "Thommy / Thoshy",
@@ -45395,7 +46279,8 @@
             "average_score_last_10": 59.8,
             "partner_average_score": 72.7
           }
-        }
+        },
+        "cost": 6408
       }
     ]
   },
@@ -45435,7 +46320,8 @@
             "partner_average_score_no_sq": 83.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 8446
       },
       {
         "name": "Bapevc",
@@ -45472,7 +46358,8 @@
             "average_score_last_10": 83,
             "partner_average_score": 74
           }
-        }
+        },
+        "cost": 9531
       },
       {
         "name": "BL",
@@ -45527,7 +46414,8 @@
             "average_score_last_10": 60,
             "partner_average_score": 75.4
           }
-        }
+        },
+        "cost": 8927
       },
       {
         "name": "Hol1ow",
@@ -45555,7 +46443,8 @@
             "partner_average_score_no_sq": 92
           },
           "2v2": {}
-        }
+        },
+        "cost": 9175
       },
       {
         "name": "Mazda MX-5",
@@ -45592,7 +46481,8 @@
             "average_score_last_10": 58.5,
             "partner_average_score": 80.3
           }
-        }
+        },
+        "cost": 6208
       },
       {
         "name": "JustNtendo",
@@ -45620,7 +46510,8 @@
             "partner_average_score_no_sq": 76
           },
           "2v2": {}
-        }
+        },
+        "cost": 5086
       },
       {
         "name": "Peas",
@@ -45656,7 +46547,8 @@
             "average_score_no_sq": 58.2,
             "average_score_last_10": 58.2
           }
-        }
+        },
+        "cost": 6311
       },
       {
         "name": "Hog Rider",
@@ -45692,7 +46584,8 @@
             "average_score_no_sq": 41,
             "average_score_last_10": 41
           }
-        }
+        },
+        "cost": 8897
       },
       {
         "name": "SKaR",
@@ -45730,7 +46623,8 @@
             "average_score_last_10": 86.6,
             "partner_average_score": 66.6
           }
-        }
+        },
+        "cost": 10884
       },
       {
         "name": "sliced oxy",
@@ -45764,7 +46658,8 @@
             "partner_average_score_no_sq": 78.1
           },
           "2v2": {}
-        }
+        },
+        "cost": 5279
       },
       {
         "name": "Tea",
@@ -45791,7 +46686,8 @@
             "partner_average_score": 122
           },
           "2v2": {}
-        }
+        },
+        "cost": 5968
       },
       {
         "name": "tys",
@@ -45829,7 +46725,8 @@
             "average_score_last_10": 71,
             "partner_average_score": 76.2
           }
-        }
+        },
+        "cost": 9920
       },
       {
         "name": "Vibxz55 / RAGEBAIT",
@@ -45875,7 +46772,8 @@
             "partner_average_score_no_sq": 91.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 5625
       },
       {
         "name": "17CraZeL",
@@ -45944,7 +46842,8 @@
             "partner_average_score_no_sq": 98.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 2699
       },
       {
         "name": "LayZi / NayZ / ネイス",
@@ -46009,7 +46908,8 @@
             "partner_average_score_no_sq": 80.8
           },
           "2v2": {}
-        }
+        },
+        "cost": 5184
       },
       {
         "name": "3QI Nicolachaume",
@@ -46070,7 +46970,8 @@
             "partner_average_score_no_sq": 90.9
           },
           "2v2": {}
-        }
+        },
+        "cost": 4398
       },
       {
         "name": "Troncheafioul",
@@ -46097,7 +46998,8 @@
             "partner_average_score_no_sq": 96
           },
           "2v2": {}
-        }
+        },
+        "cost": 3868
       },
       {
         "name": "Val26",
@@ -46180,7 +47082,8 @@
             "average_score_last_10": 86,
             "partner_average_score": 75
           }
-        }
+        },
+        "cost": 4750
       },
       {
         "name": "Deriva",
@@ -46226,7 +47129,8 @@
             "partner_average_score_no_sq": 99.5
           },
           "2v2": {}
-        }
+        },
+        "cost": 4768
       },
       {
         "name": "Jav3008R",
@@ -46293,7 +47197,8 @@
             "average_score_last_10": 75,
             "partner_average_score": 86
           }
-        }
+        },
+        "cost": 5579
       },
       {
         "name": "Sanmi",
