@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "Loggy-3271",
-      "purchasedAt": 1760128024533
+      "id": "JACKPOT-3361",
+      "purchasedAt": 1760128110651
     },
     {
-      "id": "AciiD-7",
-      "purchasedAt": 1760128024533
+      "id": "CarCorSnoAllen-3090",
+      "purchasedAt": 1760128110651
     },
     {
-      "id": "Kazuki974-1783",
-      "purchasedAt": 1760128024533
+      "id": "Royales-7",
+      "purchasedAt": 1760128110651
     },
     {
-      "id": "rSHS-2847",
-      "purchasedAt": 1760128024533
+      "id": "Loucaluz33-1411",
+      "purchasedAt": 1760128110652
     },
     {
       "id": "Robin2-35",
-      "purchasedAt": 1760128024533
+      "purchasedAt": 1760128110652
     },
     {
-      "id": "Lora-1783",
-      "purchasedAt": 1760128024533
+      "id": "rhii-2771",
+      "purchasedAt": 1760128110652
     }
   ],
   "roster": {
     "lineup": [
-      "Loggy-3271",
-      "AciiD-7",
-      "Kazuki974-1783",
-      "rSHS-2847",
+      "JACKPOT-3361",
+      "CarCorSnoAllen-3090",
+      "Royales-7",
+      "Loucaluz33-1411",
       "Robin2-35",
-      "Lora-1783"
+      "rhii-2771"
     ],
     "bench": []
   },

@@ -7,7 +7,6 @@ import { ALL_PLAYERS } from '@/data/players';
 import type { Player, User, UserPlayer } from '@/lib/types';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
-const TARGET_COST = 20000;
 const TEAM_SIZE = 6;
 
 // Helper to shuffle an array
@@ -37,86 +36,44 @@ async function updateUser(user: User): Promise<void> {
     await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
 }
 
-
-// Function to find a team of players with a total cost close to the target
-function findTeamForTarget(players: Player[], target: number, teamSize: number): Player[] | null {
-    const shuffledPlayers = shuffleArray([...players]);
-    
-    // Naive greedy approach: try to find a combination
-    // This is a variation of the subset sum problem, which is NP-hard.
-    // A greedy approach is not optimal but can work for this use case.
-    for (let i = 0; i < 1000; i++) { // Try up to 1000 random combinations
-        const potentialTeam: Player[] = [];
-        let remainingPlayers = [...shuffledPlayers];
-        let currentCost = 0;
-        
-        while (potentialTeam.length < teamSize && remainingPlayers.length > 0) {
-            const playerIndex = Math.floor(Math.random() * remainingPlayers.length);
-            const player = remainingPlayers[playerIndex];
-
-            if (currentCost + player.cost <= target + 2000) { // Allow some flexibility
-                potentialTeam.push(player);
-                currentCost += player.cost;
-                remainingPlayers.splice(playerIndex, 1);
-            } else {
-                 remainingPlayers.splice(playerIndex, 1);
-            }
-        }
-        
-        if (potentialTeam.length === teamSize && Math.abs(currentCost - target) <= 3000) {
-            return potentialTeam;
-        }
-    }
-    
-    return null; // Return null if no suitable team is found
-}
-
-
 export async function POST(request: Request) {
     try {
         const allUsers = await getAllUsers();
         
-        // Reset all user rosters and collect all players
-        let availablePlayers = [...ALL_PLAYERS];
-
+        // Reset all user rosters first
         for (const user of allUsers) {
             user.players = [];
             user.roster = { lineup: [], bench: [] };
         }
 
-        let updatedUsersCount = 0;
+        // Shuffle all available players
+        let availablePlayers = shuffleArray([...ALL_PLAYERS]);
 
-        for (const user of allUsers) {
-            // Find a suitable team from the available players
-            const team = findTeamForTarget(availablePlayers, TARGET_COST, TEAM_SIZE);
-
-            if (team) {
-                // Assign players to user
-                const userPlayers: UserPlayer[] = team.map(p => ({ id: p.id, purchasedAt: Date.now() }));
-                user.players = userPlayers;
-                user.roster = {
-                    lineup: team.map(p => p.id), // Add all to lineup initially
-                    bench: [],
-                };
-                
-                // Remove assigned players from the available pool
-                const teamIds = new Set(team.map(p => p.id));
-                availablePlayers = availablePlayers.filter(p => !teamIds.has(p.id));
-                
-                updatedUsersCount++;
-            } else {
-                 console.warn(`Could not find a suitable team for user ${user.id}`);
-            }
+        if (availablePlayers.length < allUsers.length * TEAM_SIZE) {
+             return NextResponse.json({ message: 'Not enough players in the database to assign a full team to every user.' }, { status: 500 });
         }
 
-        if (updatedUsersCount === 0) {
-            return NextResponse.json({ message: 'Could not assign teams. Not enough available players or cost constraints too tight.' }, { status: 500 });
+        // Perform a "snake draft"
+        for (let i = 0; i < TEAM_SIZE; i++) {
+            const isReverse = i % 2 !== 0;
+            const usersOrder = isReverse ? [...allUsers].reverse() : allUsers;
+
+            for (const user of usersOrder) {
+                if (availablePlayers.length > 0) {
+                    const player = availablePlayers.pop()!;
+                    const userPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+                    
+                    const targetUser = allUsers.find(u => u.id === user.id)!;
+                    targetUser.players.push(userPlayer);
+                    targetUser.roster.lineup.push(player.id);
+                }
+            }
         }
         
         // Save all user files after all assignments are done
         await Promise.all(allUsers.map(user => updateUser(user)));
 
-        return NextResponse.json({ message: 'Starter teams assigned successfully.', updatedUsers: updatedUsersCount });
+        return NextResponse.json({ message: `Starter teams assigned successfully to ${allUsers.length} users.` });
 
     } catch (error) {
         console.error('Failed to assign starter teams:', error);
