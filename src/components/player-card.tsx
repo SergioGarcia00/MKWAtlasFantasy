@@ -83,7 +83,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
   const getButton = () => {
     if (isStorePage) {
-        return <Button className="w-full" disabled>Fichajes en el Mercado Diario</Button>
+        return null
     }
 
     if (isOwnedByCurrentUser) {
@@ -130,6 +130,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
   
   const priceToShow = player.cost;
 
+  const cardFooter = getButton();
+
   return (
     <>
       <Card
@@ -158,9 +160,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
             </div>
         </CardContent>
-        <CardFooter className="p-2 bg-secondary">
-          {getButton()}
-        </CardFooter>
+        {!isStorePage && (
+          <CardFooter className="p-2 bg-secondary">
+            {cardFooter}
+          </CardFooter>
+        )}
       </Card>
 
       {/* Player Details Dialog */}
