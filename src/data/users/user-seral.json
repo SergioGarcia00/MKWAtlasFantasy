@@ -2,41 +2,9 @@
   "id": "user-seral",
   "name": "Seral",
   "currency": 17000,
-  "players": [
-    {
-      "id": "Pablo236-7",
-      "purchasedAt": 1760127932517
-    },
-    {
-      "id": "Kazuki974-1783",
-      "purchasedAt": 1760127932517
-    },
-    {
-      "id": "IzaDPMLMF-3153",
-      "purchasedAt": 1760127932517
-    },
-    {
-      "id": "elgraco-2439",
-      "purchasedAt": 1760127932517
-    },
-    {
-      "id": "Horuseye-3194",
-      "purchasedAt": 1760127932517
-    },
-    {
-      "id": "Robin2-35",
-      "purchasedAt": 1760127932517
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Pablo236-7",
-      "Kazuki974-1783",
-      "IzaDPMLMF-3153",
-      "elgraco-2439",
-      "Horuseye-3194",
-      "Robin2-35"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},
