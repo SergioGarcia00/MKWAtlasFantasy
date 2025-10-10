@@ -32,13 +32,13 @@ export default function PlayerMarketPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Mercado de Fichajes</h1>
+        <h1 className="text-4xl font-bold font-headline">Player Market</h1>
         <p className="text-muted-foreground mt-2">
-          Explora todos los jugadores que ya han sido fichados por los usuarios de la liga.
+          Explore all the players who have already been signed by users in the league.
         </p>
         <div className="mt-4 max-w-sm">
             <Input 
-                placeholder="Buscar un jugador fichado..."
+                placeholder="Search for a signed player..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -55,9 +55,9 @@ export default function PlayerMarketPage() {
         <div className="flex justify-center items-center h-64">
              <Alert className="max-w-md">
                 <AlertCircle className="h-4 w-4" />
-                <AlertTitle>No se encontraron jugadores</AlertTitle>
+                <AlertTitle>No Players Found</AlertTitle>
                 <AlertDescription>
-                   {searchTerm ? `No se encontraron jugadores para "${searchTerm}".` : 'Aún no se han fichado jugadores en la liga.'}
+                   {searchTerm ? `No players found for "${searchTerm}".` : 'No players have been signed in the league yet.'}
                 </AlertDescription>
             </Alert>
         </div>

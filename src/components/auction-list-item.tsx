@@ -31,14 +31,14 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
   const highestBidderIsCurrentUser = highestBid?.userId === user.id;
 
   const getButton = () => {
-    if (isOwned) return <Button disabled className="w-full">Fichado</Button>;
+    if (isOwned) return <Button disabled className="w-full">Owned</Button>;
     if (highestBidderIsCurrentUser) {
-        return <Button disabled variant="outline" className="w-full border-green-500 text-green-500">Eres el mejor postor</Button>
+        return <Button disabled variant="outline" className="w-full border-green-500 text-green-500">You are the top bidder</Button>
     };
     return (
       <Button className="w-full bg-blue-500 hover:bg-blue-600" onClick={(e) => { e.stopPropagation(); onBid(player); }}>
         <Gavel className="mr-2 h-4 w-4" />
-        Pujar
+        Bid
       </Button>
     );
   }
@@ -54,7 +54,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
             {owner && (
               <Badge variant="secondary" className="absolute -bottom-2 -right-2">
-                Fichado por: {owner.name}
+                Owned by: {owner.name}
               </Badge>
             )}
           </div>
@@ -65,21 +65,21 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
               <span className="font-semibold text-xl">{priceToShow.toLocaleString()}</span>
             </div>
             <p className="text-xs text-muted-foreground">
-                {highestBid ? 'Puja actual' : 'Coste base'}
+                {highestBid ? 'Current Bid' : 'Base Cost'}
             </p>
           </div>
         </div>
 
         {/* Bidders List */}
         <div className="md:col-span-2">
-            <h4 className="font-semibold mb-2">Mejores Postores</h4>
+            <h4 className="font-semibold mb-2">Top Bidders</h4>
             <div className="border rounded-lg">
                  <Table>
                     <TableHeader>
                         <TableRow>
                         <TableHead className="w-[50px]">Rank</TableHead>
-                        <TableHead>Usuario</TableHead>
-                        <TableHead className="text-right">Puja</TableHead>
+                        <TableHead>User</TableHead>
+                        <TableHead className="text-right">Bid</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -96,7 +96,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
-                                Aún no hay pujas para este jugador.
+                                No bids for this player yet.
                                 </TableCell>
                             </TableRow>
                         )}

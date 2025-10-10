@@ -53,7 +53,7 @@ export async function POST(
     }
 
     if(bidder.players.some(p => p.id === playerId)) {
-        return NextResponse.json({ message: "You can't bid on your own player" }, { status: 400 });
+        return NextResponse.json({ message: "You can't bid on a player you already own." }, { status: 400 });
     }
 
     // Calculate total amount of *other* bids by the user

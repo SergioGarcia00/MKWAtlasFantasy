@@ -75,7 +75,7 @@ export default function RosterPage() {
           <p className="mt-1 text-sm text-muted-foreground">You need to purchase players from the store first.</p>
           <div className="mt-6">
             <Button asChild className="bg-accent hover:bg-accent/90">
-              <Link href="/store">Go to Store</Link>
+              <Link href="/daily-market">Go to Daily Market</Link>
             </Button>
           </div>
         </div>

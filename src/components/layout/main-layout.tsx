@@ -40,9 +40,9 @@ import {
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/store', label: 'Player Database', icon: Store },
-  { href: '/player-market', label: 'Mercado de Fichajes', icon: Repeat },
+  { href: '/player-market', label: 'Player Market', icon: Repeat },
   { href: '/roster', label: 'My Roster', icon: Users },
-  { href: '/daily-market', label: 'Mercado Diario', icon: Gavel },
+  { href: '/daily-market', label: 'Daily Market', icon: Gavel },
   { href: '/rankings', label: 'Rankings', icon: BarChart },
   { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
   { href: '/smaller-ranking', label: 'Smaller Rankings', icon: Award },

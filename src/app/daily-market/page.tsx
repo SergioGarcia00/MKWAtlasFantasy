@@ -81,11 +81,11 @@ export default function DailyMarketPage() {
     try {
         const response = await fetch('/api/market/refresh', { method: 'POST' });
         if (!response.ok) throw new Error('Failed to refresh market');
-        toast({ title: '¡Mercado Actualizado!', description: 'Se ha generado una nueva selección de jugadores para subastar.' });
+        toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
         await loadAllData();
         await fetchMarket();
     } catch (error: any) {
-        toast({ variant: 'destructive', title: 'Error al refrescar', description: error.message });
+        toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
         setIsRefreshing(false);
     }
@@ -101,8 +101,8 @@ export default function DailyMarketPage() {
         }
         const result = await response.json();
         toast({
-            title: '¡Subastas Cerradas!',
-            description: `${result.winners.length} jugadores han sido transferidos a sus nuevos dueños.`,
+            title: 'Auctions Locked In!',
+            description: `${result.winners.length} players have been transferred to their new owners.`,
         });
         
         await loadAllData();
@@ -111,7 +111,7 @@ export default function DailyMarketPage() {
     } catch (error: any) {
         toast({
             variant: 'destructive',
-            title: 'Error al cerrar subastas',
+            title: 'Error locking in auctions',
             description: error.message,
         });
     } finally {
@@ -142,15 +142,15 @@ export default function DailyMarketPage() {
             throw new Error(error.message || 'Failed to place bid');
         }
         toast({
-            title: '¡Puja realizada!',
-            description: `Has pujado ${bidAmount.toLocaleString()} por ${biddingPlayer.name}.`,
+            title: 'Bid Placed!',
+            description: `You have bid ${bidAmount.toLocaleString()} for ${biddingPlayer.name}.`,
         });
         
         await loadAllData(); // This re-fetches all users, including the new bid data.
     } catch (error: any) {
         toast({
             variant: 'destructive',
-            title: 'Error en la puja',
+            title: 'Error placing bid',
             description: error.message,
         });
     } finally {
@@ -168,22 +168,22 @@ export default function DailyMarketPage() {
             <div className="flex items-center gap-3">
             <Sparkles className="w-8 h-8 text-primary" />
             <h1 className="text-4xl font-bold font-headline">
-                Mercado Diario de Subastas
+                Daily Auction Market
             </h1>
             </div>
             <p className="text-muted-foreground mt-2">
-            ¡Puja por nuevos talentos! Las subastas duran 24 horas.
+            Bid on new talent! Auctions last for 24 hours.
             </p>
         </div>
          <div className="flex items-center gap-2">
             <Button onClick={handleRefreshMarket} variant="outline" disabled={loading || isRefreshing}>
                 {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
-                Regenerar Mercado
+                Regenerate Market
             </Button>
             {user?.id === 'user-sipgb' && (
                 <Button onClick={handleLockIn} disabled={isLocking}>
                     {isLocking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Gavel className="mr-2 h-4 w-4" />}
-                    Cerrar Subastas
+                    Lock In Auctions
                 </Button>
             )}
         </div>
@@ -200,7 +200,7 @@ export default function DailyMarketPage() {
               <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
             )) : (
               <div className="text-center py-20 border-2 border-dashed rounded-lg">
-                <p className="text-lg text-muted-foreground">El mercado está vacío. ¡Pulsa "Regenerar Mercado" para empezar!</p>
+                <p className="text-lg text-muted-foreground">The market is empty. Click "Regenerate Market" to get started!</p>
               </div>
             )}
           </div>
@@ -211,11 +211,11 @@ export default function DailyMarketPage() {
         <Dialog open={isBidding} onOpenChange={setIsBidding}>
             <DialogContent>
             <DialogHeader>
-                <DialogTitle>Pujar por {biddingPlayer.name}</DialogTitle>
+                <DialogTitle>Place a bid for {biddingPlayer.name}</DialogTitle>
                 <DialogDescription>
                 {biddingPlayer.bids?.[0]
-                    ? `La puja más alta actual es de ${biddingPlayer.bids[0].amount.toLocaleString()}. Tu puja debe ser mayor.`
-                    : `El coste base es de ${biddingPlayer.cost.toLocaleString()}. La puja más alta al final de la subasta se lleva al jugador.`
+                    ? `The current highest bid is ${biddingPlayer.bids[0].amount.toLocaleString()}. Your bid must be higher.`
+                    : `The base cost is ${biddingPlayer.cost.toLocaleString()}. The highest bid at the end of the auction wins the player.`
                 }
                 </DialogDescription>
             </DialogHeader>
@@ -228,18 +228,18 @@ export default function DailyMarketPage() {
                     onChange={(e) => setBidAmount(Number(e.target.value))}
                     min={biddingPlayer.bids?.[0] ? biddingPlayer.bids[0].amount + 1 : biddingPlayer.cost}
                 />
-                <span className="text-muted-foreground">monedas</span>
+                <span className="text-muted-foreground">coins</span>
                 </div>
                 {user && <p className="text-xs text-muted-foreground mt-2">
-                    Tu saldo: {user.currency.toLocaleString()} monedas.
+                    Your balance: {user.currency.toLocaleString()} coins.
                 </p>}
             </div>
             <DialogFooter>
                 <DialogClose asChild>
-                    <Button variant="outline">Cancelar</Button>
+                    <Button variant="outline">Cancel</Button>
                 </DialogClose>
                 <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount <= (biddingPlayer.bids?.[0]?.amount || biddingPlayer.cost -1)}>
-                    {isBidLoading ? <Loader2 className="animate-spin" /> : `Pujar ${bidAmount.toLocaleString()}`}
+                    {isBidLoading ? <Loader2 className="animate-spin" /> : `Bid ${bidAmount.toLocaleString()}`}
                 </Button>
             </DialogFooter>
             </DialogContent>

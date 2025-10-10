@@ -112,19 +112,19 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                     </AlertDialogTrigger>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Vender jugador</p>
+                    <p>Sell Player</p>
                   </TooltipContent>
                 </Tooltip>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>¿Seguro que quieres vender a {player.name}?</AlertDialogTitle>
+                    <AlertDialogTitle>Are you sure you want to sell {player.name}?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      Recibirás {sellPrice.toLocaleString()} monedas (50% del coste original). Esta acción es irreversible.
+                      You will receive {sellPrice.toLocaleString()} coins (50% of the original cost). This action is irreversible.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => onSell(player)}>Confirmar Venta</AlertDialogAction>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => onSell(player)}>Confirm Sale</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -142,7 +142,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{moveButtonTooltip || (isLineup ? 'Mover al Banquillo' : 'Mover a la Alineación')}</p>
+                  <p>{moveButtonTooltip || (isLineup ? 'Move to Bench' : 'Move to Lineup')}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

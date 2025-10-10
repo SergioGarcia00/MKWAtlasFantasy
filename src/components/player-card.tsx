@@ -83,11 +83,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
   const getButton = () => {
     if (isStorePage) {
-        return null
+        return null;
     }
 
     if (isOwnedByCurrentUser) {
-      return <Button className="w-full" disabled>Fichado por ti</Button>;
+      return <Button className="w-full" disabled>Owned by you</Button>;
     }
 
     if (isOwnedByOtherUser && pathname === '/player-market') {
@@ -96,10 +96,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 <Button 
                     className="w-full bg-gray-400"
                     disabled
-                    title={`Este jugador está protegido durante ${buyoutProtectionDaysLeft} día(s) más.`}
+                    title={`This player is protected for ${buyoutProtectionDaysLeft} more day(s).`}
                 >
                     <Shield className="mr-2 h-4 w-4" />
-                    Protegido
+                    Protected
                 </Button>
             )
         }
@@ -109,7 +109,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 onClick={(e) => { e.stopPropagation(); setIsOpen(true); }}
             >
                 <ArrowRightLeft className="mr-2 h-4 w-4" />
-                Hacer Oferta
+                Make Offer
             </Button>
         )
     }
@@ -123,7 +123,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
               setIsOpen(true);
             }}
         >
-            {isOwned ? 'Fichado' : isRosterFull ? 'Plantilla llena' : !canAfford ? 'Monedas insuficientes' : 'Ver Detalles'}
+            {isOwned ? 'Owned' : isRosterFull ? 'Roster Full' : !canAfford ? 'Insufficient Funds' : 'View Details'}
         </Button>
     )
   }
@@ -142,12 +142,12 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center rounded-lg">
             {isOwnedByOtherUser && (
               <Badge variant="secondary" className="absolute top-2 right-2 z-10">
-                Fichado por: {owner.name}
+                Owned by: {owner.name}
               </Badge>
             )}
              {isOwnedByCurrentUser && (
               <Badge variant="default" className="absolute top-2 right-2 z-10">
-                En tu equipo
+                On your team
               </Badge>
             )}
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
@@ -160,7 +160,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
             </div>
         </CardContent>
-        {!isStorePage && (
+        {cardFooter && (
           <CardFooter className="p-2 bg-secondary">
             {cardFooter}
           </CardFooter>
@@ -177,14 +177,14 @@ export function PlayerCard({ player }: PlayerCardProps) {
               </div>
               <div className="pt-2">
                 <DialogTitle className="text-4xl font-bold font-headline mb-1 flex items-center gap-4">{player.name}
-                 {isOwnedByCurrentUser && <Badge variant="default">En tu equipo</Badge>}
-                 {isOwnedByOtherUser && <Badge variant="destructive">Fichado por {owner.name}</Badge>}
+                 {isOwnedByCurrentUser && <Badge variant="default">On your team</Badge>}
+                 {isOwnedByOtherUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
                 </DialogTitle>
-                <DialogDescription>Revisa las estadísticas del jugador para ver si es un buen fichaje para tu equipo.</DialogDescription>
+                <DialogDescription>Review the player's stats to see if they're a good fit for your team.</DialogDescription>
                 <div className="flex items-baseline gap-2 mt-3 text-primary">
                   <DollarSign className="w-6 h-6" />
                   <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
-                  <span className="text-sm text-muted-foreground ml-1">coste</span>
+                  <span className="text-sm text-muted-foreground ml-1">cost</span>
                 </div>
               </div>
             </div>
@@ -193,23 +193,23 @@ export function PlayerCard({ player }: PlayerCardProps) {
           <div className="grid md:grid-cols-3 gap-6 py-4">
             
             <div className="space-y-4">
-              <h4 className="font-semibold text-lg border-b pb-2">Estadísticas de Carrera</h4>
+              <h4 className="font-semibold text-lg border-b pb-2">Career Stats</h4>
               <StatItem label="MMR" value={player.mmr?.toLocaleString() || 'N/A'} />
               <StatItem label="Peak MMR" value={player.peak_mmr?.toLocaleString() || 'N/A'} />
               <StatItem label="Rank" value={player.rank ? `#${player.rank}`: 'N/A'} />
-              <StatItem label="Eventos Jugados" value={player.events_played || 'N/A'} />
-              <StatItem label="País" value={player.country || 'N/A'} />
+              <StatItem label="Events Played" value={player.events_played || 'N/A'} />
+              <StatItem label="Country" value={player.country || 'N/A'} />
             </div>
             
             {gameStats1v1 && (
               <div className="space-y-4">
-                <h4 className="font-semibold text-lg border-b pb-2">Estadísticas 1v1</h4>
+                <h4 className="font-semibold text-lg border-b pb-2">1v1 Stats</h4>
                 <StatItem label="Win Rate" value={gameStats1v1.win_rate} />
-                <StatItem label="Eventos Jugados" value={gameStats1v1.events_played} />
-                <StatItem label="Últimos 10" value={gameStats1v1.win_loss_last_10} />
+                <StatItem label="Events Played" value={gameStats1v1.events_played} />
+                <StatItem label="Last 10" value={gameStats1v1.win_loss_last_10} />
                 <StatItem label="Gain/Loss (L10)" value={gameStats1v1.gainloss_last_10} />
-                <StatItem label="Mayor Ganancia" value={gameStats1v1.largest_gain} />
-                <StatItem label="Puntuación Media" value={gameStats1v1.average_score} />
+                <StatItem label="Largest Gain" value={gameStats1v1.largest_gain} />
+                <StatItem label="Average Score" value={gameStats1v1.average_score} />
                 {gameStats1v1.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats1v1.average_score_no_sq} />}
                 {gameStats1v1.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats1v1.partner_average_score} />}
               </div>
@@ -217,13 +217,13 @@ export function PlayerCard({ player }: PlayerCardProps) {
              
             {gameStats2v2 && (
                <div className="space-y-4">
-                <h4 className="font-semibold text-lg border-b pb-2">Estadísticas 2v2</h4>
+                <h4 className="font-semibold text-lg border-b pb-2">2v2 Stats</h4>
                 <StatItem label="Win Rate" value={gameStats2v2.win_rate} />
-                <StatItem label="Eventos Jugados" value={gameStats2v2.events_played} />
-                <StatItem label="Últimos 10" value={gameStats2v2.win_loss_last_10} />
+                <StatItem label="Events Played" value={gameStats2v2.events_played} />
+                <StatItem label="Last 10" value={gameStats2v2.win_loss_last_10} />
                 <StatItem label="Gain/Loss (L10)" value={gameStats2v2.gainloss_last_10} />
-                <StatItem label="Mayor Ganancia" value={gameStats2v2.largest_gain} />
-                <StatItem label="Puntuación Media" value={gameStats2v2.average_score} />
+                <StatItem label="Largest Gain" value={gameStats2v2.largest_gain} />
+                <StatItem label="Average Score" value={gameStats2v2.average_score} />
                 {gameStats2v2.average_score_no_sq && <StatItem label="Avg Score (No SQ)" value={gameStats2v2.average_score_no_sq} />}
                 {gameStats2v2.partner_average_score && <StatItem label="Partner Avg Score" value={gameStats2v2.partner_average_score} />}
               </div>
@@ -231,7 +231,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-                <Button variant="outline">Cerrar</Button>
+                <Button variant="outline">Close</Button>
             </DialogClose>
             {!isStorePage && !isOwned && (
                  <Button
@@ -239,7 +239,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
                     onClick={handlePurchase}
                     disabled={isRosterFull || !canAfford}
                 >
-                    {isRosterFull ? 'Plantilla llena' : !canAfford ? 'Monedas insuficientes' : 'Comprar Jugador'}
+                    {isRosterFull ? 'Roster Full' : !canAfford ? 'Insufficient Funds' : 'Purchase Player'}
                 </Button>
             )}
             {!isStorePage && isOwnedByOtherUser && (
@@ -248,26 +248,26 @@ export function PlayerCard({ player }: PlayerCardProps) {
                          <Button
                             className="bg-amber-500 hover:bg-amber-600 text-white"
                             disabled={isRosterFull || !canAffordBuyout || isBuyoutProtected}
-                            title={isBuyoutProtected ? `Este jugador está protegido durante ${buyoutProtectionDaysLeft} día(s) más.` : ''}
+                            title={isBuyoutProtected ? `This player is protected for ${buyoutProtectionDaysLeft} more day(s).` : ''}
                          >
                             <ArrowRightLeft className="mr-2" />
-                            {isRosterFull ? 'Plantilla llena' 
-                            : !canAffordBuyout ? 'No puedes permitirte la cláusula' 
-                            : isBuyoutProtected ? `Protegido (${buyoutProtectionDaysLeft}d)`
-                            : `Cláusula por ${buyoutPrice.toLocaleString()}`}
+                            {isRosterFull ? 'Roster Full' 
+                            : !canAffordBuyout ? 'Cannot afford buyout' 
+                            : isBuyoutProtected ? `Protected (${buyoutProtectionDaysLeft}d)`
+                            : `Buyout for ${buyoutPrice.toLocaleString()}`}
                          </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                        <AlertDialogTitle>Confirmar Cláusula de Rescisión</AlertDialogTitle>
+                        <AlertDialogTitle>Confirm Buyout Clause</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Esto comprará a {player.name} de {owner.name} por un precio de {buyoutPrice.toLocaleString()} monedas.
-                            Al propietario original se le reembolsará el coste de compra original. Esta acción es irreversible.
+                            This will purchase {player.name} from {owner.name} for a price of {buyoutPrice.toLocaleString()} coins.
+                            The original owner will be refunded the original purchase cost. This action is irreversible.
                         </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                        <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleBuyout}>Confirmar Cláusula</AlertDialogAction>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleBuyout}>Confirm Buyout</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
