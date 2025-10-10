@@ -23,7 +23,7 @@ const generateStatsFromMmr = (mmr: number = 5000) => {
 };
 
 // Cost is now directly the peak_mmr
-const generateCost = (peak_mmr: number = 5000) => {
+const generateCost = (peak_mmr: number = 0) => {
   return peak_mmr;
 };
 
@@ -37,8 +37,8 @@ const processedPlayers = new Map<string, Player>();
 
         if (!processedPlayers.has(playerId)) {
           const stats = generateStatsFromMmr(playerData.mmr);
-          // Use peak_mmr directly as the cost.
-          const cost = generateCost(playerData.peak_mmr);
+          // Use peak_mmr directly as the cost. If cost is already set, use it.
+          const cost = playerData.cost || generateCost(playerData.peak_mmr);
 
           const player: Player = {
               id: playerId,
