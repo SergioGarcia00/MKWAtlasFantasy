@@ -9,11 +9,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 export default function SettingsPage() {
-    const { user } = useUser();
+    const { user, loadAllData } = useUser();
     const router = useRouter();
     const { toast } = useToast();
     const [isRecalculating, setIsRecalculating] = useState(false);
-    
+    const [isAssigning, setIsAssigning] = useState(false);
+
     useEffect(() => {
         if (user && user.id !== 'user-sipgb') {
             router.push('/');
@@ -42,6 +43,31 @@ export default function SettingsPage() {
             setIsRecalculating(false);
         }
     };
+    
+    const handleAssignTeams = async () => {
+        setIsAssigning(true);
+        try {
+            const response = await fetch('/api/users/assign-starter-teams', { method: 'POST' });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to assign starter teams');
+            }
+            const result = await response.json();
+            toast({
+                title: 'Starter Teams Assigned!',
+                description: `Successfully assigned teams to ${result.updatedUsers} users.`,
+            });
+            await loadAllData();
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Assigning Teams',
+                description: error.message,
+            });
+        } finally {
+            setIsAssigning(false);
+        }
+    };
 
     if (!user || user.id !== 'user-sipgb') {
         return (
@@ -66,15 +92,21 @@ export default function SettingsPage() {
                         Only visible to Sipgb. These actions are irreversible.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            <h4 className="font-semibold">Recalculate Player Market Prices</h4>
-                            <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>
-                        </div>
+                <CardContent className="space-y-6">
+                    <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Recalculate Player Market Prices</h4>
+                        <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>
                          <Button onClick={handleRecalculatePrices} disabled={isRecalculating} className="w-fit">
                             {isRecalculating ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                             Recalculate Market Prices
+                        </Button>
+                    </div>
+                     <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Assign Starter Teams</h4>
+                        <p className="text-sm text-muted-foreground">This will assign a random team of 6 players (total cost ~20,000) to each user. It will reset all current rosters.</p>
+                         <Button onClick={handleAssignTeams} disabled={isAssigning} className="w-fit">
+                            {isAssigning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            Assign Starter Teams
                         </Button>
                     </div>
                 </CardContent>
