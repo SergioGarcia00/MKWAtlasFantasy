@@ -22,9 +22,9 @@ const generateStatsFromMmr = (mmr: number = 5000) => {
   };
 };
 
-// Helper function to generate cost based on MMR, used for initialization
+// Cost is now directly the peak_mmr
 const generateCost = (peak_mmr: number = 5000) => {
-  return 1500 + Math.round((Math.max(1, Math.min(peak_mmr, 12000)) / 12000) * 3500);
+  return peak_mmr;
 };
 
 const processedPlayers = new Map<string, Player>();
@@ -37,8 +37,8 @@ const processedPlayers = new Map<string, Player>();
 
         if (!processedPlayers.has(playerId)) {
           const stats = generateStatsFromMmr(playerData.mmr);
-          // Use existing cost if available, otherwise generate it from peak_mmr.
-          const cost = playerData.cost || generateCost(playerData.peak_mmr);
+          // Use peak_mmr directly as the cost.
+          const cost = generateCost(playerData.peak_mmr);
 
           const player: Player = {
               id: playerId,
