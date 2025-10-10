@@ -39,7 +39,7 @@ import {
 
 const navItems = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/store', label: 'Player Store', icon: Store },
+  { href: '/store', label: 'Player Database', icon: Store },
   { href: '/player-market', label: 'Mercado de Fichajes', icon: Repeat },
   { href: '/roster', label: 'My Roster', icon: Users },
   { href: '/daily-market', label: 'Mercado Diario', icon: Gavel },
