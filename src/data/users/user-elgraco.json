@@ -2,9 +2,41 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "georgio-3263",
+      "purchasedAt": 1760127932259
+    },
+    {
+      "id": "pepperjack-1607",
+      "purchasedAt": 1760127932259
+    },
+    {
+      "id": "tcherriez-354",
+      "purchasedAt": 1760127932259
+    },
+    {
+      "id": "rhii-2771",
+      "purchasedAt": 1760127932259
+    },
+    {
+      "id": "Chuela-1838",
+      "purchasedAt": 1760127932259
+    },
+    {
+      "id": "Lora-1783",
+      "purchasedAt": 1760127932259
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "georgio-3263",
+      "pepperjack-1607",
+      "tcherriez-354",
+      "rhii-2771",
+      "Chuela-1838",
+      "Lora-1783"
+    ],
     "bench": []
   },
   "weeklyScores": {},

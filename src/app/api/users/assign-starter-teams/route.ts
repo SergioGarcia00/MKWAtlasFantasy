@@ -75,7 +75,15 @@ function findTeamForTarget(players: Player[], target: number, teamSize: number):
 export async function POST(request: Request) {
     try {
         const allUsers = await getAllUsers();
+        
+        // Reset all user rosters and collect all players
         let availablePlayers = [...ALL_PLAYERS];
+
+        for (const user of allUsers) {
+            user.players = [];
+            user.roster = { lineup: [], bench: [] };
+        }
+
         let updatedUsersCount = 0;
 
         for (const user of allUsers) {
@@ -95,8 +103,6 @@ export async function POST(request: Request) {
                 const teamIds = new Set(team.map(p => p.id));
                 availablePlayers = availablePlayers.filter(p => !teamIds.has(p.id));
                 
-                // Update user file
-                await updateUser(user);
                 updatedUsersCount++;
             } else {
                  console.warn(`Could not find a suitable team for user ${user.id}`);
@@ -107,6 +113,9 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: 'Could not assign teams. Not enough available players or cost constraints too tight.' }, { status: 500 });
         }
         
+        // Save all user files after all assignments are done
+        await Promise.all(allUsers.map(user => updateUser(user)));
+
         return NextResponse.json({ message: 'Starter teams assigned successfully.', updatedUsers: updatedUsersCount });
 
     } catch (error) {
