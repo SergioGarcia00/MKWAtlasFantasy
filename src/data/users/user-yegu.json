@@ -1,30 +1,12 @@
 {
   "id": "user-yegu",
   "name": "Yegu",
-  "currency": 47238,
-  "players": [
-    {
-      "id": "Froz11-3160",
-      "purchasedAt": 1758717733360
-    }
-  ],
+  "currency": 17000,
+  "players": [],
   "roster": {
-    "lineup": [
-      "Froz11-3160"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "Froz11-3160": {
-      "1": {
-        "race1": 12,
-        "race2": 12
-      },
-      "2": {
-        "race1": 120,
-        "race2": 12
-      }
-    }
-  },
+  "weeklyScores": {},
   "bids": {}
 }

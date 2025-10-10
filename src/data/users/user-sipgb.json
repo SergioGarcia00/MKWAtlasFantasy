@@ -1,39 +1,12 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 42260,
-  "players": [
-    {
-      "id": "Ruhestand-3160",
-      "purchasedAt": 1760013805410
-    },
-    {
-      "id": "EYEKON-188",
-      "purchasedAt": 1760031473246
-    }
-  ],
+  "currency": 17000,
+  "players": [],
   "roster": {
-    "lineup": [
-      "Ruhestand-3160",
-      "EYEKON-188"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "EYEKON-188": {
-      "1": {
-        "race1": 12,
-        "race2": 12
-      }
-    },
-    "Ruhestand-3160": {
-      "1": {
-        "race1": 12,
-        "race2": 120
-      }
-    }
-  },
-  "bids": {
-    "parousia-3236": 4061
-  }
+  "weeklyScores": {},
+  "bids": {}
 }
