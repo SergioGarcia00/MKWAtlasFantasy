@@ -6,6 +6,7 @@ import { PlayerIcon } from '@/components/icons/player-icon';
 import type { Player, User } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { useParams } from 'next/navigation';
 
 const getPlayerScores = (user: User, playerId: string, weekId: string) => {
     return user.weeklyScores?.[playerId]?.[weekId] || { race1: 0, race2: 0 };
@@ -19,9 +20,10 @@ const calculateTotalScore = (user: User, weekId: string) => {
   }, 0);
 };
 
-export default function WeekSummaryPage({ params }: { params: { weekId: string } }) {
+export default function WeekSummaryPage() {
   const { allUsers, getPlayerById } = useUser();
-  const weekId = params.weekId;
+  const params = useParams();
+  const weekId = params.weekId as string;
 
   return (
     <div className="container mx-auto p-4 md:p-8">
