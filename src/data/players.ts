@@ -23,8 +23,8 @@ const generateStatsFromMmr = (mmr: number = 5000) => {
 };
 
 // Helper function to generate cost based on MMR, used for initialization
-const generateCost = (mmr: number = 5000) => {
-  return 1500 + Math.round((Math.max(1, Math.min(mmr, 12000)) / 12000) * 3500);
+const generateCost = (peak_mmr: number = 5000) => {
+  return 1500 + Math.round((Math.max(1, Math.min(peak_mmr, 12000)) / 12000) * 3500);
 };
 
 const processedPlayers = new Map<string, Player>();
@@ -32,13 +32,13 @@ const processedPlayers = new Map<string, Player>();
 (rosters as RosterTeam[]).forEach(team => {
   team.players.forEach((playerData, index) => {
     // Use a combination of name and team to create a unique ID
-    if (playerData.name && playerData.mmr) {
+    if (playerData.name && playerData.peak_mmr) {
         const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
 
         if (!processedPlayers.has(playerId)) {
           const stats = generateStatsFromMmr(playerData.mmr);
-          // Use existing cost if available, otherwise generate it.
-          const cost = playerData.cost || generateCost(playerData.mmr);
+          // Use existing cost if available, otherwise generate it from peak_mmr.
+          const cost = playerData.cost || generateCost(playerData.peak_mmr);
 
           const player: Player = {
               id: playerId,

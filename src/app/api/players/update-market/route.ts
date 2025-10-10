@@ -17,8 +17,8 @@ const randomizeCost = (cost: number): number => {
 };
 
 // This function calculates cost based on MMR, used if cost doesn't exist
-const generateCost = (mmr: number = 5000) => {
-  return 1500 + Math.round((Math.max(1, Math.min(mmr, 12000)) / 12000) * 3500);
+const generateCost = (peak_mmr: number = 5000) => {
+  return 1500 + Math.round((Math.max(1, Math.min(peak_mmr, 12000)) / 12000) * 3500);
 };
 
 export async function POST(request: Request) {
@@ -29,8 +29,8 @@ export async function POST(request: Request) {
     const updatedRosterData = rosterData.map(team => ({
       ...team,
       players: team.players.map(player => {
-        // If player has a cost, randomize it. Otherwise, generate it from MMR.
-        const currentCost = player.cost || generateCost(player.mmr);
+        // If player has a cost, randomize it. Otherwise, generate it from peak MMR.
+        const currentCost = player.cost || generateCost(player.peak_mmr);
         return { ...player, cost: randomizeCost(currentCost) };
       }),
     }));
