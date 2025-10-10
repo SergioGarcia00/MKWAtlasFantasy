@@ -1,21 +1,25 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 45918,
+  "currency": 42260,
   "players": [
     {
       "id": "Ruhestand-3160",
       "purchasedAt": 1760013805410
+    },
+    {
+      "id": "EYEKON-188",
+      "purchasedAt": 1760031473246
     }
   ],
   "roster": {
     "lineup": [
       "Ruhestand-3160"
     ],
-    "bench": []
+    "bench": [
+      "EYEKON-188"
+    ]
   },
   "weeklyScores": {},
-  "bids": {
-    "Greninja-7": 4700
-  }
+  "bids": {}
 }

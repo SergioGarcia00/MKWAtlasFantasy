@@ -22,7 +22,7 @@ const generateStatsFromMmr = (mmr: number = 5000) => {
   };
 };
 
-// Helper function to generate cost based on MMR
+// Helper function to generate cost based on MMR, used for initialization
 const generateCost = (mmr: number = 5000) => {
   return 1500 + Math.round((Math.max(1, Math.min(mmr, 12000)) / 12000) * 3500);
 };
@@ -36,24 +36,25 @@ const processedPlayers = new Map<string, Player>();
         const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
 
         if (!processedPlayers.has(playerId)) {
-        const stats = generateStatsFromMmr(playerData.mmr);
-        const cost = generateCost(playerData.mmr);
+          const stats = generateStatsFromMmr(playerData.mmr);
+          // Use existing cost if available, otherwise generate it.
+          const cost = playerData.cost || generateCost(playerData.mmr);
 
-        const player: Player = {
-            id: playerId,
-            name: playerData.name,
-            // Assign icons somewhat randomly but consistently
-            icon: characterIcons[index % characterIcons.length],
-            cost: cost,
-            stats: stats,
-            mmr: playerData.mmr,
-            peak_mmr: playerData.peak_mmr,
-            rank: playerData.rank,
-            events_played: playerData.events_played,
-            country: playerData.country,
-            game_stats: playerData.game_stats,
-        };
-        processedPlayers.set(playerId, player);
+          const player: Player = {
+              id: playerId,
+              name: playerData.name,
+              // Assign icons somewhat randomly but consistently
+              icon: characterIcons[index % characterIcons.length],
+              cost: cost,
+              stats: stats,
+              mmr: playerData.mmr,
+              peak_mmr: playerData.peak_mmr,
+              rank: playerData.rank,
+              events_played: playerData.events_played,
+              country: playerData.country,
+              game_stats: playerData.game_stats,
+          };
+          processedPlayers.set(playerId, player);
         }
     }
   });

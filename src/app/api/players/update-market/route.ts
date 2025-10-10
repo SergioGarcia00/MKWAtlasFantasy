@@ -7,13 +7,18 @@ import type { RosterTeam } from '@/lib/types';
 
 const ROSTER_DATA_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
 
-// This function applies a random multiplier between -10% and +10% to the MMR
-const randomizeMmr = (mmr: number): number => {
+// This function applies a random multiplier between -10% and +10% to the cost
+const randomizeCost = (cost: number): number => {
     // Random multiplier between -0.10 and +0.10
     const multiplier = (Math.random() * 0.20) - 0.10; 
-    const newMmr = Math.round(mmr * (1 + multiplier));
-    // Ensure MMR stays within a reasonable range, e.g., 1000 to 13000
-    return Math.max(1000, Math.min(newMmr, 13000));
+    const newCost = Math.round(cost * (1 + multiplier));
+    // Ensure cost stays within a reasonable range, e.g., 1000 to 7500
+    return Math.max(1000, Math.min(newCost, 7500));
+};
+
+// This function calculates cost based on MMR, used if cost doesn't exist
+const generateCost = (mmr: number = 5000) => {
+  return 1500 + Math.round((Math.max(1, Math.min(mmr, 12000)) / 12000) * 3500);
 };
 
 export async function POST(request: Request) {
@@ -24,10 +29,9 @@ export async function POST(request: Request) {
     const updatedRosterData = rosterData.map(team => ({
       ...team,
       players: team.players.map(player => {
-        if (player.mmr) {
-          return { ...player, mmr: randomizeMmr(player.mmr) };
-        }
-        return player;
+        // If player has a cost, randomize it. Otherwise, generate it from MMR.
+        const currentCost = player.cost || generateCost(player.mmr);
+        return { ...player, cost: randomizeCost(currentCost) };
       }),
     }));
 

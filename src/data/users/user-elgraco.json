@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 24707,
+  "currency": 20852,
   "players": [
     {
       "id": "Sipgb-2439",
@@ -30,6 +30,10 @@
     {
       "id": "CoinBlockBuster-3160",
       "purchasedAt": 1760030637027
+    },
+    {
+      "id": "Starcast-3385",
+      "purchasedAt": 1760033522356
     }
   ],
   "roster": {
@@ -41,7 +45,9 @@
       "Nunatak-273",
       "CoinBlockBuster-3160"
     ],
-    "bench": []
+    "bench": [
+      "Starcast-3385"
+    ]
   },
   "weeklyScores": {
     "Sipgb-2439": {
@@ -97,8 +103,5 @@
       }
     }
   },
-  "bids": {
-    "FishboneLover-16": 3473,
-    "Chrin-22": 3580
-  }
+  "bids": {}
 }

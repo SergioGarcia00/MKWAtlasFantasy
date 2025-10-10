@@ -61,6 +61,7 @@ export interface RosterPlayer {
   joined_at: string;
   rank?: number;
   mmr?: number;
+  cost?: number; // Added cost to RosterPlayer
   peak_mmr?: number;
   registry_link?: string;
   country?: string;
