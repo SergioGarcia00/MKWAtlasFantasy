@@ -11,14 +11,17 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { useUser } from '@/context/user-context';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowDown, ArrowUp, DollarSign } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useState, useEffect } from 'react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+
 
 interface RosterPlayerCardProps {
   player: Player;
   isLineup: boolean;
   onMove: (player: Player) => void;
+  onSell: (player: Player) => void;
   canMoveToLineup: boolean;
 }
 
@@ -47,7 +50,7 @@ async function fetchWeeks(): Promise<Week[]> {
     }
   }
 
-export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: RosterPlayerCardProps) {
+export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLineup }: RosterPlayerCardProps) {
   const { user, updateWeeklyScores } = useUser();
   const [selectedWeek, setSelectedWeek] = useState('1');
   const [weeks, setWeeks] = useState<Week[]>([]);
@@ -84,10 +87,11 @@ export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: 
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
   const moveButtonTooltip = isLineup ? '' : !canMoveToLineup ? 'Lineup is full (6 players max)' : '';
 
+  const sellPrice = Math.round(player.cost * 0.5);
+
   return (
     <Card className="overflow-hidden">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
+      <CardContent className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
             <div>
@@ -95,17 +99,37 @@ export function RosterPlayerCard({ player, isLineup, onMove, canMoveToLineup }: 
               <p className="text-sm text-muted-foreground">{isLineup ? 'In Lineup' : 'On Bench'}</p>
             </div>
           </div>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => onMove(player)}
-            disabled={moveButtonDisabled}
-            title={moveButtonTooltip}
-            className="gap-2"
-          >
-            {isLineup ? <><ArrowDown/> Move to Bench</> : <><ArrowUp/> Move to Lineup</>}
-          </Button>
-        </div>
+          <div className="flex items-center gap-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="destructive" className="gap-2">
+                    <DollarSign/> Vender
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>¿Seguro que quieres vender a {player.name}?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Recibirás {sellPrice.toLocaleString()} monedas (50% del coste original). Esta acción es irreversible.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onSell(player)}>Confirmar Venta</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onMove(player)}
+                disabled={moveButtonDisabled}
+                title={moveButtonTooltip}
+                className="gap-2"
+            >
+                {isLineup ? <><ArrowDown/> Mover al Banquillo</> : <><ArrowUp/> Mover a la Alineación</>}
+            </Button>
+          </div>
       </CardContent>
       { isLineup && (
         <Accordion type="single" collapsible className="bg-secondary/50">

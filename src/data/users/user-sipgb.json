@@ -14,12 +14,26 @@
   ],
   "roster": {
     "lineup": [
-      "Ruhestand-3160"
-    ],
-    "bench": [
+      "Ruhestand-3160",
       "EYEKON-188"
-    ]
+    ],
+    "bench": []
   },
-  "weeklyScores": {},
-  "bids": {}
+  "weeklyScores": {
+    "EYEKON-188": {
+      "1": {
+        "race1": 12,
+        "race2": 12
+      }
+    },
+    "Ruhestand-3160": {
+      "1": {
+        "race1": 12,
+        "race2": 120
+      }
+    }
+  },
+  "bids": {
+    "parousia-3236": 4061
+  }
 }

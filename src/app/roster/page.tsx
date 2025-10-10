@@ -11,7 +11,7 @@ import { Lightbulb, Users, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export default function RosterPage() {
-  const { user, updateRoster, getPlayerById } = useUser();
+  const { user, updateRoster, getPlayerById, sellPlayer } = useUser();
   const [lineup, setLineup] = useState<Player[]>([]);
   const [bench, setBench] = useState<Player[]>([]);
 
@@ -90,7 +90,7 @@ export default function RosterPage() {
               {lineup.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {lineup.map(player => (
-                    <RosterPlayerCard key={player.id} player={player} isLineup={true} onMove={handleMovePlayer} canMoveToLineup={canMoveToLineup} />
+                    <RosterPlayerCard key={player.id} player={player} isLineup={true} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
                   ))}
                 </div>
               ) : (
@@ -108,7 +108,7 @@ export default function RosterPage() {
               {playersOnBench.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {playersOnBench.map(player => (
-                    <RosterPlayerCard key={player.id} player={player} isLineup={false} onMove={handleMovePlayer} canMoveToLineup={canMoveToLineup} />
+                    <RosterPlayerCard key={player.id} player={player} isLineup={false} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
                   ))}
                 </div>
               ) : (

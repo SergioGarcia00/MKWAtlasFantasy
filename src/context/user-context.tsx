@@ -13,6 +13,7 @@ interface UserContextType {
   allUsers: User[];
   allPlayers: Player[];
   purchasePlayer: (player: Player) => void;
+  sellPlayer: (player: Player) => void;
   updateRoster: (lineup: string[], bench: string[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
   switchUser: (userId: string, force?: boolean) => void;
@@ -157,6 +158,26 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await updateUserState(updatedUser);
   }, [user, allUsers, toast, updateUserState]);
 
+  const sellPlayer = useCallback(async (player: Player) => {
+    if (!user) return;
+
+    const sellPrice = Math.round(player.cost * 0.5);
+
+    const updatedUser: User = {
+        ...user,
+        currency: user.currency + sellPrice,
+        players: user.players.filter(p => p.id !== player.id),
+        roster: {
+            lineup: user.roster.lineup.filter(id => id !== player.id),
+            bench: user.roster.bench.filter(id => id !== player.id),
+        }
+    };
+
+    toast({ title: 'Player Sold!', description: `You have sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
+    await updateUserState(updatedUser);
+
+  }, [user, toast, updateUserState]);
+
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
     if (!user) return;
 
@@ -221,7 +242,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
       {children}
     </UserContext.Provider>
   );
