@@ -40,6 +40,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   
   const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
   const pathname = usePathname();
+  const isStorePage = pathname === '/store';
 
   if (!player || !user) {
     return null;
@@ -81,6 +82,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const gameStats2v2 = player.game_stats?.['2v2'];
 
   const getButton = () => {
+    if (isStorePage) {
+        return <Button className="w-full" disabled>Fichajes en el Mercado Diario</Button>
+    }
+
     if (isOwnedByCurrentUser) {
       return <Button className="w-full" disabled>Fichado por ti</Button>;
     }
@@ -224,7 +229,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <DialogClose asChild>
                 <Button variant="outline">Cerrar</Button>
             </DialogClose>
-            {!isOwned && (
+            {!isStorePage && !isOwned && (
                  <Button
                     className="bg-accent hover:bg-accent/90"
                     onClick={handlePurchase}
@@ -233,7 +238,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
                     {isRosterFull ? 'Plantilla llena' : !canAfford ? 'Monedas insuficientes' : 'Comprar Jugador'}
                 </Button>
             )}
-            {isOwnedByOtherUser && (
+            {!isStorePage && isOwnedByOtherUser && (
                  <AlertDialog>
                     <AlertDialogTrigger asChild>
                          <Button

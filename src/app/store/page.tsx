@@ -21,13 +21,13 @@ export default function StorePage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Player Store</h1>
+        <h1 className="text-4xl font-bold font-headline">Explorar Jugadores</h1>
         <p className="text-muted-foreground mt-2">
-          Purchase new players to build your ultimate fantasy team. You can own a maximum of 10 players.
+          Consulta las estadísticas de todos los pilotos de la liga. Los fichajes se realizan en el Mercado Diario.
         </p>
         <div className="mt-4 max-w-sm">
             <Input 
-                placeholder="Search for a player..."
+                placeholder="Buscar un jugador..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -41,7 +41,7 @@ export default function StorePage() {
       </div>
       {filteredPlayers.length === 0 && (
           <div className="text-center col-span-full py-16">
-              <p className="text-lg text-muted-foreground">No players found for "{searchTerm}".</p>
+              <p className="text-lg text-muted-foreground">No se han encontrado jugadores para "{searchTerm}".</p>
           </div>
       )}
     </div>
