@@ -15,6 +15,7 @@ import { ArrowDown, ArrowUp, DollarSign } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useState, useEffect } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 
 
 interface RosterPlayerCardProps {
@@ -99,36 +100,52 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
               <p className="text-sm text-muted-foreground">{isLineup ? 'In Lineup' : 'On Bench'}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button size="sm" variant="destructive" className="gap-2">
-                    <DollarSign/> Vender
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>¿Seguro que quieres vender a {player.name}?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Recibirás {sellPrice.toLocaleString()} monedas (50% del coste original). Esta acción es irreversible.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={() => onSell(player)}>Confirmar Venta</AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onMove(player)}
-                disabled={moveButtonDisabled}
-                title={moveButtonTooltip}
-                className="gap-2"
-            >
-                {isLineup ? <><ArrowDown/> Mover al Banquillo</> : <><ArrowUp/> Mover a la Alineación</>}
-            </Button>
+          <div className="flex flex-col gap-2">
+            <TooltipProvider>
+              <AlertDialog>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <AlertDialogTrigger asChild>
+                      <Button size="icon" variant="destructive" className="w-8 h-8">
+                          <DollarSign className="w-4 h-4"/>
+                      </Button>
+                    </AlertDialogTrigger>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Vender jugador</p>
+                  </TooltipContent>
+                </Tooltip>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>¿Seguro que quieres vender a {player.name}?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Recibirás {sellPrice.toLocaleString()} monedas (50% del coste original). Esta acción es irreversible.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => onSell(player)}>Confirmar Venta</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => onMove(player)}
+                      disabled={moveButtonDisabled}
+                      className="w-8 h-8"
+                  >
+                      {isLineup ? <ArrowDown className="w-4 h-4"/> : <ArrowUp className="w-4 h-4"/>}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{moveButtonTooltip || (isLineup ? 'Mover al Banquillo' : 'Mover a la Alineación')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
       </CardContent>
       { isLineup && (
