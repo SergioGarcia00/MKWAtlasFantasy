@@ -13,6 +13,8 @@ export const USER_IDS = [
   'user-vick',
   'user-elgraco',
   'user-yegu',
+  'user-mauri',
+  'user-tario',
 ];
 
 // The detailed user objects are now in /src/data/users/[userId].json

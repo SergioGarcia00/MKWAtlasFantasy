@@ -1,0 +1,12 @@
+{
+  "id": "user-mauri",
+  "name": "Mauri",
+  "currency": 17000,
+  "players": [],
+  "roster": {
+    "lineup": [],
+    "bench": []
+  },
+  "weeklyScores": {},
+  "bids": {}
+}
