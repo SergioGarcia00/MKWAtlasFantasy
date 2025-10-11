@@ -3,7 +3,7 @@
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
-import { Award, DollarSign, Zap } from 'lucide-react';
+import { Award, DollarSign, Zap, TrendingUp, Gem } from 'lucide-react';
 import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -19,6 +19,8 @@ type TopMMRPlayerInfo = {
     user: User;
     player: Player;
 } | null;
+
+type UserWithValue = User & { value: number };
 
 export default function SmallerRankingsPage() {
   const { allUsers, getPlayerById } = useUser();
@@ -81,6 +83,28 @@ export default function SmallerRankingsPage() {
 
     return null;
   }, [allUsers, getPlayerById]);
+  
+  const mostValuableRoster = useMemo((): UserWithValue | null => {
+    if (!allUsers || allUsers.length === 0) return null;
+
+    return allUsers.map(user => {
+      const rosterValue = user.players
+        .map(p => getPlayerById(p.id)?.cost || 0)
+        .reduce((sum, cost) => sum + cost, 0);
+      return { ...user, value: rosterValue };
+    }).sort((a, b) => b.value - a.value)[0];
+  }, [allUsers, getPlayerById]);
+
+  const topPeakPerformanceTeam = useMemo((): UserWithValue | null => {
+    if (!allUsers || allUsers.length === 0) return null;
+
+    return allUsers.map(user => {
+        const peakMMRSum = user.roster.lineup
+            .map(pId => getPlayerById(pId)?.peak_mmr || 0)
+            .reduce((sum, mmr) => sum + mmr, 0);
+        return { ...user, value: peakMMRSum };
+    }).sort((a, b) => b.value - a.value)[0];
+  }, [allUsers, getPlayerById]);
 
   if (allUsers.length === 0) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
@@ -95,7 +119,7 @@ export default function SmallerRankingsPage() {
         </p>
       </header>
 
-      <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -145,6 +169,57 @@ export default function SmallerRankingsPage() {
             )}
           </CardContent>
         </Card>
+
+         <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Gem className="w-6 h-6 text-emerald-500" />
+              <span>Most Valuable Roster</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {mostValuableRoster ? (
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{mostValuableRoster.name.substring(0, 2)}</div>
+                <div>
+                  <p className="font-semibold">{mostValuableRoster.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Total Roster Value
+                  </p>
+                  <p className="text-3xl font-bold text-emerald-500 mt-1">{mostValuableRoster.value.toLocaleString()}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No rosters to value yet.</p>
+            )}
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="w-6 h-6 text-rose-500" />
+              <span>Highest Peak Performance</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {topPeakPerformanceTeam ? (
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{topPeakPerformanceTeam.name.substring(0, 2)}</div>
+                <div>
+                  <p className="font-semibold">{topPeakPerformanceTeam.name}</p>
+                   <p className="text-sm text-muted-foreground">
+                    Combined Lineup Peak MMR
+                  </p>
+                  <p className="text-3xl font-bold text-rose-500 mt-1">{topPeakPerformanceTeam.value.toLocaleString()}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No lineups to rank yet.</p>
+            )}
+          </CardContent>
+        </Card>
+
       </div>
       
       <div className="mt-8">
