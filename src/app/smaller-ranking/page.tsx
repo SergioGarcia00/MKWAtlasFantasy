@@ -1,12 +1,14 @@
 'use client';
 
 import { useUser } from '@/context/user-context';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
-import { Award, DollarSign, Zap, TrendingUp, Gem, Bomb, WalletCards, Anchor, Frown, Handshake } from 'lucide-react';
+import { Award, DollarSign, Zap, Gem, Bomb, Frown, Handshake, TrendingUp, WalletCards } from 'lucide-react';
 import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
 
 type ScoreInfo = {
   user: User;
@@ -36,7 +38,6 @@ const calculatePlayerTotalScore = (playerId: string, allUsers: User[]): number =
                 const scores = user.weeklyScores[playerId][week];
                 totalScore += (scores.race1 || 0) + (scores.race2 || 0);
             }
-            // A player can only be on one user's roster, so we can break after finding them.
             return totalScore; 
         }
     }
@@ -162,7 +163,6 @@ export default function SmallerRankingsPage() {
 
             const totalScore = calculatePlayerTotalScore(player.id, allUsers);
             
-            // Only consider players who have scores recorded to avoid division by zero
             if (totalScore > 0) {
                 const ratio = player.cost / totalScore;
                 if (ratio > maxRatio) {
@@ -180,230 +180,155 @@ export default function SmallerRankingsPage() {
   if (allUsers.length === 0) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
+  
+  const HallOfFameCard = ({icon, title, player, user, value, valueLabel, week}: {icon: React.ReactNode, title: string, player?: Player | null, user?: User | null, value: React.ReactNode, valueLabel: string, week?:string}) => (
+    <Card>
+        <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+                {icon}
+                <span>{title}</span>
+            </CardTitle>
+        </CardHeader>
+        <CardContent>
+            {player && user ? (
+                 <div className="flex items-center gap-4">
+                    <PlayerIcon iconName={player.icon} className="w-16 h-16" />
+                    <div>
+                        <p className="font-semibold">{player.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                            Owned by {user.name} {week ? `(Week ${week})` : ''}
+                        </p>
+                        <p className="text-3xl font-bold text-primary mt-1">{value}</p>
+                        <p className="text-xs text-muted-foreground">{valueLabel}</p>
+                    </div>
+              </div>
+            ) : (
+                 <p className="text-muted-foreground">No data available yet.</p>
+            )}
+        </CardContent>
+    </Card>
+  );
+
+  const UserStatCard = ({icon, title, user, value, valueLabel}: {icon: React.ReactNode, title: string, user: UserWithValue | null, value: React.ReactNode, valueLabel: string}) => (
+     <Card>
+        <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+                {icon}
+                <span>{title}</span>
+            </CardTitle>
+        </CardHeader>
+        <CardContent>
+             {user ? (
+              <div className="flex items-center gap-4">
+                <Avatar className="w-16 h-16">
+                    <AvatarFallback className="text-2xl">{user.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-semibold">{user.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {valueLabel}
+                  </p>
+                  <p className="text-3xl font-bold text-primary mt-1">{value}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No data available yet.</p>
+            )}
+        </CardContent>
+    </Card>
+  );
+
 
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Smaller Rankings</h1>
+        <h1 className="text-4xl font-bold font-headline">League Honors</h1>
         <p className="text-muted-foreground mt-2">
-          Special achievements and fun leaderboards from the league.
+          Special achievements and unique leaderboards from the league.
         </p>
       </header>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Award className="w-6 h-6 text-amber-500" />
-              <span>Highest Single Race Score</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {scoreStats.highest ? (
-              <div className="flex items-center gap-4">
-                <PlayerIcon iconName={scoreStats.highest.player.icon} className="w-16 h-16" />
-                <div>
-                  <p className="font-semibold">{scoreStats.highest.player.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    Owned by {scoreStats.highest.user.name} (Week {scoreStats.highest.week})
-                  </p>
-                  <p className="text-3xl font-bold text-primary mt-1">{scoreStats.highest.score}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No scores recorded yet.</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Zap className="w-6 h-6 text-blue-500" />
-              <span>Top MMR Player</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {topMMRPlayer ? (
-                 <div className="flex items-center gap-4">
-                    <PlayerIcon iconName={topMMRPlayer.player.icon} className="w-16 h-16" />
-                    <div>
-                        <p className="font-semibold">{topMMRPlayer.player.name}</p>
-                         <p className="text-sm text-muted-foreground">
-                            Owned by {topMMRPlayer.user.name}
-                        </p>
-                        <p className="text-3xl font-bold text-blue-500">{topMMRPlayer.player.mmr?.toLocaleString()}</p>
-                    </div>
-              </div>
-            ) : (
-                 <p className="text-muted-foreground">No players with MMR owned.</p>
-            )}
-          </CardContent>
-        </Card>
-
-         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Gem className="w-6 h-6 text-emerald-500" />
-              <span>Most Valuable Roster</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {rosterValueRankings.mostValuable ? (
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{rosterValueRankings.mostValuable.name.substring(0, 2)}</div>
-                <div>
-                  <p className="font-semibold">{rosterValueRankings.mostValuable.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    Total Roster Value
-                  </p>
-                  <p className="text-3xl font-bold text-emerald-500 mt-1">{rosterValueRankings.mostValuable.value.toLocaleString()}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No rosters to value yet.</p>
-            )}
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-6 h-6 text-rose-500" />
-              <span>Highest Peak Performance</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {topPeakPerformanceTeam ? (
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{topPeakPerformanceTeam.name.substring(0, 2)}</div>
-                <div>
-                  <p className="font-semibold">{topPeakPerformanceTeam.name}</p>
-                   <p className="text-sm text-muted-foreground">
-                    Combined Lineup Peak MMR
-                  </p>
-                  <p className="text-3xl font-bold text-rose-500 mt-1">{topPeakPerformanceTeam.value.toLocaleString()}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No lineups to rank yet.</p>
-            )}
-          </CardContent>
-        </Card>
-
+      {/* Hall of Fame */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-amber-400">Hall of Fame</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <HallOfFameCard 
+                icon={<Award className="w-6 h-6 text-amber-500" />}
+                title="Highest Single Race Score"
+                player={scoreStats.highest?.player}
+                user={scoreStats.highest?.user}
+                value={scoreStats.highest?.score}
+                valueLabel="Points"
+                week={scoreStats.highest?.week}
+            />
+            <HallOfFameCard 
+                icon={<Zap className="w-6 h-6 text-blue-500" />}
+                title="Top MMR Player"
+                player={topMMRPlayer?.player}
+                user={topMMRPlayer?.user}
+                value={topMMRPlayer?.player?.mmr?.toLocaleString()}
+                valueLabel="MMR"
+            />
+            <UserStatCard 
+                icon={<Gem className="w-6 h-6 text-emerald-500" />}
+                title="Most Valuable Roster"
+                user={rosterValueRankings.mostValuable}
+                value={rosterValueRankings.mostValuable?.value.toLocaleString()}
+                valueLabel="Total Roster Value"
+            />
+             <UserStatCard 
+                icon={<TrendingUp className="w-6 h-6 text-rose-500" />}
+                title="Highest Peak Performance"
+                user={topPeakPerformanceTeam}
+                value={topPeakPerformanceTeam?.value.toLocaleString()}
+                valueLabel="Combined Lineup Peak MMR"
+            />
+        </div>
       </div>
       
-       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bomb className="w-6 h-6 text-red-500" />
-              <span>Lowest Single Race Score</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {scoreStats.lowest ? (
-              <div className="flex items-center gap-4">
-                <PlayerIcon iconName={scoreStats.lowest.player.icon} className="w-16 h-16" />
-                <div>
-                  <p className="font-semibold">{scoreStats.lowest.player.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    Owned by {scoreStats.lowest.user.name} (Week {scoreStats.lowest.week})
-                  </p>
-                  <p className="text-3xl font-bold text-red-500 mt-1">{scoreStats.lowest.score}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No scores recorded yet.</p>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Frown className="w-6 h-6 text-gray-500" />
-              <span>Least Valuable Roster</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {rosterValueRankings.leastValuable ? (
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{rosterValueRankings.leastValuable.name.substring(0, 2)}</div>
-                <div>
-                  <p className="font-semibold">{rosterValueRankings.leastValuable.name}</p>
-                  <p className="text-sm text-muted-foreground">
-                    Total Roster Value
-                  </p>
-                  <p className="text-3xl font-bold text-gray-500 mt-1">{rosterValueRankings.leastValuable.value.toLocaleString()}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No rosters to value yet.</p>
-            )}
-          </CardContent>
-        </Card>
-         <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <WalletCards className="w-6 h-6 text-orange-500" />
-              <span>Poorest User</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {poorestUser ? (
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{poorestUser.name.substring(0, 2)}</div>
-                <div>
-                  <p className="font-semibold">{poorestUser.name}</p>
-                   <p className="text-sm text-muted-foreground">
-                    Fantasy Coins
-                  </p>
-                  <p className="text-3xl font-bold text-orange-500 mt-1">{poorestUser.currency.toLocaleString()}</p>
-                </div>
-              </div>
-            ) : (
-              <p className="text-muted-foreground">No users to rank.</p>
-            )}
-          </CardContent>
-        </Card>
-         <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                <Handshake className="w-6 h-6 text-teal-500" />
-                <span>Money Grabber</span>
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                {moneyGrabber ? (
-                <div className="flex items-center gap-4">
-                    <PlayerIcon iconName={moneyGrabber.player.icon} className="w-16 h-16" />
-                    <div>
-                    <p className="font-semibold">{moneyGrabber.player.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                        Owned by {moneyGrabber.user.name}
-                    </p>
-                    <p className="text-3xl font-bold text-teal-500 mt-1">
-                        {Math.round(moneyGrabber.ratio).toLocaleString()}
-                        <span className="text-base font-normal text-muted-foreground"> coins/point</span>
-                    </p>
-                    </div>
-                </div>
-                ) : (
-                <p className="text-muted-foreground">No players with scores yet.</p>
-                )}
-            </CardContent>
-        </Card>
+      {/* Hall of Shame */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-slate-600">Hall of Shame</h2>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <HallOfFameCard 
+                icon={<Bomb className="w-6 h-6 text-red-500" />}
+                title="Lowest Single Race Score"
+                player={scoreStats.lowest?.player}
+                user={scoreStats.lowest?.user}
+                value={scoreStats.lowest?.score}
+                valueLabel="Points"
+                week={scoreStats.lowest?.week}
+            />
+             <UserStatCard 
+                icon={<Frown className="w-6 h-6 text-gray-500" />}
+                title="Least Valuable Roster"
+                user={rosterValueRankings.leastValuable}
+                value={rosterValueRankings.leastValuable?.value.toLocaleString()}
+                valueLabel="Total Roster Value"
+            />
+             <UserStatCard 
+                icon={<WalletCards className="w-6 h-6 text-orange-500" />}
+                title="Poorest User"
+                user={poorestUser ? {...poorestUser, value: poorestUser.currency} : null}
+                value={poorestUser?.currency.toLocaleString()}
+                valueLabel="Fantasy Coins"
+            />
+            <HallOfFameCard 
+                icon={<Handshake className="w-6 h-6 text-teal-500" />}
+                title="Money Grabber"
+                player={moneyGrabber?.player}
+                user={moneyGrabber?.user}
+                value={`${Math.round(moneyGrabber?.ratio || 0).toLocaleString()}`}
+                valueLabel="coins/point"
+            />
+        </div>
       </div>
 
-      <div className="mt-8">
+       {/* Richest Users */}
+      <div>
+        <h2 className="text-2xl font-semibold font-headline mb-4">Richest Users</h2>
         <Card className="col-span-1 lg:col-span-2">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <DollarSign className="w-6 h-6 text-green-500" />
-                    <span>Richest Users</span>
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="p-0">
                 <div className="rounded-lg border">
                     <Table>
                         <TableHeader>
