@@ -7,11 +7,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { DollarSign, Users, Trophy, Shield, Crown, ArrowRight, Newspaper, Loader2 } from 'lucide-react';
 import { PlayerIcon } from '@/components/icons/player-icon';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import type { User, Player } from '@/lib/types';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { generateNewsReport } from '@/ai/flows/generate-news-report';
+import { newsFeedMessages } from '@/lib/news-feed';
+
 
 const calculateTotalScore = (user: User): number => {
   if (!user.roster || !user.roster.lineup || !user.weeklyScores) return 0;
@@ -35,26 +36,17 @@ const getPlayerTotalScoreForWeek = (user: User, playerId: string, weekId: string
 };
 
 function NewsFeed() {
-    const { allUsers, getPlayerById } = useUser();
+    const { allUsers } = useUser();
     const [news, setNews] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchNews = async () => {
-            if (allUsers.length === 0) return;
+        if (allUsers.length > 0) {
             setLoading(true);
-            try {
-                const newsReport = await generateNewsReport({ allUsers });
-                setNews(newsReport);
-            } catch (error) {
-                console.error("Failed to generate news report:", error);
-                setNews("Could not load league news at this time.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchNews();
+            const randomIndex = Math.floor(Math.random() * newsFeedMessages.length);
+            setNews(newsFeedMessages[randomIndex]);
+            setLoading(false);
+        }
     }, [allUsers]);
 
     return (
@@ -64,13 +56,13 @@ function NewsFeed() {
                     <Newspaper className="w-6 h-6 text-blue-500" />
                     League News
                 </CardTitle>
-                <CardDescription>The latest scoop from the tracks, powered by AI.</CardDescription>
+                <CardDescription>The latest scoop from the tracks.</CardDescription>
             </CardHeader>
             <CardContent>
                 {loading ? (
                     <div className="flex items-center gap-3 text-muted-foreground">
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Generating the latest report...</span>
+                        <span>Fetching the latest report...</span>
                     </div>
                 ) : (
                     <p className="text-sm whitespace-pre-wrap">{news}</p>
