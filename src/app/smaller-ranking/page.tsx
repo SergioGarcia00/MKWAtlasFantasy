@@ -251,7 +251,7 @@ export default function SmallerRankingsPage() {
       {/* Hall of Fame */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-primary">Hall of Fame</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2">
             <HallOfFameCard 
                 icon={<Award className="w-6 h-6 text-amber-500" />}
                 title="Highest Single Race Score"
@@ -289,7 +289,7 @@ export default function SmallerRankingsPage() {
       {/* Hall of Shame */}
       <div className="mb-12">
         <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-muted-foreground">Hall of Shame</h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2">
             <HallOfFameCard 
                 icon={<Bomb className="w-6 h-6 text-red-500" />}
                 title="Lowest Single Race Score"
