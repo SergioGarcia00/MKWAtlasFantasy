@@ -3,12 +3,12 @@
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
-import { Award, DollarSign, Zap, TrendingUp, Gem } from 'lucide-react';
+import { Award, DollarSign, Zap, TrendingUp, Gem, Bomb, WalletCards, Anchor, Frown } from 'lucide-react';
 import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-type HighestScoreInfo = {
+type ScoreInfo = {
   user: User;
   player: Player;
   score: number;
@@ -25,11 +25,13 @@ type UserWithValue = User & { value: number };
 export default function SmallerRankingsPage() {
   const { allUsers, getPlayerById } = useUser();
 
-  const highestScorePlayer = useMemo((): HighestScoreInfo => {
-    if (!allUsers || allUsers.length === 0) return null;
+  const scoreStats = useMemo((): {highest: ScoreInfo, lowest: ScoreInfo} => {
+    if (!allUsers || allUsers.length === 0) return { highest: null, lowest: null };
 
     let topScore = 0;
-    let topInfo: HighestScoreInfo = null;
+    let topInfo: ScoreInfo = null;
+    let bottomScore = Infinity;
+    let bottomInfo: ScoreInfo = null;
 
     for (const user of allUsers) {
       if (!user.weeklyScores) continue;
@@ -39,22 +41,36 @@ export default function SmallerRankingsPage() {
 
         for (const weekId in user.weeklyScores[playerId]) {
           const scores = user.weeklyScores[playerId][weekId];
-          const maxRaceScore = Math.max(scores.race1 || 0, scores.race2 || 0);
+          const race1Score = scores.race1 || 0;
+          const race2Score = scores.race2 || 0;
 
-          if (maxRaceScore > topScore) {
-            topScore = maxRaceScore;
-            topInfo = {
-              user: user,
-              player: playerInRoster,
-              score: topScore,
-              week: weekId,
-            };
+          if (race1Score > 0) {
+            if (race1Score > topScore) {
+              topScore = race1Score;
+              topInfo = { user, player: playerInRoster, score: topScore, week: weekId };
+            }
+            if (race1Score < bottomScore) {
+              bottomScore = race1Score;
+              bottomInfo = { user, player: playerInRoster, score: bottomScore, week: weekId };
+            }
+          }
+
+          if (race2Score > 0) {
+             if (race2Score > topScore) {
+              topScore = race2Score;
+              topInfo = { user, player: playerInRoster, score: topScore, week: weekId };
+            }
+            if (race2Score < bottomScore) {
+              bottomScore = race2Score;
+              bottomInfo = { user, player: playerInRoster, score: bottomScore, week: weekId };
+            }
           }
         }
       }
     }
-    return topInfo;
+    return { highest: topInfo, lowest: bottomInfo };
   }, [allUsers, getPlayerById]);
+
 
   const rankedUsersByCurrency = useMemo((): User[] => {
     if (!allUsers || allUsers.length === 0) return [];
@@ -84,15 +100,21 @@ export default function SmallerRankingsPage() {
     return null;
   }, [allUsers, getPlayerById]);
   
-  const mostValuableRoster = useMemo((): UserWithValue | null => {
-    if (!allUsers || allUsers.length === 0) return null;
+  const rosterValueRankings = useMemo((): {mostValuable: UserWithValue | null, leastValuable: UserWithValue | null} => {
+    if (!allUsers || allUsers.length === 0) return { mostValuable: null, leastValuable: null };
 
-    return allUsers.map(user => {
+    const usersWithRosterValue = allUsers.map(user => {
       const rosterValue = user.players
         .map(p => getPlayerById(p.id)?.cost || 0)
         .reduce((sum, cost) => sum + cost, 0);
       return { ...user, value: rosterValue };
-    }).sort((a, b) => b.value - a.value)[0];
+    }).sort((a, b) => b.value - a.value);
+
+    return {
+        mostValuable: usersWithRosterValue[0] || null,
+        leastValuable: usersWithRosterValue[usersWithRosterValue.length - 1] || null
+    }
+
   }, [allUsers, getPlayerById]);
 
   const topPeakPerformanceTeam = useMemo((): UserWithValue | null => {
@@ -105,6 +127,8 @@ export default function SmallerRankingsPage() {
         return { ...user, value: peakMMRSum };
     }).sort((a, b) => b.value - a.value)[0];
   }, [allUsers, getPlayerById]);
+
+  const poorestUser = rankedUsersByCurrency[rankedUsersByCurrency.length - 1];
 
   if (allUsers.length === 0) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
@@ -128,15 +152,15 @@ export default function SmallerRankingsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {highestScorePlayer ? (
+            {scoreStats.highest ? (
               <div className="flex items-center gap-4">
-                <PlayerIcon iconName={highestScorePlayer.player.icon} className="w-16 h-16" />
+                <PlayerIcon iconName={scoreStats.highest.player.icon} className="w-16 h-16" />
                 <div>
-                  <p className="font-semibold">{highestScorePlayer.player.name}</p>
+                  <p className="font-semibold">{scoreStats.highest.player.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    Owned by {highestScorePlayer.user.name} (Week {highestScorePlayer.week})
+                    Owned by {scoreStats.highest.user.name} (Week {scoreStats.highest.week})
                   </p>
-                  <p className="text-3xl font-bold text-primary mt-1">{highestScorePlayer.score}</p>
+                  <p className="text-3xl font-bold text-primary mt-1">{scoreStats.highest.score}</p>
                 </div>
               </div>
             ) : (
@@ -178,15 +202,15 @@ export default function SmallerRankingsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {mostValuableRoster ? (
+            {rosterValueRankings.mostValuable ? (
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{mostValuableRoster.name.substring(0, 2)}</div>
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{rosterValueRankings.mostValuable.name.substring(0, 2)}</div>
                 <div>
-                  <p className="font-semibold">{mostValuableRoster.name}</p>
+                  <p className="font-semibold">{rosterValueRankings.mostValuable.name}</p>
                   <p className="text-sm text-muted-foreground">
                     Total Roster Value
                   </p>
-                  <p className="text-3xl font-bold text-emerald-500 mt-1">{mostValuableRoster.value.toLocaleString()}</p>
+                  <p className="text-3xl font-bold text-emerald-500 mt-1">{rosterValueRankings.mostValuable.value.toLocaleString()}</p>
                 </div>
               </div>
             ) : (
@@ -222,6 +246,81 @@ export default function SmallerRankingsPage() {
 
       </div>
       
+       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Bomb className="w-6 h-6 text-red-500" />
+              <span>Lowest Single Race Score</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {scoreStats.lowest ? (
+              <div className="flex items-center gap-4">
+                <PlayerIcon iconName={scoreStats.lowest.player.icon} className="w-16 h-16" />
+                <div>
+                  <p className="font-semibold">{scoreStats.lowest.player.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Owned by {scoreStats.lowest.user.name} (Week {scoreStats.lowest.week})
+                  </p>
+                  <p className="text-3xl font-bold text-red-500 mt-1">{scoreStats.lowest.score}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No scores recorded yet.</p>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Frown className="w-6 h-6 text-gray-500" />
+              <span>Least Valuable Roster</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {rosterValueRankings.leastValuable ? (
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{rosterValueRankings.leastValuable.name.substring(0, 2)}</div>
+                <div>
+                  <p className="font-semibold">{rosterValueRankings.leastValuable.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    Total Roster Value
+                  </p>
+                  <p className="text-3xl font-bold text-gray-500 mt-1">{rosterValueRankings.leastValuable.value.toLocaleString()}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No rosters to value yet.</p>
+            )}
+          </CardContent>
+        </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <WalletCards className="w-6 h-6 text-orange-500" />
+              <span>Poorest User</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {poorestUser ? (
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center font-bold text-xl">{poorestUser.name.substring(0, 2)}</div>
+                <div>
+                  <p className="font-semibold">{poorestUser.name}</p>
+                   <p className="text-sm text-muted-foreground">
+                    Fantasy Coins
+                  </p>
+                  <p className="text-3xl font-bold text-orange-500 mt-1">{poorestUser.currency.toLocaleString()}</p>
+                </div>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">No users to rank.</p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="mt-8">
         <Card className="col-span-1 lg:col-span-2">
             <CardHeader>
