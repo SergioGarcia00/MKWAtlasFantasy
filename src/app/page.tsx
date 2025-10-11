@@ -5,14 +5,12 @@ import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DollarSign, Users, Trophy, Shield, Crown, ArrowRight, Newspaper, Loader2 } from 'lucide-react';
+import { DollarSign, Users, Trophy, Shield, Crown, ArrowRight } from 'lucide-react';
 import { PlayerIcon } from '@/components/icons/player-icon';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import type { User, Player } from '@/lib/types';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
-import { newsFeedMessages } from '@/lib/news-feed';
-
 
 const calculateTotalScore = (user: User): number => {
   if (!user.roster || !user.roster.lineup || !user.weeklyScores) return 0;
@@ -34,43 +32,6 @@ const getPlayerTotalScoreForWeek = (user: User, playerId: string, weekId: string
     if (!scores) return 0;
     return (scores.race1 || 0) + (scores.race2 || 0);
 };
-
-function NewsFeed() {
-    const { allUsers } = useUser();
-    const [news, setNews] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (allUsers.length > 0) {
-            setLoading(true);
-            const randomIndex = Math.floor(Math.random() * newsFeedMessages.length);
-            setNews(newsFeedMessages[randomIndex]);
-            setLoading(false);
-        }
-    }, [allUsers]);
-
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Newspaper className="w-6 h-6 text-blue-500" />
-                    League News
-                </CardTitle>
-                <CardDescription>The latest scoop from the tracks.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                {loading ? (
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Fetching the latest report...</span>
-                    </div>
-                ) : (
-                    <p className="text-sm whitespace-pre-wrap">{news}</p>
-                )}
-            </CardContent>
-        </Card>
-    )
-}
 
 export default function DashboardPage() {
   const { user, allUsers, getPlayerById } = useUser();
@@ -190,7 +151,6 @@ export default function DashboardPage() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-8">
-             <NewsFeed />
             <Card>
                 <CardHeader>
                     <CardTitle>Your Stats</CardTitle>
