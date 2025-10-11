@@ -3,7 +3,7 @@
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
-import { Award, DollarSign, Zap, TrendingUp, Gem, Bomb, WalletCards, Anchor, Frown } from 'lucide-react';
+import { Award, DollarSign, Zap, TrendingUp, Gem, Bomb, WalletCards, Anchor, Frown, Handshake } from 'lucide-react';
 import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -21,6 +21,27 @@ type TopMMRPlayerInfo = {
 } | null;
 
 type UserWithValue = User & { value: number };
+
+type MoneyGrabberInfo = {
+  user: User;
+  player: Player;
+  ratio: number;
+} | null;
+
+const calculatePlayerTotalScore = (playerId: string, allUsers: User[]): number => {
+    let totalScore = 0;
+    for (const user of allUsers) {
+        if (user.weeklyScores && user.weeklyScores[playerId]) {
+            for (const week in user.weeklyScores[playerId]) {
+                const scores = user.weeklyScores[playerId][week];
+                totalScore += (scores.race1 || 0) + (scores.race2 || 0);
+            }
+            // A player can only be on one user's roster, so we can break after finding them.
+            return totalScore; 
+        }
+    }
+    return totalScore;
+};
 
 export default function SmallerRankingsPage() {
   const { allUsers, getPlayerById } = useUser();
@@ -126,6 +147,32 @@ export default function SmallerRankingsPage() {
             .reduce((sum, mmr) => sum + mmr, 0);
         return { ...user, value: peakMMRSum };
     }).sort((a, b) => b.value - a.value)[0];
+  }, [allUsers, getPlayerById]);
+
+  const moneyGrabber = useMemo((): MoneyGrabberInfo => {
+    if (!allUsers || allUsers.length === 0) return null;
+
+    let worstPlayer: MoneyGrabberInfo = null;
+    let maxRatio = -1;
+
+    for (const user of allUsers) {
+        for (const userPlayer of user.players) {
+            const player = getPlayerById(userPlayer.id);
+            if (!player) continue;
+
+            const totalScore = calculatePlayerTotalScore(player.id, allUsers);
+            
+            // Only consider players who have scores recorded to avoid division by zero
+            if (totalScore > 0) {
+                const ratio = player.cost / totalScore;
+                if (ratio > maxRatio) {
+                    maxRatio = ratio;
+                    worstPlayer = { user, player, ratio };
+                }
+            }
+        }
+    }
+    return worstPlayer;
   }, [allUsers, getPlayerById]);
 
   const poorestUser = rankedUsersByCurrency[rankedUsersByCurrency.length - 1];
@@ -318,6 +365,33 @@ export default function SmallerRankingsPage() {
               <p className="text-muted-foreground">No users to rank.</p>
             )}
           </CardContent>
+        </Card>
+         <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                <Handshake className="w-6 h-6 text-teal-500" />
+                <span>Money Grabber</span>
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
+                {moneyGrabber ? (
+                <div className="flex items-center gap-4">
+                    <PlayerIcon iconName={moneyGrabber.player.icon} className="w-16 h-16" />
+                    <div>
+                    <p className="font-semibold">{moneyGrabber.player.name}</p>
+                    <p className="text-sm text-muted-foreground">
+                        Owned by {moneyGrabber.user.name}
+                    </p>
+                    <p className="text-3xl font-bold text-teal-500 mt-1">
+                        {Math.round(moneyGrabber.ratio).toLocaleString()}
+                        <span className="text-base font-normal text-muted-foreground"> coins/point</span>
+                    </p>
+                    </div>
+                </div>
+                ) : (
+                <p className="text-muted-foreground">No players with scores yet.</p>
+                )}
+            </CardContent>
         </Card>
       </div>
 
