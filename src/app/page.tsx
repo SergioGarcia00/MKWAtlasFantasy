@@ -4,12 +4,14 @@ import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DollarSign, Users, Trophy, Shield } from 'lucide-react';
+import { DollarSign, Users, Trophy, Shield, Crown, ArrowRight } from 'lucide-react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { useEffect, useState } from 'react';
 import type { User, Player } from '@/lib/types';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
 
-const calculateTotalScore = (user: User, getPlayerById: (id: string) => Player | undefined): number => {
+const calculateTotalScore = (user: User): number => {
   if (!user.roster || !user.roster.lineup || !user.weeklyScores) return 0;
 
   let totalScore = 0;
@@ -24,38 +26,49 @@ const calculateTotalScore = (user: User, getPlayerById: (id: string) => Player |
   return totalScore;
 };
 
+const getPlayerTotalScoreForWeek = (user: User, playerId: string, weekId: string): number => {
+    const scores = user.weeklyScores?.[playerId]?.[weekId];
+    if (!scores) return 0;
+    return (scores.race1 || 0) + (scores.race2 || 0);
+};
+
 export default function DashboardPage() {
   const { user, allUsers, getPlayerById } = useUser();
-  const [allUsersWithScores, setAllUsersWithScores] = useState<(User & {totalScore: number})[]>([]);
+  const [rankedUsers, setRankedUsers] = useState<(User & {totalScore: number})[]>([]);
 
   useEffect(() => {
     if (allUsers.length > 0) {
       const usersWithScores = allUsers
         .map(u => ({
             ...u,
-            totalScore: calculateTotalScore(u as User, getPlayerById),
+            totalScore: calculateTotalScore(u as User),
         }))
         .filter(u => u.roster.lineup.length >=6)
         .sort((a, b) => b.totalScore - a.totalScore);
 
-      setAllUsersWithScores(usersWithScores as (User & {totalScore: number})[]);
+      setRankedUsers(usersWithScores as (User & {totalScore: number})[]);
     }
-  }, [allUsers, getPlayerById]);
+  }, [allUsers]);
 
   if (!user) {
-    return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
+    return <div className="flex h-screen items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
   
   const lineupPlayers = user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
-  const userRank = allUsersWithScores.findIndex(u => u.id === user.id) + 1;
-
-
+  const userRank = rankedUsers.findIndex(u => u.id === user.id) + 1;
+  const topFiveUsers = rankedUsers.slice(0, 5);
+  
   const stats = [
-    { title: 'Your Rank', value: userRank > 0 ? `#${userRank}` : 'N/A', icon: <Trophy className="w-6 h-6 text-amber-500" /> },
-    { title: 'League Players', value: allUsers.length, icon: <Users className="w-6 h-6 text-blue-500" /> },
-    { title: 'Fantasy Coins', value: user.currency.toLocaleString(), icon: <DollarSign className="w-6 h-6 text-green-500" /> },
-    { title: 'Players Owned', value: `${user.players.length} / 10`, icon: <Shield className="w-6 h-6 text-red-500" /> },
+    { title: 'Your Rank', value: userRank > 0 ? `#${userRank}` : 'N/A', icon: <Trophy className="w-5 h-5 text-amber-500" /> },
+    { title: 'League Players', value: allUsers.length, icon: <Users className="w-5 h-5 text-blue-500" /> },
+    { title: 'Fantasy Coins', value: user.currency.toLocaleString(), icon: <DollarSign className="w-5 h-5 text-green-500" /> },
+    { title: 'Players Owned', value: `${user.players.length} / 10`, icon: <Shield className="w-5 h-5 text-red-500" /> },
   ];
+
+  const getRankIndicator = (rank: number) => {
+    if (rank === 1) return <Crown className="w-5 h-5 text-amber-400" />;
+    return <span className="font-mono text-sm text-muted-foreground">{rank}</span>;
+  }
 
   return (
     <div className="container mx-auto p-4 md:p-8 space-y-8">
@@ -64,66 +77,114 @@ export default function DashboardPage() {
         <p className="text-muted-foreground mt-2">Here's a snapshot of your Kart Fantasy League.</p>
       </header>
       
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map(stat => (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              {stat.icon}
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Your Starting Lineup</CardTitle>
+                    <CardDescription>
+                    {lineupPlayers.length > 0 ? 'This week\'s contenders.' : 'Your lineup is empty. Go to your roster to add players.'}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {lineupPlayers.length > 0 ? (
+                    <div className="space-y-4">
+                        {lineupPlayers.map((player, index) => (
+                        <div key={player.id} className={`flex items-center justify-between p-3 rounded-lg ${index % 2 === 0 ? 'bg-secondary/50' : ''}`}>
+                            <div className="flex items-center gap-4">
+                                <PlayerIcon iconName={player.icon} className="w-12 h-12" />
+                                <div>
+                                    <p className="font-semibold">{player.name}</p>
+                                    <p className="text-xs text-muted-foreground">MMR: {player.mmr?.toLocaleString() || 'N/A'}</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <p className="font-bold text-lg text-primary">{getPlayerTotalScoreForWeek(user, player.id, '1')}</p>
+                                <p className="text-xs text-muted-foreground">Week 1 Score</p>
+                            </div>
+                        </div>
+                        ))}
+                    </div>
+                    ) : (
+                    <div className="text-center py-10 border-2 border-dashed rounded-lg">
+                        <p className="text-muted-foreground">No players in your lineup.</p>
+                        <Button asChild variant="link" className="text-primary">
+                        <Link href="/roster">Manage Roster</Link>
+                        </Button>
+                    </div>
+                    )}
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle>Top 5 Users</CardTitle>
+                    <CardDescription>The current league leaders.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-4">
+                    {topFiveUsers.map((u, index) => (
+                        <div key={u.id} className="flex items-center justify-between p-3">
+                            <div className="flex items-center gap-4">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary">
+                                    {getRankIndicator(index + 1)}
+                                </div>
+                                <Avatar>
+                                    <AvatarFallback>{u.name.substring(0, 2).toUpperCase()}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className={`font-semibold ${u.id === user.id ? 'text-primary' : ''}`}>{u.name}</p>
+                                </div>
+                            </div>
+                             <div className="text-right">
+                                <p className="font-bold text-xl text-primary">{u.totalScore.toLocaleString()}</p>
+                                <p className="text-xs text-muted-foreground">Total Score</p>
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                </CardContent>
+            </Card>
+
+        </div>
+
+        {/* Sidebar */}
+        <div className="lg:col-span-1 space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Your Stats</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                    {stats.map((stat, index) => (
+                        <React.Fragment key={stat.title}>
+                            <div className="flex items-center justify-between py-2">
+                                <div className="flex items-center gap-3">
+                                {stat.icon}
+                                <span className="font-medium">{stat.title}</span>
+                                </div>
+                                <span className="font-bold text-lg">{stat.value}</span>
+                            </div>
+                            {index < stats.length - 1 && <Separator />}
+                        </React.Fragment>
+                    ))}
+                </CardContent>
+            </Card>
+
+            <Card className="bg-accent text-accent-foreground">
+                <CardHeader>
+                    <CardTitle>Auction House</CardTitle>
+                    <CardDescription className="text-accent-foreground/80">Bid on the next superstar for your team.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                     <Button asChild className="w-full bg-background text-foreground hover:bg-background/90">
+                        <Link href="/daily-market">
+                            Go to Daily Market <ArrowRight className="ml-2" />
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Your Starting Lineup</CardTitle>
-            <CardDescription>
-              {lineupPlayers.length > 0 ? 'Your team is ready for the next race!' : 'Your lineup is empty. Go to your roster to add players.'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {lineupPlayers.length > 0 ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {lineupPlayers.map(player => (
-                  <div key={player.id} className="flex flex-col items-center justify-center p-4 bg-secondary rounded-lg text-center">
-                    <PlayerIcon iconName={player.icon} className="w-16 h-16" />
-                    <p className="mt-2 font-semibold text-sm">{player.name}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-               <div className="text-center py-10 border-2 border-dashed rounded-lg">
-                <p className="text-muted-foreground">No players in your lineup.</p>
-                <Button asChild variant="link" className="text-primary">
-                  <Link href="/roster">Manage Roster</Link>
-                </Button>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-           <CardHeader>
-            <CardTitle>Get More Players</CardTitle>
-            <CardDescription>Expand your team and dominate the league.</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center justify-center text-center h-[calc(100%-80px)]">
-            <div className="p-6 bg-primary/10 rounded-full mb-4">
-              <Trophy className="w-12 h-12 text-primary" />
-            </div>
-            <p className="mb-4 text-muted-foreground">The store is full of talented racers waiting for a team.</p>
-            <Button asChild className="bg-accent hover:bg-accent/90">
-              <Link href="/store">Go to Store</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-
     </div>
   );
 }
