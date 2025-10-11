@@ -7,6 +7,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+
+interface Week {
+  id: string;
+  name: string;
+}
 
 export default function SettingsPage() {
     const { user, loadAllData } = useUser();
@@ -14,11 +21,25 @@ export default function SettingsPage() {
     const { toast } = useToast();
     const [isRecalculating, setIsRecalculating] = useState(false);
     const [isAssigning, setIsAssigning] = useState(false);
+    const [isPayingOut, setIsPayingOut] = useState(false);
+    const [weeks, setWeeks] = useState<Week[]>([]);
+    const [selectedWeek, setSelectedWeek] = useState<string>('');
+
 
     useEffect(() => {
         if (user && user.id !== 'user-sipgb') {
             router.push('/');
         }
+        async function fetchWeeks() {
+            try {
+                const response = await fetch('/api/weeks');
+                const data = await response.json();
+                setWeeks(data);
+            } catch (error) {
+                console.error("Failed to fetch weeks", error);
+            }
+        }
+        fetchWeeks();
     }, [user, router]);
 
     const handleRecalculatePrices = async () => {
@@ -55,7 +76,7 @@ export default function SettingsPage() {
             const result = await response.json();
             toast({
                 title: 'Starter Teams Assigned!',
-                description: `Successfully assigned teams to ${result.updatedUsers} users.`,
+                description: result.message,
             });
             await loadAllData();
         } catch (error: any) {
@@ -68,6 +89,43 @@ export default function SettingsPage() {
             setIsAssigning(false);
         }
     };
+
+    const handleWeeklyPayout = async () => {
+        if (!selectedWeek) {
+            toast({
+                variant: 'destructive',
+                title: 'No Week Selected',
+                description: 'Please select a week to process payouts.',
+            });
+            return;
+        }
+        setIsPayingOut(true);
+        try {
+            const response = await fetch('/api/payouts/weekly', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ weekId: selectedWeek }),
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to process weekly payout');
+            }
+            const result = await response.json();
+            toast({
+                title: 'Weekly Payout Successful!',
+                description: result.message,
+            });
+            await loadAllData();
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Processing Payout',
+                description: error.message,
+            });
+        } finally {
+            setIsPayingOut(false);
+        }
+    }
 
     if (!user || user.id !== 'user-sipgb') {
         return (
@@ -103,11 +161,34 @@ export default function SettingsPage() {
                     </div>
                      <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Assign Starter Teams</h4>
-                        <p className="text-sm text-muted-foreground">This will assign a random team of 6 players (total cost ~20,000) to each user. It will reset all current rosters.</p>
+                        <p className="text-sm text-muted-foreground">This will assign a random team of 6 players to each user. It will reset all current rosters.</p>
                          <Button onClick={handleAssignTeams} disabled={isAssigning} className="w-fit">
                             {isAssigning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                             Assign Starter Teams
                         </Button>
+                    </div>
+                     <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Weekly Payout</h4>
+                        <p className="text-sm text-muted-foreground">Distribute weekly earnings to all users. Earnings are calculated as (Total Lineup Score / 2).</p>
+                        <div className="flex items-center gap-4">
+                            <div className="w-48">
+                                <Label htmlFor="week-select">Week to Payout</Label>
+                                <Select onValueChange={setSelectedWeek} value={selectedWeek}>
+                                    <SelectTrigger id="week-select">
+                                        <SelectValue placeholder="Select a week" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {weeks.map(week => (
+                                            <SelectItem key={week.id} value={week.id}>{week.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <Button onClick={handleWeeklyPayout} disabled={isPayingOut || !selectedWeek} className="self-end">
+                                {isPayingOut ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                Issue Payout for Week {selectedWeek}
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
             </Card>
