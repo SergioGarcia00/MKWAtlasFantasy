@@ -1,7 +1,7 @@
 'use client';
 
 import { useUser } from '@/context/user-context';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { User, Player } from '@/lib/types';
 import { Award, DollarSign, Zap, Gem, Bomb, Frown, Handshake, TrendingUp, WalletCards } from 'lucide-react';
 import { useMemo } from 'react';
@@ -184,7 +184,7 @@ export default function SmallerRankingsPage() {
   const HallOfFameCard = ({icon, title, player, user, value, valueLabel, week}: {icon: React.ReactNode, title: string, player?: Player | null, user?: User | null, value: React.ReactNode, valueLabel: string, week?:string}) => (
     <Card>
         <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
+            <CardTitle className="flex items-center gap-3 text-lg">
                 {icon}
                 <span>{title}</span>
             </CardTitle>
@@ -194,7 +194,7 @@ export default function SmallerRankingsPage() {
                  <div className="flex items-center gap-4">
                     <PlayerIcon iconName={player.icon} className="w-16 h-16" />
                     <div>
-                        <p className="font-semibold">{player.name}</p>
+                        <p className="font-semibold text-base">{player.name}</p>
                         <p className="text-sm text-muted-foreground">
                             Owned by {user.name} {week ? `(Week ${week})` : ''}
                         </p>
@@ -212,7 +212,7 @@ export default function SmallerRankingsPage() {
   const UserStatCard = ({icon, title, user, value, valueLabel}: {icon: React.ReactNode, title: string, user: UserWithValue | null, value: React.ReactNode, valueLabel: string}) => (
      <Card>
         <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
+            <CardTitle className="flex items-center gap-3 text-lg">
                 {icon}
                 <span>{title}</span>
             </CardTitle>
@@ -224,7 +224,7 @@ export default function SmallerRankingsPage() {
                     <AvatarFallback className="text-2xl">{user.name.substring(0, 2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-semibold">{user.name}</p>
+                  <p className="font-semibold text-base">{user.name}</p>
                   <p className="text-sm text-muted-foreground">
                     {valueLabel}
                   </p>
@@ -250,7 +250,7 @@ export default function SmallerRankingsPage() {
 
       {/* Hall of Fame */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-amber-400">Hall of Fame</h2>
+        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-primary">Hall of Fame</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <HallOfFameCard 
                 icon={<Award className="w-6 h-6 text-amber-500" />}
@@ -288,7 +288,7 @@ export default function SmallerRankingsPage() {
       
       {/* Hall of Shame */}
       <div className="mb-12">
-        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-slate-600">Hall of Shame</h2>
+        <h2 className="text-2xl font-semibold font-headline mb-4 pb-2 border-b-2 border-muted-foreground">Hall of Shame</h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <HallOfFameCard 
                 icon={<Bomb className="w-6 h-6 text-red-500" />}
@@ -319,7 +319,7 @@ export default function SmallerRankingsPage() {
                 player={moneyGrabber?.player}
                 user={moneyGrabber?.user}
                 value={`${Math.round(moneyGrabber?.ratio || 0).toLocaleString()}`}
-                valueLabel="coins/point"
+                valueLabel="Coins per Point"
             />
         </div>
       </div>
