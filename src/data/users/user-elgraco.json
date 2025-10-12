@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "ybloo-2598",
-      "purchasedAt": 1760300603600
+      "id": "AxelTS-7",
+      "purchasedAt": 1760301701155
     },
     {
-      "id": "DameVenenoESP-3196",
-      "purchasedAt": 1760300603600
+      "id": "Pizzi-1910",
+      "purchasedAt": 1760301701155
     },
     {
-      "id": "TromTendo-3046",
-      "purchasedAt": 1760300603600
+      "id": "Chaozu-2601",
+      "purchasedAt": 1760301701155
     },
     {
-      "id": "Simolesta-3323",
-      "purchasedAt": 1760300603600
+      "id": "TFlight-3324",
+      "purchasedAt": 1760301701155
     },
     {
-      "id": "tcherriez-354",
-      "purchasedAt": 1760300603600
+      "id": "xdpro79-3390",
+      "purchasedAt": 1760301701155
     },
     {
-      "id": "felyne-1493",
-      "purchasedAt": 1760300603600
+      "id": "WECAsuka-35",
+      "purchasedAt": 1760301701155
     }
   ],
   "roster": {
     "lineup": [
-      "ybloo-2598",
-      "DameVenenoESP-3196",
-      "TromTendo-3046",
-      "Simolesta-3323",
-      "tcherriez-354",
-      "felyne-1493"
+      "AxelTS-7",
+      "Pizzi-1910",
+      "Chaozu-2601",
+      "TFlight-3324",
+      "xdpro79-3390",
+      "WECAsuka-35"
     ],
     "bench": []
   },

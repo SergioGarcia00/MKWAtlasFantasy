@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "t0rrent-3214",
-      "purchasedAt": 1760300603600
+      "id": "BigSniker-1234",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Dark-7",
-      "purchasedAt": 1760300603600
+      "id": "valman60-3194",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "oj-3090",
-      "purchasedAt": 1760300603600
+      "id": "Kitura-1910",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Marvynou-3074",
-      "purchasedAt": 1760300603600
+      "id": "Hol1ow-1754",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "ShinHaein-3385",
-      "purchasedAt": 1760300603600
+      "id": "Lorone-2902",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "BrunoBiggs-287",
-      "purchasedAt": 1760300603600
+      "id": "green-354",
+      "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "t0rrent-3214",
-      "Dark-7",
-      "oj-3090",
-      "Marvynou-3074",
-      "ShinHaein-3385",
-      "BrunoBiggs-287"
+      "BigSniker-1234",
+      "valman60-3194",
+      "Kitura-1910",
+      "Hol1ow-1754",
+      "Lorone-2902",
+      "green-354"
     ],
     "bench": []
   },

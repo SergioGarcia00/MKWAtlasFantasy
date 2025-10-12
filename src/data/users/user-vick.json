@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "DLC-188",
-      "purchasedAt": 1760300603600
+      "id": "GrimsbyTown-3129",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Ahyeon-777",
-      "purchasedAt": 1760300603600
+      "id": "TruthNuke-22",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "DjanGod-2069",
-      "purchasedAt": 1760300603600
+      "id": "season-2918",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Nunatak-273",
-      "purchasedAt": 1760300603600
+      "id": "Marvynou-3074",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "AtlasThe64-2606",
-      "purchasedAt": 1760300603600
+      "id": "ChompCaller-3084",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Eduardoros-3367",
-      "purchasedAt": 1760300603600
+      "id": "Aketx-7",
+      "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "DLC-188",
-      "Ahyeon-777",
-      "DjanGod-2069",
-      "Nunatak-273",
-      "AtlasThe64-2606",
-      "Eduardoros-3367"
+      "GrimsbyTown-3129",
+      "TruthNuke-22",
+      "season-2918",
+      "Marvynou-3074",
+      "ChompCaller-3084",
+      "Aketx-7"
     ],
     "bench": []
   },

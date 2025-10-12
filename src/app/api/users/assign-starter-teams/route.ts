@@ -11,7 +11,6 @@ const TEAM_SIZE = 6;
 const TARGET_MIN_COST = 19000;
 const TARGET_MAX_COST = 21000;
 
-
 async function getAllUsers(): Promise<User[]> {
     const userFiles = await fs.readdir(USERS_DIR);
     const users: User[] = [];
@@ -38,6 +37,9 @@ const shuffleArray = (array: any[]) => {
   return array;
 };
 
+// Helper function to calculate team cost
+const getTeamCost = (team: Player[]): number => team.reduce((sum, player) => sum + player.cost, 0);
+
 export async function POST(request: Request) {
     try {
         const allUsers = await getAllUsers();
@@ -47,62 +49,90 @@ export async function POST(request: Request) {
             return NextResponse.json({ message: 'Not enough players to assign to every user.' }, { status: 500 });
         }
 
-        // Reset all user rosters first
-        for (const user of allUsers) {
-            user.players = [];
-            user.roster = { lineup: [], bench: [] };
-        }
-
-        const assignedTeams: Player[][] = [];
-        const maxAttempts = 100; // Prevent infinite loops
-
-        for (let i = 0; i < allUsers.length; i++) {
-            let attempts = 0;
-            let team: Player[] = [];
-            let teamCost = 0;
-            
-            while (attempts < maxAttempts) {
-                // Fisher-Yates shuffle to get a random team
-                let tempPlayers = [...availablePlayers];
-                team = [];
-                let currentTeamCost = 0;
-
-                for (let j = 0; j < TEAM_SIZE; j++) {
-                     if (tempPlayers.length === 0) break; // Should not happen with the check above
-                     const playerIndex = Math.floor(Math.random() * tempPlayers.length);
-                     const player = tempPlayers.splice(playerIndex, 1)[0];
-                     team.push(player);
-                     currentTeamCost += player.cost;
+        // Assign initial teams by dealing players
+        let assignedTeams: Player[][] = Array.from({ length: allUsers.length }, () => []);
+        for (let i = 0; i < TEAM_SIZE; i++) {
+            for (let j = 0; j < allUsers.length; j++) {
+                if (availablePlayers.length > 0) {
+                    assignedTeams[j].push(availablePlayers.pop()!);
                 }
-                
-                if (team.length === TEAM_SIZE && currentTeamCost >= TARGET_MIN_COST && currentTeamCost <= TARGET_MAX_COST) {
-                    teamCost = currentTeamCost;
-                    break;
-                }
-                attempts++;
             }
-             if (teamCost === 0) {
-                 // Fallback to snake draft if we can't find a perfect match
-                console.warn(`Could not form a team within cost constraints for user ${i+1}. Falling back to simpler assignment for this user.`);
-                team = availablePlayers.slice(0, TEAM_SIZE);
-            }
-
-            assignedTeams.push(team);
-            // Remove assigned players from the available pool
-            team.forEach(p => {
-                const index = availablePlayers.findIndex(ap => ap.id === p.id);
-                if (index > -1) {
-                    availablePlayers.splice(index, 1);
-                }
-            });
         }
         
+        let teamsWithCosts = assignedTeams.map(team => ({
+            team,
+            cost: getTeamCost(team)
+        }));
+
+        const MAX_ITERATIONS = 5000;
+        let iterations = 0;
+
+        // Iteratively balance teams
+        while (iterations < MAX_ITERATIONS) {
+            teamsWithCosts.sort((a, b) => a.cost - b.cost);
+            const cheapestTeam = teamsWithCosts[0];
+            const mostExpensiveTeam = teamsWithCosts[teamsWithCosts.length - 1];
+
+            if (cheapestTeam.cost >= TARGET_MIN_COST && mostExpensiveTeam.cost <= TARGET_MAX_COST) {
+                // All teams are balanced
+                break;
+            }
+
+            let bestSwap: { cheapPlayer: Player, expensivePlayer: Player, improvement: number } | null = null;
+            
+            // Find the best player swap between the cheapest and most expensive teams
+            for (const cheapPlayer of cheapestTeam.team) {
+                for (const expensivePlayer of mostExpensiveTeam.team) {
+                    const costDifference = expensivePlayer.cost - cheapPlayer.cost;
+                    if (costDifference > 0) {
+                        const newCheapestCost = cheapestTeam.cost + costDifference;
+                        const newExpensiveCost = mostExpensiveTeam.cost - costDifference;
+                        
+                        // Check if this swap moves teams towards the target range
+                        const currentGap = mostExpensiveTeam.cost - cheapestTeam.cost;
+                        const newGap = Math.abs(newExpensiveCost - newCheapestCost);
+
+                        if (newGap < currentGap && (!bestSwap || costDifference > (bestSwap.expensivePlayer.cost - bestSwap.cheapPlayer.cost))) {
+                            bestSwap = { cheapPlayer, expensivePlayer, improvement: currentGap - newGap };
+                        }
+                    }
+                }
+            }
+
+            if (bestSwap) {
+                // Perform the swap
+                const cheapIndex = cheapestTeam.team.indexOf(bestSwap.cheapPlayer);
+                const expensiveIndex = mostExpensiveTeam.team.indexOf(bestSwap.expensivePlayer);
+                
+                cheapestTeam.team[cheapIndex] = bestSwap.expensivePlayer;
+                mostExpensiveTeam.team[expensiveIndex] = bestSwap.cheapPlayer;
+
+                // Recalculate costs
+                cheapestTeam.cost = getTeamCost(cheapestTeam.team);
+                mostExpensiveTeam.cost = getTeamCost(mostExpensiveTeam.team);
+            } else {
+                // No beneficial swap found, break to avoid infinite loop
+                break;
+            }
+
+            iterations++;
+        }
+
+        if (iterations === MAX_ITERATIONS) {
+             console.warn("Could not fully balance all teams within the iteration limit.");
+        }
+
+
+        // Final assignment to users
         allUsers.forEach((user, index) => {
-            const team = assignedTeams[index];
+            const team = teamsWithCosts[index]?.team;
             if (team) {
                 user.players = team.map(p => ({ id: p.id, purchasedAt: Date.now() }));
                 user.roster.lineup = team.map(p => p.id);
                 user.roster.bench = [];
+            } else {
+                 user.players = [];
+                 user.roster = { lineup: [], bench: [] };
             }
         });
 

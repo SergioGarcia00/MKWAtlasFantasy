@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "FakeFire-3221",
-      "purchasedAt": 1760300603600
+      "id": "Raph-14",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "CarCorSnoAllen-3090",
-      "purchasedAt": 1760300603600
+      "id": "Alfonso-771",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Royales-7",
-      "purchasedAt": 1760300603600
+      "id": "cosiam-2439",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Tario-2439",
-      "purchasedAt": 1760300603600
+      "id": "DarkMPB-1711",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "puppy-2902",
-      "purchasedAt": 1760300603600
+      "id": "Rune-777",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Kado-16",
-      "purchasedAt": 1760300603600
+      "id": "Nix-2902",
+      "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "FakeFire-3221",
-      "CarCorSnoAllen-3090",
-      "Royales-7",
-      "Tario-2439",
-      "puppy-2902",
-      "Kado-16"
+      "Raph-14",
+      "Alfonso-771",
+      "cosiam-2439",
+      "DarkMPB-1711",
+      "Rune-777",
+      "Nix-2902"
     ],
     "bench": []
   },

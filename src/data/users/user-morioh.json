@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "thebanzai-3214",
-      "purchasedAt": 1760300603600
+      "id": "ArianaGrande-1783",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Upachaya-3046",
-      "purchasedAt": 1760300603600
+      "id": "Larry66-3153",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "P1bl0-7",
-      "purchasedAt": 1760300603600
+      "id": "Enekito-7",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "yoshira-2294",
-      "purchasedAt": 1760300603600
+      "id": "ETH4N-3090",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "WillBoss-16",
-      "purchasedAt": 1760300603600
+      "id": "GoldMK-1754",
+      "purchasedAt": 1760301701156
     },
     {
-      "id": "Hol1ow-1754",
-      "purchasedAt": 1760300603600
+      "id": "milano-3428",
+      "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "thebanzai-3214",
-      "Upachaya-3046",
-      "P1bl0-7",
-      "yoshira-2294",
-      "WillBoss-16",
-      "Hol1ow-1754"
+      "ArianaGrande-1783",
+      "Larry66-3153",
+      "Enekito-7",
+      "ETH4N-3090",
+      "GoldMK-1754",
+      "milano-3428"
     ],
     "bench": []
   },
