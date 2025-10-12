@@ -2,9 +2,41 @@
   "id": "user-morioh",
   "name": "Morioh",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "thebanzai-3214",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Upachaya-3046",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "P1bl0-7",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "yoshira-2294",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "WillBoss-16",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Hol1ow-1754",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "thebanzai-3214",
+      "Upachaya-3046",
+      "P1bl0-7",
+      "yoshira-2294",
+      "WillBoss-16",
+      "Hol1ow-1754"
+    ],
     "bench": []
   },
   "weeklyScores": {},

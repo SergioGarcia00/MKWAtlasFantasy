@@ -2,9 +2,41 @@
   "id": "user-seral",
   "name": "Seral",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "FakeFire-3221",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "CarCorSnoAllen-3090",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Royales-7",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Tario-2439",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "puppy-2902",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Kado-16",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "FakeFire-3221",
+      "CarCorSnoAllen-3090",
+      "Royales-7",
+      "Tario-2439",
+      "puppy-2902",
+      "Kado-16"
+    ],
     "bench": []
   },
   "weeklyScores": {},

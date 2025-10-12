@@ -2,9 +2,41 @@
   "id": "user-sipgb",
   "name": "Sipgb",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "NickM7874-36",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Euskotren-3068",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "aepfavs-3384",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Lezard-1565",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "clout-1061",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Thunder-3090",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "NickM7874-36",
+      "Euskotren-3068",
+      "aepfavs-3384",
+      "Lezard-1565",
+      "clout-1061",
+      "Thunder-3090"
+    ],
     "bench": []
   },
   "weeklyScores": {},

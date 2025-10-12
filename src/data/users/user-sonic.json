@@ -2,9 +2,41 @@
   "id": "user-sonic",
   "name": "Sonic",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "t0rrent-3214",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Dark-7",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "oj-3090",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Marvynou-3074",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "ShinHaein-3385",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "BrunoBiggs-287",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "t0rrent-3214",
+      "Dark-7",
+      "oj-3090",
+      "Marvynou-3074",
+      "ShinHaein-3385",
+      "BrunoBiggs-287"
+    ],
     "bench": []
   },
   "weeklyScores": {},

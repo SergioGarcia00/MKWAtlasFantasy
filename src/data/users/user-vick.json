@@ -2,9 +2,41 @@
   "id": "user-vick",
   "name": "Vick",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "DLC-188",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Ahyeon-777",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "DjanGod-2069",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Nunatak-273",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "AtlasThe64-2606",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Eduardoros-3367",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "DLC-188",
+      "Ahyeon-777",
+      "DjanGod-2069",
+      "Nunatak-273",
+      "AtlasThe64-2606",
+      "Eduardoros-3367"
+    ],
     "bench": []
   },
   "weeklyScores": {},

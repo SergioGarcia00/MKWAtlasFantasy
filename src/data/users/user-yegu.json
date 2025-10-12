@@ -2,11 +2,45 @@
   "id": "user-yegu",
   "name": "Yegu",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "Lockin-2601",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "abcbuss-3425",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Grosclebard-2598",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Filou-1707",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Nonge-3428",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Ulquiorra-2606",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Lockin-2601",
+      "abcbuss-3425",
+      "Grosclebard-2598",
+      "Filou-1707",
+      "Nonge-3428",
+      "Ulquiorra-2606"
+    ],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Cleisii-2439": 9828
+  }
 }

@@ -2,9 +2,41 @@
   "id": "user-mauri",
   "name": "Mauri",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "jeii-7",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Weegah-3068",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Gos-3196",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "NiCoTo-7",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Oxaku-1783",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "PATATA-7",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "jeii-7",
+      "Weegah-3068",
+      "Gos-3196",
+      "NiCoTo-7",
+      "Oxaku-1783",
+      "PATATA-7"
+    ],
     "bench": []
   },
   "weeklyScores": {},

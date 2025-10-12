@@ -2,9 +2,41 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "ybloo-2598",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "DameVenenoESP-3196",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "TromTendo-3046",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Simolesta-3323",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "tcherriez-354",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "felyne-1493",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "ybloo-2598",
+      "DameVenenoESP-3196",
+      "TromTendo-3046",
+      "Simolesta-3323",
+      "tcherriez-354",
+      "felyne-1493"
+    ],
     "bench": []
   },
   "weeklyScores": {},

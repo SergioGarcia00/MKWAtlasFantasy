@@ -2,11 +2,45 @@
   "id": "user-tario",
   "name": "Tario",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "Rylan-2029",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Carbuncle24-3324",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Mirymeg-2294",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "GenocideJack-2439",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "Judgesphinx-3390",
+      "purchasedAt": 1760300603600
+    },
+    {
+      "id": "dannygg-2902",
+      "purchasedAt": 1760300603600
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Rylan-2029",
+      "Carbuncle24-3324",
+      "Mirymeg-2294",
+      "GenocideJack-2439",
+      "Judgesphinx-3390",
+      "dannygg-2902"
+    ],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Cleisii-2439": 9829
+  }
 }

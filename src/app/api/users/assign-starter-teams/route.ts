@@ -8,15 +8,9 @@ import type { Player, User, UserPlayer } from '@/lib/types';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 const TEAM_SIZE = 6;
+const TARGET_MIN_COST = 19000;
+const TARGET_MAX_COST = 21000;
 
-// Helper to shuffle an array
-const shuffleArray = (array: any[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
 
 async function getAllUsers(): Promise<User[]> {
     const userFiles = await fs.readdir(USERS_DIR);
@@ -36,41 +30,82 @@ async function updateUser(user: User): Promise<void> {
     await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
 }
 
+const shuffleArray = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
 export async function POST(request: Request) {
     try {
         const allUsers = await getAllUsers();
-        
+        let availablePlayers = shuffleArray([...ALL_PLAYERS]);
+
+        if (availablePlayers.length < allUsers.length * TEAM_SIZE) {
+            return NextResponse.json({ message: 'Not enough players to assign to every user.' }, { status: 500 });
+        }
+
         // Reset all user rosters first
         for (const user of allUsers) {
             user.players = [];
             user.roster = { lineup: [], bench: [] };
         }
 
-        // Shuffle all available players
-        let availablePlayers = shuffleArray([...ALL_PLAYERS]);
+        const assignedTeams: Player[][] = [];
+        const maxAttempts = 100; // Prevent infinite loops
 
-        if (availablePlayers.length < allUsers.length * TEAM_SIZE) {
-             return NextResponse.json({ message: 'Not enough players in the database to assign a full team to every user.' }, { status: 500 });
-        }
+        for (let i = 0; i < allUsers.length; i++) {
+            let attempts = 0;
+            let team: Player[] = [];
+            let teamCost = 0;
+            
+            while (attempts < maxAttempts) {
+                // Fisher-Yates shuffle to get a random team
+                let tempPlayers = [...availablePlayers];
+                team = [];
+                let currentTeamCost = 0;
 
-        // Perform a "snake draft"
-        for (let i = 0; i < TEAM_SIZE; i++) {
-            const isReverse = i % 2 !== 0;
-            const usersOrder = isReverse ? [...allUsers].reverse() : allUsers;
-
-            for (const user of usersOrder) {
-                if (availablePlayers.length > 0) {
-                    const player = availablePlayers.pop()!;
-                    const userPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
-                    
-                    const targetUser = allUsers.find(u => u.id === user.id)!;
-                    targetUser.players.push(userPlayer);
-                    targetUser.roster.lineup.push(player.id);
+                for (let j = 0; j < TEAM_SIZE; j++) {
+                     if (tempPlayers.length === 0) break; // Should not happen with the check above
+                     const playerIndex = Math.floor(Math.random() * tempPlayers.length);
+                     const player = tempPlayers.splice(playerIndex, 1)[0];
+                     team.push(player);
+                     currentTeamCost += player.cost;
                 }
+                
+                if (team.length === TEAM_SIZE && currentTeamCost >= TARGET_MIN_COST && currentTeamCost <= TARGET_MAX_COST) {
+                    teamCost = currentTeamCost;
+                    break;
+                }
+                attempts++;
             }
+             if (teamCost === 0) {
+                 // Fallback to snake draft if we can't find a perfect match
+                console.warn(`Could not form a team within cost constraints for user ${i+1}. Falling back to simpler assignment for this user.`);
+                team = availablePlayers.slice(0, TEAM_SIZE);
+            }
+
+            assignedTeams.push(team);
+            // Remove assigned players from the available pool
+            team.forEach(p => {
+                const index = availablePlayers.findIndex(ap => ap.id === p.id);
+                if (index > -1) {
+                    availablePlayers.splice(index, 1);
+                }
+            });
         }
         
-        // Save all user files after all assignments are done
+        allUsers.forEach((user, index) => {
+            const team = assignedTeams[index];
+            if (team) {
+                user.players = team.map(p => ({ id: p.id, purchasedAt: Date.now() }));
+                user.roster.lineup = team.map(p => p.id);
+                user.roster.bench = [];
+            }
+        });
+
         await Promise.all(allUsers.map(user => updateUser(user)));
 
         return NextResponse.json({ message: `Starter teams assigned successfully to ${allUsers.length} users.` });
