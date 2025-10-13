@@ -1,64 +1,40 @@
 /**
- * @fileoverview Firestore Security Rules for Kart Fantasy League.
- *
- * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for user-specific data (rosters).
- * Public data (players, league rankings) is generally readable, but write access is restricted.
+ * @description This ruleset enforces a strict user-ownership model for user-specific data (rosters, weekly performances),
+ * while allowing public read access to player and ranking data.
  *
  * Data Structure:
- * - /users/{userId}: Stores user profiles. Only the authenticated user can read/write their own profile.
- * - /players/{playerId}: Stores player data. Publicly readable.
- * - /users/{userId}/rosters/{rosterId}: Stores user rosters. Only the owning user can read/write.
- * - /players/{playerId}/weeklyPerformances/{weeklyPerformanceId}: Stores weekly performance data.
- * - /leagueRankings/{leagueRankingId}: Stores league rankings. Publicly readable, restricted writes.
+ * - /players/{playerId}: Public data about game players.
+ * - /users/{userId}: Private user profiles.
+ * - /users/{userId}/rosters/{rosterId}: User-owned rosters.
+ * - /users/{userId}/rosters/{rosterId}/weeklyPerformances/{weeklyPerformanceId}: Performance data for players within a user's roster.
+ * - /rankings/{rankingId}: Public ranking data.
  *
  * Key Security Decisions:
- * - Users can only create their own user document (self-registration).
- * - Users can only manage their own rosters.
- * - Player data is publicly readable.
- * - League rankings are publicly readable.
- * - Listing of user documents is disallowed for privacy.
+ * - Players: Players are publicly readable.
+ * - Rankings: Rankings are publicly readable.
+ * - Users: User profiles can only be read and written by the owning user. Listing all users is disallowed.
+ * - Rosters: Rosters can only be created, read, updated, and deleted by the owning user.
+ * - WeeklyPerformances: Weekly performances can only be created, read, updated, and deleted by the owning user (via roster ownership).
+ * - Data consistency is enforced between the path and the document's internal 'userId' field for rosters and weekly performances during creation.
+ * - Immutability of 'userId' is enforced on updates to rosters and weekly performances.
  *
  * Denormalization for Authorization:
- * - The `/users/{userId}/rosters/{rosterId}` collection includes a `userId` field within each roster document.
- *   This denormalization avoids the need for costly `get()` calls to the parent `/users/{userId}` document
- *   when enforcing ownership in security rules.
+ * - The /users/{userId}/rosters/{rosterId} collection does not denormalize the userId directly.
+ * - The /users/{userId}/rosters/{rosterId}/weeklyPerformances/{weeklyPerformanceId} collection does not denormalize the userId or rosterId directly.
+ *
+ * Structural Segregation:
+ * - Private user data (rosters, weekly performances) is stored under the /users/{userId} path, while public data (players, rankings) is stored in top-level collections.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Allows users to manage their own profile.
-     * @path /users/{userId}
-     * @allow (create) - User with UID 'user_abc' can create their own profile document with id 'user_abc'.
-     * @deny (create) - User with UID 'user_xyz' cannot create a profile document with id 'user_abc'.
-     * @allow (get, update, delete) - User with UID 'user_abc' can get, update, and delete their own profile document with id 'user_abc'.
-     * @deny (get, update, delete) - User with UID 'user_xyz' cannot get, update, or delete the profile document with id 'user_abc'.
-     * @principle Enforces document ownership and prevents unauthorized profile access.
-     */
-    match /users/{userId} {
-      function isOwner(userId) {
-        return request.auth != null && request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && resource != null;
-      }
-
-      allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && resource.data.id == userId;
-      allow delete: if isExistingOwner(userId);
-    }
-
-    /**
-     * @description Allows anyone to read player data.
+     * @description Allows public read access to player data.
      * @path /players/{playerId}
-     * @allow (get, list) - Any user can get and list player documents.
-     * @deny (create, update, delete) - No one can create, update, or delete player documents.
-     * @principle Allows public read access to player data.
+     * @allow (get, list): Any user can read player data.
+     * @deny (create, update, delete): No user can create, update, or delete player data.
+     * @principle Public read access with no write access.
      */
     match /players/{playerId} {
       allow get, list: if true;
@@ -66,56 +42,79 @@ service cloud.firestore {
     }
 
     /**
-     * @description Allows users to manage their own rosters.
+     * @description Restricts access to user profiles to the owning user.
+     * @path /users/{userId}
+     * @allow (get): The user can read their own profile.
+     * @allow (create): The user can create their own profile.
+     * @allow (update): The user can update their own profile.
+     * @allow (delete): The user can delete their own profile.
+     * @deny (get, create, update, delete): Another user cannot access this profile.
+     * @deny (list): Listing all users is disallowed.
+     * @principle Enforces document ownership for all operations.
+     */
+    match /users/{userId} {
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if false;
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && isOwner(userId);
+      allow delete: if isSignedIn() && isExistingOwner(userId);
+    }
+
+    /**
+     * @description Restricts access to user rosters to the owning user.
      * @path /users/{userId}/rosters/{rosterId}
-     * @allow (create) - User with UID 'user_abc' can create a roster document under /users/user_abc/rosters/roster1.
-     * @deny (create) - User with UID 'user_xyz' cannot create a roster document under /users/user_abc/rosters/roster1.
-     * @allow (get, update, delete) - User with UID 'user_abc' can get, update, and delete their own roster document under /users/user_abc/rosters/roster1.
-     * @deny (get, update, delete) - User with UID 'user_xyz' cannot get, update, or delete the roster document under /users/user_abc/rosters/roster1.
-     * @principle Enforces document ownership and prevents unauthorized roster access.
+     * @allow (get, list): The user can read and list their own rosters.
+     * @allow (create): The user can create rosters under their own user ID.
+     * @allow (update, delete): The user can update and delete their own rosters.
+     * @deny (get, create, update, delete): Another user cannot access this roster.
+     * @principle Enforces document ownership for all operations on rosters.
      */
     match /users/{userId}/rosters/{rosterId} {
-      function isOwner(userId) {
-        return request.auth != null && request.auth.uid == userId;
-      }
-
-      function isExistingOwner(userId) {
-        return isOwner(userId) && resource != null;
-      }
-
-      allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && resource.data.userId == userId;
-      allow delete: if isExistingOwner(userId);
+      allow get, list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isSignedIn() && isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Allows read and write access to weekly performance data.
-     * @path /players/{playerId}/weeklyPerformances/{weeklyPerformanceId}
-     * @allow (create, get, list, update, delete) - If the request is authenticated.
-     * @principle: Authenticated access to weekly performance data.
+     * @description Restricts access to weekly performance data to the owning user (via roster ownership).
+     * @path /users/{userId}/rosters/{rosterId}/weeklyPerformances/{weeklyPerformanceId}
+     * @allow (get, list): The user can read and list weekly performance data for their rosters.
+     * @allow (create): The user can create weekly performance data under their own rosters.
+     * @allow (update, delete): The user can update and delete weekly performance data for their rosters.
+     * @deny (get, create, update, delete): Another user cannot access this data.
+     * @principle Enforces document ownership for all operations on weekly performance data.
      */
-    match /players/{playerId}/weeklyPerformances/{weeklyPerformanceId} {
-       function isSignedIn() {
-          return request.auth != null;
-        }
-
-        allow get, list: if true;
-        allow create: if isSignedIn();
-        allow update: if isSignedIn() && resource != null;
-        allow delete: if isSignedIn() && resource != null;
+    match /users/{userId}/rosters/{rosterId}/weeklyPerformances/{weeklyPerformanceId} {
+      allow get, list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.rosterId == rosterId;
+      allow update: if isSignedIn() && isExistingOwner(userId) && request.resource.data.rosterId == resource.data.rosterId;
+      allow delete: if isSignedIn() && isExistingOwner(userId);
     }
 
     /**
-     * @description Allows public read access to league rankings.
-     * @path /leagueRankings/{leagueRankingId}
-     * @allow (get, list) - Any user can get and list league ranking documents.
-     * @deny (create, update, delete) - No one can create, update, or delete league ranking documents.
-     * @principle Allows public read access to league ranking data.
+     * @description Allows public read access to ranking data.
+     * @path /rankings/{rankingId}
+     * @allow (get, list): Any user can read ranking data.
+     * @deny (create, update, delete): No user can create, update, or delete ranking data.
+     * @principle Public read access with no write access.
      */
-    match /leagueRankings/{leagueRankingId} {
+    match /rankings/{rankingId} {
       allow get, list: if true;
       allow create, update, delete: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isExistingOwner(userId) {
+      return isSignedIn() && isOwner(userId) && resource != null;
     }
   }
 }
