@@ -1,10 +1,42 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 37635,
-  "players": [],
+  "currency": 17000,
+  "players": [
+    {
+      "id": "Lecka-6711-2601",
+      "purchasedAt": 1760339028476
+    },
+    {
+      "id": "Duckman-6097-3153",
+      "purchasedAt": 1760339044815
+    },
+    {
+      "id": "sean-8130-3236",
+      "purchasedAt": 1760339048195
+    },
+    {
+      "id": "Nagyon-4016-3425",
+      "purchasedAt": 1760339059056
+    },
+    {
+      "id": "emilymk-4844-2847",
+      "purchasedAt": 1760339064375
+    },
+    {
+      "id": "Davide-6005-2784",
+      "purchasedAt": 1760339070450
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Lecka-6711-2601",
+      "Duckman-6097-3153",
+      "sean-8130-3236",
+      "Nagyon-4016-3425",
+      "emilymk-4844-2847",
+      "Davide-6005-2784"
+    ],
     "bench": []
   },
   "weeklyScores": {},

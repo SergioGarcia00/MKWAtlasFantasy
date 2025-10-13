@@ -3,14 +3,22 @@
 import { ShopPlayerCard } from '@/components/shop-player-card';
 import { useUser } from '@/context/user-context';
 import { Input } from '@/components/ui/input';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { Player } from '@/lib/types';
 import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useRouter } from 'next/navigation';
 
 export default function PlayerShopPage() {
   const { user, allPlayers } = useUser();
   const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && user.id !== 'user-sipgb') {
+      router.push('/');
+    }
+  }, [user, router]);
 
   const filteredPlayers = useMemo(() => {
     if (!allPlayers) return [];
@@ -20,7 +28,7 @@ export default function PlayerShopPage() {
   }, [allPlayers, searchTerm]);
 
 
-  if (!user) {
+  if (!user || user.id !== 'user-sipgb') {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
 

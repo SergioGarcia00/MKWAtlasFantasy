@@ -1,11 +1,44 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 37655,
-  "players": [],
+  "currency": 17000,
+  "players": [
+    {
+      "id": "SungJinWoo-7078-2439",
+      "purchasedAt": 1760339105310
+    },
+    {
+      "id": "UtahGrimReaper-9881-2457",
+      "purchasedAt": 1760339109436
+    },
+    {
+      "id": "tys-9433-1754",
+      "purchasedAt": 1760339114001
+    },
+    {
+      "id": "Chloe-4221-3236",
+      "purchasedAt": 1760339133861
+    },
+    {
+      "id": "Brandoooon-4676-2962",
+      "purchasedAt": 1760339136057
+    },
+    {
+      "id": "NickM7874-3571-36",
+      "purchasedAt": 1760339207926
+    }
+  ],
   "roster": {
-    "lineup": [],
-    "bench": []
+    "lineup": [
+      "SungJinWoo-7078-2439",
+      "UtahGrimReaper-9881-2457",
+      "tys-9433-1754",
+      "Chloe-4221-3236",
+      "Brandoooon-4676-2962"
+    ],
+    "bench": [
+      "NickM7874-3571-36"
+    ]
   },
   "weeklyScores": {},
   "bids": {}

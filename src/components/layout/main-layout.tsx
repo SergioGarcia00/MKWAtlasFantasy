@@ -47,9 +47,9 @@ const navItems = [
   { href: '/rankings', label: 'Rankings', icon: BarChart },
   { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
   { href: '/smaller-ranking', label: 'League Honors', icon: Award },
-  { href: '/player-shop', label: 'Player Shop', icon: ShoppingCart },
 ];
 
+const playerShopItem = { href: '/player-shop', label: 'Player Shop', icon: ShoppingCart };
 const settingsItem = { href: '/settings', label: 'Settings', icon: Settings };
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
@@ -62,7 +62,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       return `Week ${weekId} Summary`;
     }
     const allNavItems =
-      user?.id === 'user-sipgb' ? [...navItems, settingsItem] : navItems;
+      user?.id === 'user-sipgb' ? [...navItems, playerShopItem, settingsItem] : navItems;
     const currentNav = allNavItems.find(
       (item) =>
         pathname === item.href ||
@@ -79,6 +79,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
+  const allNavItems = user.id === 'user-sipgb' ? [...navItems, playerShopItem, settingsItem] : navItems;
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -92,7 +94,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            {navItems.map((item) => (
+            {allNavItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
@@ -112,23 +114,6 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
-            {user.id === 'user-sipgb' && (
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === settingsItem.href}
-                  tooltip={{
-                    children: settingsItem.label,
-                    className: 'font-body',
-                  }}
-                >
-                  <Link href={settingsItem.href}>
-                    <settingsItem.icon />
-                    <span>{settingsItem.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            )}
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>

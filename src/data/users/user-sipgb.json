@@ -1,10 +1,42 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 37646,
-  "players": [],
+  "currency": 17000,
+  "players": [
+    {
+      "id": "AxelTS-7913-7",
+      "purchasedAt": 1760339288811
+    },
+    {
+      "id": "Akusika-5146-7",
+      "purchasedAt": 1760339294731
+    },
+    {
+      "id": "Cozmic-6706-3090",
+      "purchasedAt": 1760339300376
+    },
+    {
+      "id": "TogoreDreemurr-6731-1753",
+      "purchasedAt": 1760339319361
+    },
+    {
+      "id": "YamineLamal-4171-26",
+      "purchasedAt": 1760339325791
+    },
+    {
+      "id": "Torte-5227-3160",
+      "purchasedAt": 1760339343206
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Cozmic-6706-3090",
+      "AxelTS-7913-7",
+      "Akusika-5146-7",
+      "TogoreDreemurr-6731-1753",
+      "YamineLamal-4171-26",
+      "Torte-5227-3160"
+    ],
     "bench": []
   },
   "weeklyScores": {},
