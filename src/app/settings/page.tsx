@@ -7,7 +7,7 @@ import { useUser } from "@/context/user-context";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, Download } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
@@ -23,6 +23,7 @@ export default function SettingsPage() {
     const [isRecalculating, setIsRecalculating] = useState(false);
     const [isAssigning, setIsAssigning] = useState(false);
     const [isPayingOut, setIsPayingOut] = useState(false);
+    const [isExporting, setIsExporting] = useState(false);
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [selectedWeek, setSelectedWeek] = useState<string>('');
 
@@ -177,7 +178,11 @@ export default function SettingsPage() {
         } finally {
             setIsPayingOut(false);
         }
-    }
+    };
+
+    const handleExportData = () => {
+      window.location.href = '/api/data/export';
+    };
 
     if (!user || user.id !== 'user-sipgb') {
         return (
@@ -229,6 +234,14 @@ export default function SettingsPage() {
                                 Reset to 17k
                             </Button>
                         </div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Export Live Data</h4>
+                        <p className="text-sm text-muted-foreground">Download a JSON file with the current state of all users, market, and weeks from the live application.</p>
+                         <Button onClick={handleExportData} disabled={isExporting} className="w-fit">
+                            {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                            Export All Data
+                        </Button>
                     </div>
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Recalculate Player Market Prices</h4>
