@@ -5,11 +5,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/user-context";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, ChangeEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Download } from "lucide-react";
+import { Loader2, Download, Upload } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 interface Week {
   id: string;
@@ -24,6 +26,8 @@ export default function SettingsPage() {
     const [isAssigning, setIsAssigning] = useState(false);
     const [isPayingOut, setIsPayingOut] = useState(false);
     const [isExporting, setIsExporting] = useState(false);
+    const [isImporting, setIsImporting] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [selectedWeek, setSelectedWeek] = useState<string>('');
 
@@ -184,6 +188,40 @@ export default function SettingsPage() {
       window.location.href = '/api/data/export';
     };
 
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setSelectedFile(e.target.files[0]);
+        }
+    };
+
+    const handleImportData = async () => {
+        if (!selectedFile) {
+            toast({ variant: 'destructive', title: 'No File Selected', description: 'Please select a data_export.json file to import.' });
+            return;
+        }
+
+        setIsImporting(true);
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            const response = await fetch('/api/data/import', { method: 'POST', body: formData });
+            if (!response.ok) {
+                 const error = await response.json();
+                throw new Error(error.message || 'Failed to import data');
+            }
+            const result = await response.json();
+            toast({ title: 'Import Successful!', description: result.message });
+            await loadAllData(); // Reload data in the context
+        } catch (error: any) {
+            toast({ variant: 'destructive', title: 'Import Failed', description: error.message });
+        } finally {
+            setIsImporting(false);
+            setSelectedFile(null);
+        }
+    };
+
+
     if (!user || user.id !== 'user-sipgb') {
         return (
             <div className="flex h-full items-center justify-center">
@@ -207,7 +245,7 @@ export default function SettingsPage() {
                         Only visible to Sipgb. These actions are irreversible.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-8">
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Manage User Currency</h4>
                         <p className="text-sm text-muted-foreground">Add funds to a user or reset their balance.</p>
@@ -235,14 +273,33 @@ export default function SettingsPage() {
                             </Button>
                         </div>
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <h4 className="font-semibold">Export Live Data</h4>
-                        <p className="text-sm text-muted-foreground">Download a JSON file with the current state of all users, market, and weeks from the live application.</p>
-                         <Button onClick={handleExportData} disabled={isExporting} className="w-fit">
-                            {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
-                            Export All Data
-                        </Button>
+                    <Separator />
+                     <div className="flex flex-col gap-4">
+                        <h4 className="font-semibold">Data Synchronization</h4>
+                        <p className="text-sm text-muted-foreground">Download a JSON file with the current live application state, or upload a file to overwrite the local data.</p>
+                        <div className="grid grid-cols-2 gap-8">
+                            <div className="flex flex-col gap-2">
+                                <h5 className="font-medium">Export Data</h5>
+                                <p className="text-xs text-muted-foreground">Download `data_export.json` from the currently running application.</p>
+                                <Button onClick={handleExportData} disabled={isExporting} className="w-fit">
+                                    {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                                    Export All Data
+                                </Button>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <h5 className="font-medium">Import Data</h5>
+                                <p className="text-xs text-muted-foreground">Upload `data_export.json` to overwrite the local data files.</p>
+                                <div className="flex gap-2">
+                                    <Input type="file" onChange={handleFileChange} accept=".json" className="max-w-xs" />
+                                    <Button onClick={handleImportData} disabled={isImporting || !selectedFile}>
+                                        {isImporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Upload className="mr-2 h-4 w-4" />}
+                                        Import Data
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                     <Separator />
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Recalculate Player Market Prices</h4>
                         <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>
