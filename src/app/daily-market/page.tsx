@@ -9,20 +9,15 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query } from 'firebase/firestore';
-import { useFirestore } from '@/firebase/provider';
-
 
 export type Bid = { userId: string; userName: string; amount: number };
 
 export default function DailyMarketPage() {
   const { user, allUsers, switchUser, getPlayerById, loadAllData } = useUser();
-  const firestore = useFirestore();
   const { toast } = useToast();
   
-  const marketQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'market')) : null, [firestore]);
-  const { data: marketPlayers, isLoading: loading } = useCollection<Player>(marketQuery);
+  const [marketPlayers, setMarketPlayers] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(true);
   
   const [isLocking, setIsLocking] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -31,6 +26,26 @@ export default function DailyMarketPage() {
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
   const [bidAmount, setBidAmount] = useState(0);
   const [isBidLoading, setIsBidLoading] = useState(false);
+
+
+  const fetchMarket = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/market');
+      if (!response.ok) throw new Error('Failed to fetch market data');
+      const data = await response.json();
+      setMarketPlayers(data);
+    } catch (error) {
+      console.error(error);
+      toast({ variant: 'destructive', title: 'Error fetching market', description: 'Could not load daily market.' });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    fetchMarket();
+  }, [fetchMarket]);
 
   const allBidsByPlayer = useMemo(() => {
     return (allUsers || []).reduce<Record<string, Bid[]>>((acc, u) => {
@@ -45,7 +60,6 @@ export default function DailyMarketPage() {
   }, [allUsers]);
 
   const marketPlayersWithBids = useMemo(() => {
-    if (!marketPlayers) return [];
     return marketPlayers.map(player => {
         const bids = allBidsByPlayer[player.id] || [];
         const sortedBids = bids.sort((a, b) => b.amount - a.amount);
@@ -64,7 +78,7 @@ export default function DailyMarketPage() {
         const response = await fetch('/api/market/refresh', { method: 'POST' });
         if (!response.ok) throw new Error('Failed to refresh market');
         toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
-        await loadAllData();
+        await Promise.all([loadAllData(), fetchMarket()]);
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
@@ -85,7 +99,7 @@ export default function DailyMarketPage() {
             title: 'Auctions Locked In!',
             description: `${result.winners.length} players have been transferred to their new owners.`,
         });
-        await loadAllData();
+        await Promise.all([loadAllData(), fetchMarket()]);
     } catch (error: any) {
         toast({
             variant: 'destructive',

@@ -71,10 +71,10 @@ export default function SettingsPage() {
         }
         setIsUpdatingCurrency(true);
         try {
-            const response = await fetch(`/api/users/${selectedUser}/update-currency`, {
+            const response = await fetch(`/api/users/update-currency`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount, isReset }),
+                body: JSON.stringify({ userId: selectedUser, amount, isReset }),
             });
              if (!response.ok) {
                 const error = await response.json();

@@ -8,9 +8,12 @@ import type { User } from '@/lib/types';
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
 export async function POST(
-  request: Request
+  request: Request,
+  { params }: { params: { userId: string } }
 ) {
   try {
+    // Note: In this local file setup, params.userId isn't used directly to find the file,
+    // but we get it from the body. This structure is kept for potential API consistency.
     const { userId, amount, isReset } = await request.json();
 
     if (!userId || typeof amount !== 'number') {
@@ -33,6 +36,7 @@ export async function POST(
     } else {
         newCurrency = (user.currency || 0) + amount;
     }
+
     user.currency = newCurrency;
 
     await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');

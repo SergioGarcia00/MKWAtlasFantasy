@@ -1,19 +1,26 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import { collection, getDocs, doc, writeBatch } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import path from 'path';
+import fs from 'fs/promises';
+import { USER_IDS } from '@/data/users';
 import type { User, UserPlayer } from '@/lib/types';
 
-async function getAllUsers(db: any): Promise<User[]> {
-    const usersSnapshot = await getDocs(collection(db, "users"));
-    return usersSnapshot.docs.map(doc => doc.data() as User);
+const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
+
+async function getAllUsers(): Promise<User[]> {
+    const users: User[] = [];
+    for (const id of USER_IDS) {
+        const filePath = path.join(USERS_DIR, `${id}.json`);
+        const userContent = await fs.readFile(filePath, 'utf-8');
+        users.push(JSON.parse(userContent));
+    }
+    return users;
 }
 
 export async function POST(request: Request) {
     try {
-        const { firestore } = initializeFirebase();
-        const users = await getAllUsers(firestore);
+        const users = await getAllUsers();
         
         // 1. Aggregate all bids
         const bidsByPlayer: Record<string, { userId: string, amount: number, userName: string }[]> = {};
@@ -38,8 +45,6 @@ export async function POST(request: Request) {
             }
         }
         
-        // 3. Process transfers using a batch write
-        const batch = writeBatch(firestore);
         const usersToUpdate = new Map<string, User>();
         users.forEach(u => usersToUpdate.set(u.id, JSON.parse(JSON.stringify(u)))); 
 
@@ -58,14 +63,12 @@ export async function POST(request: Request) {
             }
         }
 
-        // 4. Clear all bids and apply updates
+        // 4. Clear all bids and write updates
         for (const user of usersToUpdate.values()) {
             user.bids = {};
-            const userRef = doc(firestore, "users", user.id);
-            batch.set(userRef, user);
+            const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
+            await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
         }
-
-        await batch.commit();
 
         return NextResponse.json({ message: 'Auctions locked in successfully', winners });
 

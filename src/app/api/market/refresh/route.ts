@@ -1,10 +1,14 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import { collection, getDocs, writeBatch, doc, addDoc, query, where, getDoc, deleteDoc } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import path from 'path';
+import fs from 'fs/promises';
 import { ALL_PLAYERS } from '@/data/players';
 import type { Player, User } from '@/lib/types';
+import { USER_IDS } from '@/data/users';
+
+const DAILY_MARKET_PATH = path.join(process.cwd(), 'src', 'data', 'daily_market.json');
+const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
 const shuffleArray = (array: any[]) => {
   for (let i = array.length - 1; i > 0; i--) {
@@ -14,23 +18,19 @@ const shuffleArray = (array: any[]) => {
   return array;
 };
 
-async function getAllUsers(db: any): Promise<User[]> {
-    const usersSnapshot = await getDocs(collection(db, "users"));
-    return usersSnapshot.docs.map(doc => doc.data() as User);
+async function getAllUsers(): Promise<User[]> {
+    const users: User[] = [];
+    for (const id of USER_IDS) {
+        const filePath = path.join(USERS_DIR, `${id}.json`);
+        const userContent = await fs.readFile(filePath, 'utf-8');
+        users.push(JSON.parse(userContent));
+    }
+    return users;
 }
 
 export async function POST(request: Request) {
     try {
-        const { firestore } = initializeFirebase();
-
-        // Clear existing market
-        const marketQuery = query(collection(firestore, 'market'));
-        const marketSnapshot = await getDocs(marketQuery);
-        const deleteBatch = writeBatch(firestore);
-        marketSnapshot.docs.forEach(d => deleteBatch.delete(d.ref));
-        await deleteBatch.commit();
-        
-        const allUsers = await getAllUsers(firestore);
+        const allUsers = await getAllUsers();
         const allOwnedPlayerIds = new Set(allUsers.flatMap(u => u.players.map(p => p.id)));
         const availablePlayers = ALL_PLAYERS.filter(p => !allOwnedPlayerIds.has(p.id));
         
@@ -54,21 +54,14 @@ export async function POST(request: Request) {
         
         const newMarketPlayers = Array.from(finalRecommendations);
 
-        // Save the new market to Firestore
-        const marketBatch = writeBatch(firestore);
-        newMarketPlayers.forEach(player => {
-            const playerRef = doc(firestore, 'market', player.id);
-            marketBatch.set(playerRef, player);
-        });
-        await marketBatch.commit();
+        await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(newMarketPlayers, null, 2), 'utf-8');
 
         // Clear all bids for all users
-        const userUpdateBatch = writeBatch(firestore);
-        allUsers.forEach(user => {
-            const userRef = doc(firestore, 'users', user.id);
-            userUpdateBatch.update(userRef, { bids: {} });
-        });
-        await userUpdateBatch.commit();
+        for (const user of allUsers) {
+            user.bids = {};
+            const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
+            await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
+        }
 
         return NextResponse.json({ message: 'Daily market refreshed successfully', newMarket: newMarketPlayers });
 

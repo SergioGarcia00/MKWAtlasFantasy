@@ -1,19 +1,48 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 
 interface Week {
   id: string;
   name: string;
 }
 
-async function createNewWeek(db: any, newWeek: Week): Promise<Week | null> {
+async function fetchWeeks(): Promise<Week[]> {
+    try {
+        const response = await fetch('/api/weeks', { cache: 'no-store' });
+        if (!response.ok) {
+            console.error('Failed to fetch weeks');
+            return [];
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching weeks:', error);
+        return [];
+    }
+}
+
+
+export default function WeeksListPage() {
+  const [weeks, setWeeks] = useState<Week[]>([]);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const loadWeeks = async () => {
+        const weeksData = await fetchWeeks();
+        setWeeks(weeksData);
+    };
+    loadWeeks();
+  }, []);
+
+  const handleCreateNewWeek = async () => {
+    const newWeekId = (weeks.length + 1).toString();
+    const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
+
     try {
         const response = await fetch('/api/weeks', {
             method: 'POST',
@@ -21,26 +50,14 @@ async function createNewWeek(db: any, newWeek: Week): Promise<Week | null> {
             body: JSON.stringify(newWeek),
         });
         if (!response.ok) {
-            console.error('Failed to create week');
-            return null;
+            throw new Error('Failed to create week');
         }
-        return await response.json();
+        const createdWeek = await response.json();
+        setWeeks(prev => [...prev, createdWeek]);
+        toast({ title: "Week created!", description: `${createdWeek.name} has been added.`});
     } catch (error) {
-        console.error('Error creating week:', error);
-        return null;
+        toast({ variant: 'destructive', title: 'Error', description: 'Could not create new week.'});
     }
-}
-
-export default function WeeksListPage() {
-  const firestore = useFirestore();
-  const weeksCollection = useMemoFirebase(() => firestore ? collection(firestore, 'weeks'): null, [firestore]);
-  const { data: weeks, isLoading } = useCollection<Week>(weeksCollection);
-
-  const handleCreateNewWeek = async () => {
-    if (!weeks || !firestore) return;
-    const newWeekId = (weeks.length + 1).toString();
-    const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
-    await createNewWeek(firestore, newWeek);
   };
 
   return (
@@ -59,7 +76,7 @@ export default function WeeksListPage() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {weeks && weeks.map(week => (
+        {weeks.map(week => (
           <Link href={`/weeks/${week.id}`} key={week.id} className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardHeader className="flex flex-row items-center justify-between">

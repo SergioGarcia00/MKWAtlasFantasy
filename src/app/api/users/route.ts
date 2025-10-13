@@ -1,39 +1,25 @@
+
 import { NextResponse } from 'next/server';
-import { collection, getDocs } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
-import type { User, UserPlayer } from '@/lib/types';
+import path from 'path';
+import fs from 'fs/promises';
 
-// This function remains to hydrate older data structures if needed, but is not actively used for fetching.
-const hydratePlayer = (p: string | UserPlayer): UserPlayer => {
-    if (typeof p === 'string') {
-        return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; 
-    }
-    return p;
-};
+const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
-export async function GET(request: Request) {
+// Get all users
+export async function GET() {
   try {
-    const { firestore } = initializeFirebase();
-    const usersSnapshot = await getDocs(collection(firestore, 'users'));
-    
-    const users = usersSnapshot.docs.map(doc => {
-        const user = doc.data() as User;
-        // Ensure data consistency for older data structures
-        user.id = doc.id;
-        user.players = (user.players || []).map(hydratePlayer);
-        user.roster = {
-            lineup: user.roster?.lineup || [],
-            bench: user.roster?.bench || [],
+    const userFiles = await fs.readdir(USERS_DIR);
+    const users = [];
+    for (const file of userFiles) {
+        if (file.endsWith('.json')) {
+            const filePath = path.join(USERS_DIR, file);
+            const userContent = await fs.readFile(filePath, 'utf-8');
+            users.push(JSON.parse(userContent));
         }
-        user.weeklyScores = user.weeklyScores || {};
-        user.bids = user.bids || {};
-        return user;
-    });
-
+    }
     return NextResponse.json(users);
   } catch (error) {
-    console.error('Failed to fetch users:', error);
-    // It's better to return a more informative error message.
-    return NextResponse.json({ message: `Error fetching users: ${ (error as Error).message }` }, { status: 500 });
+    console.error('Failed to read users data:', error);
+    return NextResponse.json({ message: 'Error reading users data' }, { status: 500 });
   }
 }

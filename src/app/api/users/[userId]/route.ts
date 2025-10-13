@@ -1,34 +1,26 @@
 import { NextResponse } from 'next/server';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
-import type { User, UserPlayer } from '@/lib/types';
+import path from 'path';
+import fs from 'fs/promises';
 
-const hydratePlayer = (p: string | UserPlayer): UserPlayer => {
-    if (typeof p === 'string') {
-        return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; 
-    }
-    return p;
-};
+const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
 export async function GET(
   request: Request,
   { params }: { params: { userId: string } }
 ) {
   const { userId } = params;
-  const { firestore } = initializeFirebase();
-  const userRef = doc(firestore, 'users', userId);
+  const filePath = path.join(USERS_DIR, `${userId}.json`);
 
   try {
-    const userDoc = await getDoc(userRef);
-    if (!userDoc.exists()) {
-        return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
-    }
-    
-    const user = userDoc.data() as User;
-    user.players = (user.players || []).map(hydratePlayer);
+    const userContent = await fs.readFile(filePath, 'utf-8');
+    const user = JSON.parse(userContent);
     return NextResponse.json(user);
   } catch (error) {
-    console.error(`Error fetching user ${userId}:`, error);
+    // Check if the error is because the file doesn't exist
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+        return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
+    }
+    console.error(`Error reading user ${userId}:`, error);
     return NextResponse.json({ message: `Error fetching user ${userId}` }, { status: 500 });
   }
 }
@@ -38,15 +30,14 @@ export async function POST(
   { params }: { params: { userId: string } }
 ) {
   const { userId } = params;
-  const { firestore } = initializeFirebase();
-  const userRef = doc(firestore, 'users', userId);
+  const filePath = path.join(USERS_DIR, `${userId}.json`);
 
   try {
-    const body: User = await request.json();
-    await setDoc(userRef, body, { merge: true });
+    const body = await request.json();
+    await fs.writeFile(filePath, JSON.stringify(body, null, 2), 'utf-8');
     return NextResponse.json(body);
   } catch (error) {
-    console.error('Failed to update user data:', error);
+    console.error('Failed to write user data:', error);
     return NextResponse.json({ message: 'Error updating user data' }, { status: 500 });
   }
 }

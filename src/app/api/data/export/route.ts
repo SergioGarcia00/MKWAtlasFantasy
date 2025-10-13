@@ -2,21 +2,27 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import { collection, getDocs } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase';
+import path from 'path';
+import fs from 'fs/promises';
+import { USER_IDS } from '@/data/users';
+
+const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
+const DAILY_MARKET_PATH = path.join(process.cwd(), 'src', 'data', 'daily_market.json');
+const WEEKS_PATH = path.join(process.cwd(), 'src', 'data', 'weeks.json');
 
 export async function GET(request: Request) {
     try {
-        const { firestore } = initializeFirebase();
-
-        const usersSnapshot = await getDocs(collection(firestore, 'users'));
-        const users = usersSnapshot.docs.map(doc => doc.data());
-
-        const marketSnapshot = await getDocs(collection(firestore, 'market'));
-        const dailyMarket = marketSnapshot.docs.map(doc => doc.data());
-
-        const weeksSnapshot = await getDocs(collection(firestore, 'weeks'));
-        const weeks = weeksSnapshot.docs.map(doc => doc.data());
+        const users = await Promise.all(USER_IDS.map(async (id) => {
+            const filePath = path.join(USERS_DIR, `${id}.json`);
+            const userContent = await fs.readFile(filePath, 'utf-8');
+            return JSON.parse(userContent);
+        }));
+        
+        const marketContent = await fs.readFile(DAILY_MARKET_PATH, 'utf-8');
+        const dailyMarket = JSON.parse(marketContent);
+        
+        const weeksContent = await fs.readFile(WEEKS_PATH, 'utf-8');
+        const weeks = JSON.parse(weeksContent);
 
         const exportData = {
             users,
