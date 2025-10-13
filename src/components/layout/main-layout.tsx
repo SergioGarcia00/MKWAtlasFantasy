@@ -27,7 +27,7 @@ import {
   Settings,
   Gavel,
   Repeat,
-  ShoppingCart,
+  Gift,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -49,7 +49,7 @@ const navItems = [
   { href: '/smaller-ranking', label: 'League Honors', icon: Award },
 ];
 
-const playerShopItem = { href: '/player-shop', label: 'Player Shop', icon: ShoppingCart };
+const playerShopItem = { href: '/player-shop', label: 'Assign Player', icon: Gift };
 const settingsItem = { href: '/settings', label: 'Settings', icon: Settings };
 
 export function MainLayout({ children }: { children: React.ReactNode }) {

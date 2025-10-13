@@ -19,6 +19,7 @@ interface UserContextType {
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
   switchUser: (userId: string, force?: boolean) => void;
   buyoutPlayer: (player: Player, owner: User) => void;
+  assignPlayer: (player: Player, targetUser: User, currentOwner?: User) => Promise<void>;
   getPlayerById: (playerId: string) => Player | undefined;
   loadAllData: () => Promise<void>;
 }
@@ -193,9 +194,43 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
     };
     
-    toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
     await updateUserState(updatedUser);
+    toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
   }, [user, allUsers, toast, updateUserState]);
+
+
+  const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
+    if (targetUser.players.length >= 10) {
+        toast({ title: "Target Roster Full", description: `${targetUser.name}'s roster is full.`, variant: "destructive"});
+        return;
+    }
+
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+
+    // Add player to target user
+    const updatedTargetUser = {
+        ...targetUser,
+        players: [...targetUser.players, newUserPlayer],
+        roster: { ...targetUser.roster, bench: [...targetUser.roster.bench, player.id] }
+    };
+
+    let updatedOwnerUser: User | undefined = undefined;
+    if (currentOwner) {
+        // Remove player from current owner
+        updatedOwnerUser = {
+            ...currentOwner,
+            players: currentOwner.players.filter(p => p.id !== player.id),
+            roster: {
+                lineup: currentOwner.roster.lineup.filter(id => id !== player.id),
+                bench: currentOwner.roster.bench.filter(id => id !== player.id),
+            }
+        };
+    }
+    
+    await updateUserState(updatedTargetUser, updatedOwnerUser);
+    toast({ title: "Player Assigned!", description: `${player.name} has been given to ${targetUser.name}.`});
+  }, [toast, updateUserState]);
+
 
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
@@ -282,7 +317,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
       {children}
     </UserContext.Provider>
   );

@@ -9,7 +9,7 @@ import { AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useRouter } from 'next/navigation';
 
-export default function PlayerShopPage() {
+export default function PlayerAssignmentPage() {
   const { user, allPlayers } = useUser();
   const [searchTerm, setSearchTerm] = useState('');
   const router = useRouter();
@@ -35,9 +35,9 @@ export default function PlayerShopPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">Player Shop</h1>
+        <h1 className="text-4xl font-bold font-headline">Assign Player</h1>
         <p className="text-muted-foreground mt-2">
-          Purchase any player in the league for a fixed price based on their Peak MMR.
+          Select a player to assign them to any user in the league for free.
         </p>
         <div className="mt-4 max-w-sm">
             <Input 
@@ -60,7 +60,7 @@ export default function PlayerShopPage() {
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>No Players Found</AlertTitle>
                 <AlertDescription>
-                   {searchTerm ? `No players found for "${searchTerm}".` : 'No players available in the shop.'}
+                   {searchTerm ? `No players found for "${searchTerm}".` : 'No players available.'}
                 </AlertDescription>
             </Alert>
         </div>
