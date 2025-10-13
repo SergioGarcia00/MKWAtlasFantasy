@@ -1,9 +1,6 @@
-'use client';
 
-import type { User } from '@/lib/types';
-
-// This file is now primarily for providing the initial list of user IDs.
-// The full user data will be loaded from individual JSON files via API.
+// This file is now primarily for providing the initial list of user IDs for login/switching.
+// The full user data will be loaded from Firestore.
 
 export const USER_IDS = [
   'user-sipgb',
@@ -16,7 +13,3 @@ export const USER_IDS = [
   'user-mauri',
   'user-tario',
 ];
-
-// The detailed user objects are now in /src/data/users/[userId].json
-// This central USERS array is no longer the source of truth.
-export const USERS: User[] = [];

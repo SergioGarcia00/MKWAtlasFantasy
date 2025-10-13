@@ -1,10 +1,12 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
 import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { USER_IDS } from '@/data/users';
 import { ALL_PLAYERS } from '@/data/players';
+import { useFirestore, useCollection, useUser as useFirebaseAuth, useMemoFirebase } from '@/firebase';
+import { collection, doc, writeBatch, getDocs, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
@@ -26,94 +28,71 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-async function fetchUser(userId: string): Promise<User | null> {
-  try {
-    const response = await fetch(`/api/users/${userId}`);
-    if (!response.ok) {
-      console.error(`Failed to fetch user ${userId}: ${response.statusText}`);
-      return null;
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(`Error fetching user ${userId}:`, error);
-    return null;
-  }
-}
-
-async function fetchAllUsers(): Promise<User[]> {
-    try {
-        const response = await fetch('/api/users');
-        if (!response.ok) {
-            console.error(`Failed to fetch all users: ${response.statusText}`);
-            return [];
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching all users:', error);
-        return [];
-    }
-}
-
-async function updateUser(user: User): Promise<User | null> {
-    try {
-        const response = await fetch(`/api/users/${user.id}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user),
-        });
-        if (!response.ok) {
-            console.error(`Failed to update user ${user.id}: ${response.statusText}`);
-            return null;
-        }
-        const savedDehydratedUser = await response.json();
-        return savedDehydratedUser;
-    } catch (error) {
-        console.error(`Error updating user ${user.id}:`, error);
-        return null;
-    }
-}
-
-
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [allUsers, setAllUsers] = useState<User[]>([]);
   const { toast } = useToast();
+  const firestore = useFirestore();
+  const { user: authUser, isUserLoading } = useFirebaseAuth();
+
+  const usersCollectionRef = useMemoFirebase(() => collection(firestore, 'users'), [firestore]);
+  const { data: allUsers, isLoading: isUsersLoading } = useCollection<User>(usersCollectionRef);
 
   const getPlayerById = useCallback((playerId: string) => {
     return ALL_PLAYERS.find(p => p.id === playerId);
   }, []);
 
   const loadAllData = useCallback(async () => {
-    const users = await fetchAllUsers();
-    setAllUsers(users);
-
-    const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || USER_IDS[0];
-    const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
-    
-    if (activeUser) {
-        setUser(activeUser);
-        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, activeUser.id);
-    }
+    // Data is now loaded via useCollection hook
   }, []);
 
   useEffect(() => {
-    loadAllData();
-  }, [loadAllData]);
-
-
-  const updateUserState = useCallback(async (updatedUser: User, otherUpdatedUser?: User) => {
-    const userPromise = updateUser(updatedUser);
-    const otherUserPromise = otherUpdatedUser ? updateUser(otherUpdatedUser) : Promise.resolve(null);
+    if (!isUsersLoading && allUsers) {
+      const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || allUsers[0]?.id;
+      const activeUser = allUsers.find(u => u.id === activeUserId) || allUsers[0] || null;
+      
+      if (activeUser) {
+        setUser(activeUser);
+        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, activeUser.id);
+      }
+    }
+  }, [allUsers, isUsersLoading]);
+  
+  const updateUserState = useCallback(async (usersToUpdate: User[]) => {
+    if (!firestore) return;
+    const batch = writeBatch(firestore);
     
-    await Promise.all([userPromise, otherUserPromise]);
+    // Create a fresh copy of the users from the hook to avoid modifying the cached data directly
+    const currentUsers = allUsers ? [...allUsers] : [];
     
-    await loadAllData();
-    
-  }, [toast, loadAllData]);
+    usersToUpdate.forEach(updatedUser => {
+      const userRef = doc(firestore, 'users', updatedUser.id);
+      batch.set(userRef, updatedUser);
 
+      // Also update the local state representation for immediate UI feedback
+      const index = currentUsers.findIndex(u => u.id === updatedUser.id);
+      if (index !== -1) {
+        currentUsers[index] = updatedUser;
+      } else {
+        currentUsers.push(updatedUser);
+      }
+    });
+
+    try {
+      await batch.commit();
+      // The useCollection hook will automatically update the state from Firestore,
+      // but we can update the active user for instant feedback if they were changed.
+      const activeUserUpdate = usersToUpdate.find(u => u.id === user?.id);
+      if (activeUserUpdate) {
+        setUser(activeUserUpdate);
+      }
+    } catch (error) {
+      console.error("Batch update failed: ", error);
+      toast({ title: 'Error', description: 'Failed to update user data.', variant: 'destructive' });
+    }
+  }, [firestore, toast, allUsers, user?.id]);
 
   const switchUser = useCallback((userId: string, force = false) => {
-    if (user?.id === userId && !force) return;
+    if (!allUsers || (user?.id === userId && !force)) return;
     const userToSwitch = allUsers.find(u => u.id === userId);
     if (userToSwitch) {
       setUser(userToSwitch);
@@ -124,14 +103,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [allUsers, user?.id]);
 
   const purchasePlayer = useCallback(async (player: Player) => {
-    if (!user) return;
+    if (!user || !allUsers) return;
 
-    const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
-      anyUser.players.some(p => p.id === player.id)
-    );
-
+    const isPlayerOwnedByAnyone = allUsers.some(anyUser => anyUser.players.some(p => p.id === player.id));
     if (isPlayerOwnedByAnyone) {
-      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased by another user.`, variant: 'destructive' });
+      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased.`, variant: 'destructive' });
       return;
     }
     
@@ -140,64 +116,51 @@ export function UserProvider({ children }: { children: ReactNode }) {
       return;
     }
     if (user.currency < player.cost) {
-      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
+      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins.', variant: 'destructive' });
       return;
     }
 
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
-
     const updatedUser = {
         ...user,
         currency: user.currency - player.cost,
         players: [...user.players, newUserPlayer],
-        roster: {
-            ...user.roster,
-            bench: [...user.roster.bench, player.id]
-        }
+        roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
     
+    await updateUserState([updatedUser]);
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-    await updateUserState(updatedUser);
   }, [user, allUsers, toast, updateUserState]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
-    if (!user) return;
+    if (!user || !allUsers) return;
 
-    const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
-      anyUser.players.some(p => p.id === player.id)
-    );
-
+    const isPlayerOwnedByAnyone = allUsers.some(anyUser => anyUser.players.some(p => p.id === player.id));
     if (isPlayerOwnedByAnyone) {
-      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased by another user.`, variant: 'destructive' });
-      return;
+        toast({ title: 'Player Already Owned', description: `${player.name} is already owned.`, variant: 'destructive' });
+        return;
     }
-    
     if (user.players.length >= 10) {
-      toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
-      return;
+        toast({ title: 'Roster Full', description: 'Your roster is full.', variant: 'destructive' });
+        return;
     }
     const price = player.peak_mmr || player.cost;
     if (user.currency < price) {
-      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
-      return;
+        toast({ title: 'Insufficient Funds', description: 'Not enough coins.', variant: 'destructive' });
+        return;
     }
 
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
-
     const updatedUser = {
         ...user,
         currency: user.currency - price,
         players: [...user.players, newUserPlayer],
-        roster: {
-            ...user.roster,
-            bench: [...user.roster.bench, player.id]
-        }
+        roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
-    
-    await updateUserState(updatedUser);
+
+    await updateUserState([updatedUser]);
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
   }, [user, allUsers, toast, updateUserState]);
-
 
   const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
     if (targetUser.players.length >= 10) {
@@ -205,19 +168,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return;
     }
 
+    const usersToUpdate: User[] = [];
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
 
-    // Add player to target user
     const updatedTargetUser = {
         ...targetUser,
         players: [...targetUser.players, newUserPlayer],
         roster: { ...targetUser.roster, bench: [...targetUser.roster.bench, player.id] }
     };
+    usersToUpdate.push(updatedTargetUser);
 
-    let updatedOwnerUser: User | undefined = undefined;
     if (currentOwner) {
-        // Remove player from current owner
-        updatedOwnerUser = {
+        const updatedOwnerUser = {
             ...currentOwner,
             players: currentOwner.players.filter(p => p.id !== player.id),
             roster: {
@@ -225,18 +187,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 bench: currentOwner.roster.bench.filter(id => id !== player.id),
             }
         };
+        usersToUpdate.push(updatedOwnerUser);
     }
     
-    await updateUserState(updatedTargetUser, updatedOwnerUser);
+    await updateUserState(usersToUpdate);
     toast({ title: "Player Assigned!", description: `${player.name} has been given to ${targetUser.name}.`});
   }, [toast, updateUserState]);
 
-
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
-
     const sellPrice = Math.round(player.cost * 0.5);
-
     const updatedUser: User = {
         ...user,
         currency: user.currency + sellPrice,
@@ -246,59 +206,53 @@ export function UserProvider({ children }: { children: ReactNode }) {
             bench: user.roster.bench.filter(id => id !== player.id),
         }
     };
-
-    toast({ title: 'Player Sold!', description: `You have sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
-    await updateUserState(updatedUser);
-
+    await updateUserState([updatedUser]);
+    toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
   }, [user, toast, updateUserState]);
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
-    if (!user) return;
-
+    if (!user || !allUsers) return;
     const buyoutPrice = Math.round(player.cost * 1.5);
     if (user.currency < buyoutPrice) {
-        toast({ title: 'Insufficient Funds', description: 'You cannot afford the buyout price.', variant: 'destructive' });
+        toast({ title: 'Insufficient Funds', variant: 'destructive' });
         return;
     }
     if (user.players.length >= 10) {
-        toast({ title: 'Roster Full', description: 'Your roster is full.', variant: 'destructive' });
+        toast({ title: 'Roster Full', variant: 'destructive' });
         return;
     }
 
+    const usersToUpdate: User[] = [];
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
-
     const newOwnerUser = {
         ...user,
         currency: user.currency - buyoutPrice,
         players: [...user.players, newUserPlayer],
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
+    usersToUpdate.push(newOwnerUser);
 
     const previousOwnerUser = {
         ...owner,
-        currency: owner.currency + player.cost, // Refund original cost
+        currency: owner.currency + player.cost,
         players: owner.players.filter(p => p.id !== player.id),
         roster: {
             lineup: owner.roster.lineup.filter(id => id !== player.id),
             bench: owner.roster.bench.filter(id => id !== player.id),
         }
     };
+    usersToUpdate.push(previousOwnerUser);
     
-    toast({ title: 'Buyout Successful!', description: `You have purchased ${player.name} from ${owner.name}!` });
-    await updateUserState(newOwnerUser, previousOwnerUser);
-
-  }, [user, toast, updateUserState]);
+    await updateUserState(usersToUpdate);
+    toast({ title: 'Buyout Successful!', description: `You purchased ${player.name} from ${owner.name}!` });
+  }, [user, allUsers, toast, updateUserState]);
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
-    const updatedUser: User = {
-        ...user,
-        roster: { lineup, bench },
-    };
-    await updateUser(updatedUser);
-    toast({ title: 'Roster Updated', description: 'Your lineup and bench have been saved.' });
-    await loadAllData();
-  }, [user, toast, loadAllData]);
+    const updatedUser: User = { ...user, roster: { lineup, bench } };
+    await updateUserState([updatedUser]);
+    toast({ title: 'Roster Updated' });
+  }, [user, toast, updateUserState]);
 
   const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
     if (!user) return;
@@ -306,18 +260,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
       ...user,
       weeklyScores: {
         ...user.weeklyScores,
-        [playerId]: {
-          ...user.weeklyScores?.[playerId],
-          [weekId]: scores,
-        }
+        [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
       },
     };
-    toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} have been saved.` });
-    await updateUserState(updatedUser);
+    await updateUserState([updatedUser]);
+    toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
+    <UserContext.Provider value={{ user, allUsers: allUsers || [], allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
       {children}
     </UserContext.Provider>
   );

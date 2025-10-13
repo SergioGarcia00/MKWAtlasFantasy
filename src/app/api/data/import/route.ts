@@ -2,29 +2,22 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
-import { USER_IDS } from '@/data/users';
+import { collection, doc, writeBatch, getDocs, deleteDoc } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
 
-const DATA_DIR = path.join(process.cwd(), 'src', 'data');
-const USERS_DIR = path.join(DATA_DIR, 'users');
-
-async function clearDirectory(directory: string) {
-    try {
-        const files = await fs.readdir(directory);
-        await Promise.all(files.map(file => fs.unlink(path.join(directory, file))));
-    } catch (error) {
-        // Directory might not exist, which is fine.
-        if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
-            console.error(`Error clearing directory ${directory}:`, error);
-            throw error; // Re-throw if it's not a "not found" error
-        }
-    }
+async function clearCollection(db: any, collectionPath: string) {
+    const q = collection(db, collectionPath);
+    const snapshot = await getDocs(q);
+    const batch = writeBatch(db);
+    snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+    await batch.commit();
 }
-
 
 export async function POST(request: Request) {
     try {
+        const { firestore } = initializeFirebase();
         const formData = await request.formData();
         const file = formData.get('file') as File | null;
 
@@ -39,7 +32,6 @@ export async function POST(request: Request) {
         const content = await file.text();
         const data = JSON.parse(content);
         
-        // Validate required keys
         const requiredKeys = ['users', 'daily_market', 'weeks'];
         for (const key of requiredKeys) {
             if (!data.hasOwnProperty(key)) {
@@ -48,26 +40,28 @@ export async function POST(request: Request) {
         }
         
         // --- Start Data Overwrite ---
+        await clearCollection(firestore, 'users');
+        await clearCollection(firestore, 'market');
+        await clearCollection(firestore, 'weeks');
 
-        // Clear existing user files
-        await clearDirectory(USERS_DIR);
-        // Ensure directory exists
-        await fs.mkdir(USERS_DIR, { recursive: true });
+        const batch = writeBatch(firestore);
 
-        // Write new user files
-        await Promise.all(
-            data.users.map((user: any) => {
-                const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
-                return fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
-            })
-        );
+        data.users.forEach((user: any) => {
+            const userRef = doc(firestore, 'users', user.id);
+            batch.set(userRef, user);
+        });
         
-        // Write other data files
-        const dailyMarketPath = path.join(DATA_DIR, 'daily_market.json');
-        await fs.writeFile(dailyMarketPath, JSON.stringify(data.daily_market, null, 2), 'utf-8');
+        data.daily_market.forEach((player: any) => {
+            const marketRef = doc(firestore, 'market', player.id);
+            batch.set(marketRef, player);
+        });
 
-        const weeksPath = path.join(DATA_DIR, 'weeks.json');
-        await fs.writeFile(weeksPath, JSON.stringify(data.weeks, null, 2), 'utf-8');
+        data.weeks.forEach((week: any) => {
+            const weekRef = doc(firestore, 'weeks', week.id);
+            batch.set(weekRef, week);
+        });
+
+        await batch.commit();
         
         return NextResponse.json({ message: 'Data imported successfully! The application data has been updated.' });
 

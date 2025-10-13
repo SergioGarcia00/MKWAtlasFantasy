@@ -2,11 +2,9 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
 import type { User } from '@/lib/types';
-
-const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
 export async function POST(
   request: Request,
@@ -20,28 +18,27 @@ export async function POST(
       return NextResponse.json({ message: 'User ID and amount are required' }, { status: 400 });
     }
 
-    const userFilePath = path.join(USERS_DIR, `${userId}.json`);
+    const { firestore } = initializeFirebase();
+    const userRef = doc(firestore, 'users', userId);
     
-    try {
-        const userContent = await fs.readFile(userFilePath, 'utf-8');
-        const user: User = JSON.parse(userContent);
-
-        if (isReset) {
-            user.currency = amount;
-        } else {
-            user.currency += amount;
-        }
-
-        await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
-
-        return NextResponse.json(user);
-
-    } catch (error: any) {
-        if (error.code === 'ENOENT') {
-            return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
-        }
-        throw error;
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+        return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
     }
+    
+    const user = userDoc.data() as User;
+    let newCurrency;
+
+    if (isReset) {
+        newCurrency = amount;
+    } else {
+        newCurrency = (user.currency || 0) + amount;
+    }
+
+    await updateDoc(userRef, { currency: newCurrency });
+    
+    const updatedUser = { ...user, currency: newCurrency };
+    return NextResponse.json(updatedUser);
 
   } catch (error) {
     console.error('Failed to update currency:', error);

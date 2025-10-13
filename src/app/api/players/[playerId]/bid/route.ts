@@ -1,24 +1,9 @@
 'use server';
 
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
-import type { User, Player } from '@/lib/types';
-
-const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
-
-async function getAllUsers(): Promise<User[]> {
-    const userFiles = await fs.readdir(USERS_DIR);
-    const users: User[] = [];
-    for (const file of userFiles) {
-        if (file.endsWith('.json')) {
-            const filePath = path.join(USERS_DIR, file);
-            const userContent = await fs.readFile(filePath, 'utf-8');
-            users.push(JSON.parse(userContent));
-        }
-    }
-    return users;
-}
+import { collection, getDocs, doc, setDoc, getDoc } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
+import type { User } from '@/lib/types';
 
 export async function POST(
   request: Request,
@@ -31,10 +16,13 @@ export async function POST(
     if (!userId || !bidAmount) {
       return NextResponse.json({ message: 'User ID and bid amount are required' }, { status: 400 });
     }
-
-    const allUsers = await getAllUsers();
     
-    // Find the current highest bid for the player across all users
+    const { firestore } = initializeFirebase();
+
+    // Get all users to check for highest bid
+    const usersSnapshot = await getDocs(collection(firestore, 'users'));
+    const allUsers = usersSnapshot.docs.map(doc => doc.data() as User);
+    
     let highestBid = 0;
     for (const user of allUsers) {
         if (user.bids && user.bids[playerId]) {
@@ -46,17 +34,19 @@ export async function POST(
         return NextResponse.json({ message: `Your bid must be higher than the current highest bid of ${highestBid.toLocaleString()}.` }, { status: 400 });
     }
 
-    const bidder = allUsers.find(u => u.id === userId);
-    
-    if (!bidder) {
+    const bidderRef = doc(firestore, 'users', userId);
+    const bidderDoc = await getDoc(bidderRef);
+
+    if (!bidderDoc.exists()) {
       return NextResponse.json({ message: 'Bidder not found' }, { status: 404 });
     }
+    
+    const bidder = bidderDoc.data() as User;
 
     if(bidder.players.some(p => p.id === playerId)) {
         return NextResponse.json({ message: "You can't bid on a player you already own." }, { status: 400 });
     }
 
-    // Calculate total amount of *other* bids by the user
     const otherBidsAmount = Object.entries(bidder.bids || {})
       .filter(([pId]) => pId !== playerId)
       .reduce((sum, [, amount]) => sum + amount, 0);
@@ -65,17 +55,8 @@ export async function POST(
         return NextResponse.json({ message: 'Insufficient funds for this bid considering your other active bids.' }, { status: 400 });
     }
     
-    const updatedUser = {
-        ...bidder,
-        bids: {
-            ...bidder.bids,
-            [playerId]: bidAmount,
-        }
-    };
-    
-    const userFilePath = path.join(USERS_DIR, `${userId}.json`);
-    await fs.writeFile(userFilePath, JSON.stringify(updatedUser, null, 2), 'utf-8');
-
+    // Use dot notation to update a specific field in the map
+    await setDoc(bidderRef, { bids: { [playerId]: bidAmount } }, { merge: true });
 
     return NextResponse.json({ message: 'Bid placed successfully' });
 

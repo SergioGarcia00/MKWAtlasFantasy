@@ -1,35 +1,35 @@
 import { NextResponse } from 'next/server';
-import path from 'path';
-import fs from 'fs/promises';
-import { ALL_PLAYERS } from '@/data/players';
-import type { User, Player, UserPlayer } from '@/lib/types';
-
-const USERS_DATA_DIR = path.join(process.cwd(), 'src', 'data', 'users');
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { initializeFirebase } from '@/firebase';
+import type { User, UserPlayer } from '@/lib/types';
 
 const hydratePlayer = (p: string | UserPlayer): UserPlayer => {
     if (typeof p === 'string') {
-        // This is for backward compatibility with old data structure
-        return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; // Assume old players are past 14 days
+        return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; 
     }
     return p;
 };
-
 
 export async function GET(
   request: Request,
   { params }: { params: { userId: string } }
 ) {
   const { userId } = params;
-  const filePath = path.join(USERS_DATA_DIR, `${userId}.json`);
+  const { firestore } = initializeFirebase();
+  const userRef = doc(firestore, 'users', userId);
 
   try {
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    const user = JSON.parse(fileContent);
-    // Ensure players have the new structure
+    const userDoc = await getDoc(userRef);
+    if (!userDoc.exists()) {
+        return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
+    }
+    
+    const user = userDoc.data() as User;
     user.players = (user.players || []).map(hydratePlayer);
     return NextResponse.json(user);
   } catch (error) {
-    return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
+    console.error(`Error fetching user ${userId}:`, error);
+    return NextResponse.json({ message: `Error fetching user ${userId}` }, { status: 500 });
   }
 }
 
@@ -38,15 +38,12 @@ export async function POST(
   { params }: { params: { userId: string } }
 ) {
   const { userId } = params;
-  const filePath = path.join(USERS_DATA_DIR, `${userId}.json`);
+  const { firestore } = initializeFirebase();
+  const userRef = doc(firestore, 'users', userId);
 
   try {
     const body: User = await request.json();
-    
-    // Data is already in the correct format for saving
-    await fs.writeFile(filePath, JSON.stringify(body, null, 2), 'utf-8');
-    
-    // Return the saved user object to the client
+    await setDoc(userRef, body, { merge: true });
     return NextResponse.json(body);
   } catch (error) {
     console.error('Failed to update user data:', error);

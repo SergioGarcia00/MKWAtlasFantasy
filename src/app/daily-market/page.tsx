@@ -9,28 +9,21 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { useCollection } from '@/firebase';
+import { collection, query } from 'firebase/firestore';
+import { useFirestore } from '@/firebase/provider';
+
 
 export type Bid = { userId: string; userName: string; amount: number };
 
-async function fetchMarketPlayers(): Promise<Player[]> {
-    try {
-        const response = await fetch('/api/market');
-        if (!response.ok) {
-            console.error('Failed to fetch market players');
-            return [];
-        }
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching market players:', error);
-        return [];
-    }
-}
-
 export default function DailyMarketPage() {
   const { user, allUsers, switchUser, getPlayerById, loadAllData } = useUser();
+  const firestore = useFirestore();
   const { toast } = useToast();
-  const [marketPlayers, setMarketPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  const marketQuery = useMemo(() => query(collection(firestore, 'market')), [firestore]);
+  const { data: marketPlayers, isLoading: loading } = useCollection<Player>(marketQuery);
+  
   const [isLocking, setIsLocking] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -40,7 +33,7 @@ export default function DailyMarketPage() {
   const [isBidLoading, setIsBidLoading] = useState(false);
 
   const allBidsByPlayer = useMemo(() => {
-    return allUsers.reduce<Record<string, Bid[]>>((acc, u) => {
+    return (allUsers || []).reduce<Record<string, Bid[]>>((acc, u) => {
         Object.entries(u.bids || {}).forEach(([playerId, amount]) => {
             if (!acc[playerId]) {
                 acc[playerId] = [];
@@ -52,6 +45,7 @@ export default function DailyMarketPage() {
   }, [allUsers]);
 
   const marketPlayersWithBids = useMemo(() => {
+    if (!marketPlayers) return [];
     return marketPlayers.map(player => {
         const bids = allBidsByPlayer[player.id] || [];
         const sortedBids = bids.sort((a, b) => b.amount - a.amount);
@@ -63,18 +57,6 @@ export default function DailyMarketPage() {
     }).sort((a, b) => (b.bids?.length || 0) - (a.bids?.length || 0));
   }, [marketPlayers, allBidsByPlayer, getPlayerById]);
   
-  const fetchMarket = useCallback(async () => {
-    setLoading(true);
-    const players = await fetchMarketPlayers();
-    setMarketPlayers(players);
-    setLoading(false);
-  }, []);
-
-  useEffect(() => {
-    if(allUsers.length > 0) {
-      fetchMarket();
-    }
-  }, [allUsers.length, fetchMarket]);
 
   const handleRefreshMarket = async () => {
     setIsRefreshing(true);
@@ -82,8 +64,7 @@ export default function DailyMarketPage() {
         const response = await fetch('/api/market/refresh', { method: 'POST' });
         if (!response.ok) throw new Error('Failed to refresh market');
         toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
-        await loadAllData();
-        await fetchMarket();
+        // Data will refresh automatically via useCollection
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
@@ -104,10 +85,6 @@ export default function DailyMarketPage() {
             title: 'Auctions Locked In!',
             description: `${result.winners.length} players have been transferred to their new owners.`,
         });
-        
-        await loadAllData();
-        await fetchMarket();
-
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -145,8 +122,6 @@ export default function DailyMarketPage() {
             title: 'Bid Placed!',
             description: `You have bid ${bidAmount.toLocaleString()} for ${biddingPlayer.name}.`,
         });
-        
-        await loadAllData(); // This re-fetches all users, including the new bid data.
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -159,7 +134,6 @@ export default function DailyMarketPage() {
         setBiddingPlayer(null);
     }
   };
-
 
   return (
     <div className="container mx-auto p-4 md:p-8">

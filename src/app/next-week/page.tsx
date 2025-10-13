@@ -1,31 +1,19 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useCollection, useFirestore } from '@/firebase';
+import { collection } from 'firebase/firestore';
 
 interface Week {
   id: string;
   name: string;
 }
 
-async function fetchWeeks(): Promise<Week[]> {
-  try {
-    const response = await fetch('/api/weeks');
-    if (!response.ok) {
-      console.error('Failed to fetch weeks');
-      return [];
-    }
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching weeks:', error);
-    return [];
-  }
-}
-
-async function createNewWeek(newWeek: Week): Promise<Week | null> {
+async function createNewWeek(db: any, newWeek: Week): Promise<Week | null> {
     try {
         const response = await fetch('/api/weeks', {
             method: 'POST',
@@ -43,25 +31,16 @@ async function createNewWeek(newWeek: Week): Promise<Week | null> {
     }
 }
 
-
 export default function WeeksListPage() {
-  const [weeks, setWeeks] = useState<Week[]>([]);
-
-  useEffect(() => {
-    async function loadWeeks() {
-      const weeksData = await fetchWeeks();
-      setWeeks(weeksData);
-    }
-    loadWeeks();
-  }, []);
+  const firestore = useFirestore();
+  const weeksCollection = useMemo(() => collection(firestore, 'weeks'), [firestore]);
+  const { data: weeks, isLoading } = useCollection<Week>(weeksCollection);
 
   const handleCreateNewWeek = async () => {
+    if (!weeks) return;
     const newWeekId = (weeks.length + 1).toString();
     const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
-    const createdWeek = await createNewWeek(newWeek);
-    if (createdWeek) {
-        setWeeks(prevWeeks => [...prevWeeks, createdWeek]);
-    }
+    await createNewWeek(firestore, newWeek);
   };
 
   return (
@@ -80,7 +59,7 @@ export default function WeeksListPage() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {weeks.map(week => (
+        {weeks && weeks.map(week => (
           <Link href={`/weeks/${week.id}`} key={week.id} className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardHeader className="flex flex-row items-center justify-between">

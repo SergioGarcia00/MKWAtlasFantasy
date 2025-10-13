@@ -6,188 +6,133 @@
       "type": "object",
       "description": "Represents a Mario Kart player with their statistics and cost.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Player entity."
+        "id": { "type": "string", "description": "Unique identifier for the Player entity." },
+        "name": { "type": "string", "description": "The name of the Mario Kart player." },
+        "icon": { "type": "string", "description": "The name of the icon for the player." },
+        "cost": { "type": "number", "description": "The cost of the player in in-app currency." },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "speed": { "type": "number" },
+            "acceleration": { "type": "number" },
+            "weight": { "type": "number" },
+            "handling": { "type": "number" },
+            "traction": { "type": "number" }
+          },
+          "required": ["speed", "acceleration", "weight", "handling", "traction"]
         },
-        "name": {
-          "type": "string",
-          "description": "The name of the Mario Kart player."
-        },
-        "speed": {
-          "type": "number",
-          "description": "The speed statistic of the player."
-        },
-        "acceleration": {
-          "type": "number",
-          "description": "The acceleration statistic of the player."
-        },
-        "handling": {
-          "type": "number",
-          "description": "The handling statistic of the player."
-        },
-        "drift": {
-          "type": "number",
-          "description": "The drift statistic of the player."
-        },
-        "cost": {
-          "type": "number",
-          "description": "The cost of the player in in-app currency."
+        "mmr": { "type": "number", "description": "Player's current matchmaking rating." },
+        "peak_mmr": { "type": "number", "description": "Player's peak matchmaking rating." },
+        "rank": { "type": "number" },
+        "events_played": { "type": "number" },
+        "country": { "type": "string" },
+        "game_stats": {
+          "type": "object",
+          "properties": {
+            "1v1": { "$ref": "#/entities/GameStats" },
+            "2v2": { "$ref": "#/entities/GameStats" }
+          }
         }
       },
-      "required": [
-        "id",
-        "name",
-        "speed",
-        "acceleration",
-        "handling",
-        "drift",
-        "cost"
-      ]
+      "required": ["id", "name", "icon", "cost", "stats"]
     },
-    "User": {
+    "GameStats": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User",
+      "title": "GameStats",
+      "type": "object",
+      "description": "Statistics for a player in a specific game mode.",
+      "properties": {
+        "events_played": { "type": "number" },
+        "win_rate": { "type": "string" },
+        "win_loss_last_10": { "type": "string" },
+        "gainloss_last_10": { "type": "number" },
+        "largest_gain": { "type": "number" },
+        "average_score": { "type": "number" },
+        "average_score_no_sq": { "type": "number" },
+        "average_score_last_10": { "type": "number" },
+        "partner_average_score": { "type": "number" },
+        "partner_average_score_no_sq": { "type": "number" }
+      }
+    },
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
       "type": "object",
       "description": "Represents a user of the Kart Fantasy League.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the User entity."
-        },
-        "username": {
-          "type": "string",
-          "description": "The username of the user."
-        },
-        "currency": {
-          "type": "number",
-          "description": "The amount of in-app currency the user has."
-        }
-      },
-      "required": [
-        "id",
-        "username",
-        "currency"
-      ]
-    },
-    "Roster": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Roster",
-      "type": "object",
-      "description": "Represents a user's roster of purchased players.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Roster entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to User. (Relationship: User 1:N Roster)"
-        },
-        "playerIds": {
+        "id": { "type": "string", "description": "Unique identifier for the User entity." },
+        "name": { "type": "string", "description": "The name of the user." },
+        "currency": { "type": "number", "description": "The amount of in-app currency the user has." },
+        "players": {
           "type": "array",
-          "description": "References to Players. (Relationship: Roster 1:N Player)",
-          "items": {
-            "type": "string"
+          "items": { "$ref": "#/entities/UserPlayer" }
+        },
+        "roster": {
+          "type": "object",
+          "properties": {
+            "lineup": { "type": "array", "items": { "type": "string" } },
+            "bench": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["lineup", "bench"]
+        },
+        "weeklyScores": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/entities/WeeklyScore" }
           }
         },
-        "startingLineup": {
-          "type": "array",
-          "description": "References to Players in the starting lineup.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "bench": {
-          "type": "array",
-          "description": "References to Players on the bench.",
-          "items": {
-            "type": "string"
-          }
+        "bids": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
         }
       },
-      "required": [
-        "id",
-        "userId",
-        "playerIds",
-        "startingLineup",
-        "bench"
-      ]
+      "required": ["id", "name", "currency", "players", "roster", "weeklyScores", "bids"]
     },
-    "WeeklyPerformance": {
+    "UserPlayer": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "WeeklyPerformance",
+      "title": "UserPlayer",
       "type": "object",
-      "description": "Represents a player's performance in a given week.",
+      "description": "Represents a player owned by a user, including purchase date.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the WeeklyPerformance entity."
-        },
-        "rosterId": {
-          "type": "string",
-          "description": "Reference to Roster. (Relationship: Roster 1:N WeeklyPerformance)"
-        },
-        "playerId": {
-          "type": "string",
-          "description": "Reference to Player. (Relationship: Player 1:N WeeklyPerformance)"
-        },
-        "weekNumber": {
-          "type": "number",
-          "description": "The week number for which the performance is recorded."
-        },
-        "race1Score": {
-          "type": "number",
-          "description": "The score of the player in the first race of the week."
-        },
-        "race2Score": {
-          "type": "number",
-          "description": "The score of the player in the second race of the week."
-        }
+        "id": { "type": "string" },
+        "purchasedAt": { "type": "number", "description": "Timestamp of the purchase." }
       },
-      "required": [
-        "id",
-        "rosterId",
-        "playerId",
-        "weekNumber",
-        "race1Score",
-        "race2Score"
-      ]
+      "required": ["id", "purchasedAt"]
     },
-    "Ranking": {
+    "WeeklyScore": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Ranking",
+      "title": "WeeklyScore",
       "type": "object",
-      "description": "Represents user ranking based on weekly performance.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Ranking entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to User. (Relationship: User 1:1 Ranking)"
-        },
-        "weekNumber": {
-          "type": "number",
-          "description": "The week number for which the ranking is calculated."
-        },
-        "rank": {
-          "type": "number",
-          "description": "The user's rank for the specified week."
-        },
-        "totalScore": {
-          "type": "number",
-          "description": "The total score of the user for the specified week."
-        }
+        "race1": { "type": "number" },
+        "race2": { "type": "number" }
       },
-      "required": [
-        "id",
-        "userId",
-        "weekNumber",
-        "rank",
-        "totalScore"
-      ]
+      "required": ["race1", "race2"]
+    },
+    "MarketPlayer": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "MarketPlayer",
+        "description": "A player available in the daily market.",
+        "type": "object",
+        "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" },
+            "icon": { "type": "string" },
+            "cost": { "type": "number" }
+        },
+        "required": ["id", "name", "icon", "cost"]
+    },
+    "Week": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Week",
+        "description": "Represents a week in the league.",
+        "type": "object",
+        "properties": {
+            "id": { "type": "string" },
+            "name": { "type": "string" }
+        },
+        "required": ["id", "name"]
     }
   },
   "auth": {
@@ -197,100 +142,17 @@
     ]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/players/{playerId}",
-        "definition": {
-          "entityName": "Player",
-          "schema": {
-            "$ref": "#/backend/entities/Player"
-          },
-          "description": "Stores player data. Each document represents a player with their statistics and cost.",
-          "params": [
-            {
-              "name": "playerId",
-              "description": "The unique identifier of the player."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}",
-        "definition": {
-          "entityName": "User",
-          "schema": {
-            "$ref": "#/backend/entities/User"
-          },
-          "description": "Stores user data. Each document represents a user with their profile information and currency balance.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/rosters/{rosterId}",
-        "definition": {
-          "entityName": "Roster",
-          "schema": {
-            "$ref": "#/backend/entities/Roster"
-          },
-          "description": "Stores user rosters. Each document represents a roster owned by a user, containing the IDs of players in the roster. Owned by the user, identified via the path. Includes denormalized 'userId' for authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user who owns the roster."
-            },
-            {
-              "name": "rosterId",
-              "description": "The unique identifier of the roster."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/rosters/{rosterId}/weeklyPerformances/{weeklyPerformanceId}",
-        "definition": {
-          "entityName": "WeeklyPerformance",
-          "schema": {
-            "$ref": "#/backend/entities/WeeklyPerformance"
-          },
-          "description": "Stores weekly performance data for players in a roster. Each document represents a player's performance in a given week, associated with a specific roster. Includes denormalized 'userId' and 'rosterId' for authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user who owns the roster."
-            },
-            {
-              "name": "rosterId",
-              "description": "The unique identifier of the roster."
-            },
-            {
-              "name": "weeklyPerformanceId",
-              "description": "The unique identifier of the weekly performance record."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/rankings/{rankingId}",
-        "definition": {
-          "entityName": "Ranking",
-          "schema": {
-            "$ref": "#/backend/entities/Ranking"
-          },
-          "description": "Stores user ranking data based on weekly performance. Each document represents a user's ranking for a specific week.  Public access. No denormalization needed.",
-          "params": [
-            {
-              "name": "rankingId",
-              "description": "The unique identifier of the ranking record."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "The Firestore structure is designed to ensure authorization independence, clarity, and scalability for the Kart Fantasy League application. It leverages denormalization and structural segregation to achieve these goals.\n\n*   **Authorization Independence:** The structure avoids hierarchical authorization dependencies by storing all necessary authorization data directly within each document or collection, eliminating the need for `get()` calls in security rules. This is achieved by:\n    *   Storing roles and memberships directly within documents where access control is needed.\n*   **Structural Segregation:**  Different data types with varying access needs are stored in separate collections. For example, user-owned data is stored under the `/users/{userId}` path.\n*   **Access Modeling:**  Path-based ownership (`/users/{userId}/...`) is used for user-specific data, simplifying security rules and ensuring clear ownership.\n*   **QAPs (Rules are not Filters):** The structure supports secure `list` operations by:\n    *   Enforcing consistent security requirements within each collection.\n    *   Using path-based ownership to allow users to only list resources they own.\n\nThe structure includes collections for `users`, `players`, `rosters`, `weeklyPerformances`, and `rankings`. The relationships are modeled to optimize data access and security."
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores all data for a single user, including their profile, currency, owned players, roster, and bids."
+    },
+    "/market": {
+        "schema": { "$ref": "#/entities/MarketPlayer" },
+        "description": "A collection where each document is a player currently available for auction in the daily market."
+    },
+    "/weeks": {
+        "schema": { "$ref": "#/entities/Week" },
+        "description": "A collection where each document represents a week of the league."
+    }
   }
 }
