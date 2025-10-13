@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "TogoreDreemurr-2294",
+      "id": "TogoreDreemurr-6652-2294",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "AxelTS-7",
+      "id": "AxelTS-7913-7",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Akusika-7",
+      "id": "Akusika-4929-7",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "YamineLamal-2294",
+      "id": "YamineLamal-4171-2294",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Torte-3160",
+      "id": "Torte-5227-3160",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Cozmic-3090",
+      "id": "Cozmic-6706-3090",
       "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "TogoreDreemurr-2294",
-      "AxelTS-7",
-      "Akusika-7",
-      "YamineLamal-2294",
-      "Torte-3160",
-      "Cozmic-3090"
+      "TogoreDreemurr-6652-2294",
+      "AxelTS-7913-7",
+      "Akusika-4929-7",
+      "YamineLamal-4171-2294",
+      "Torte-5227-3160",
+      "Cozmic-6706-3090"
     ],
     "bench": []
   },

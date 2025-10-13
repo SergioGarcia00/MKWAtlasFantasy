@@ -28,7 +28,8 @@ const processedPlayers = new Map<string, Player>();
   team.players.forEach((playerData, index) => {
     // Use a combination of name and team to create a unique ID
     if (playerData.name && playerData.peak_mmr) {
-        const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${team.teamId}`;
+        // A more unique ID to prevent collisions
+        const playerId = `${playerData.name.replace(/[^a-zA-Z0-9]/g, '')}-${playerData.peak_mmr}-${team.teamId}`;
 
         if (!processedPlayers.has(playerId)) {
           const stats = generateStatsFromMmr(playerData.mmr);
