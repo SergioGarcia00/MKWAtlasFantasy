@@ -33,7 +33,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [isDataLoading, setIsDataLoading] = useState(true);
   const { toast } = useToast();
   const firestore = useFirestore();
-  const { user: authUser, isUserLoading } = useFirebaseAuth();
 
   const getPlayerById = useCallback((playerId: string) => {
     return ALL_PLAYERS.find(p => p.id === playerId);
@@ -43,22 +42,25 @@ export function UserProvider({ children }: { children: ReactNode }) {
     if (!firestore) return;
     setIsDataLoading(true);
     try {
-        const usersSnapshot = await getDocs(collection(firestore, 'users'));
-        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
-        setAllUsers(users);
+      const response = await fetch('/api/users');
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      const users: User[] = await response.json();
+      setAllUsers(users);
 
-        const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
-        const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
-        if (activeUser) {
-            setUser(activeUser);
-        }
+      const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
+      const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
+      if (activeUser) {
+          setUser(activeUser);
+      }
     } catch (error) {
         console.error("Failed to load all data:", error);
         toast({ title: 'Error Loading Data', description: 'Could not load fantasy league data.', variant: 'destructive' });
     } finally {
         setIsDataLoading(false);
     }
-}, [firestore, toast]);
+  }, [firestore, toast]);
 
 
   useEffect(() => {
