@@ -2,45 +2,11 @@
   "id": "user-tario",
   "name": "Tario",
   "currency": 60000,
-  "players": [
-    {
-      "id": "Mariapedraza-2519",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "ChineseLakitu-3385",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "MptLoveC-2987",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Yazzita-1673",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "eniPelbidE-1607",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "ShinyGreninja-1707",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Mariapedraza-2519",
-      "ChineseLakitu-3385",
-      "MptLoveC-2987",
-      "Yazzita-1673",
-      "eniPelbidE-1607",
-      "ShinyGreninja-1707"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {
-    "Cleisii-2439": 9829
-  }
+  "bids": {}
 }

@@ -2,41 +2,9 @@
   "id": "user-sonic",
   "name": "Sonic",
   "currency": 60000,
-  "players": [
-    {
-      "id": "BigSniker-1234",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "valman60-3194",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Kitura-1910",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Hol1ow-1754",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Lorone-2902",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "green-354",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "BigSniker-1234",
-      "valman60-3194",
-      "Kitura-1910",
-      "Hol1ow-1754",
-      "Lorone-2902",
-      "green-354"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

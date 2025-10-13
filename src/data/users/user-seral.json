@@ -2,41 +2,9 @@
   "id": "user-seral",
   "name": "Seral",
   "currency": 60000,
-  "players": [
-    {
-      "id": "Raph-14",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Alfonso-771",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "cosiam-2439",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "DarkMPB-1711",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Rune-777",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Nix-2902",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Raph-14",
-      "Alfonso-771",
-      "cosiam-2439",
-      "DarkMPB-1711",
-      "Rune-777",
-      "Nix-2902"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

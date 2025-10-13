@@ -2,45 +2,11 @@
   "id": "user-yegu",
   "name": "Yegu",
   "currency": 60000,
-  "players": [
-    {
-      "id": "Mine-3428",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "glemglem-3271",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Moriya-3428",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "AlinePee-3129",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "winter-2029",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "pepperjack-1607",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Mine-3428",
-      "glemglem-3271",
-      "Moriya-3428",
-      "AlinePee-3129",
-      "winter-2029",
-      "pepperjack-1607"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {
-    "Cleisii-2439": 9828
-  }
+  "bids": {}
 }

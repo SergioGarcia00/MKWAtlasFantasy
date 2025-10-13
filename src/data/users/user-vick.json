@@ -2,41 +2,9 @@
   "id": "user-vick",
   "name": "Vick",
   "currency": 60000,
-  "players": [
-    {
-      "id": "GrimsbyTown-3129",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "TruthNuke-22",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "season-2918",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Marvynou-3074",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "ChompCaller-3084",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Aketx-7",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "GrimsbyTown-3129",
-      "TruthNuke-22",
-      "season-2918",
-      "Marvynou-3074",
-      "ChompCaller-3084",
-      "Aketx-7"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

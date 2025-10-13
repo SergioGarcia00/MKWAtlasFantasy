@@ -2,41 +2,9 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 60000,
-  "players": [
-    {
-      "id": "AxelTS-7",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "Pizzi-1910",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "Chaozu-2601",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "TFlight-3324",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "xdpro79-3390",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "WECAsuka-35",
-      "purchasedAt": 1760301701155
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "AxelTS-7",
-      "Pizzi-1910",
-      "Chaozu-2601",
-      "TFlight-3324",
-      "xdpro79-3390",
-      "WECAsuka-35"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

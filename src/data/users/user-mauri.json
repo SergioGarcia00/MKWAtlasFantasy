@@ -2,41 +2,9 @@
   "id": "user-mauri",
   "name": "Mauri",
   "currency": 60000,
-  "players": [
-    {
-      "id": "Josemi-2004",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "Kaffeeum9-35",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "Attila10-16",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "DEMISE-3323",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "hrsnab-273",
-      "purchasedAt": 1760301701155
-    },
-    {
-      "id": "Alonso890-27",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Josemi-2004",
-      "Kaffeeum9-35",
-      "Attila10-16",
-      "DEMISE-3323",
-      "hrsnab-273",
-      "Alonso890-27"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

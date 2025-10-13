@@ -2,41 +2,9 @@
   "id": "user-morioh",
   "name": "Morioh",
   "currency": 60000,
-  "players": [
-    {
-      "id": "ArianaGrande-1783",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Larry66-3153",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "Enekito-7",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "ETH4N-3090",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "GoldMK-1754",
-      "purchasedAt": 1760301701156
-    },
-    {
-      "id": "milano-3428",
-      "purchasedAt": 1760301701156
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "ArianaGrande-1783",
-      "Larry66-3153",
-      "Enekito-7",
-      "ETH4N-3090",
-      "GoldMK-1754",
-      "milano-3428"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},
