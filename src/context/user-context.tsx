@@ -3,10 +3,9 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
 import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
-import { USER_IDS } from '@/data/users';
 import { ALL_PLAYERS } from '@/data/players';
-import { useFirestore, useCollection, useUser as useFirebaseAuth, useMemoFirebase } from '@/firebase';
-import { collection, doc, writeBatch, getDocs, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import { useFirestore, useUser as useFirebaseAuth, useMemoFirebase } from '@/firebase';
+import { collection, doc, writeBatch, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
@@ -30,66 +29,62 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [isDataLoading, setIsDataLoading] = useState(true);
   const { toast } = useToast();
   const firestore = useFirestore();
   const { user: authUser, isUserLoading } = useFirebaseAuth();
-
-  const usersCollectionRef = useMemoFirebase(() => collection(firestore, 'users'), [firestore]);
-  const { data: allUsers, isLoading: isUsersLoading } = useCollection<User>(usersCollectionRef);
 
   const getPlayerById = useCallback((playerId: string) => {
     return ALL_PLAYERS.find(p => p.id === playerId);
   }, []);
 
   const loadAllData = useCallback(async () => {
-    // Data is now loaded via useCollection hook
-  }, []);
+    setIsDataLoading(true);
+    try {
+      const response = await fetch('/api/users');
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      const users: User[] = await response.json();
+      setAllUsers(users);
 
-  useEffect(() => {
-    if (!isUsersLoading && allUsers) {
-      const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || allUsers[0]?.id;
-      const activeUser = allUsers.find(u => u.id === activeUserId) || allUsers[0] || null;
-      
+      // After fetching, set the active user
+      const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
+      const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
       if (activeUser) {
         setUser(activeUser);
-        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, activeUser.id);
       }
+
+    } catch (error) {
+      console.error("Failed to load all data:", error);
+      toast({ title: 'Error Loading Data', description: 'Could not load fantasy league data.', variant: 'destructive' });
+    } finally {
+      setIsDataLoading(false);
     }
-  }, [allUsers, isUsersLoading]);
+  }, [toast]);
+
+  useEffect(() => {
+    loadAllData();
+  }, [loadAllData]);
   
   const updateUserState = useCallback(async (usersToUpdate: User[]) => {
-    if (!firestore) return;
     const batch = writeBatch(firestore);
-    
-    // Create a fresh copy of the users from the hook to avoid modifying the cached data directly
-    const currentUsers = allUsers ? [...allUsers] : [];
     
     usersToUpdate.forEach(updatedUser => {
       const userRef = doc(firestore, 'users', updatedUser.id);
       batch.set(userRef, updatedUser);
-
-      // Also update the local state representation for immediate UI feedback
-      const index = currentUsers.findIndex(u => u.id === updatedUser.id);
-      if (index !== -1) {
-        currentUsers[index] = updatedUser;
-      } else {
-        currentUsers.push(updatedUser);
-      }
     });
 
     try {
       await batch.commit();
-      // The useCollection hook will automatically update the state from Firestore,
-      // but we can update the active user for instant feedback if they were changed.
-      const activeUserUpdate = usersToUpdate.find(u => u.id === user?.id);
-      if (activeUserUpdate) {
-        setUser(activeUserUpdate);
-      }
+      // After a successful write, reload all data to ensure consistency
+      await loadAllData();
     } catch (error) {
       console.error("Batch update failed: ", error);
       toast({ title: 'Error', description: 'Failed to update user data.', variant: 'destructive' });
     }
-  }, [firestore, toast, allUsers, user?.id]);
+  }, [firestore, toast, loadAllData]);
 
   const switchUser = useCallback((userId: string, force = false) => {
     if (!allUsers || (user?.id === userId && !force)) return;
@@ -268,7 +263,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers: allUsers || [], allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
       {children}
     </UserContext.Provider>
   );

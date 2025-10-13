@@ -18,12 +18,15 @@ export async function GET(request: Request) {
     
     const users = usersSnapshot.docs.map(doc => {
         const user = doc.data() as User;
+        // Ensure data consistency for older data structures
+        user.id = doc.id;
         user.players = (user.players || []).map(hydratePlayer);
         user.roster = {
             lineup: user.roster?.lineup || [],
             bench: user.roster?.bench || [],
         }
         user.weeklyScores = user.weeklyScores || {};
+        user.bids = user.bids || {};
         return user;
     });
 

@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
-import { useCollection, useFirestore } from '@/firebase';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
 import { collection } from 'firebase/firestore';
 
 interface Week {
@@ -33,11 +33,11 @@ async function createNewWeek(db: any, newWeek: Week): Promise<Week | null> {
 
 export default function WeeksListPage() {
   const firestore = useFirestore();
-  const weeksCollection = useMemo(() => collection(firestore, 'weeks'), [firestore]);
+  const weeksCollection = useMemoFirebase(() => firestore ? collection(firestore, 'weeks'): null, [firestore]);
   const { data: weeks, isLoading } = useCollection<Week>(weeksCollection);
 
   const handleCreateNewWeek = async () => {
-    if (!weeks) return;
+    if (!weeks || !firestore) return;
     const newWeekId = (weeks.length + 1).toString();
     const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
     await createNewWeek(firestore, newWeek);

@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useCollection } from '@/firebase';
+import { useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query } from 'firebase/firestore';
 import { useFirestore } from '@/firebase/provider';
 
@@ -21,7 +21,7 @@ export default function DailyMarketPage() {
   const firestore = useFirestore();
   const { toast } = useToast();
   
-  const marketQuery = useMemo(() => query(collection(firestore, 'market')), [firestore]);
+  const marketQuery = useMemoFirebase(() => firestore ? query(collection(firestore, 'market')) : null, [firestore]);
   const { data: marketPlayers, isLoading: loading } = useCollection<Player>(marketQuery);
   
   const [isLocking, setIsLocking] = useState(false);
@@ -64,7 +64,7 @@ export default function DailyMarketPage() {
         const response = await fetch('/api/market/refresh', { method: 'POST' });
         if (!response.ok) throw new Error('Failed to refresh market');
         toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
-        // Data will refresh automatically via useCollection
+        await loadAllData();
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
@@ -85,6 +85,7 @@ export default function DailyMarketPage() {
             title: 'Auctions Locked In!',
             description: `${result.winners.length} players have been transferred to their new owners.`,
         });
+        await loadAllData();
     } catch (error: any) {
         toast({
             variant: 'destructive',
@@ -122,6 +123,7 @@ export default function DailyMarketPage() {
             title: 'Bid Placed!',
             description: `You have bid ${bidAmount.toLocaleString()} for ${biddingPlayer.name}.`,
         });
+        await loadAllData();
     } catch (error: any) {
         toast({
             variant: 'destructive',
