@@ -27,6 +27,7 @@ import {
   Settings,
   Gavel,
   Repeat,
+  ShoppingCart,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -45,7 +46,8 @@ const navItems = [
   { href: '/daily-market', label: 'Daily Market', icon: Gavel },
   { href: '/rankings', label: 'Rankings', icon: BarChart },
   { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
-  { href: '/smaller-ranking', label: 'Smaller Rankings', icon: Award },
+  { href: '/smaller-ranking', label: 'League Honors', icon: Award },
+  { href: '/player-shop', label: 'Player Shop', icon: ShoppingCart },
 ];
 
 const settingsItem = { href: '/settings', label: 'Settings', icon: Settings };

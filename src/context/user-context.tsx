@@ -13,6 +13,7 @@ interface UserContextType {
   allUsers: User[];
   allPlayers: Player[];
   purchasePlayer: (player: Player) => void;
+  purchasePlayerByPeakMmr: (player: Player) => void;
   sellPlayer: (player: Player) => void;
   updateRoster: (lineup: string[], bench: string[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
@@ -158,6 +159,44 @@ export function UserProvider({ children }: { children: ReactNode }) {
     await updateUserState(updatedUser);
   }, [user, allUsers, toast, updateUserState]);
 
+  const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
+    if (!user) return;
+
+    const isPlayerOwnedByAnyone = allUsers.some(anyUser =>
+      anyUser.players.some(p => p.id === player.id)
+    );
+
+    if (isPlayerOwnedByAnyone) {
+      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased by another user.`, variant: 'destructive' });
+      return;
+    }
+    
+    if (user.players.length >= 10) {
+      toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
+      return;
+    }
+    const price = player.peak_mmr || player.cost;
+    if (user.currency < price) {
+      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins to purchase this player.', variant: 'destructive' });
+      return;
+    }
+
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+
+    const updatedUser = {
+        ...user,
+        currency: user.currency - price,
+        players: [...user.players, newUserPlayer],
+        roster: {
+            ...user.roster,
+            bench: [...user.roster.bench, player.id]
+        }
+    };
+    
+    toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
+    await updateUserState(updatedUser);
+  }, [user, allUsers, toast, updateUserState]);
+
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
 
@@ -221,9 +260,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
         ...user,
         roster: { lineup, bench },
     };
+    await updateUser(updatedUser);
     toast({ title: 'Roster Updated', description: 'Your lineup and bench have been saved.' });
-    await updateUserState(updatedUser);
-  }, [user, toast, updateUserState]);
+    await loadAllData();
+  }, [user, toast, loadAllData]);
 
   const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
     if (!user) return;
@@ -242,7 +282,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData }}>
       {children}
     </UserContext.Provider>
   );

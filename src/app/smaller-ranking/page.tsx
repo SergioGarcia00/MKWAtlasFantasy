@@ -8,7 +8,6 @@ import { useMemo } from 'react';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
 
 type ScoreInfo = {
   user: User;
