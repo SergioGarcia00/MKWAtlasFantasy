@@ -2,9 +2,41 @@
   "id": "user-vick",
   "name": "Vick",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "Slayyyy-6809-414",
+      "purchasedAt": 1760338743776
+    },
+    {
+      "id": "LOLmdr-13362-16",
+      "purchasedAt": 1760338743776
+    },
+    {
+      "id": "ErnieClement-7482-36",
+      "purchasedAt": 1760338743776
+    },
+    {
+      "id": "ZeroOne-4312-2606",
+      "purchasedAt": 1760338743776
+    },
+    {
+      "id": "Rachy-5252-3090",
+      "purchasedAt": 1760338743776
+    },
+    {
+      "id": "PeppeBrescia-4129-2784",
+      "purchasedAt": 1760338743776
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Slayyyy-6809-414",
+      "LOLmdr-13362-16",
+      "ErnieClement-7482-36",
+      "ZeroOne-4312-2606",
+      "Rachy-5252-3090",
+      "PeppeBrescia-4129-2784"
+    ],
     "bench": []
   },
   "weeklyScores": {},

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -16,7 +17,7 @@ interface Week {
 }
 
 export default function SettingsPage() {
-    const { user, loadAllData } = useUser();
+    const { user, allUsers, loadAllData } = useUser();
     const router = useRouter();
     const { toast } = useToast();
     const [isRecalculating, setIsRecalculating] = useState(false);
@@ -24,6 +25,9 @@ export default function SettingsPage() {
     const [isPayingOut, setIsPayingOut] = useState(false);
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [selectedWeek, setSelectedWeek] = useState<string>('');
+
+    const [selectedUser, setSelectedUser] = useState<string>('');
+    const [isUpdatingCurrency, setIsUpdatingCurrency] = useState(false);
 
 
     useEffect(() => {
@@ -35,12 +39,60 @@ export default function SettingsPage() {
                 const response = await fetch('/api/weeks');
                 const data = await response.json();
                 setWeeks(data);
+                if (data.length > 0) {
+                    setSelectedWeek(data[0].id);
+                }
             } catch (error) {
                 console.error("Failed to fetch weeks", error);
             }
         }
-        fetchWeeks();
-    }, [user, router]);
+
+        if (user?.id === 'user-sipgb') {
+            fetchWeeks();
+             if (allUsers.length > 0) {
+                setSelectedUser(allUsers[0].id);
+            }
+        }
+    }, [user, router, allUsers]);
+
+    const handleUpdateCurrency = async (amount: number, isReset = false) => {
+        if (!selectedUser) {
+             toast({
+                variant: 'destructive',
+                title: 'No User Selected',
+                description: 'Please select a user to update their currency.',
+            });
+            return;
+        }
+        setIsUpdatingCurrency(true);
+        try {
+            const response = await fetch(`/api/users/${selectedUser}/update-currency`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount, isReset }),
+            });
+             if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to update currency');
+            }
+            const result = await response.json();
+             toast({
+                title: 'Currency Updated!',
+                description: `${result.name}'s new balance is ${result.currency.toLocaleString()}.`,
+            });
+            await loadAllData();
+
+        } catch (error: any) {
+             toast({
+                variant: 'destructive',
+                title: 'Error Updating Currency',
+                description: error.message,
+            });
+        } finally {
+            setIsUpdatingCurrency(false);
+        }
+    };
+
 
     const handleRecalculatePrices = async () => {
         setIsRecalculating(true);
@@ -151,6 +203,33 @@ export default function SettingsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                    <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Manage User Currency</h4>
+                        <p className="text-sm text-muted-foreground">Add funds to a user or reset their balance.</p>
+                         <div className="flex items-center gap-4">
+                            <div className="w-48">
+                                <Label htmlFor="user-select">User</Label>
+                                <Select onValueChange={setSelectedUser} value={selectedUser}>
+                                    <SelectTrigger id="user-select">
+                                        <SelectValue placeholder="Select a user" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {allUsers.map(u => (
+                                            <SelectItem key={u.id} value={u.id}>{u.name}</SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <Button onClick={() => handleUpdateCurrency(1000)} disabled={isUpdatingCurrency || !selectedUser} className="self-end">
+                                {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                Add 1,000 Coins
+                            </Button>
+                             <Button onClick={() => handleUpdateCurrency(17000, true)} disabled={isUpdatingCurrency || !selectedUser} className="self-end" variant="secondary">
+                                {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                                Reset to 17k
+                            </Button>
+                        </div>
+                    </div>
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Recalculate Player Market Prices</h4>
                         <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>

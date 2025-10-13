@@ -2,9 +2,41 @@
   "id": "user-elgraco",
   "name": "Elgraco",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "ShinyGreninja-7280-1707",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "yukino00000-7119-3324",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "AntonioRecio-4475-27",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "KaedeManyuda-5799-3068",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "Markiplier-6132-2450",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "xAlex-10406-118",
+      "purchasedAt": 1760338743775
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "ShinyGreninja-7280-1707",
+      "yukino00000-7119-3324",
+      "AntonioRecio-4475-27",
+      "KaedeManyuda-5799-3068",
+      "Markiplier-6132-2450",
+      "xAlex-10406-118"
+    ],
     "bench": []
   },
   "weeklyScores": {},

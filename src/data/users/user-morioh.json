@@ -2,9 +2,41 @@
   "id": "user-morioh",
   "name": "Morioh",
   "currency": 17000,
-  "players": [],
+  "players": [
+    {
+      "id": "Yae-6060-22",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "Rompe-8179-2902",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "MichaelH-6944-3090",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "Kod49-7125-22",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "AlinePee-7464-3129",
+      "purchasedAt": 1760338743775
+    },
+    {
+      "id": "Octo-5470-3160",
+      "purchasedAt": 1760338743775
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Yae-6060-22",
+      "Rompe-8179-2902",
+      "MichaelH-6944-3090",
+      "Kod49-7125-22",
+      "AlinePee-7464-3129",
+      "Octo-5470-3160"
+    ],
     "bench": []
   },
   "weeklyScores": {},

@@ -1,11 +1,38 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 17000,
-  "players": [],
+  "currency": 8051,
+  "players": [
+    {
+      "id": "EYEKON-8673-188",
+      "purchasedAt": 1760338831785
+    },
+    {
+      "id": "Yazzi-4250-222",
+      "purchasedAt": 1760338843236
+    },
+    {
+      "id": "Shawazer-6150-2923",
+      "purchasedAt": 1760338851021
+    },
+    {
+      "id": "Kikita-5043-3390",
+      "purchasedAt": 1760338858171
+    },
+    {
+      "id": "Tomsu-5489-36",
+      "purchasedAt": 1760338864666
+    }
+  ],
   "roster": {
     "lineup": [],
-    "bench": []
+    "bench": [
+      "EYEKON-8673-188",
+      "Yazzi-4250-222",
+      "Shawazer-6150-2923",
+      "Kikita-5043-3390",
+      "Tomsu-5489-36"
+    ]
   },
   "weeklyScores": {},
   "bids": {}
