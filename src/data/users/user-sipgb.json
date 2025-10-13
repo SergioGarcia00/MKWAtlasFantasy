@@ -26,6 +26,14 @@
     {
       "id": "Cozmic-6706-3090",
       "purchasedAt": 1760301701156
+    },
+    {
+      "id": "TogoreDreemurr-6731-1753",
+      "purchasedAt": 1760337006054
+    },
+    {
+      "id": "TSAxel-7913-7",
+      "purchasedAt": 1760337030394
     }
   ],
   "roster": {
@@ -37,7 +45,10 @@
       "Torte-5227-3160",
       "Cozmic-6706-3090"
     ],
-    "bench": []
+    "bench": [
+      "TogoreDreemurr-6731-1753",
+      "TSAxel-7913-7"
+    ]
   },
   "weeklyScores": {},
   "bids": {}
