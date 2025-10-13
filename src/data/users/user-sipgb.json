@@ -1,11 +1,23 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 60000,
-  "players": [],
+  "currency": 50683,
+  "players": [
+    {
+      "id": "Akusika-5146-7",
+      "purchasedAt": 1760337677466
+    },
+    {
+      "id": "YamineLamal-4171-26",
+      "purchasedAt": 1760337683538
+    }
+  ],
   "roster": {
     "lineup": [],
-    "bench": []
+    "bench": [
+      "Akusika-5146-7",
+      "YamineLamal-4171-26"
+    ]
   },
   "weeklyScores": {},
   "bids": {}
