@@ -4,41 +4,42 @@
   "currency": 17000,
   "players": [
     {
-      "id": "Splendy-2439",
+      "id": "TogoreDreemurr-2294",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "georgio-3263",
+      "id": "AxelTS-7",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Morioh-2439",
+      "id": "Akusika-7",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "MichaelH-3090",
+      "id": "YamineLamal-2294",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Lalo62-1234",
+      "id": "Torte-3160",
       "purchasedAt": 1760301701156
     },
     {
-      "id": "Akagi-255",
+      "id": "Cozmic-3090",
       "purchasedAt": 1760301701156
     }
   ],
   "roster": {
     "lineup": [
-      "Splendy-2439",
-      "georgio-3263",
-      "Morioh-2439",
-      "MichaelH-3090",
-      "Lalo62-1234",
-      "Akagi-255"
+      "TogoreDreemurr-2294",
+      "AxelTS-7",
+      "Akusika-7",
+      "YamineLamal-2294",
+      "Torte-3160",
+      "Cozmic-3090"
     ],
     "bench": []
   },
   "weeklyScores": {},
   "bids": {}
 }
+    
