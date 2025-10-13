@@ -8,12 +8,23 @@ import type { User } from '@/lib/types';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
+async function getUser(userId: string): Promise<User | null> {
+    const filePath = path.join(USERS_DIR, `${userId}.json`);
+    try {
+        const userContent = await fs.readFile(filePath, 'utf-8');
+        return JSON.parse(userContent);
+    } catch (error) {
+        return null;
+    }
+}
+
 async function getAllUsers(): Promise<User[]> {
     const users: User[] = [];
     for (const id of USER_IDS) {
-        const filePath = path.join(USERS_DIR, `${id}.json`);
-        const userContent = await fs.readFile(filePath, 'utf-8');
-        users.push(JSON.parse(userContent));
+        const user = await getUser(id);
+        if (user) {
+            users.push(user);
+        }
     }
     return users;
 }
@@ -43,6 +54,7 @@ export async function POST(
         return NextResponse.json({ message: `Your bid must be higher than the current highest bid of ${highestBid.toLocaleString()}.` }, { status: 400 });
     }
 
+    // --- Read-Modify-Write Start ---
     const bidderFilePath = path.join(USERS_DIR, `${userId}.json`);
     let bidder: User;
     try {
@@ -67,6 +79,8 @@ export async function POST(
     bidder.bids = { ...bidder.bids, [playerId]: bidAmount };
 
     await fs.writeFile(bidderFilePath, JSON.stringify(bidder, null, 2), 'utf-8');
+    // --- Read-Modify-Write End ---
+
 
     return NextResponse.json({ message: 'Bid placed successfully' });
 

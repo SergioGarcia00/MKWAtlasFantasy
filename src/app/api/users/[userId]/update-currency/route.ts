@@ -18,6 +18,8 @@ export async function POST(
     }
 
     const userFilePath = path.join(USERS_DIR, `${userId}.json`);
+    
+    // --- Read-Modify-Write Start ---
     let user: User;
     try {
         const userContent = await fs.readFile(userFilePath, 'utf-8');
@@ -27,7 +29,6 @@ export async function POST(
     }
     
     let newCurrency;
-
     if (isReset) {
         newCurrency = amount;
     } else {
@@ -36,6 +37,7 @@ export async function POST(
     user.currency = newCurrency;
 
     await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
+    // --- Read-Modify-Write End ---
     
     return NextResponse.json(user);
 

@@ -17,7 +17,7 @@ interface UserContextType {
   sellPlayer: (player: Player) => void;
   updateRoster: (lineup: string[], bench: string[]) => void;
   updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
-  switchUser: (userId: string, force?: boolean) => void;
+  switchUser: (userId: string) => void;
   buyoutPlayer: (player: Player, owner: User) => void;
   assignPlayer: (player: Player, targetUser: User, currentOwner?: User) => Promise<void>;
   getPlayerById: (playerId: string) => Player | undefined;
@@ -29,7 +29,8 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const fetchJson = async (url: string) => {
     const response = await fetch(url, { cache: 'no-store' });
     if (!response.ok) {
-        throw new Error(`Failed to fetch ${url}`);
+        const error = await response.json();
+        throw new Error(error.message || `Failed to fetch ${url}`);
     }
     return response.json();
 }
@@ -66,12 +67,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
         const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
         const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
-      if (activeUser) {
+        if (activeUser) {
           setUser(activeUser);
-      }
-    } catch (error) {
+        }
+    } catch (error: any) {
         console.error("Failed to load all data:", error);
-        toast({ title: 'Error Loading Data', description: 'Could not load fantasy league data.', variant: 'destructive' });
+        toast({ title: 'Error Loading Data', description: error.message, variant: 'destructive' });
     } finally {
         setIsDataLoading(false);
     }
@@ -82,24 +83,23 @@ export function UserProvider({ children }: { children: ReactNode }) {
     loadAllData();
   }, [loadAllData]);
   
-  const updateUserState = useCallback(async (updatedUser: User) => {
+  const updateUserState = useCallback(async (partialUpdate: Partial<User>) => {
+    if (!user) return;
     try {
-        await postJson(`/api/users/${updatedUser.id}`, updatedUser);
-        await loadAllData();
+        const updatedUser = await postJson(`/api/users/${user.id}`, { ...partialUpdate, id: user.id });
+        await loadAllData(); // Reload all data to ensure consistency
     } catch (error: any) {
       console.error("Update failed: ", error);
       toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
     }
-  }, [toast, loadAllData]);
+  }, [user, toast, loadAllData]);
 
-  const switchUser = useCallback((userId: string, force = false) => {
-    if (!allUsers || (user?.id === userId && !force)) return;
+  const switchUser = useCallback((userId: string) => {
+    if (user?.id === userId) return;
     const userToSwitch = allUsers.find(u => u.id === userId);
     if (userToSwitch) {
       setUser(userToSwitch);
-      if (!force) {
-        localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, userId);
-      }
+      localStorage.setItem(FANTASY_LEAGUE_ACTIVE_USER_ID, userId);
     }
   }, [allUsers, user?.id]);
 
@@ -129,9 +129,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
     
-    await updateUserState(updatedUser);
+    await postJson(`/api/users/${user.id}`, updatedUser);
+    await loadAllData();
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-  }, [user, allUsers, toast, updateUserState]);
+  }, [user, allUsers, toast, loadAllData]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
     if (!user || !allUsers) return;
@@ -159,9 +160,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
 
-    await updateUserState(updatedUser);
+    await postJson(`/api/users/${user.id}`, updatedUser);
+    await loadAllData();
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-  }, [user, allUsers, toast, updateUserState]);
+  }, [user, allUsers, toast, loadAllData]);
 
   const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
     if (targetUser.players.length >= 10) {
@@ -206,9 +208,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
             bench: user.roster.bench.filter(id => id !== player.id),
         }
     };
-    await updateUserState(updatedUser);
+    await postJson(`/api/users/${user.id}`, updatedUser);
+    await loadAllData();
     toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
-  }, [user, toast, updateUserState]);
+  }, [user, toast, loadAllData]);
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
     if (!user || !allUsers) return;
@@ -248,21 +251,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
-    const updatedUser: User = { ...user, roster: { lineup, bench } };
-    await updateUserState(updatedUser);
+    await updateUserState({ roster: { lineup, bench } });
     toast({ title: 'Roster Updated' });
   }, [user, toast, updateUserState]);
 
   const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
     if (!user) return;
-    const updatedUser = {
-      ...user,
-      weeklyScores: {
+    const updatedScores = {
         ...user.weeklyScores,
         [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
-      },
     };
-    await updateUserState(updatedUser);
+    await updateUserState({ weeklyScores: updatedScores });
     toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
   }, [user, toast, updateUserState]);
 

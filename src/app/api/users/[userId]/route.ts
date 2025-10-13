@@ -16,7 +16,6 @@ export async function GET(
     const user = JSON.parse(userContent);
     return NextResponse.json(user);
   } catch (error) {
-    // Check if the error is because the file doesn't exist
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
         return NextResponse.json({ message: `User ${userId} not found` }, { status: 404 });
     }
@@ -33,9 +32,21 @@ export async function POST(
   const filePath = path.join(USERS_DIR, `${userId}.json`);
 
   try {
-    const body = await request.json();
-    await fs.writeFile(filePath, JSON.stringify(body, null, 2), 'utf-8');
-    return NextResponse.json(body);
+    const updatedData = await request.json();
+
+    // Read-Modify-Write: Read the latest data first
+    let currentUserData = {};
+    try {
+      const currentContent = await fs.readFile(filePath, 'utf-8');
+      currentUserData = JSON.parse(currentContent);
+    } catch (e) {
+      // File might not exist, that's okay for a full update.
+    }
+    
+    const finalData = { ...currentUserData, ...updatedData };
+    
+    await fs.writeFile(filePath, JSON.stringify(finalData, null, 2), 'utf-8');
+    return NextResponse.json(finalData);
   } catch (error) {
     console.error('Failed to write user data:', error);
     return NextResponse.json({ message: 'Error updating user data' }, { status: 500 });
