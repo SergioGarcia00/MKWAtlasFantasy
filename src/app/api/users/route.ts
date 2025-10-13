@@ -1,9 +1,9 @@
-
 import { NextResponse } from 'next/server';
 import { collection, getDocs } from 'firebase/firestore';
 import { initializeFirebase } from '@/firebase';
 import type { User, UserPlayer } from '@/lib/types';
 
+// This function remains to hydrate older data structures if needed, but is not actively used for fetching.
 const hydratePlayer = (p: string | UserPlayer): UserPlayer => {
     if (typeof p === 'string') {
         return { id: p, purchasedAt: Date.now() - (15 * 24 * 60 * 60 * 1000) }; 
@@ -33,6 +33,7 @@ export async function GET(request: Request) {
     return NextResponse.json(users);
   } catch (error) {
     console.error('Failed to fetch users:', error);
-    return NextResponse.json({ message: 'Error fetching users' }, { status: 500 });
+    // It's better to return a more informative error message.
+    return NextResponse.json({ message: `Error fetching users: ${ (error as Error).message }` }, { status: 500 });
   }
 }

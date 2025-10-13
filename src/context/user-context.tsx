@@ -5,7 +5,7 @@ import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { ALL_PLAYERS } from '@/data/players';
 import { useFirestore, useUser as useFirebaseAuth, useMemoFirebase } from '@/firebase';
-import { collection, doc, writeBatch, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import { collection, doc, writeBatch, getDoc, setDoc, deleteDoc, getDocs } from 'firebase/firestore';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
@@ -40,35 +40,33 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const loadAllData = useCallback(async () => {
+    if (!firestore) return;
     setIsDataLoading(true);
     try {
-      const response = await fetch('/api/users');
-      if (!response.ok) {
-        throw new Error('Failed to fetch user data');
-      }
-      const users: User[] = await response.json();
-      setAllUsers(users);
+        const usersSnapshot = await getDocs(collection(firestore, 'users'));
+        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+        setAllUsers(users);
 
-      // After fetching, set the active user
-      const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
-      const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
-      if (activeUser) {
-        setUser(activeUser);
-      }
-
+        const activeUserId = localStorage.getItem(FANTASY_LEAGUE_ACTIVE_USER_ID) || users[0]?.id;
+        const activeUser = users.find(u => u.id === activeUserId) || users[0] || null;
+        if (activeUser) {
+            setUser(activeUser);
+        }
     } catch (error) {
-      console.error("Failed to load all data:", error);
-      toast({ title: 'Error Loading Data', description: 'Could not load fantasy league data.', variant: 'destructive' });
+        console.error("Failed to load all data:", error);
+        toast({ title: 'Error Loading Data', description: 'Could not load fantasy league data.', variant: 'destructive' });
     } finally {
-      setIsDataLoading(false);
+        setIsDataLoading(false);
     }
-  }, [toast]);
+}, [firestore, toast]);
+
 
   useEffect(() => {
     loadAllData();
   }, [loadAllData]);
   
   const updateUserState = useCallback(async (usersToUpdate: User[]) => {
+    if (!firestore) return;
     const batch = writeBatch(firestore);
     
     usersToUpdate.forEach(updatedUser => {
@@ -78,7 +76,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     try {
       await batch.commit();
-      // After a successful write, reload all data to ensure consistency
       await loadAllData();
     } catch (error) {
       console.error("Batch update failed: ", error);
