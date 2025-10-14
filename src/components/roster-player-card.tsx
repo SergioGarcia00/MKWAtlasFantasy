@@ -1,6 +1,6 @@
 'use client';
 
-import { Player, WeeklyScore } from '@/lib/types';
+import { Player } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PlayerIcon } from './icons/player-icon';
@@ -21,7 +21,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/t
 interface RosterPlayerCardProps {
   player: Player;
   isLineup: boolean;
-  onMove: (player: Player) => void;
+  onMove: (player: Player, isCurrentlyInLineup: boolean) => void;
   onSell: (player: Player) => void;
   canMoveToLineup: boolean;
 }
@@ -33,8 +33,8 @@ interface Week {
 
 const scoreSchema = z.object({
   weekId: z.string(),
-  race1: z.coerce.number().min(12, 'Min score is 12').max(180, 'Max score is 180'),
-  race2: z.coerce.number().min(12, 'Max score is 180'),
+  race1: z.coerce.number().min(0, 'Min score is 0').max(180, 'Max score is 180'),
+  race2: z.coerce.number().min(0, 'Max score is 0').max(180, 'Max score is 180'),
 });
 
 async function fetchWeeks(): Promise<Week[]> {
@@ -68,16 +68,16 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
     resolver: zodResolver(scoreSchema),
     defaultValues: {
       weekId: '1',
-      race1: user?.weeklyScores?.[player.id]?.['1']?.race1 || 12,
-      race2: user?.weeklyScores?.[player.id]?.['1']?.race2 || 12,
+      race1: user?.weeklyScores?.[player.id]?.['1']?.race1 || 0,
+      race2: user?.weeklyScores?.[player.id]?.['1']?.race2 || 0,
     },
   });
 
   const handleWeekChange = (weekId: string) => {
     setSelectedWeek(weekId);
     form.setValue('weekId', weekId);
-    form.setValue('race1', user?.weeklyScores?.[player.id]?.[weekId]?.race1 || 12);
-    form.setValue('race2', user?.weeklyScores?.[player.id]?.[weekId]?.race2 || 12);
+    form.setValue('race1', user?.weeklyScores?.[player.id]?.[weekId]?.race1 || 0);
+    form.setValue('race2', user?.weeklyScores?.[player.id]?.[weekId]?.race2 || 0);
   }
 
   const onSubmit = (values: z.infer<typeof scoreSchema>) => {
@@ -94,7 +94,12 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
     <Card className="overflow-hidden">
       <CardContent className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
+            <div className="relative">
+              <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
+              {isLineup && (
+                <div className="absolute top-0 right-0 -mr-1 -mt-1 w-3 h-3 rounded-full bg-green-500 border-2 border-background"></div>
+              )}
+            </div>
             <div>
               <h3 className="font-bold font-headline">{player.name}</h3>
               <p className="text-sm text-muted-foreground">{player.mmr?.toLocaleString()} MMR</p>
@@ -134,7 +139,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   <Button
                       size="icon"
                       variant="outline"
-                      onClick={() => onMove(player)}
+                      onClick={() => onMove(player, isLineup)}
                       disabled={moveButtonDisabled}
                       className="w-8 h-8"
                   >
