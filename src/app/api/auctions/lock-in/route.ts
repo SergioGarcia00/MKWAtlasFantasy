@@ -65,10 +65,13 @@ export async function POST(request: Request) {
                 if (winningUser) {
                     if (winningUser.players.length < 10 && winningUser.currency >= winner.amount) {
                         const newUserPlayer: UserPlayer = { id: winner.playerId, purchasedAt: Date.now() };
+                        
+                        // Add to both players list and bench
                         winningUser.players.push(newUserPlayer);
                         if (!winningUser.roster.bench.includes(winner.playerId)) {
                             winningUser.roster.bench.push(winner.playerId);
                         }
+                        
                         winningUser.currency -= winner.amount;
                         await fs.writeFile(userFilePath, JSON.stringify(winningUser, null, 2), 'utf-8');
                     }
