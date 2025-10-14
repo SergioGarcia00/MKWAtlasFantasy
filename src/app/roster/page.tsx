@@ -4,11 +4,12 @@ import { useUser } from '@/context/user-context';
 import type { Player } from '@/lib/types';
 import { RosterPlayerCard } from '@/components/roster-player-card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Lightbulb, Users, ShieldCheck, ArrowRight, ServerCrash } from 'lucide-react';
+import { Lightbulb, Users, ShieldCheck, ArrowRight, ServerCrash, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useMemo } from 'react';
+import { Separator } from '@/components/ui/separator';
 
 export default function RosterPage() {
   const { user, getPlayerById, updateRoster, sellPlayer, isUserLoading } = useUser();
@@ -24,7 +25,8 @@ export default function RosterPage() {
     if (!user) return [];
     return (user.players || [])
       .map(p => getPlayerById(p.id))
-      .filter((p): p is Player => p !== undefined);
+      .filter((p): p is Player => p !== undefined)
+      .sort((a,b) => (b.mmr || 0) - (a.mmr || 0)); // Sort by MMR descending
   }, [user, getPlayerById]);
 
   if (isUserLoading || !user) {
@@ -41,7 +43,7 @@ export default function RosterPage() {
     let newLineupIds: string[];
 
     if (isCurrentlyInLineup) {
-      // Move from lineup to bench
+      // Move from lineup to bench (i.e., remove from lineup)
       newLineupIds = user.roster.lineup.filter(id => id !== player.id);
     } else {
       // Move from bench to lineup
@@ -52,8 +54,6 @@ export default function RosterPage() {
       newLineupIds = [...user.roster.lineup, player.id];
     }
     
-    // The bench is implicitly all owned players not in the lineup.
-    // The user context handles updating the user object and sending it to the API.
     const allOwnedPlayerIds = user.players.map(p => p.id);
     const newBenchIds = allOwnedPlayerIds.filter(id => !newLineupIds.includes(id));
     
@@ -62,12 +62,14 @@ export default function RosterPage() {
   
   const canMoveToLineup = lineupPlayers.length < 6;
 
+  const lineupPlayerIds = new Set(lineupPlayers.map(p => p.id));
+
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
         <h1 className="text-4xl font-bold font-headline">Manage Your Roster</h1>
         <p className="text-muted-foreground mt-2">
-          Set your starting lineup. Your lineup is limited to 6 players, and only their scores count towards your weekly total.
+          Set your starting lineup. Only scores from your 6 lineup players count towards your weekly total.
         </p>
       </header>
 
@@ -87,79 +89,69 @@ export default function RosterPage() {
           
           <div className="lg:col-span-2 space-y-8">
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  <ShieldCheck className="w-7 h-7 text-primary"/>
-                  Starting Lineup ({lineupPlayers.length}/6)
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {lineupPlayers.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {lineupPlayers.map(player => (
-                      <RosterPlayerCard 
-                        key={player.id} 
-                        player={player} 
-                        isLineup={true} 
-                        onMove={handleMovePlayer} 
-                        onSell={sellPlayer} 
-                        canMoveToLineup={canMoveToLineup} 
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-10 border-2 border-dashed rounded-lg flex flex-col items-center justify-center">
-                    <ServerCrash className="w-10 h-10 text-destructive mb-2" />
-                    <p className="text-muted-foreground font-semibold">Your lineup is empty!</p>
-                    <p className="text-xs text-muted-foreground mt-1">Move players from your player list to the lineup.</p>
-                  </div>
-                )}
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-3">
+                    <ShieldCheck className="w-7 h-7 text-primary"/>
+                    Starting Lineup ({lineupPlayers.length}/6)
+                    </CardTitle>
+                    <CardDescription>
+                        These are the 6 players that will score points for you this week. Drag and drop from your player list or use the move buttons.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {lineupPlayers.map(player => (
+                            <RosterPlayerCard 
+                                key={player.id} 
+                                player={player} 
+                                isLineup={true} 
+                                onMove={handleMovePlayer} 
+                                onSell={sellPlayer} 
+                                canMoveToLineup={canMoveToLineup} 
+                            />
+                        ))}
+                        {[...Array(6 - lineupPlayers.length)].map((_, i) => (
+                            <div key={`placeholder-${i}`} className="flex items-center justify-center p-4 h-full min-h-[160px] border-2 border-dashed rounded-lg bg-secondary/50">
+                                <div className="text-center text-muted-foreground">
+                                    <PlusCircle className="mx-auto h-8 w-8 mb-2" />
+                                    <p className="font-semibold">Empty Slot</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
               </CardContent>
             </Card>
           </div>
           
-          <div className="lg:col-span-1 space-y-8">
+          <div className="lg:col-span-1 space-y-8 sticky top-4">
              <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-3">
                         <Users className="w-7 h-7 text-muted-foreground"/>
                         My Players ({allOwnedPlayers.length})
                     </CardTitle>
+                    <CardDescription>
+                       All players you own. A green dot indicates they are in the starting lineup.
+                    </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    {allOwnedPlayers.length > 0 ? (
-                        <div className="space-y-4">
-                          {allOwnedPlayers.map(player => {
-                            const isLineup = lineupPlayers.some(p => p.id === player.id);
-                            return (
-                              <RosterPlayerCard 
-                                key={player.id} 
-                                player={player} 
-                                isLineup={isLineup} 
-                                onMove={handleMovePlayer} 
-                                onSell={sellPlayer} 
-                                canMoveToLineup={canMoveToLineup} 
-                              />
-                            )
-                          })}
-                        </div>
-                    ) : (
-                        <p className="text-muted-foreground italic text-center py-4">You do not own any players.</p>
-                    )}
+                <CardContent className="max-h-[80vh] overflow-y-auto pr-2">
+                    <div className="space-y-4">
+                        {allOwnedPlayers.map(player => {
+                        const isLineup = lineupPlayerIds.has(player.id);
+                        return (
+                            <RosterPlayerCard 
+                            key={player.id} 
+                            player={player} 
+                            isLineup={isLineup} 
+                            onMove={handleMovePlayer} 
+                            onSell={sellPlayer} 
+                            canMoveToLineup={canMoveToLineup} 
+                            />
+                        )
+                        })}
+                    </div>
                 </CardContent>
              </Card>
-            <Alert>
-              <Lightbulb className="h-4 w-4" />
-              <AlertTitle>Roster Tips</AlertTitle>
-              <AlertDescription>
-                <ul className="list-disc pl-5 mt-2 space-y-1 text-xs">
-                  <li>Your rank is based on the total score of your <strong>starting lineup</strong>.</li>
-                  <li>A green dot indicates a player is in your starting lineup.</li>
-                  <li>Scores for players not in the lineup do not count towards your weekly total.</li>
-                  <li>You need a full lineup of 6 players to appear on the User Rankings.</li>
-                </ul>
-              </AlertDescription>
-            </Alert>
           </div>
         </div>
       )}

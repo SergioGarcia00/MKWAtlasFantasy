@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { useUser } from '@/context/user-context';
-import { ArrowDown, ArrowUp, DollarSign } from 'lucide-react';
+import { ArrowDown, ArrowUp, DollarSign, ArrowRightLeft } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useState, useEffect } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
@@ -86,18 +86,17 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
   };
   
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
-  const moveButtonTooltip = isLineup ? 'Move to Bench' : !canMoveToLineup ? 'Lineup is full (6 players max)' : 'Move to Lineup';
-
+  const moveButtonTooltip = isLineup ? 'Move to Bench' : !canMoveToLineup ? 'Lineup is full' : 'Move to Lineup';
   const sellPrice = player.cost;
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden bg-background">
       <CardContent className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="relative">
               <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
               {isLineup && (
-                <div className="absolute top-0 right-0 -mr-1 -mt-1 w-3 h-3 rounded-full bg-green-500 border-2 border-background"></div>
+                <div className="absolute top-0 right-0 -mr-1 -mt-1 w-3 h-3 rounded-full bg-green-500 border-2 border-background" title="In Starting Lineup"></div>
               )}
             </div>
             <div>
@@ -105,13 +104,13 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
               <p className="text-sm text-muted-foreground">{player.mmr?.toLocaleString()} MMR</p>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
             <TooltipProvider>
               <AlertDialog>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <AlertDialogTrigger asChild>
-                      <Button size="icon" variant="outline" className="w-8 h-8 text-destructive hover:bg-destructive/10 hover:text-destructive">
+                      <Button size="icon" variant="ghost" className="w-8 h-8 text-destructive hover:bg-destructive/10 hover:text-destructive">
                           <DollarSign className="w-4 h-4"/>
                       </Button>
                     </AlertDialogTrigger>
@@ -133,18 +132,19 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
-
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => onMove(player, isLineup)}
-                      disabled={moveButtonDisabled}
-                      className="w-8 h-8"
-                  >
-                      {isLineup ? <ArrowDown className="w-4 h-4"/> : <ArrowUp className="w-4 h-4"/>}
-                  </Button>
+                  <span>
+                    <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => onMove(player, isLineup)}
+                        disabled={moveButtonDisabled}
+                        className="w-8 h-8"
+                    >
+                        <ArrowRightLeft className="w-4 h-4"/>
+                    </Button>
+                  </span>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>{moveButtonTooltip}</p>
@@ -156,7 +156,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
       { isLineup && (
         <Accordion type="single" collapsible className="bg-secondary/50">
             <AccordionItem value="scores" className="border-t">
-            <AccordionTrigger className="px-4 py-2 text-sm font-semibold hover:no-underline">Update Weekly Scores</AccordionTrigger>
+            <AccordionTrigger className="px-4 py-2 text-xs font-semibold hover:no-underline">Update Weekly Scores</AccordionTrigger>
             <AccordionContent className="p-4">
                 <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
