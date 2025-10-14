@@ -20,8 +20,15 @@ export default function RosterPage() {
     );
   }
 
-  const lineupPlayers = user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
-  const allOwnedPlayers = user.players.map(p => getPlayerById(p.id)).filter(p => p) as Player[];
+  // Directamente obtenemos los jugadores de la alineación desde los IDs del roster
+  const lineupPlayers = user.roster.lineup
+    .map(id => getPlayerById(id))
+    .filter((p): p is Player => !!p);
+
+  // Directamente obtenemos TODOS los jugadores que posee el usuario desde la lista de `players`
+  const allOwnedPlayers = user.players
+    .map(p => getPlayerById(p.id))
+    .filter((p): p is Player => !!p);
 
   const handleMovePlayer = (player: Player, isCurrentlyInLineup: boolean) => {
     if (!user) return;
@@ -30,11 +37,11 @@ export default function RosterPage() {
     let newBenchIds: string[];
 
     if (isCurrentlyInLineup) {
-      // Move from lineup to bench
+      // Mover de la alineación al banquillo
       newLineupIds = user.roster.lineup.filter(id => id !== player.id);
       newBenchIds = [...user.roster.bench, player.id];
     } else {
-      // Move from bench to lineup
+      // Mover del banquillo a la alineación
       if (user.roster.lineup.length >= 6) {
         alert('Your lineup is full. You can only have 6 players in the starting lineup.');
         return;
@@ -82,7 +89,14 @@ export default function RosterPage() {
                 {lineupPlayers.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {lineupPlayers.map(player => (
-                      <RosterPlayerCard key={player.id} player={player} isLineup={true} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
+                      <RosterPlayerCard 
+                        key={player.id} 
+                        player={player} 
+                        isLineup={true} 
+                        onMove={handleMovePlayer} 
+                        onSell={sellPlayer} 
+                        canMoveToLineup={canMoveToLineup} 
+                      />
                     ))}
                   </div>
                 ) : (
