@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
@@ -275,7 +274,7 @@ export default function SettingsPage() {
                 <CardHeader>
                     <CardTitle>Admin Settings</CardTitle>
                     <CardDescription>
-                        Only visible to Sipgb. These actions are irreversible.
+                        Only visible to the administrator. These actions are irreversible.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-8">
@@ -397,5 +396,3 @@ export default function SettingsPage() {
         </div>
     );
 }
-
-    

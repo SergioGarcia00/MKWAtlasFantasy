@@ -103,7 +103,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                     {owner ? (
                         <Badge variant="secondary">Owned by {owner.name}</Badge>
                     ) : currentUserHasBid ? (
-                         <Badge variant="default" className="bg-green-600">Puja realizada</Badge>
+                         <Badge variant="default" className="bg-green-600">Bid Placed</Badge>
                     ) : (
                          <Badge variant="outline">No Bids Yet</Badge>
                     )}
@@ -135,7 +135,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                                             </Avatar>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p>{bid.userName} ha pujado</p>
+                                            <p>{bid.userName} has placed a bid</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 ))}

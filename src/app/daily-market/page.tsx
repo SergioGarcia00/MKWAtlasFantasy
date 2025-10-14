@@ -1,4 +1,3 @@
-
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
@@ -96,7 +95,7 @@ export default function DailyMarketPage() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "todas_las_pujas.csv");
+    link.setAttribute("download", "all_bids.csv");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -155,7 +154,8 @@ export default function DailyMarketPage() {
   };
 
   const handleBidClick = (player: Player) => {
-    setBidAmount(player.cost); // Default to player's base cost
+    const highestBid = (player.bids || []).reduce((max, b) => Math.max(max, b.amount), 0);
+    setBidAmount(player.cost);
     setBiddingPlayer(player);
     setIsBidding(true);
   };
@@ -244,7 +244,7 @@ export default function DailyMarketPage() {
             <DialogHeader>
                 <DialogTitle>Place a bid for {biddingPlayer.name}</DialogTitle>
                 <DialogDescription>
-                 The base cost is {biddingPlayer.cost.toLocaleString()}. The highest bid at the end of the auction wins the player. Your bid is secret.
+                 The base cost is {biddingPlayer.cost.toLocaleString()}. Your bid is secret. The highest bid at the end of the auction wins the player.
                 </DialogDescription>
             </DialogHeader>
             <div className="py-4">
