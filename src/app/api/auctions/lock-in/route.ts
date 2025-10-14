@@ -8,12 +8,24 @@ import type { User, UserPlayer } from '@/lib/types';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
+async function getUser(userId: string): Promise<User | null> {
+    const filePath = path.join(USERS_DIR, `${userId}.json`);
+    try {
+        const content = await fs.readFile(filePath, 'utf-8');
+        return JSON.parse(content);
+    } catch (error) {
+        console.error(`Error reading user file for ${userId}:`, error);
+        return null;
+    }
+}
+
 async function getAllUsers(): Promise<User[]> {
     const users: User[] = [];
     for (const id of USER_IDS) {
-        const filePath = path.join(USERS_DIR, `${id}.json`);
-        const userContent = await fs.readFile(filePath, 'utf-8');
-        users.push(JSON.parse(userContent));
+        const user = await getUser(id);
+        if (user) {
+            users.push(user);
+        }
     }
     return users;
 }
@@ -45,29 +57,42 @@ export async function POST(request: Request) {
             }
         }
         
-        const usersToUpdate = new Map<string, User>();
-        users.forEach(u => usersToUpdate.set(u.id, JSON.parse(JSON.stringify(u)))); 
-
+        // 3. Process winners and update user files
+        const processedUsers = new Set<string>();
         for (const winner of winners) {
-            const winningUser = usersToUpdate.get(winner.userId);
-            if (winningUser && winningUser.players.length < 10) {
-                if (winningUser.currency >= winner.amount) {
-                    const newUserPlayer: UserPlayer = { id: winner.playerId, purchasedAt: Date.now() };
-                    winningUser.players.push(newUserPlayer);
-
-                    if(!winningUser.roster.bench.includes(winner.playerId)) {
-                        winningUser.roster.bench.push(winner.playerId);
+            processedUsers.add(winner.userId);
+            const userFilePath = path.join(USERS_DIR, `${winner.userId}.json`);
+            try {
+                const winningUser = await getUser(winner.userId);
+                if (winningUser) {
+                    if (winningUser.players.length < 10 && winningUser.currency >= winner.amount) {
+                        const newUserPlayer: UserPlayer = { id: winner.playerId, purchasedAt: Date.now() };
+                        winningUser.players.push(newUserPlayer);
+                        if (!winningUser.roster.bench.includes(winner.playerId)) {
+                            winningUser.roster.bench.push(winner.playerId);
+                        }
+                        winningUser.currency -= winner.amount;
+                        // Don't clear bids yet, will be cleared for all users later
+                        await fs.writeFile(userFilePath, JSON.stringify(winningUser, null, 2), 'utf-8');
                     }
-                    winningUser.currency -= winner.amount;
                 }
+            } catch (error) {
+                console.error(`Failed to update winner ${winner.userId}:`, error);
             }
         }
 
-        // 4. Clear all bids and write updates
-        for (const user of usersToUpdate.values()) {
-            user.bids = {};
-            const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
-            await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
+        // 4. Clear all bids for all users
+        for (const userId of USER_IDS) {
+            const userFilePath = path.join(USERS_DIR, `${userId}.json`);
+             try {
+                const user = await getUser(userId);
+                if (user) {
+                    user.bids = {};
+                    await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
+                }
+             } catch(error) {
+                 console.error(`Failed to clear bids for user ${userId}:`, error);
+             }
         }
 
         return NextResponse.json({ message: 'Auctions locked in successfully', winners });
