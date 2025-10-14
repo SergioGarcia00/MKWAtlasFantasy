@@ -1,7 +1,7 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 17000,
+  "currency": 9999,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
@@ -26,6 +26,10 @@
     {
       "id": "Gity-5717-1910",
       "purchasedAt": 1760390214564
+    },
+    {
+      "id": "?-Vincent-!-Jeef-0-7249",
+      "purchasedAt": 1760439034677
     }
   ],
   "roster": {
@@ -37,7 +41,9 @@
       "MattyPatty-5716-1110",
       "Gity-5717-1910"
     ],
-    "bench": []
+    "bench": [
+      "?-Vincent-!-Jeef-0-7249"
+    ]
   },
   "weeklyScores": {},
   "bids": {}

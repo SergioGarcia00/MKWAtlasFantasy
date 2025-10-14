@@ -6,48 +6,51 @@ import fs from 'fs/promises';
 import { USER_IDS } from '@/data/users';
 import { ALL_PLAYERS } from '@/data/players';
 import type { User, Player } from '@/lib/types';
-import playersData from '@/lib/rosters_actualizado.json';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
-const allRosterPlayers = playersData.flatMap(team => team.players);
-
-const createPlayerId = (player: any): string => {
-  const name = player.name.replace(/\s+/g, '-');
-  const peakMmr = player.peak_mmr || 0;
-  const friendCode = player.friend_code || '0000';
-  return `${name}-${peakMmr}-${friendCode.slice(-4)}`;
-};
-
-async function getUser(userId: string): Promise<User | null> {
-    try {
-        const filePath = path.join(USERS_DIR, `${userId}.json`);
-        const userContent = await fs.readFile(filePath, 'utf-8');
-        return JSON.parse(userContent);
-    } catch (error) {
-        console.error(`Error reading user file ${userId}:`, error);
-        return null;
+// Create a map for quick lookups of new IDs based on old identifying parts
+const playerMapByName = new Map<string, Player>();
+ALL_PLAYERS.forEach(p => {
+    // A simplified name key for broader matching
+    const nameKey = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!playerMapByName.has(nameKey)) {
+        playerMapByName.set(nameKey, p);
     }
-}
+});
 
-async function updateUser(user: User): Promise<void> {
-    const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
-    await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
-}
+// A more specific map for cases where name is not unique enough
+const playerMapByPeakMmr = new Map<string, Player>();
+ALL_PLAYERS.forEach(p => {
+    if (p.peak_mmr) {
+         playerMapByPeakMmr.set(`${p.name.toLowerCase().replace(/[^a-z0-9]/g, '')}-${p.peak_mmr}`, p);
+    }
+});
 
-// Function to find a roster player by a potentially outdated ID
-const findRosterPlayerByOldId = (oldId: string): any | undefined => {
-    // This is not efficient, but it's for a one-time fix.
-    // It tries to find a match based on parts of the old ID.
+
+const getCorrectPlayerId = (oldId: string): string | undefined => {
+    // Try to find a direct match first
+    const directMatch = ALL_PLAYERS.find(p => p.id === oldId);
+    if (directMatch) return directMatch.id;
+
+    // Fallback logic for old, inconsistent IDs
     const oldIdParts = oldId.split('-');
-    const namePart = oldIdParts.slice(0, -2).join('-');
+    const oldName = oldIdParts.slice(0, -2).join('-').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const oldMmr = oldIdParts[oldIdParts.length-2];
+
+    // Try matching by name and peak_mmr first
+    const peakMmrMatch = playerMapByPeakMmr.get(`${oldName}-${oldMmr}`);
+    if (peakMmrMatch) {
+        return peakMmrMatch.id;
+    }
     
-    return allRosterPlayers.find(p => {
-        const pName = p.name.replace(/\s+/g, '-');
-        if (pName === namePart) return true;
-        if (p.name.toLowerCase().includes(namePart.toLowerCase())) return true;
-        return false;
-    });
+    // Then try a more general name match
+    const nameMatch = playerMapByName.get(oldName);
+    if (nameMatch) {
+        return nameMatch.id;
+    }
+
+    return undefined; // No match found
 };
 
 
@@ -57,81 +60,65 @@ export async function POST(request: Request) {
         let usersProcessedCount = 0;
 
         for (const userId of USER_IDS) {
-            const user = await getUser(userId);
-            if (!user) continue;
+            const userFilePath = path.join(USERS_DIR, `${userId}.json`);
+            let user: User;
+            try {
+                const userContent = await fs.readFile(userFilePath, 'utf-8');
+                user = JSON.parse(userContent);
+            } catch (error) {
+                console.warn(`Could not read user file ${userId}. Skipping.`);
+                continue;
+            }
 
             let userWasModified = false;
 
+            const fixId = (oldId: string) => {
+                const newId = getCorrectPlayerId(oldId);
+                if (newId && newId !== oldId) {
+                    playersFixedCount++;
+                    userWasModified = true;
+                    return newId;
+                }
+                return oldId;
+            };
+
             // --- Fix user.players ---
-            const fixedPlayers = user.players.map(p => {
-                const rosterPlayer = findRosterPlayerByOldId(p.id);
-                if (rosterPlayer) {
-                    const newId = createPlayerId(rosterPlayer);
-                    if (newId !== p.id) {
-                        playersFixedCount++;
-                        userWasModified = true;
-                        return { ...p, id: newId };
-                    }
-                }
-                return p;
-            });
-            user.players = fixedPlayers;
+            user.players = user.players.map(p => ({ ...p, id: fixId(p.id) }));
 
-            // --- Fix user.roster.lineup ---
-            const fixedLineup = user.roster.lineup.map(playerId => {
-                const rosterPlayer = findRosterPlayerByOldId(playerId);
-                if (rosterPlayer) {
-                    const newId = createPlayerId(rosterPlayer);
-                    if (newId !== playerId) {
-                        userWasModified = true;
-                        return newId;
-                    }
-                }
-                return playerId;
-            });
-            user.roster.lineup = fixedLineup;
+            // --- Fix user.roster.lineup & bench ---
+            user.roster.lineup = user.roster.lineup.map(fixId);
+            user.roster.bench = user.roster.bench.map(fixId);
             
-            // --- Fix user.roster.bench ---
-            const fixedBench = user.roster.bench.map(playerId => {
-                const rosterPlayer = findRosterPlayerByOldId(playerId);
-                if (rosterPlayer) {
-                    const newId = createPlayerId(rosterPlayer);
-                     if (newId !== playerId) {
-                        userWasModified = true;
-                        return newId;
-                    }
-                }
-                return playerId;
-            });
-            user.roster.bench = fixedBench;
-
             // --- Fix user.bids ---
             const fixedBids: Record<string, number> = {};
             for (const oldPlayerId in user.bids) {
-                const rosterPlayer = findRosterPlayerByOldId(oldPlayerId);
-                 if (rosterPlayer) {
-                    const newId = createPlayerId(rosterPlayer);
-                    fixedBids[newId] = user.bids[oldPlayerId];
-                    if(newId !== oldPlayerId) userWasModified = true;
-                } else {
-                    fixedBids[oldPlayerId] = user.bids[oldPlayerId];
-                }
+                const newId = getCorrectPlayerId(oldPlayerId) || oldPlayerId;
+                 if (newId !== oldPlayerId) userWasModified = true;
+                fixedBids[newId] = user.bids[oldPlayerId];
             }
             user.bids = fixedBids;
 
+             // --- Fix user.weeklyScores ---
+            const fixedWeeklyScores: Record<string, Record<string, any>> = {};
+             for (const oldPlayerId in user.weeklyScores) {
+                const newId = getCorrectPlayerId(oldPlayerId) || oldPlayerId;
+                 if (newId !== oldPlayerId) userWasModified = true;
+                fixedWeeklyScores[newId] = user.weeklyScores[oldPlayerId];
+            }
+            user.weeklyScores = fixedWeeklyScores;
 
             if (userWasModified) {
-                await updateUser(user);
+                await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
                 usersProcessedCount++;
             }
         }
 
         return NextResponse.json({ 
-            message: `Process complete. Fixed ${playersFixedCount} player ID references across ${usersProcessedCount} users.`
+            message: `Process complete. Fixed ${playersFixedCount} player ID references across ${usersProcessedCount} distinct users.`
         });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Failed to fix player IDs:', error);
-        return NextResponse.json({ message: 'Error fixing player IDs' }, { status: 500 });
+        return NextResponse.json({ message: `Error fixing player IDs: ${error.message}` }, { status: 500 });
     }
 }
