@@ -7,7 +7,7 @@ import { useUser } from "@/context/user-context";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Download, Upload } from "lucide-react";
+import { Loader2, Download, Upload, Wallet } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -33,6 +33,7 @@ export default function SettingsPage() {
 
     const [selectedUser, setSelectedUser] = useState<string>('');
     const [isUpdatingCurrency, setIsUpdatingCurrency] = useState(false);
+    const [specificAmount, setSpecificAmount] = useState<number>(0);
 
 
     useEffect(() => {
@@ -249,7 +250,7 @@ export default function SettingsPage() {
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Manage User Currency</h4>
                         <p className="text-sm text-muted-foreground">Add funds to a user or reset their balance.</p>
-                         <div className="flex items-center gap-4">
+                         <div className="flex flex-wrap items-end gap-4">
                             <div className="w-48">
                                 <Label htmlFor="user-select">User</Label>
                                 <Select onValueChange={setSelectedUser} value={selectedUser}>
@@ -263,13 +264,25 @@ export default function SettingsPage() {
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <Button onClick={() => handleUpdateCurrency(1000)} disabled={isUpdatingCurrency || !selectedUser} className="self-end">
+                             <div className="flex items-end gap-2">
+                                <div>
+                                    <Label htmlFor="specific-amount">Specific Amount</Label>
+                                    <Input
+                                        id="specific-amount"
+                                        type="number"
+                                        value={specificAmount}
+                                        onChange={(e) => setSpecificAmount(Number(e.target.value))}
+                                        className="w-32"
+                                    />
+                                </div>
+                                <Button onClick={() => handleUpdateCurrency(specificAmount, true)} disabled={isUpdatingCurrency || !selectedUser}>
+                                    {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wallet className="mr-2 h-4 w-4" />}
+                                    Set Amount
+                                </Button>
+                            </div>
+                            <Button onClick={() => handleUpdateCurrency(1000)} disabled={isUpdatingCurrency || !selectedUser}>
                                 {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                                 Add 1,000 Coins
-                            </Button>
-                             <Button onClick={() => handleUpdateCurrency(17000, true)} disabled={isUpdatingCurrency || !selectedUser} className="self-end" variant="secondary">
-                                {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                                Reset to 17k
                             </Button>
                         </div>
                     </div>

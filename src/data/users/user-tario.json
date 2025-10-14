@@ -4,41 +4,44 @@
   "currency": 17000,
   "players": [
     {
-      "id": "EYEKON-8673-188",
-      "purchasedAt": 1760338831785
+      "id": "EYEKON-8673-8107",
+      "purchasedAt": 1760389853780
     },
     {
-      "id": "Yazzi-4250-222",
-      "purchasedAt": 1760338843236
+      "id": "Yazzi-4250-5235",
+      "purchasedAt": 1760389860768
     },
     {
-      "id": "Shawazer-6150-2923",
-      "purchasedAt": 1760338851021
+      "id": "Shawazer-6150-7802",
+      "purchasedAt": 1760389868114
     },
     {
-      "id": "Kikita-5043-3390",
-      "purchasedAt": 1760338858171
+      "id": "Kikita-5043-7139",
+      "purchasedAt": 1760389880363
     },
     {
-      "id": "Tomsu-5489-36",
-      "purchasedAt": 1760338864666
+      "id": "Tomsu-5489-1238",
+      "purchasedAt": 1760389890105
     },
     {
-      "id": "Chaozu-8544-2601",
-      "purchasedAt": 1760339016210
+      "id": "Chaozu-8544-6051",
+      "purchasedAt": 1760389901105
     }
   ],
   "roster": {
     "lineup": [
-      "EYEKON-8673-188",
-      "Yazzi-4250-222",
-      "Shawazer-6150-2923",
-      "Kikita-5043-3390",
-      "Tomsu-5489-36",
-      "Chaozu-8544-2601"
+      "EYEKON-8673-8107",
+      "Yazzi-4250-5235",
+      "Shawazer-6150-7802",
+      "Kikita-5043-7139",
+      "Tomsu-5489-1238",
+      "Chaozu-8544-6051"
     ],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Kenai-273": 7081,
+    "Roni24-1493": 6798
+  }
 }

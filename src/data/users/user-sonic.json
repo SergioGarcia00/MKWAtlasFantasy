@@ -4,41 +4,40 @@
   "currency": 17000,
   "players": [
     {
-      "id": "SungJinWoo-7078-2439",
-      "purchasedAt": 1760339105310
+      "id": "Sung-JinWoo-7078-2543",
+      "purchasedAt": 1760390195260
     },
     {
-      "id": "UtahGrimReaper-9881-2457",
-      "purchasedAt": 1760339109436
+      "id": "Utah-Grim-Reaper-9881-2206",
+      "purchasedAt": 1760390199808
     },
     {
-      "id": "tys-9433-1754",
-      "purchasedAt": 1760339114001
+      "id": "tys-9433-3605",
+      "purchasedAt": 1760390206665
     },
     {
-      "id": "Chloe-4221-3236",
-      "purchasedAt": 1760339133861
+      "id": "Ty-Beyonce-3824-9018",
+      "purchasedAt": 1760390209965
     },
     {
-      "id": "Brandoooon-4676-2962",
-      "purchasedAt": 1760339136057
+      "id": "MattyPatty-5716-1110",
+      "purchasedAt": 1760390212210
     },
     {
-      "id": "NickM7874-3571-36",
-      "purchasedAt": 1760339207926
+      "id": "Gity-5717-1910",
+      "purchasedAt": 1760390214564
     }
   ],
   "roster": {
     "lineup": [
-      "SungJinWoo-7078-2439",
-      "UtahGrimReaper-9881-2457",
-      "tys-9433-1754",
-      "Chloe-4221-3236",
-      "Brandoooon-4676-2962"
+      "Sung-JinWoo-7078-2543",
+      "Utah-Grim-Reaper-9881-2206",
+      "tys-9433-3605",
+      "Ty-Beyonce-3824-9018",
+      "MattyPatty-5716-1110",
+      "Gity-5717-1910"
     ],
-    "bench": [
-      "NickM7874-3571-36"
-    ]
+    "bench": []
   },
   "weeklyScores": {},
   "bids": {}

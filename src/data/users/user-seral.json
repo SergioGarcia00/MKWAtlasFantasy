@@ -4,41 +4,43 @@
   "currency": 17000,
   "players": [
     {
-      "id": "Lecka-6711-2601",
-      "purchasedAt": 1760339028476
+      "id": "Lecka-6711-0982",
+      "purchasedAt": 1760389950949
     },
     {
-      "id": "Duckman-6097-3153",
-      "purchasedAt": 1760339044815
+      "id": "Duckman-6097-8873",
+      "purchasedAt": 1760389956889
     },
     {
-      "id": "sean-8130-3236",
-      "purchasedAt": 1760339048195
+      "id": "sean-8130-8979",
+      "purchasedAt": 1760389964398
     },
     {
-      "id": "Nagyon-4016-3425",
-      "purchasedAt": 1760339059056
+      "id": "Nagyon-4016-8534",
+      "purchasedAt": 1760389970819
     },
     {
-      "id": "emilymk-4844-2847",
-      "purchasedAt": 1760339064375
+      "id": "Davide-6005-9697",
+      "purchasedAt": 1760389978630
     },
     {
-      "id": "Davide-6005-2784",
-      "purchasedAt": 1760339070450
+      "id": "emily_mk-4844-4400",
+      "purchasedAt": 1760389987869
     }
   ],
   "roster": {
     "lineup": [
-      "Lecka-6711-2601",
-      "Duckman-6097-3153",
-      "sean-8130-3236",
-      "Nagyon-4016-3425",
-      "emilymk-4844-2847",
-      "Davide-6005-2784"
+      "Lecka-6711-0982",
+      "Duckman-6097-8873",
+      "sean-8130-8979",
+      "Nagyon-4016-8534",
+      "Davide-6005-9697",
+      "emily_mk-4844-4400"
     ],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "PATATA-7": 7568
+  }
 }

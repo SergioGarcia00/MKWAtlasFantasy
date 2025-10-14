@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "ShinyGreninja-7280-1707",
-      "purchasedAt": 1760338743775
+      "id": "Hazza-7290-5141",
+      "purchasedAt": 1760390231705
     },
     {
-      "id": "yukino00000-7119-3324",
-      "purchasedAt": 1760338743775
+      "id": "choko-6179-2684",
+      "purchasedAt": 1760390238645
     },
     {
-      "id": "AntonioRecio-4475-27",
-      "purchasedAt": 1760338743775
+      "id": "CRISTHIAN-5026-6208",
+      "purchasedAt": 1760390282155
     },
     {
-      "id": "KaedeManyuda-5799-3068",
-      "purchasedAt": 1760338743775
+      "id": "Gerson-Boom-8371-0799",
+      "purchasedAt": 1760390295580
     },
     {
-      "id": "Markiplier-6132-2450",
-      "purchasedAt": 1760338743775
+      "id": "Ha1bara-5811-6331",
+      "purchasedAt": 1760390303709
     },
     {
-      "id": "xAlex-10406-118",
-      "purchasedAt": 1760338743775
+      "id": "Daisam-5752-5827",
+      "purchasedAt": 1760390360539
     }
   ],
   "roster": {
     "lineup": [
-      "ShinyGreninja-7280-1707",
-      "yukino00000-7119-3324",
-      "AntonioRecio-4475-27",
-      "KaedeManyuda-5799-3068",
-      "Markiplier-6132-2450",
-      "xAlex-10406-118"
+      "Ha1bara-5811-6331",
+      "CRISTHIAN-5026-6208",
+      "Hazza-7290-5141",
+      "choko-6179-2684",
+      "Gerson-Boom-8371-0799",
+      "Daisam-5752-5827"
     ],
     "bench": []
   },

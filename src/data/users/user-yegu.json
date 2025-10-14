@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "sumosuma-8555-3428",
-      "purchasedAt": 1760338743776
+      "id": "Yasn-5383-7699",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "chiZZo-2744-1838",
-      "purchasedAt": 1760338743776
+      "id": "JustKarli-7000-8981",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Seral-7275-2439",
-      "purchasedAt": 1760338743776
+      "id": "Twingy-6990-8435",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "season-11738-2918",
-      "purchasedAt": 1760338743776
+      "id": "Shin-Godzilla-6752-8953",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Obiyo-6934-1707",
-      "purchasedAt": 1760338743776
+      "id": "Garysito-3468-3794",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Arkous-4118-7",
-      "purchasedAt": 1760338743776
+      "id": "Plug-in-Baby-7475-4111",
+      "purchasedAt": 1760389560870
     }
   ],
   "roster": {
     "lineup": [
-      "sumosuma-8555-3428",
-      "chiZZo-2744-1838",
-      "Seral-7275-2439",
-      "season-11738-2918",
-      "Obiyo-6934-1707",
-      "Arkous-4118-7"
+      "Yasn-5383-7699",
+      "JustKarli-7000-8981",
+      "Twingy-6990-8435",
+      "Shin-Godzilla-6752-8953",
+      "Garysito-3468-3794",
+      "Plug-in-Baby-7475-4111"
     ],
     "bench": []
   },

@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "mylesdg-8130-2584",
-      "purchasedAt": 1760338743775
+      "id": "Warmthaholic-7239-8308",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "DUGO-10382-489",
-      "purchasedAt": 1760338743775
+      "id": "Pereeira7-7652-9547",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Dianny-3795-1234",
-      "purchasedAt": 1760338743775
+      "id": "runo-7143-3803",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Toopa-6609-2601",
-      "purchasedAt": 1760338743775
+      "id": "on1x-4752-3980",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "Dicey-6872-3323",
-      "purchasedAt": 1760338743775
+      "id": "Chloe-4221-2211",
+      "purchasedAt": 1760389560870
     },
     {
-      "id": "pearto-5451-3242",
-      "purchasedAt": 1760338743775
+      "id": "Chomp-Caller-5951-2413",
+      "purchasedAt": 1760389560870
     }
   ],
   "roster": {
     "lineup": [
-      "mylesdg-8130-2584",
-      "DUGO-10382-489",
-      "Dianny-3795-1234",
-      "Toopa-6609-2601",
-      "Dicey-6872-3323",
-      "pearto-5451-3242"
+      "Warmthaholic-7239-8308",
+      "Pereeira7-7652-9547",
+      "runo-7143-3803",
+      "on1x-4752-3980",
+      "Chloe-4221-2211",
+      "Chomp-Caller-5951-2413"
     ],
     "bench": []
   },

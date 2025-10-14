@@ -4,38 +4,38 @@
   "currency": 17000,
   "players": [
     {
-      "id": "Yae-6060-22",
-      "purchasedAt": 1760338743775
+      "id": "Corvious-5520-7718",
+      "purchasedAt": 1760390000250
     },
     {
-      "id": "Rompe-8179-2902",
-      "purchasedAt": 1760338743775
+      "id": "Kaofie-5843-0202",
+      "purchasedAt": 1760390007123
     },
     {
-      "id": "MichaelH-6944-3090",
-      "purchasedAt": 1760338743775
+      "id": "Solution-6951-5014",
+      "purchasedAt": 1760390019509
     },
     {
-      "id": "Kod49-7125-22",
-      "purchasedAt": 1760338743775
+      "id": "Mine-6504-9172",
+      "purchasedAt": 1760390028870
     },
     {
-      "id": "AlinePee-7464-3129",
-      "purchasedAt": 1760338743775
+      "id": "CASTILLA-5326-1113",
+      "purchasedAt": 1760390036198
     },
     {
-      "id": "Octo-5470-3160",
-      "purchasedAt": 1760338743775
+      "id": "Plush-6582-7033",
+      "purchasedAt": 1760390044224
     }
   ],
   "roster": {
     "lineup": [
-      "Yae-6060-22",
-      "Rompe-8179-2902",
-      "MichaelH-6944-3090",
-      "Kod49-7125-22",
-      "AlinePee-7464-3129",
-      "Octo-5470-3160"
+      "Corvious-5520-7718",
+      "Kaofie-5843-0202",
+      "Solution-6951-5014",
+      "Mine-6504-9172",
+      "CASTILLA-5326-1113",
+      "Plush-6582-7033"
     ],
     "bench": []
   },
