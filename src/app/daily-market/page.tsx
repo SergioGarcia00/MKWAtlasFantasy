@@ -77,10 +77,19 @@ export default function DailyMarketPage() {
 
   const handleRefreshMarket = async () => {
     setIsRefreshing(true);
-    // Just re-fetch the market and user data. The API will provide a new random set.
     try {
-        await Promise.all([loadAllData(), fetchMarket()]);
-        toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
+      const response = await fetch('/api/market/refresh', { method: 'POST' });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to regenerate market');
+      }
+      
+      toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction and all bids have been cleared.' });
+      
+      // Reload all data to clear bids and then fetch the new market
+      await loadAllData();
+      await fetchMarket();
+
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
@@ -167,7 +176,7 @@ export default function DailyMarketPage() {
             </h1>
             </div>
             <p className="text-muted-foreground mt-2">
-            Bid on new talent! Auctions last for 24 hours.
+            Bid on new talent! The market is static until you regenerate it or lock in the auctions.
             </p>
         </div>
          <div className="flex items-center gap-2">

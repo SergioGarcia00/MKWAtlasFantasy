@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 9778,
+  "currency": 17000,
   "players": [
     {
       "id": "Xooo-4575-0404",
@@ -26,10 +26,6 @@
     {
       "id": "QSahab-4826-3407",
       "purchasedAt": 1760390188789
-    },
-    {
-      "id": "Minh-3361",
-      "purchasedAt": 1760437281422
     }
   ],
   "roster": {
@@ -41,10 +37,10 @@
       "kraken8192-5590-6707",
       "QSahab-4826-3407"
     ],
-    "bench": [
-      "Minh-3361"
-    ]
+    "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Minh-3361": 7222
+  }
 }
