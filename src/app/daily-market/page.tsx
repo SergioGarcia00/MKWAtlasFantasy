@@ -155,9 +155,7 @@ export default function DailyMarketPage() {
   };
 
   const handleBidClick = (player: Player) => {
-    const highestBid = player.bids?.[0]?.amount || 0;
-    const nextBidAmount = highestBid > 0 ? highestBid + 1 : player.cost;
-    setBidAmount(nextBidAmount);
+    setBidAmount(player.cost);
     setBiddingPlayer(player);
     setIsBidding(true);
   };
@@ -246,10 +244,7 @@ export default function DailyMarketPage() {
             <DialogHeader>
                 <DialogTitle>Place a bid for {biddingPlayer.name}</DialogTitle>
                 <DialogDescription>
-                {biddingPlayer.bids?.[0]
-                    ? `The current highest bid is ${biddingPlayer.bids[0].amount.toLocaleString()}. Your bid must be higher.`
-                    : `The base cost is ${biddingPlayer.cost.toLocaleString()}. The highest bid at the end of the auction wins the player.`
-                }
+                 The base cost is {biddingPlayer.cost.toLocaleString()}. The highest bid at the end of the auction wins the player. Your bid is secret.
                 </DialogDescription>
             </DialogHeader>
             <div className="py-4">
@@ -259,7 +254,7 @@ export default function DailyMarketPage() {
                     type="number"
                     value={bidAmount}
                     onChange={(e) => setBidAmount(Number(e.target.value))}
-                    min={biddingPlayer.bids?.[0] ? biddingPlayer.bids[0].amount + 1 : biddingPlayer.cost}
+                    min={biddingPlayer.cost}
                 />
                 <span className="text-muted-foreground">coins</span>
                 </div>
@@ -271,7 +266,7 @@ export default function DailyMarketPage() {
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount <= (biddingPlayer.bids?.[0]?.amount || biddingPlayer.cost -1)}>
+                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < biddingPlayer.cost}>
                     {isBidLoading ? <Loader2 className="animate-spin" /> : `Bid ${bidAmount.toLocaleString()}`}
                 </Button>
             </DialogFooter>
