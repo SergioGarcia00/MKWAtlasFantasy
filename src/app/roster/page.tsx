@@ -26,7 +26,7 @@ export default function RosterPage() {
     return (user.players || [])
       .map(p => getPlayerById(p.id))
       .filter((p): p is Player => p !== undefined);
-  },- [user, getPlayerById]);
+  }, [user, getPlayerById]);
 
   if (!user) {
     return (
