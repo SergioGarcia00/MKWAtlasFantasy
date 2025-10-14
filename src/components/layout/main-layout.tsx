@@ -65,9 +65,9 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       user?.id === 'user-sipgb' ? [...navItems, playerShopItem, settingsItem] : navItems;
     const currentNav = allNavItems.find(
       (item) =>
-        pathname === item.href ||
-        (item.href !== '/' && pathname.startsWith(item.href))
+        item.href !== '/' && pathname.startsWith(item.href)
     );
+     if (pathname === '/') return 'Dashboard';
     return currentNav?.label || 'Kart Fantasy League';
   };
 
