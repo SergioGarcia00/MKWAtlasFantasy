@@ -19,7 +19,7 @@ interface Week {
 }
 
 export default function SettingsPage() {
-    const { user, allUsers, loadAllData } = useUser();
+    const { user, allUsers, loadAllData, isUserLoading } = useUser();
     const router = useRouter();
     const { toast } = useToast();
     const [isRecalculating, setIsRecalculating] = useState(false);
@@ -38,9 +38,10 @@ export default function SettingsPage() {
 
 
     useEffect(() => {
-        if (user && user.id !== 'user-sipgb') {
+        if (!isUserLoading && user && user.id !== 'user-sipgb') {
             router.push('/');
         }
+
         async function fetchWeeks() {
             try {
                 const response = await fetch('/api/weeks');
@@ -56,11 +57,11 @@ export default function SettingsPage() {
 
         if (user?.id === 'user-sipgb') {
             fetchWeeks();
-             if (allUsers.length > 0) {
+             if (allUsers.length > 0 && !selectedUser) {
                 setSelectedUser(allUsers[0].id);
             }
         }
-    }, [user, router, allUsers]);
+    }, [user, router, allUsers, isUserLoading, selectedUser]);
 
     const handleUpdateCurrency = async (amount: number, isReset = false) => {
         if (!selectedUser) {
@@ -249,12 +250,17 @@ export default function SettingsPage() {
     };
 
 
-    if (!user || user.id !== 'user-sipgb') {
+    if (isUserLoading || !user) {
         return (
             <div className="flex h-full items-center justify-center">
                 <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
+    }
+    
+    if (user.id !== 'user-sipgb') {
+        // This case is handled by the useEffect redirect, but this is a fallback.
+        return null;
     }
     
     return (
@@ -391,3 +397,5 @@ export default function SettingsPage() {
         </div>
     );
 }
+
+    

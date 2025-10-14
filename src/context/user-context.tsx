@@ -1,3 +1,4 @@
+
 'use client';
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
@@ -10,6 +11,7 @@ const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
 
 interface UserContextType {
   user: User | null;
+  isUserLoading: boolean;
   allUsers: User[];
   allPlayers: Player[];
   purchasePlayer: (player: Player) => void;
@@ -281,7 +283,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer, isUserLoading: isDataLoading }}>
       {children}
     </UserContext.Provider>
   );
@@ -294,3 +296,5 @@ export function useUser() {
   }
   return context;
 }
+
+    
