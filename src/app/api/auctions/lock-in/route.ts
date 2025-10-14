@@ -58,9 +58,7 @@ export async function POST(request: Request) {
         }
         
         // 3. Process winners and update user files
-        const processedUsers = new Set<string>();
         for (const winner of winners) {
-            processedUsers.add(winner.userId);
             const userFilePath = path.join(USERS_DIR, `${winner.userId}.json`);
             try {
                 const winningUser = await getUser(winner.userId);
@@ -72,7 +70,6 @@ export async function POST(request: Request) {
                             winningUser.roster.bench.push(winner.playerId);
                         }
                         winningUser.currency -= winner.amount;
-                        // Don't clear bids yet, will be cleared for all users later
                         await fs.writeFile(userFilePath, JSON.stringify(winningUser, null, 2), 'utf-8');
                     }
                 }
