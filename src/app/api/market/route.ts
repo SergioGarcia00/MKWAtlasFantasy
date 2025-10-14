@@ -16,6 +16,7 @@ export async function GET() {
   } catch (error) {
     // If the file doesn't exist, return an empty array
     if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+        await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify([], null, 2), 'utf-8');
         return NextResponse.json([]);
     }
     console.error('Failed to read daily market data:', error);

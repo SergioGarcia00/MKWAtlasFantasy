@@ -35,15 +35,17 @@ async function getAllUsers(): Promise<User[]> {
 
 export async function POST(request: Request) {
     try {
-        // --- 1. Clear all bids for all users ---
+        // --- 1. Get all users to identify owned players ---
         const allUsers = await getAllUsers();
+        
+        // --- 2. Clear all bids for all users ---
         for (const user of allUsers) {
             user.bids = {};
             const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
             await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
         }
 
-        // --- 2. Generate a new market ---
+        // --- 3. Generate a new market ---
         const allOwnedPlayerIds = new Set(allUsers.flatMap(u => u.players.map(p => p.id)));
         const availablePlayers = ALL_PLAYERS.filter(p => !allOwnedPlayerIds.has(p.id));
 
@@ -52,7 +54,7 @@ export async function POST(request: Request) {
         // Take a slice of players for the market, for example, 18 players
         const marketPlayers = shuffledAvailablePlayers.slice(0, 18);
         
-        // --- 3. Overwrite the daily_market.json file ---
+        // --- 4. Overwrite the daily_market.json file ---
         await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(marketPlayers, null, 2), 'utf-8');
 
 

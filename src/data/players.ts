@@ -4,10 +4,18 @@ import playersData from '@/lib/rosters_actualizado.json';
 // This flattens the nested player arrays from all teams into a single array
 const allRosterPlayers = playersData.flatMap(team => team.players);
 
+// Helper to create a consistent, unique ID for each player
+const createPlayerId = (player: any): string => {
+  const name = player.name.replace(/\s+/g, '-');
+  const peakMmr = player.peak_mmr || 0;
+  const friendCode = player.friend_code || '0000';
+  return `${name}-${peakMmr}-${friendCode.slice(-4)}`;
+};
+
 export const ALL_PLAYERS: Player[] = allRosterPlayers
-  .filter(p => p.peak_mmr) // Filter out players without a peak_mmr
+  .filter(p => p.peak_mmr && p.friend_code) // Ensure players have the necessary data to create a stable ID
   .map(p => ({
-    id: `${p.name.replace(/\s+/g, '-')}-${p.peak_mmr}-${p.friend_code.slice(-4)}`,
+    id: createPlayerId(p),
     name: p.name,
     icon: ['Mario', 'Luigi', 'Peach', 'Yoshi', 'Bowser', 'DK', 'Toad', 'Koopa'][Math.floor(Math.random() * 8)],
     cost: p.cost || Math.round(p.peak_mmr! * 0.8),
