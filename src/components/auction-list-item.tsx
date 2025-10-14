@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { Player } from '@/lib/types';
@@ -79,7 +80,6 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                         <TableRow>
                         <TableHead className="w-[50px]">Rank</TableHead>
                         <TableHead>User</TableHead>
-                        <TableHead className="text-right">Bid</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -90,12 +90,11 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                                         {index === 0 ? <Crown className="w-5 h-5 text-amber-400 mx-auto" /> : index + 1}
                                     </TableCell>
                                     <TableCell>{bid.userName}</TableCell>
-                                    <TableCell className="text-right font-mono">{bid.amount.toLocaleString()}</TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                                <TableCell colSpan={2} className="h-24 text-center text-muted-foreground">
                                 No bids for this player yet.
                                 </TableCell>
                             </TableRow>
