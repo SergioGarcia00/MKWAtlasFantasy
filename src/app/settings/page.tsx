@@ -7,7 +7,7 @@ import { useUser } from "@/context/user-context";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Download, Upload, Wallet } from "lucide-react";
+import { Loader2, Download, Upload, Wallet, Wrench } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -27,6 +27,7 @@ export default function SettingsPage() {
     const [isPayingOut, setIsPayingOut] = useState(false);
     const [isExporting, setIsExporting] = useState(false);
     const [isImporting, setIsImporting] = useState(false);
+    const [isFixingIds, setIsFixingIds] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [selectedWeek, setSelectedWeek] = useState<string>('');
@@ -222,6 +223,31 @@ export default function SettingsPage() {
         }
     };
 
+    const handleFixPlayerIds = async () => {
+        setIsFixingIds(true);
+        try {
+            const response = await fetch('/api/users/fix-player-ids', { method: 'POST' });
+             if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fix player IDs');
+            }
+            const result = await response.json();
+            toast({
+                title: 'Player IDs Fixed!',
+                description: result.message,
+            });
+            await loadAllData();
+        } catch (error: any) {
+             toast({
+                variant: 'destructive',
+                title: 'Error Fixing IDs',
+                description: error.message,
+            });
+        } finally {
+            setIsFixingIds(false);
+        }
+    };
+
 
     if (!user || user.id !== 'user-sipgb') {
         return (
@@ -312,7 +338,7 @@ export default function SettingsPage() {
                             </div>
                         </div>
                     </div>
-                     <Separator />
+                    <Separator />
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Recalculate Player Market Prices</h4>
                         <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>
@@ -327,6 +353,14 @@ export default function SettingsPage() {
                          <Button onClick={handleAssignTeams} disabled={isAssigning} className="w-fit">
                             {isAssigning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                             Assign Starter Teams
+                        </Button>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Fix Player IDs</h4>
+                        <p className="text-sm text-muted-foreground">This will iterate through all users and standardize player IDs to prevent data mismatches.</p>
+                         <Button onClick={handleFixPlayerIds} disabled={isFixingIds} variant="destructive" className="w-fit">
+                            {isFixingIds ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wrench className="mr-2 h-4 w-4"/>}
+                            Fix Player IDs
                         </Button>
                     </div>
                      <div className="flex flex-col gap-2">
