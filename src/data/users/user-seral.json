@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 9432,
+  "currency": 17000,
   "players": [
     {
       "id": "Lecka-6711-0982",
@@ -26,10 +26,6 @@
     {
       "id": "emily_mk-4844-4400",
       "purchasedAt": 1760389987869
-    },
-    {
-      "id": "PATATA-7",
-      "purchasedAt": 1760436421569
     }
   ],
   "roster": {
@@ -41,10 +37,10 @@
       "Davide-6005-9697",
       "emily_mk-4844-4400"
     ],
-    "bench": [
-      "PATATA-7"
-    ]
+    "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "PATATA-7": 7568
+  }
 }

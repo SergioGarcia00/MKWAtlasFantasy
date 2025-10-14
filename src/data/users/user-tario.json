@@ -1,7 +1,7 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 3121,
+  "currency": 17000,
   "players": [
     {
       "id": "EYEKON-8673-8107",
@@ -26,14 +26,6 @@
     {
       "id": "Chaozu-8544-6051",
       "purchasedAt": 1760389901105
-    },
-    {
-      "id": "Kenai-273",
-      "purchasedAt": 1760436421569
-    },
-    {
-      "id": "Roni24-1493",
-      "purchasedAt": 1760436421569
     }
   ],
   "roster": {
@@ -45,11 +37,11 @@
       "Tomsu-5489-1238",
       "Chaozu-8544-6051"
     ],
-    "bench": [
-      "Kenai-273",
-      "Roni24-1493"
-    ]
+    "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Kenai-273": 7081,
+    "Roni24-1493": 6798
+  }
 }

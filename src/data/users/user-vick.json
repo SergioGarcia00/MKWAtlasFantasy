@@ -40,5 +40,7 @@
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Minh-3361": 7222
+  }
 }

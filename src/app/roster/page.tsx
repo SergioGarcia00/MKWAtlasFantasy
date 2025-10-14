@@ -18,11 +18,7 @@ export default function RosterPage() {
   useEffect(() => {
     if (user) {
       setLineup(user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[]);
-      const benchPlayers = user.players
-        .filter(userPlayer => !user.roster.lineup.includes(userPlayer.id))
-        .map(userPlayer => getPlayerById(userPlayer.id))
-        .filter(p => p) as Player[];
-      setBench(benchPlayers);
+      setBench(user.roster.bench.map(id => getPlayerById(id)).filter(p => p) as Player[]);
     }
   }, [user, getPlayerById]);
   
@@ -52,11 +48,7 @@ export default function RosterPage() {
       updateRoster(newLineup.map(p => p.id), newBench.map(p => p.id));
     }
   };
-
-  const allOwnedPlayers = user.players.map(p => getPlayerById(p.id)).filter(Boolean) as Player[];
-  const lineupIds = new Set(lineup.map(p => p.id));
-  const playersOnBench = allOwnedPlayers.filter(p => !lineupIds.has(p.id));
-
+  
   const canMoveToLineup = lineup.length < 6;
 
   return (
@@ -103,11 +95,11 @@ export default function RosterPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                  <Users className="w-7 h-7 text-muted-foreground"/>
-                 <h2 className="text-2xl font-semibold font-headline">Bench ({playersOnBench.length})</h2>
+                 <h2 className="text-2xl font-semibold font-headline">Bench ({bench.length})</h2>
               </div>
-              {playersOnBench.length > 0 ? (
+              {bench.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {playersOnBench.map(player => (
+                  {bench.map(player => (
                     <RosterPlayerCard key={player.id} player={player} isLineup={false} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
                   ))}
                 </div>

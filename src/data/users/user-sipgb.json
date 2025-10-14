@@ -1,7 +1,7 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 4564,
+  "currency": 17000,
   "players": [
     {
       "id": "Torte-5227-0818",
@@ -26,14 +26,6 @@
     {
       "id": "Akusika-5146-4024",
       "purchasedAt": 1760389839824
-    },
-    {
-      "id": "BDDaryhn2-2457",
-      "purchasedAt": 1760436660655
-    },
-    {
-      "id": "Chuela-1838",
-      "purchasedAt": 1760436756382
     }
   ],
   "roster": {
@@ -45,10 +37,7 @@
       "AxelTS-7913-9686",
       "Akusika-5146-4024"
     ],
-    "bench": [
-      "BDDaryhn2-2457",
-      "Chuela-1838"
-    ]
+    "bench": []
   },
   "weeklyScores": {},
   "bids": {}
