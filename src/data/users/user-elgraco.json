@@ -4,11 +4,11 @@
   "currency": 17000,
   "players": [
     {
-      "id": "Hazza-7290-7249",
+      "id": "Hazza-7290-5141",
       "purchasedAt": 1760390231705
     },
     {
-      "id": "choko-6179-3101",
+      "id": "choko-6179-2684",
       "purchasedAt": 1760390238645
     },
     {
@@ -20,7 +20,7 @@
       "purchasedAt": 1760390295580
     },
     {
-      "id": "Ha1bara-5811-0819",
+      "id": "Ha1bara-5811-6331",
       "purchasedAt": 1760390303709
     },
     {
@@ -30,10 +30,10 @@
   ],
   "roster": {
     "lineup": [
-      "Ha1bara-5811-0819",
+      "Ha1bara-5811-6331",
       "CRISTHIAN-5026-6208",
-      "Hazza-7290-7249",
-      "choko-6179-3101",
+      "Hazza-7290-5141",
+      "choko-6179-2684",
       "Gerson-Boom-8371-0799",
       "Daisam-5752-5827"
     ],

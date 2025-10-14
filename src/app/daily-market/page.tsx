@@ -74,6 +74,34 @@ export default function DailyMarketPage() {
     }).sort((a, b) => (b.bids?.length || 0) - (a.bids?.length || 0));
   }, [marketPlayers, allBidsByPlayer, getPlayerById]);
   
+  const handleDownloadBidsCsv = () => {
+    const csvRows = [
+      ['Player ID', 'Player Name', 'User Name', 'Bid Amount'] // Headers
+    ];
+
+    marketPlayersWithBids.forEach(player => {
+      if (player.bids && player.bids.length > 0) {
+        player.bids.forEach(bid => {
+          csvRows.push([
+            `"${player.id}"`,
+            `"${player.name}"`,
+            `"${bid.userName}"`,
+            bid.amount.toString()
+          ]);
+        });
+      }
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "todas_las_pujas.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
 
   const handleRefreshMarket = async () => {
     setIsRefreshing(true);
@@ -86,7 +114,6 @@ export default function DailyMarketPage() {
       
       toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction and all bids have been cleared.' });
       
-      // Reload all data to clear bids and then fetch the new market
       await loadAllData();
       await fetchMarket();
 
@@ -99,6 +126,10 @@ export default function DailyMarketPage() {
 
   const handleLockIn = async () => {
     setIsLocking(true);
+
+    // Download CSV before processing
+    handleDownloadBidsCsv();
+
     try {
         const response = await fetch('/api/auctions/lock-in', { method: 'POST' });
         if (!response.ok) {
@@ -110,9 +141,7 @@ export default function DailyMarketPage() {
             title: 'Auctions Locked In!',
             description: `${result.winners.length} players have been transferred to their new owners.`,
         });
-        // We need to reload all data to reflect ownership changes and clear bids
         await loadAllData(); 
-        // Then re-fetch the market to remove newly owned players
         await fetchMarket();
     } catch (error: any) {
         toast({
