@@ -86,7 +86,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
   };
   
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
-  const moveButtonTooltip = isLineup ? '' : !canMoveToLineup ? 'Lineup is full (6 players max)' : '';
+  const moveButtonTooltip = isLineup ? 'Move to Bench' : !canMoveToLineup ? 'Lineup is full (6 players max)' : 'Move to Lineup';
 
   const sellPrice = player.cost;
 
@@ -97,7 +97,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
             <PlayerIcon iconName={player.icon} className="w-12 h-12 text-primary" />
             <div>
               <h3 className="font-bold font-headline">{player.name}</h3>
-              <p className="text-sm text-muted-foreground">{isLineup ? 'In Lineup' : 'On Bench'}</p>
+              <p className="text-sm text-muted-foreground">{player.mmr?.toLocaleString()} MMR</p>
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -106,7 +106,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <AlertDialogTrigger asChild>
-                      <Button size="icon" variant="destructive" className="w-8 h-8">
+                      <Button size="icon" variant="outline" className="w-8 h-8 text-destructive hover:bg-destructive/10 hover:text-destructive">
                           <DollarSign className="w-4 h-4"/>
                       </Button>
                     </AlertDialogTrigger>
@@ -142,7 +142,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{moveButtonTooltip || (isLineup ? 'Move to Bench' : 'Move to Lineup')}</p>
+                  <p>{moveButtonTooltip}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -151,7 +151,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
       { isLineup && (
         <Accordion type="single" collapsible className="bg-secondary/50">
             <AccordionItem value="scores" className="border-t">
-            <AccordionTrigger className="px-4 py-2 text-sm hover:no-underline">Update Weekly Scores</AccordionTrigger>
+            <AccordionTrigger className="px-4 py-2 text-sm font-semibold hover:no-underline">Update Weekly Scores</AccordionTrigger>
             <AccordionContent className="p-4">
                 <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
