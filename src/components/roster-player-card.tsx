@@ -88,7 +88,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
   const moveButtonTooltip = isLineup ? '' : !canMoveToLineup ? 'Lineup is full (6 players max)' : '';
 
-  const sellPrice = Math.round(player.cost * 0.5);
+  const sellPrice = player.cost;
 
   return (
     <Card className="overflow-hidden">
@@ -119,7 +119,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure you want to sell {player.name}?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You will receive {sellPrice.toLocaleString()} coins (50% of the original cost). This action is irreversible.
+                      You will receive {sellPrice.toLocaleString()} coins (100% of the current cost). This action is irreversible.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

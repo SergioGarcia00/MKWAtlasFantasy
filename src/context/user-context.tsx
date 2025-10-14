@@ -198,7 +198,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
-    const sellPrice = Math.round(player.cost * 0.5);
+    const sellPrice = player.cost;
     const updatedUser: User = {
         ...user,
         currency: user.currency + sellPrice,
