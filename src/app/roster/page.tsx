@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useUser } from '@/context/user-context';
 import type { Player } from '@/lib/types';
 import { RosterPlayerCard } from '@/components/roster-player-card';
@@ -12,44 +11,38 @@ import Link from 'next/link';
 
 export default function RosterPage() {
   const { user, updateRoster, getPlayerById, sellPlayer } = useUser();
-  const [lineup, setLineup] = useState<Player[]>([]);
-  const [bench, setBench] = useState<Player[]>([]);
-
-  useEffect(() => {
-    if (user) {
-      setLineup(user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[]);
-      setBench(user.roster.bench.map(id => getPlayerById(id)).filter(p => p) as Player[]);
-    }
-  }, [user, getPlayerById]);
-  
 
   if (!user) {
     return <div className="flex h-full items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
 
+  const lineupPlayers = user.roster.lineup.map(id => getPlayerById(id)).filter(p => p) as Player[];
+  const benchPlayers = user.roster.bench.map(id => getPlayerById(id)).filter(p => p) as Player[];
+
   const handleMovePlayer = (player: Player) => {
-    const isMovingToLineup = bench.some(p => p.id === player.id);
+    if (!user) return;
+    const isInLineup = lineupPlayers.some(p => p.id === player.id);
     
-    if (isMovingToLineup) {
-      if (lineup.length >= 6) {
+    let newLineupIds: string[];
+    let newBenchIds: string[];
+
+    if (isInLineup) {
+      // Move from lineup to bench
+      newLineupIds = user.roster.lineup.filter(id => id !== player.id);
+      newBenchIds = [...user.roster.bench, player.id];
+    } else {
+      // Move from bench to lineup
+      if (lineupPlayers.length >= 6) {
         alert('Your lineup is full. You can only have 6 players in the starting lineup.');
         return;
       }
-      const newBench = bench.filter(p => p.id !== player.id);
-      const newLineup = [...lineup, player];
-      setBench(newBench);
-      setLineup(newLineup);
-      updateRoster(newLineup.map(p => p.id), newBench.map(p => p.id));
-    } else {
-      const newLineup = lineup.filter(p => p.id !== player.id);
-      const newBench = [...bench, player];
-      setLineup(newLineup);
-      setBench(newBench);
-      updateRoster(newLineup.map(p => p.id), newBench.map(p => p.id));
+      newBenchIds = user.roster.bench.filter(id => id !== player.id);
+      newLineupIds = [...user.roster.lineup, player.id];
     }
+    updateRoster(newLineupIds, newBenchIds);
   };
   
-  const canMoveToLineup = lineup.length < 6;
+  const canMoveToLineup = lineupPlayers.length < 6;
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -77,11 +70,11 @@ export default function RosterPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <ShieldCheck className="w-7 h-7 text-primary"/>
-                <h2 className="text-2xl font-semibold font-headline">Starting Lineup ({lineup.length}/6)</h2>
+                <h2 className="text-2xl font-semibold font-headline">Starting Lineup ({lineupPlayers.length}/6)</h2>
               </div>
-              {lineup.length > 0 ? (
+              {lineupPlayers.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {lineup.map(player => (
+                  {lineupPlayers.map(player => (
                     <RosterPlayerCard key={player.id} player={player} isLineup={true} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
                   ))}
                 </div>
@@ -95,11 +88,11 @@ export default function RosterPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                  <Users className="w-7 h-7 text-muted-foreground"/>
-                 <h2 className="text-2xl font-semibold font-headline">Bench ({bench.length})</h2>
+                 <h2 className="text-2xl font-semibold font-headline">Bench ({benchPlayers.length})</h2>
               </div>
-              {bench.length > 0 ? (
+              {benchPlayers.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {bench.map(player => (
+                  {benchPlayers.map(player => (
                     <RosterPlayerCard key={player.id} player={player} isLineup={false} onMove={handleMovePlayer} onSell={sellPlayer} canMoveToLineup={canMoveToLineup} />
                   ))}
                 </div>
