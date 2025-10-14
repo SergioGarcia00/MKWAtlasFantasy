@@ -8,9 +8,25 @@ import { Lightbulb, Users, ShieldCheck, ArrowRight, ServerCrash } from 'lucide-r
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useMemo } from 'react';
 
 export default function RosterPage() {
   const { user, getPlayerById, updateRoster, sellPlayer } = useUser();
+
+  // Memoize player lists for performance and stability
+  const lineupPlayers = useMemo(() => {
+    if (!user) return [];
+    return (user.roster.lineup || [])
+      .map(id => getPlayerById(id))
+      .filter((p): p is Player => p !== undefined);
+  }, [user, getPlayerById]);
+
+  const allOwnedPlayers = useMemo(() => {
+    if (!user) return [];
+    return (user.players || [])
+      .map(p => getPlayerById(p.id))
+      .filter((p): p is Player => p !== undefined);
+  },- [user, getPlayerById]);
 
   if (!user) {
     return (
@@ -20,16 +36,6 @@ export default function RosterPage() {
     );
   }
 
-  // Directamente obtenemos los jugadores de la alineación desde los IDs del roster
-  const lineupPlayers = user.roster.lineup
-    .map(id => getPlayerById(id))
-    .filter((p): p is Player => !!p);
-
-  // Directamente obtenemos TODOS los jugadores que posee el usuario desde la lista de `players`
-  const allOwnedPlayers = user.players
-    .map(p => getPlayerById(p.id))
-    .filter((p): p is Player => !!p);
-
   const handleMovePlayer = (player: Player, isCurrentlyInLineup: boolean) => {
     if (!user) return;
     
@@ -37,11 +43,11 @@ export default function RosterPage() {
     let newBenchIds: string[];
 
     if (isCurrentlyInLineup) {
-      // Mover de la alineación al banquillo
+      // Move from lineup to bench
       newLineupIds = user.roster.lineup.filter(id => id !== player.id);
       newBenchIds = [...user.roster.bench, player.id];
     } else {
-      // Mover del banquillo a la alineación
+      // Move from bench to lineup
       if (user.roster.lineup.length >= 6) {
         alert('Your lineup is full. You can only have 6 players in the starting lineup.');
         return;
