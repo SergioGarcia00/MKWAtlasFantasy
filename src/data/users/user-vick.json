@@ -28,8 +28,12 @@
       "purchasedAt": 1760390188789
     },
     {
-      "id": "?-Vincent-!-Jeef-0-7249",
+      "id": "Minh-3361",
       "purchasedAt": 1760439034678
+    },
+    {
+      "id": "Kenai-273",
+      "purchasedAt": 1760439034679
     }
   ],
   "roster": {
@@ -42,7 +46,8 @@
       "QSahab-4826-3407"
     ],
     "bench": [
-      "?-Vincent-!-Jeef-0-7249"
+      "Minh-3361",
+      "Kenai-273"
     ]
   },
   "weeklyScores": {},

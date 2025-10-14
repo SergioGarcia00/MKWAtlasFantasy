@@ -11,9 +11,8 @@ import { Button } from '@/components/ui/button';
 import { useMemo } from 'react';
 
 export default function RosterPage() {
-  const { user, getPlayerById, updateRoster, sellPlayer } = useUser();
+  const { user, getPlayerById, updateRoster, sellPlayer, isUserLoading } = useUser();
 
-  // Memoize player lists for performance and stability
   const lineupPlayers = useMemo(() => {
     if (!user) return [];
     return (user.roster.lineup || [])
@@ -28,7 +27,7 @@ export default function RosterPage() {
       .filter((p): p is Player => p !== undefined);
   }, [user, getPlayerById]);
 
-  if (!user) {
+  if (isUserLoading || !user) {
     return (
       <div className="flex h-full items-center justify-center">
         <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -40,21 +39,24 @@ export default function RosterPage() {
     if (!user) return;
     
     let newLineupIds: string[];
-    let newBenchIds: string[];
 
     if (isCurrentlyInLineup) {
       // Move from lineup to bench
       newLineupIds = user.roster.lineup.filter(id => id !== player.id);
-      newBenchIds = [...user.roster.bench, player.id];
     } else {
       // Move from bench to lineup
       if (user.roster.lineup.length >= 6) {
         alert('Your lineup is full. You can only have 6 players in the starting lineup.');
         return;
       }
-      newBenchIds = user.roster.bench.filter(id => id !== player.id);
       newLineupIds = [...user.roster.lineup, player.id];
     }
+    
+    // The bench is implicitly all owned players not in the lineup.
+    // The user context handles updating the user object and sending it to the API.
+    const allOwnedPlayerIds = user.players.map(p => p.id);
+    const newBenchIds = allOwnedPlayerIds.filter(id => !newLineupIds.includes(id));
+    
     updateRoster(newLineupIds, newBenchIds);
   };
   
@@ -69,7 +71,7 @@ export default function RosterPage() {
         </p>
       </header>
 
-      {user.players.length === 0 ? (
+      {allOwnedPlayers.length === 0 ? (
         <div className="text-center py-20 border-2 border-dashed rounded-lg">
           <Users className="mx-auto h-12 w-12 text-muted-foreground" />
           <h3 className="mt-4 text-lg font-medium">Your Roster is Empty</h3>
