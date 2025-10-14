@@ -177,6 +177,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, allUsers, toast, updateUserState]);
 
   const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
+      if (targetUser.players.some(p => p.id === player.id)) {
+        toast({ title: "Player Already Owned", description: `${targetUser.name} already owns this player.`, variant: "destructive"});
+        return;
+    }
     if (targetUser.players.length >= 10) {
         toast({ title: "Target Roster Full", description: `${targetUser.name}'s roster is full.`, variant: "destructive"});
         return;
