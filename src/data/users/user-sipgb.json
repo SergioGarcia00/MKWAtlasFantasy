@@ -12,10 +12,6 @@
       "purchasedAt": 1760389741574
     },
     {
-      "id": "YamineLamal-4171-9482",
-      "purchasedAt": 1760389751825
-    },
-    {
       "id": "Cozmic-6706-5616",
       "purchasedAt": 1760389766469
     },
@@ -24,21 +20,27 @@
       "purchasedAt": 1760389830320
     },
     {
+      "id": "YamineLamal-4171-9482",
+      "purchasedAt": 1760448255362
+    },
+    {
       "id": "Akusika-5146-4024",
-      "purchasedAt": 1760389839824
+      "purchasedAt": 1760448262546
     }
   ],
   "roster": {
     "lineup": [
       "Torte-5227-0818",
       "Togore-Dreemurr-6731-0027",
-      "YamineLamal-4171-9482",
       "Cozmic-6706-5616",
       "AxelTS-7913-9686",
-      "Akusika-5146-4024"
+      "Akusika-5146-4024",
+      "YamineLamal-4171-9482"
     ],
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Pein36-5539-7293": 5991
+  }
 }

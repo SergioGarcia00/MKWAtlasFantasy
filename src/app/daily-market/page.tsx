@@ -155,7 +155,7 @@ export default function DailyMarketPage() {
   };
 
   const handleBidClick = (player: Player) => {
-    setBidAmount(player.cost);
+    setBidAmount(player.cost); // Default to player's base cost
     setBiddingPlayer(player);
     setIsBidding(true);
   };

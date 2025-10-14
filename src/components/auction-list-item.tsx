@@ -61,14 +61,12 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
   const owner = allUsers.find(u => u.players.some(p => p.id === player.id));
   const isOwned = !!owner;
 
-  const highestBid = player.bids?.[0];
-  const highestBidderIsCurrentUser = highestBid?.userId === user.id;
+  const currentUserHasBid = (player.bids || []).some(bid => bid.userId === user.id);
+
 
   const getButton = () => {
     if (isOwned) return <Button disabled className="w-full">Owned</Button>;
-    if (highestBidderIsCurrentUser) {
-        return <Button disabled variant="outline" className="w-full border-green-500 text-green-500 bg-green-500/10">You are the top bidder</Button>
-    };
+    
     return (
       <Button className="w-full" onClick={(e) => { e.stopPropagation(); onBid(player); }}>
         <Gavel className="mr-2 h-4 w-4" />
@@ -77,7 +75,9 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
     );
   }
 
-  const priceToShow = highestBid?.amount || player.cost;
+  const priceToShow = player.cost;
+  const bidsCount = player.bids?.length || 0;
+
 
   const gameStats1v1 = player.game_stats?.['1v1'];
   const gameStats2v2 = player.game_stats?.['2v2'];
@@ -94,7 +94,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                         <div className="flex items-baseline gap-2 text-primary">
                            <span className="font-bold text-3xl">{priceToShow.toLocaleString()}</span>
                             <span className="text-sm text-muted-foreground -translate-y-1">
-                                {highestBid ? 'Current Bid' : 'Base Cost'}
+                               Base Cost
                             </span>
                         </div>
                     </div>
@@ -102,10 +102,8 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                  <div className="text-right">
                     {owner ? (
                         <Badge variant="secondary">Owned by {owner.name}</Badge>
-                    ) : highestBidderIsCurrentUser ? (
-                        <Badge variant="default" className="bg-green-600">Top Bidder</Badge>
-                    ) : highestBid ? (
-                         <Badge variant="destructive">Outbid</Badge>
+                    ) : currentUserHasBid ? (
+                         <Badge variant="default" className="bg-green-600">Puja realizada</Badge>
                     ) : (
                          <Badge variant="outline">No Bids Yet</Badge>
                     )}
@@ -124,7 +122,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                 <div className="flex flex-col">
                     <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
                         <Users className="text-muted-foreground"/>
-                        Bidders ({player.bids?.length || 0})
+                        Bidders ({bidsCount})
                     </h4>
                      {player.bids && player.bids.length > 0 ? (
                         <div className="flex -space-x-2">
@@ -132,13 +130,12 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                                 {player.bids.slice(0, 5).map((bid, index) => (
                                     <Tooltip key={bid.userId}>
                                         <TooltipTrigger asChild>
-                                            <Avatar className={`w-8 h-8 border-2 ${bid.userId === highestBid?.userId ? 'border-amber-400' : 'border-card'}`}>
+                                            <Avatar className={`w-8 h-8 border-2 border-card`}>
                                                 <AvatarFallback className="text-xs">{bid.userName.substring(0, 2).toUpperCase()}</AvatarFallback>
-                                                {bid.userId === highestBid?.userId && <Crown className="absolute -top-2 -right-2 w-4 h-4 text-amber-400 bg-background rounded-full p-0.5"/>}
                                             </Avatar>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p>{bid.userName} - {bid.userId === highestBid?.userId ? 'Highest Bidder' : 'Bidder'}</p>
+                                            <p>{bid.userName} ha pujado</p>
                                         </TooltipContent>
                                     </Tooltip>
                                 ))}
