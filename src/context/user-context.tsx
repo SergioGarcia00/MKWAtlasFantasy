@@ -48,6 +48,10 @@ const postJson = async (url: string, data: any) => {
     return response.json();
 }
 
+const updateUserInList = (users: User[], updatedUser: User): User[] => {
+    return users.map(u => u.id === updatedUser.id ? updatedUser : u);
+};
+
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -83,16 +87,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
     loadAllData();
   }, [loadAllData]);
   
-  const updateUserState = useCallback(async (partialUpdate: Partial<User>) => {
-    if (!user) return;
-    try {
-        const updatedUser = await postJson(`/api/users/${user.id}`, { ...partialUpdate, id: user.id });
-        await loadAllData(); // Reload all data to ensure consistency
-    } catch (error: any) {
-      console.error("Update failed: ", error);
-      toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
-    }
-  }, [user, toast, loadAllData]);
+  const updateUserState = useCallback(async (updatedUser: User) => {
+      try {
+          const finalUserData = await postJson(`/api/users/${updatedUser.id}`, updatedUser);
+          setUser(finalUserData);
+          setAllUsers(prevUsers => updateUserInList(prevUsers, finalUserData));
+      } catch (error: any) {
+          console.error("Update failed: ", error);
+          toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
+      }
+  }, [toast]);
+
 
   const switchUser = useCallback((userId: string) => {
     if (user?.id === userId) return;
@@ -129,10 +134,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
     
-    await postJson(`/api/users/${user.id}`, updatedUser);
-    await loadAllData();
+    await updateUserState(updatedUser);
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-  }, [user, allUsers, toast, loadAllData]);
+  }, [user, allUsers, toast, updateUserState]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
     if (!user || !allUsers) return;
@@ -160,10 +164,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
 
-    await postJson(`/api/users/${user.id}`, updatedUser);
-    await loadAllData();
+    await updateUserState(updatedUser);
     toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-  }, [user, allUsers, toast, loadAllData]);
+  }, [user, allUsers, toast, updateUserState]);
 
   const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
     if (targetUser.players.length >= 10) {
@@ -208,10 +211,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
             bench: user.roster.bench.filter(id => id !== player.id),
         }
     };
-    await postJson(`/api/users/${user.id}`, updatedUser);
-    await loadAllData();
+    await updateUserState(updatedUser);
     toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
-  }, [user, toast, loadAllData]);
+  }, [user, toast, updateUserState]);
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
     if (!user || !allUsers) return;
@@ -251,7 +253,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
-    await updateUserState({ roster: { lineup, bench } });
+    await updateUserState({ ...user, roster: { lineup, bench } });
     toast({ title: 'Roster Updated' });
   }, [user, toast, updateUserState]);
 
@@ -261,7 +263,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         ...user.weeklyScores,
         [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
     };
-    await updateUserState({ weeklyScores: updatedScores });
+    await updateUserState({ ...user, weeklyScores: updatedScores });
     toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
   }, [user, toast, updateUserState]);
 
