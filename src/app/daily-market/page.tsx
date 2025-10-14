@@ -1,3 +1,4 @@
+
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
@@ -44,8 +45,10 @@ export default function DailyMarketPage() {
   }, [toast]);
 
   useEffect(() => {
-    fetchMarket();
-  }, [fetchMarket]);
+    if (allUsers.length > 0) { // Ensure users are loaded before fetching market
+        fetchMarket();
+    }
+  }, [fetchMarket, allUsers]);
 
   const allBidsByPlayer = useMemo(() => {
     return (allUsers || []).reduce<Record<string, Bid[]>>((acc, u) => {
@@ -74,11 +77,10 @@ export default function DailyMarketPage() {
 
   const handleRefreshMarket = async () => {
     setIsRefreshing(true);
+    // Just re-fetch the market and user data. The API will provide a new random set.
     try {
-        const response = await fetch('/api/market/refresh', { method: 'POST' });
-        if (!response.ok) throw new Error('Failed to refresh market');
-        toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
         await Promise.all([loadAllData(), fetchMarket()]);
+        toast({ title: 'Market Refreshed!', description: 'A new selection of players is up for auction.' });
     } catch (error: any) {
         toast({ variant: 'destructive', title: 'Error refreshing', description: error.message });
     } finally {
@@ -99,7 +101,10 @@ export default function DailyMarketPage() {
             title: 'Auctions Locked In!',
             description: `${result.winners.length} players have been transferred to their new owners.`,
         });
-        await Promise.all([loadAllData(), fetchMarket()]);
+        // We need to reload all data to reflect ownership changes and clear bids
+        await loadAllData(); 
+        // Then re-fetch the market to remove newly owned players
+        await fetchMarket();
     } catch (error: any) {
         toast({
             variant: 'destructive',
