@@ -29,6 +29,7 @@ export default function RosterPage() {
       .sort((a,b) => (b.mmr || 0) - (a.mmr || 0)); // Sort by MMR descending
   }, [user, getPlayerById]);
 
+
   if (isUserLoading || !user) {
     return (
       <div className="flex h-full items-center justify-center">

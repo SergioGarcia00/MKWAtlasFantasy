@@ -15,7 +15,7 @@ const createPlayerId = (player: any): string => {
 
 const iconNames: Player['icon'][] = ['Mario', 'Luigi', 'Peach', 'Yoshi', 'Bowser', 'DK', 'Toad', 'Koopa'];
 
-export const ALL_PLAYERS: Player[] = allRosterPlayers
+const rawPlayers: Player[] = allRosterPlayers
   // Filter out players who lack the essential data for a stable ID
   .filter(p => p.name && p.peak_mmr && p.friend_code)
   .map((p, index) => ({
@@ -42,13 +42,11 @@ export const ALL_PLAYERS: Player[] = allRosterPlayers
 
 // Create a map to ensure no duplicate IDs are generated.
 const playerMap = new Map<string, Player>();
-for (const player of ALL_PLAYERS) {
-    if (playerMap.has(player.id)) {
-        console.warn(`Duplicate player ID detected: ${player.id}. This may cause issues.`);
-        // Optional: handle duplicates, e.g., by adding an index to the ID
+for (const player of rawPlayers) {
+    if (!playerMap.has(player.id)) {
+        playerMap.set(player.id, player);
     }
-    playerMap.set(player.id, player);
 }
 
-// Export the deduplicated list
-export const UNIQUE_PLAYERS: Player[] = Array.from(playerMap.values());
+// Export the deduplicated list as the single source of truth
+export const ALL_PLAYERS: Player[] = Array.from(playerMap.values());
