@@ -4,7 +4,6 @@ import { useUser } from '@/context/user-context';
 import type { Player } from '@/lib/types';
 import { RosterPlayerCard } from '@/components/roster-player-card';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, Users, ShieldCheck, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
