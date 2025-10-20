@@ -14,13 +14,13 @@ interface UserContextType {
   isUserLoading: boolean;
   allUsers: User[];
   allPlayers: Player[];
-  purchasePlayer: (player: Player) => void;
-  purchasePlayerByPeakMmr: (player: Player) => void;
-  sellPlayer: (player: Player) => void;
-  updateRoster: (lineup: string[], bench: string[]) => void;
-  updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => void;
+  purchasePlayer: (player: Player) => Promise<void>;
+  purchasePlayerByPeakMmr: (player: Player) => Promise<void>;
+  sellPlayer: (player: Player) => Promise<void>;
+  updateRoster: (lineup: string[], bench: string[]) => Promise<void>;
+  updateWeeklyScores: (playerId: string, weekId: string, scores: WeeklyScore) => Promise<void>;
   switchUser: (userId: string) => void;
-  buyoutPlayer: (player: Player, owner: User) => void;
+  buyoutPlayer: (player: Player, owner: User) => Promise<void>;
   assignPlayer: (player: Player, targetUser: User, currentOwner?: User) => Promise<void>;
   getPlayerById: (playerId: string) => Player | undefined;
   loadAllData: () => Promise<void>;
@@ -31,8 +31,8 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const fetchJson = async (url: string) => {
     const response = await fetch(url, { cache: 'no-store' });
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || `Failed to fetch ${url}`);
+        const errorText = await response.text();
+        throw new Error(errorText || `Failed to fetch ${url}`);
     }
     return response.json();
 }
@@ -50,11 +50,6 @@ const postJson = async (url: string, data: any) => {
     return response.json();
 }
 
-const updateUserInList = (users: User[], updatedUser: User): User[] => {
-    return users.map(u => u.id === updatedUser.id ? updatedUser : u);
-};
-
-
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
@@ -65,8 +60,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return ALL_PLAYERS.find(p => p.id === playerId);
   }, []);
 
-  const loadAllData = useCallback(async () => {
-    setIsDataLoading(true);
+  const loadAllData = useCallback(async (reloadingUser: boolean = false) => {
+    if (!reloadingUser) {
+        setIsDataLoading(true);
+    }
     try {
         const users = await Promise.all(USER_IDS.map(id => fetchJson(`/api/users/${id}`)));
         setAllUsers(users);
@@ -80,7 +77,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         console.error("Failed to load all data:", error);
         toast({ title: 'Error Loading Data', description: error.message, variant: 'destructive' });
     } finally {
-        setIsDataLoading(false);
+        if (!reloadingUser) {
+            setIsDataLoading(false);
+        }
     }
   }, [toast]);
 
@@ -93,12 +92,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
       try {
           const finalUserData = await postJson(`/api/users/${updatedUser.id}`, updatedUser);
           setUser(finalUserData);
-          setAllUsers(prevUsers => updateUserInList(prevUsers, finalUserData));
+          setAllUsers(prevUsers => prevUsers.map(u => u.id === finalUserData.id ? finalUserData : u));
           return finalUserData;
       } catch (error: any) {
           console.error("Update failed: ", error);
           toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
-          return null;
+          throw error;
       }
   }, [toast]);
 
@@ -114,12 +113,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const purchasePlayer = useCallback(async (player: Player) => {
     if (!user || !allUsers) return;
-
-    const isPlayerOwnedByAnyone = allUsers.some(anyUser => anyUser.players.some(p => p.id === player.id));
-    if (isPlayerOwnedByAnyone) {
-      toast({ title: 'Player Already Owned', description: `${player.name} has already been purchased.`, variant: 'destructive' });
-      return;
-    }
     
     if (user.players.length >= 10) {
       toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
@@ -138,20 +131,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
     
-    const finalUser = await updateUserState(updatedUser);
-    if (finalUser) {
+    try {
+        await updateUserState(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
+    } catch (e) {
+      // Error is already toasted by updateUserState
     }
   }, [user, allUsers, toast, updateUserState]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
     if (!user || !allUsers) return;
 
-    const isPlayerOwnedByAnyone = allUsers.some(anyUser => anyUser.players.some(p => p.id === player.id));
-    if (isPlayerOwnedByAnyone) {
-        toast({ title: 'Player Already Owned', description: `${player.name} is already owned.`, variant: 'destructive' });
-        return;
-    }
     if (user.players.length >= 10) {
         toast({ title: 'Roster Full', description: 'Your roster is full.', variant: 'destructive' });
         return;
@@ -170,14 +160,16 @@ export function UserProvider({ children }: { children: ReactNode }) {
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
 
-    const finalUser = await updateUserState(updatedUser);
-    if (finalUser) {
+    try {
+        await updateUserState(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
+    } catch(e) {
+      // Error is already toasted
     }
   }, [user, allUsers, toast, updateUserState]);
 
  const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
-      if (targetUser.players.some(p => p.id === player.id)) {
+    if (targetUser.players.some(p => p.id === player.id)) {
         toast({ title: "Player Already Owned", description: `${targetUser.name} already owns this player.`, variant: "destructive"});
         return;
     }
@@ -207,7 +199,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
        await postJson(`/api/users/${updatedOwnerUser.id}`, updatedOwnerUser);
     }
     
-    await loadAllData();
+    await loadAllData(true);
     toast({ title: "Player Assigned!", description: `${player.name} has been given to ${targetUser.name}.`});
   }, [toast, loadAllData]);
 
@@ -223,9 +215,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
             bench: user.roster.bench.filter(id => id !== player.id),
         }
     };
-    const finalUser = await updateUserState(updatedUser);
-    if (finalUser) {
+    try {
+        await updateUserState(updatedUser);
         toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
+    } catch (e) {
+      // Error already handled
     }
   }, [user, toast, updateUserState]);
 
@@ -248,8 +242,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         players: [...user.players, newUserPlayer],
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
     };
-    await postJson(`/api/users/${newOwnerUser.id}`, newOwnerUser);
-
+    
     const previousOwnerUser = {
         ...owner,
         currency: owner.currency + player.cost,
@@ -259,18 +252,26 @@ export function UserProvider({ children }: { children: ReactNode }) {
             bench: owner.roster.bench.filter(id => id !== player.id),
         }
     };
-    await postJson(`/api/users/${previousOwnerUser.id}`, previousOwnerUser);
     
-    await loadAllData();
-    toast({ title: 'Buyout Successful!', description: `You purchased ${player.name} from ${owner.name}!` });
+    try {
+        await postJson(`/api/users/${newOwnerUser.id}`, newOwnerUser);
+        await postJson(`/api/users/${previousOwnerUser.id}`, previousOwnerUser);
+        
+        await loadAllData(true);
+        toast({ title: 'Buyout Successful!', description: `You purchased ${player.name} from ${owner.name}!` });
+    } catch(e) {
+         toast({ title: 'Buyout Failed', description: 'Could not complete the transaction.', variant: 'destructive'});
+    }
   }, [user, allUsers, toast, loadAllData]);
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
     const updatedUser = { ...user, roster: { lineup, bench } };
-    const finalUser = await updateUserState(updatedUser);
-    if (finalUser) {
+    try {
+        await updateUserState(updatedUser);
         toast({ title: 'Roster Updated' });
+    } catch (e) {
+        // Error handled in updateUserState
     }
   }, [user, toast, updateUserState]);
 
@@ -280,9 +281,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
         ...user.weeklyScores,
         [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
     };
-    const finalUser = await updateUserState({ ...user, weeklyScores: updatedScores });
-    if(finalUser) {
+    try {
+        await updateUserState({ ...user, weeklyScores: updatedScores });
         toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
+    } catch (e) {
+        // Error handled in updateUserState
     }
   }, [user, toast, updateUserState]);
 
@@ -300,5 +303,3 @@ export function useUser() {
   }
   return context;
 }
-
-    
