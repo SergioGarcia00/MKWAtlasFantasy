@@ -9,8 +9,6 @@ export const USER_IDS = [
   'user-morioh',
   'user-vick',
   'user-elgraco',
-  'user-yegu',
-  'user-mauri',
   'user-tario',
   'user-wolfeet',
   'user-oniix',
