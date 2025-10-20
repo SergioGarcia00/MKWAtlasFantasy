@@ -36,15 +36,46 @@
     "lineup": [
       "Sung-JinWoo-7078-2543",
       "Utah-Grim-Reaper-9881-2206",
-      "Ty-Beyonce-3824-9018",
       "MattyPatty-5716-1110",
       "Gity-5717-1910",
-      "tys-9433-3605"
+      "tys-9433-3605",
+      "Roni24-6797-7986"
     ],
     "bench": [
-      "Roni24-6797-7986"
+      "Ty-Beyonce-3824-9018"
     ]
   },
-  "weeklyScores": {},
+  "weeklyScores": {
+    "MattyPatty-5716-1110": {
+      "1": {
+        "race1": 85,
+        "race2": 126
+      }
+    },
+    "Sung-JinWoo-7078-2543": {
+      "1": {
+        "race1": 97,
+        "race2": 109
+      }
+    },
+    "Utah-Grim-Reaper-9881-2206": {
+      "1": {
+        "race1": 99,
+        "race2": 83
+      }
+    },
+    "Gity-5717-1910": {
+      "1": {
+        "race1": 95,
+        "race2": 68
+      }
+    },
+    "Roni24-6797-7986": {
+      "1": {
+        "race1": 79,
+        "race2": 85
+      }
+    }
+  },
   "bids": {}
 }

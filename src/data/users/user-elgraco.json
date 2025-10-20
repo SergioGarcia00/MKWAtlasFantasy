@@ -1,44 +1,116 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 17000,
+  "currency": 1047,
   "players": [
     {
       "id": "Hazza-7290-5141",
       "purchasedAt": 1760390231705
     },
     {
-      "id": "choko-6179-2684",
-      "purchasedAt": 1760390238645
-    },
-    {
-      "id": "CRISTHIAN-5026-6208",
-      "purchasedAt": 1760390282155
-    },
-    {
       "id": "Gerson-Boom-8371-0799",
       "purchasedAt": 1760390295580
     },
     {
-      "id": "Ha1bara-5811-6331",
-      "purchasedAt": 1760390303709
-    },
-    {
       "id": "Daisam-5752-5827",
       "purchasedAt": 1760390360539
+    },
+    {
+      "id": "zecarsito-jr.-5221-0529",
+      "purchasedAt": 1760464836458
+    },
+    {
+      "id": "Dark-5432-8982",
+      "purchasedAt": 1760464836460
+    },
+    {
+      "id": "Cole-Palmer-5044-0536",
+      "purchasedAt": 1760464836462
+    },
+    {
+      "id": "Ulquiorra-7377-0331",
+      "purchasedAt": 1760464836463
+    },
+    {
+      "id": "Zebrax-5553-1820",
+      "purchasedAt": 1760551285472
     }
   ],
   "roster": {
     "lineup": [
-      "Ha1bara-5811-6331",
-      "CRISTHIAN-5026-6208",
       "Hazza-7290-5141",
-      "choko-6179-2684",
       "Gerson-Boom-8371-0799",
-      "Daisam-5752-5827"
+      "Daisam-5752-5827",
+      "Ulquiorra-7377-0331",
+      "Cole-Palmer-5044-0536",
+      "Dark-5432-8982"
     ],
-    "bench": []
+    "bench": [
+      "zecarsito-jr.-5221-0529",
+      "Zebrax-5553-1820"
+    ]
   },
-  "weeklyScores": {},
+  "weeklyScores": {
+    "Hazza-7290-5141": {
+      "1": {
+        "race1": 106,
+        "race2": 80
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Gerson-Boom-8371-0799": {
+      "1": {
+        "race1": 92,
+        "race2": 109
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Daisam-5752-5827": {
+      "1": {
+        "race1": 92,
+        "race2": 0
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Ulquiorra-7377-0331": {
+      "1": {
+        "race1": 86,
+        "race2": 72
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Cole-Palmer-5044-0536": {
+      "1": {
+        "race1": 90,
+        "race2": 99
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Dark-5432-8982": {
+      "1": {
+        "race1": 122,
+        "race2": 113
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    }
+  },
   "bids": {}
 }

@@ -40,5 +40,10 @@
     "bench": []
   },
   "weeklyScores": {},
-  "bids": {}
+  "bids": {
+    "Piero-8601-9715": {
+      "amount": 9156,
+      "bidAt": 1760800318955
+    }
+  }
 }

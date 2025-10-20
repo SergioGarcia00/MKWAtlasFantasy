@@ -1,0 +1,92 @@
+{
+  "id": "user-wolfeet",
+  "name": "Wolfeet",
+  "currency": 1168,
+  "players": [
+    {
+      "id": "Yasn-5383-7699",
+      "purchasedAt": 1760389560870
+    },
+    {
+      "id": "Twingy-6990-8435",
+      "purchasedAt": 1760389560870
+    },
+    {
+      "id": "Shin-Godzilla-6752-8953",
+      "purchasedAt": 1760389560870
+    },
+    {
+      "id": "Plug-in-Baby-7475-4111",
+      "purchasedAt": 1760389560870
+    },
+    {
+      "id": "Piero-8601-9715",
+      "purchasedAt": 1760811393615
+    },
+    {
+      "id": "Xray-8087-7902",
+      "purchasedAt": 1760893279442
+    },
+    {
+      "id": "chema06-4606-8434",
+      "purchasedAt": 1760983607167
+    },
+    {
+      "id": "Baptboy-5252-3713",
+      "purchasedAt": 1760983607168
+    }
+  ],
+  "roster": {
+    "lineup": [
+      "Yasn-5383-7699",
+      "Twingy-6990-8435",
+      "Plug-in-Baby-7475-4111",
+      "Piero-8601-9715",
+      "Xray-8087-7902",
+      "Shin-Godzilla-6752-8953"
+    ],
+    "bench": [
+      "chema06-4606-8434",
+      "Baptboy-5252-3713"
+    ]
+  },
+  "weeklyScores": {
+    "Piero-8601-9715": {
+      "1": {
+        "race1": 83,
+        "race2": 88
+      }
+    },
+    "Xray-8087-7902": {
+      "1": {
+        "race1": 86,
+        "race2": 113
+      }
+    },
+    "Plug-in-Baby-7475-4111": {
+      "1": {
+        "race1": 84,
+        "race2": 96
+      }
+    },
+    "Shin-Godzilla-6752-8953": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Yasn-5383-7699": {
+      "1": {
+        "race1": 0,
+        "race2": 93
+      }
+    },
+    "Twingy-6990-8435": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    }
+  },
+  "bids": {}
+}

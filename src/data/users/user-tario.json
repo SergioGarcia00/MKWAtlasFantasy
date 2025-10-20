@@ -1,44 +1,81 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 17000,
+  "currency": 9860,
   "players": [
     {
       "id": "EYEKON-8673-8107",
       "purchasedAt": 1760389853780
     },
     {
-      "id": "Yazzi-4250-5235",
-      "purchasedAt": 1760389860768
-    },
-    {
-      "id": "Shawazer-6150-7802",
-      "purchasedAt": 1760389868114
-    },
-    {
-      "id": "Kikita-5043-7139",
-      "purchasedAt": 1760389880363
-    },
-    {
-      "id": "Tomsu-5489-1238",
-      "purchasedAt": 1760389890105
-    },
-    {
       "id": "Chaozu-8544-6051",
       "purchasedAt": 1760389901105
+    },
+    {
+      "id": "Tunamii-5183-8228",
+      "purchasedAt": 1760644251466
+    },
+    {
+      "id": "Sharpy-5868-4983",
+      "purchasedAt": 1760644251468
+    },
+    {
+      "id": "Kaffee-um-9-5920-3971",
+      "purchasedAt": 1760731612117
+    },
+    {
+      "id": "Ryukano-6213-1225",
+      "purchasedAt": 1760811393616
     }
   ],
   "roster": {
     "lineup": [
+      "Chaozu-8544-6051",
       "EYEKON-8673-8107",
-      "Yazzi-4250-5235",
-      "Shawazer-6150-7802",
-      "Kikita-5043-7139",
-      "Tomsu-5489-1238",
-      "Chaozu-8544-6051"
+      "Sharpy-5868-4983",
+      "Tunamii-5183-8228",
+      "Kaffee-um-9-5920-3971",
+      "Ryukano-6213-1225"
     ],
     "bench": []
   },
-  "weeklyScores": {},
+  "weeklyScores": {
+    "Chaozu-8544-6051": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "EYEKON-8673-8107": {
+      "1": {
+        "race1": 130,
+        "race2": 139
+      }
+    },
+    "Sharpy-5868-4983": {
+      "1": {
+        "race1": 87,
+        "race2": 79
+      }
+    },
+    "Tunamii-5183-8228": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Kaffee-um-9-5920-3971": {
+      "1": {
+        "race1": 104,
+        "race2": 92
+      }
+    },
+    "Ryukano-6213-1225": {
+      "1": {
+        "race1": 69,
+        "race2": 74
+      }
+    }
+  },
   "bids": {}
 }
