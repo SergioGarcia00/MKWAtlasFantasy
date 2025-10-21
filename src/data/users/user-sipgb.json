@@ -1,7 +1,7 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 3036,
+  "currency": 3978,
   "players": [
     {
       "id": "Torte-5227-0818",
@@ -34,15 +34,15 @@
   ],
   "roster": {
     "lineup": [
-      "Torte-5227-0818",
       "Togore-Dreemurr-6731-0027",
       "Cozmic-6706-5616",
       "AxelTS-7913-9686",
       "Pein36-5539-7293",
-      "Kiria-3848-0816"
+      "Kiria-3848-0816",
+      "Korni-6903-4006"
     ],
     "bench": [
-      "Korni-6903-4006"
+      "Torte-5227-0818"
     ]
   },
   "weeklyScores": {

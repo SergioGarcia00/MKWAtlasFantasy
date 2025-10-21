@@ -11,12 +11,13 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { useUser } from '@/context/user-context';
-import { ArrowDown, ArrowUp, DollarSign, ArrowRightLeft } from 'lucide-react';
+import { ArrowRightLeft, Banknote, DollarSign, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useState, useEffect } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
-
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Label } from './ui/label';
 
 interface RosterPlayerCardProps {
   player: Player;
@@ -52,9 +53,13 @@ async function fetchWeeks(): Promise<Week[]> {
   }
 
 export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLineup }: RosterPlayerCardProps) {
-  const { user, updateWeeklyScores } = useUser();
+  const { user, updateWeeklyScores, increaseBuyoutClause } = useUser();
   const [selectedWeek, setSelectedWeek] = useState('1');
   const [weeks, setWeeks] = useState<Week[]>([]);
+  
+  const [isClauseDialogOpen, setIsClauseDialogOpen] = useState(false);
+  const [clauseInvestment, setClauseInvestment] = useState(0);
+  const [isInvesting, setIsInvesting] = useState(false);
 
   useEffect(() => {
     const loadWeeks = async () => {
@@ -72,6 +77,11 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
       race2: user?.weeklyScores?.[player.id]?.['1']?.race2 || 0,
     },
   });
+  
+  const userPlayer = user?.players.find(p => p.id === player.id);
+  const currentInvestment = userPlayer?.clauseInvestment || 0;
+  const baseBuyout = Math.round(player.cost * 1.5);
+  const currentBuyoutClause = baseBuyout + (currentInvestment * 2);
 
   const handleWeekChange = (weekId: string) => {
     setSelectedWeek(weekId);
@@ -85,6 +95,15 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
     updateWeeklyScores(player.id, values.weekId, { race1: values.race1, race2: values.race2 });
   };
   
+  const handleClauseInvestment = async () => {
+    if (clauseInvestment <= 0) return;
+    setIsInvesting(true);
+    await increaseBuyoutClause(player.id, clauseInvestment);
+    setIsInvesting(false);
+    setIsClauseDialogOpen(false);
+    setClauseInvestment(0);
+  };
+
   const moveButtonDisabled = isLineup ? false : !canMoveToLineup;
   const moveButtonTooltip = isLineup ? 'Move to Bench' : !canMoveToLineup ? 'Lineup is full' : 'Move to Lineup';
   const sellPrice = player.cost;
@@ -106,6 +125,61 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
           </div>
           <div className="flex items-center gap-2">
             <TooltipProvider>
+              <Dialog open={isClauseDialogOpen} onOpenChange={setIsClauseDialogOpen}>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                      <DialogTrigger asChild>
+                        <Button size="icon" variant="ghost" className="w-8 h-8 text-green-600 hover:bg-green-500/10 hover:text-green-600">
+                            <Banknote className="w-4 h-4"/>
+                        </Button>
+                      </DialogTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>Increase Buyout Clause</p>
+                    </TooltipContent>
+                </Tooltip>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Increase Buyout Clause for {player.name}</DialogTitle>
+                        <DialogDescription>
+                            Invest your coins to make it more expensive for other users to buy out this player. For every 1 coin you invest, the buyout clause increases by 2.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-4">
+                      <div className="p-4 bg-muted rounded-lg text-center">
+                        <p className="text-sm text-muted-foreground">Current Buyout Price</p>
+                        <p className="text-3xl font-bold">{currentBuyoutClause.toLocaleString()}</p>
+                        <p className="text-xs text-muted-foreground">({baseBuyout.toLocaleString()} base + {(currentInvestment * 2).toLocaleString()} from investment)</p>
+                      </div>
+                      <div>
+                        <Label htmlFor="investment">Amount to Invest</Label>
+                        <Input 
+                          id="investment"
+                          type="number"
+                          value={clauseInvestment}
+                          onChange={e => setClauseInvestment(Number(e.target.value))}
+                          min={0}
+                          max={user?.currency || 0}
+                        />
+                         <p className="text-xs text-muted-foreground mt-1">Your balance: {(user?.currency || 0).toLocaleString()} coins.</p>
+                      </div>
+                       <div className="p-4 bg-primary/10 text-primary rounded-lg text-center">
+                        <p className="text-sm">New Buyout Price</p>
+                        <p className="text-3xl font-bold">{(currentBuyoutClause + (clauseInvestment * 2)).toLocaleString()}</p>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="outline">Cancel</Button>
+                        </DialogClose>
+                        <Button onClick={handleClauseInvestment} disabled={isInvesting || clauseInvestment <= 0 || (user && user.currency < clauseInvestment)}>
+                           {isInvesting && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
+                           Invest {clauseInvestment.toLocaleString()} Coins
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
               <AlertDialog>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -123,7 +197,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure you want to sell {player.name}?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You will receive {sellPrice.toLocaleString()} coins (100% of the current cost). This action is irreversible.
+                      You will receive {sellPrice.toLocaleString()} coins (100% of the original cost). This action is irreversible.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>

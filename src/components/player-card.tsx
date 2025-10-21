@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { Player } from '@/lib/types';
+import type { Player, UserPlayer } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -50,7 +50,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   
   const ownerInfo = allUsers.map(u => {
     const userPlayer = u.players.find(p => p.id === player.id);
-    return userPlayer ? { user: u, purchasedAt: userPlayer.purchasedAt } : null;
+    return userPlayer ? { user: u, purchasedAt: userPlayer.purchasedAt, clauseInvestment: userPlayer.clauseInvestment || 0 } : null;
   }).find(info => info !== null);
 
   const owner = ownerInfo?.user;
@@ -59,9 +59,10 @@ export function PlayerCard({ player }: PlayerCardProps) {
 
   const isRosterFull = user.players.length >= 10;
   const canAfford = user.currency >= player.cost;
-
-  const buyoutPrice = Math.round(player.cost * 1.5);
-  const canAffordBuyout = user.currency >= buyoutPrice;
+  
+  const baseBuyoutPrice = Math.round(player.cost * 1.5);
+  const totalBuyoutPrice = baseBuyoutPrice + ((ownerInfo?.clauseInvestment || 0) * 2);
+  const canAffordBuyout = user.currency >= totalBuyoutPrice;
 
   const daysSincePurchase = ownerInfo ? differenceInDays(new Date(), new Date(ownerInfo.purchasedAt)) : 0;
   const isBuyoutProtected = isOwnedByOtherUser && daysSincePurchase < 14;
@@ -254,14 +255,14 @@ export function PlayerCard({ player }: PlayerCardProps) {
                             {isRosterFull ? 'Roster Full' 
                             : !canAffordBuyout ? 'Cannot afford buyout' 
                             : isBuyoutProtected ? `Protected (${buyoutProtectionDaysLeft}d)`
-                            : `Buyout for ${buyoutPrice.toLocaleString()}`}
+                            : `Buyout for ${totalBuyoutPrice.toLocaleString()}`}
                          </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                         <AlertDialogTitle>Confirm Buyout Clause</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This will purchase {player.name} from {owner.name} for a price of {buyoutPrice.toLocaleString()} coins.
+                            This will purchase {player.name} from {owner.name} for a price of {totalBuyoutPrice.toLocaleString()} coins.
                             The original owner will be refunded the original purchase cost. This action is irreversible.
                         </AlertDialogDescription>
                         </AlertDialogHeader>

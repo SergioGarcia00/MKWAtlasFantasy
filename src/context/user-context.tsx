@@ -23,6 +23,7 @@ interface UserContextType {
   assignPlayer: (player: Player, targetUser: User, currentOwner?: User) => Promise<void>;
   getPlayerById: (playerId: string) => Player | undefined;
   loadAllData: () => Promise<void>;
+  increaseBuyoutClause: (playerId: string, investmentAmount: number) => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -224,7 +225,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
     if (!user || !allUsers) return;
-    const buyoutPrice = Math.round(player.cost * 1.5);
+    
+    const ownerPlayerInfo = owner.players.find(p => p.id === player.id);
+    const clauseInvestment = ownerPlayerInfo?.clauseInvestment || 0;
+    const buyoutPrice = Math.round(player.cost * 1.5) + (clauseInvestment * 2);
+
     if (user.currency < buyoutPrice) {
         toast({ title: 'Insufficient Funds', variant: 'destructive' });
         return;
@@ -263,6 +268,38 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   }, [user, allUsers, toast, loadAllData]);
 
+  const increaseBuyoutClause = useCallback(async (playerId: string, investmentAmount: number) => {
+    if (!user) return;
+    if (user.currency < investmentAmount) {
+      toast({ title: 'Insufficient Funds', description: 'You do not have enough coins for this investment.', variant: 'destructive' });
+      return;
+    }
+
+    const updatedPlayers = user.players.map(p => {
+      if (p.id === playerId) {
+        return {
+          ...p,
+          clauseInvestment: (p.clauseInvestment || 0) + investmentAmount
+        };
+      }
+      return p;
+    });
+
+    const updatedUser = {
+      ...user,
+      currency: user.currency - investmentAmount,
+      players: updatedPlayers
+    };
+
+    try {
+      await updateUserState(updatedUser);
+      toast({ title: 'Clause Increased!', description: `You invested ${investmentAmount.toLocaleString()} coins in ${getPlayerById(playerId)?.name}.` });
+    } catch (e) {
+      // Error handled in updateUserState
+    }
+  }, [user, toast, updateUserState, getPlayerById]);
+
+
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
     const updatedUser = { ...user, roster: { lineup, bench } };
@@ -289,7 +326,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [user, toast, updateUserState]);
 
   return (
-    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer, isUserLoading: isDataLoading }}>
+    <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer, increaseBuyoutClause, isUserLoading: isDataLoading }}>
       {children}
     </UserContext.Provider>
   );
