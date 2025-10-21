@@ -3,10 +3,14 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
 import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import InitialData from '@/lib/data_export.json';
 import { ALL_PLAYERS } from '@/data/players';
 import { USER_IDS } from '@/data/users';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
+
+// Utility to create a deep copy
+const deepCopy = <T,>(obj: T): T => JSON.parse(JSON.stringify(obj));
 
 interface UserContextType {
   user: User | null;
@@ -27,6 +31,7 @@ interface UserContextType {
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
+
 
 const fetchJson = async (url: string) => {
     const response = await fetch(url, { cache: 'no-store' });
