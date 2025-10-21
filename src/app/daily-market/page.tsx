@@ -13,19 +13,15 @@ import { Input } from '@/components/ui/input';
 export type Bid = { userId: string; userName: string; amount: number };
 
 const getTargetTime = () => {
-    // Use Europe/Madrid which is CEST during summer and CET during winter.
-    const nowInMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-    const target = new Date(nowInMadrid);
-
-    const isSunday = nowInMadrid.getDay() === 0;
+    const nowInStockholm = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Stockholm' }));
+    const target = new Date(nowInStockholm);
+    const isSunday = nowInStockholm.getDay() === 0;
     const resetHour = isSunday ? 19 : 20;
 
     target.setHours(resetHour, 0, 0, 0);
 
-    // If target time has already passed for today, set it for tomorrow
-    if (nowInMadrid > target) {
+    if (nowInStockholm.getTime() > target.getTime()) {
         target.setDate(target.getDate() + 1);
-        // Check day again for tomorrow
         const tomorrowIsSunday = target.getDay() === 0;
         const tomorrowResetHour = tomorrowIsSunday ? 19 : 20;
         target.setHours(tomorrowResetHour, 0, 0, 0);
@@ -33,38 +29,37 @@ const getTargetTime = () => {
     return target;
 };
 
-const CountdownClock = ({ targetDate }: { targetDate: Date }) => {
-    const [timeLeft, setTimeLeft] = useState({ hours: '00', minutes: '00', seconds: '00' });
-    const [now, setNow] = useState(new Date());
 
-    const isSunday = useMemo(() => new Date(targetDate.toLocaleString('en-US', { timeZone: 'Europe/Madrid' })).getDay() === 0, [targetDate]);
+const CountdownClock = ({ onTimerEnd }: { onTimerEnd: () => void }) => {
+    const [targetTime, setTargetTime] = useState(getTargetTime());
+    const [timeLeft, setTimeLeft] = useState({ hours: '00', minutes: '00', seconds: '00' });
+    const isSunday = useMemo(() => new Date(targetTime.toLocaleString('en-US', { timeZone: 'Europe/Stockholm' })).getDay() === 0, [targetTime]);
     const resetTime = isSunday ? '19:00' : '20:00';
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            const currentTime = new Date();
-            setNow(currentTime);
-            const difference = targetDate.getTime() - currentTime.getTime();
-            
-            let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
-            let minutes = Math.floor((difference / 1000 / 60) % 60);
-            let seconds = Math.floor((difference / 1000) % 60);
+        const timerId = setInterval(() => {
+            const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Stockholm' }));
+            const difference = targetTime.getTime() - now.getTime();
 
-            if (difference < 0) {
-                 hours = 0;
-                 minutes = 0;
-                 seconds = 0;
+            if (difference <= 0) {
+                setTimeLeft({ hours: '00', minutes: '00', seconds: '00' });
+                onTimerEnd();
+                setTargetTime(getTargetTime()); // Reset for the next day
+            } else {
+                const hours = Math.floor((difference / (1000 * 60 * 60)));
+                const minutes = Math.floor((difference / 1000 / 60) % 60);
+                const seconds = Math.floor((difference / 1000) % 60);
+
+                setTimeLeft({
+                    hours: hours.toString().padStart(2, '0'),
+                    minutes: minutes.toString().padStart(2, '0'),
+                    seconds: seconds.toString().padStart(2, '0'),
+                });
             }
-
-            setTimeLeft({
-                hours: hours.toString().padStart(2, '0'),
-                minutes: minutes.toString().padStart(2, '0'),
-                seconds: seconds.toString().padStart(2, '0'),
-            });
         }, 1000);
 
-        return () => clearInterval(timer);
-    }, [targetDate]);
+        return () => clearInterval(timerId);
+    }, [targetTime, onTimerEnd]);
 
     return (
         <div className="text-center bg-card border rounded-lg p-4 shadow-sm">
@@ -98,8 +93,6 @@ export default function DailyMarketPage() {
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
   const [bidAmount, setBidAmount] = useState(0);
   const [isBidLoading, setIsBidLoading] = useState(false);
-
-  const [targetTime, setTargetTime] = useState(getTargetTime());
 
 
   const fetchMarket = useCallback(async () => {
@@ -228,27 +221,11 @@ export default function DailyMarketPage() {
   }, [loadAllData, fetchMarket, toast, marketPlayersWithBids]);
 
   const runAutomatedTasks = useCallback(async () => {
+        if (user?.id !== 'user-sipgb') return;
         toast({ title: 'Automated Market Update', description: 'Locking in auctions and regenerating market...' });
         await handleLockIn();
         await handleRefreshMarket();
-        setTargetTime(getTargetTime()); // Reset timer for the next day
-    }, [handleLockIn, handleRefreshMarket]);
-
-
-    useEffect(() => {
-        if (user?.id !== 'user-sipgb') {
-            return;
-        }
-
-        const interval = setInterval(() => {
-            const now = new Date();
-            if (now >= targetTime) {
-                runAutomatedTasks();
-            }
-        }, 1000 * 30); // Check every 30 seconds
-
-        return () => clearInterval(interval);
-    }, [user, targetTime, runAutomatedTasks]);
+    }, [handleLockIn, handleRefreshMarket, user]);
 
 
   const handleBidClick = (player: Player) => {
@@ -305,7 +282,7 @@ export default function DailyMarketPage() {
             </p>
         </div>
         <div className="w-full md:w-auto md:justify-self-end">
-          <CountdownClock targetDate={targetTime} />
+          <CountdownClock onTimerEnd={runAutomatedTasks} />
         </div>
       </header>
 
