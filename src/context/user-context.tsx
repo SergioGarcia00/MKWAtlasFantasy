@@ -228,7 +228,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     
     const ownerPlayerInfo = owner.players.find(p => p.id === player.id);
     const clauseInvestment = ownerPlayerInfo?.clauseInvestment || 0;
-    const buyoutPrice = Math.round(player.cost * 1.5) + (clauseInvestment * 2);
+    const buyoutPrice = player.cost + (clauseInvestment * 2);
 
     if (user.currency < buyoutPrice) {
         toast({ title: 'Insufficient Funds', variant: 'destructive' });

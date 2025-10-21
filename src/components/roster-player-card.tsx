@@ -80,7 +80,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
   
   const userPlayer = user?.players.find(p => p.id === player.id);
   const currentInvestment = userPlayer?.clauseInvestment || 0;
-  const baseBuyout = Math.round(player.cost * 1.5);
+  const baseBuyout = player.cost;
   const currentBuyoutClause = baseBuyout + (currentInvestment * 2);
 
   const handleWeekChange = (weekId: string) => {
