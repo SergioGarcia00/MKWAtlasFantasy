@@ -3,14 +3,10 @@
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
 import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
-import InitialData from '@/lib/data_export.json';
 import { ALL_PLAYERS } from '@/data/players';
 import { USER_IDS } from '@/data/users';
 
 const FANTASY_LEAGUE_ACTIVE_USER_ID = 'fantasy_league_active_user_id';
-
-// Utility to create a deep copy
-const deepCopy = <T,>(obj: T): T => JSON.parse(JSON.stringify(obj));
 
 interface UserContextType {
   user: User | null;
@@ -31,7 +27,6 @@ interface UserContextType {
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
-
 
 const fetchJson = async (url: string) => {
     const response = await fetch(url, { cache: 'no-store' });
@@ -93,18 +88,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
     loadAllData();
   }, [loadAllData]);
   
-  const updateUserState = useCallback(async (updatedUser: User) => {
-      try {
-          const finalUserData = await postJson(`/api/users/${updatedUser.id}`, updatedUser);
-          setUser(finalUserData);
-          setAllUsers(prevUsers => prevUsers.map(u => u.id === finalUserData.id ? finalUserData : u));
-          return finalUserData;
-      } catch (error: any) {
-          console.error("Update failed: ", error);
-          toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
-          throw error;
-      }
-  }, [toast]);
+ const updateUserOnServer = useCallback(async (updatedUser: User) => {
+    try {
+      const finalUserData = await postJson(`/api/users/${updatedUser.id}`, updatedUser);
+      await loadAllData(true); // Recargar todos los datos para asegurar consistencia
+      return finalUserData;
+    } catch (error: any) {
+      console.error("Update failed: ", error);
+      toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
+      await loadAllData(true); // Re-sync with server state on failure
+      throw error;
+    }
+  }, [toast, loadAllData]);
 
 
   const switchUser = useCallback((userId: string) => {
@@ -137,12 +132,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
     };
     
     try {
-        await updateUserState(updatedUser);
+        await updateUserOnServer(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
     } catch (e) {
-      // Error is already toasted by updateUserState
+      // Error is already toasted by updateUserOnServer
     }
-  }, [user, allUsers, toast, updateUserState]);
+  }, [user, allUsers, toast, updateUserOnServer]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
     if (!user || !allUsers) return;
@@ -166,12 +161,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
     };
 
     try {
-        await updateUserState(updatedUser);
+        await updateUserOnServer(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
     } catch(e) {
       // Error is already toasted
     }
-  }, [user, allUsers, toast, updateUserState]);
+  }, [user, allUsers, toast, updateUserOnServer]);
 
  const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
     if (targetUser.players.some(p => p.id === player.id)) {
@@ -221,12 +216,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         }
     };
     try {
-        await updateUserState(updatedUser);
+        await updateUserOnServer(updatedUser);
         toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
     } catch (e) {
       // Error already handled
     }
-  }, [user, toast, updateUserState]);
+  }, [user, toast, updateUserOnServer]);
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
     if (!user || !allUsers) return;
@@ -297,24 +292,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
     };
 
     try {
-      await updateUserState(updatedUser);
+      await updateUserOnServer(updatedUser);
       toast({ title: 'Clause Increased!', description: `You invested ${investmentAmount.toLocaleString()} coins in ${getPlayerById(playerId)?.name}.` });
     } catch (e) {
-      // Error handled in updateUserState
+      // Error handled in updateUserOnServer
     }
-  }, [user, toast, updateUserState, getPlayerById]);
+  }, [user, toast, updateUserOnServer, getPlayerById]);
 
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
     const updatedUser = { ...user, roster: { lineup, bench } };
     try {
-        await updateUserState(updatedUser);
+        await updateUserOnServer(updatedUser);
         toast({ title: 'Roster Updated' });
     } catch (e) {
-        // Error handled in updateUserState
+        // Error handled in updateUserOnServer
     }
-  }, [user, toast, updateUserState]);
+  }, [user, toast, updateUserOnServer]);
 
   const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
     if (!user) return;
@@ -323,12 +318,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
         [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
     };
     try {
-        await updateUserState({ ...user, weeklyScores: updatedScores });
+        await updateUserOnServer({ ...user, weeklyScores: updatedScores });
         toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
     } catch (e) {
-        // Error handled in updateUserState
+        // Error handled in updateUserOnServer
     }
-  }, [user, toast, updateUserState]);
+  }, [user, toast, updateUserOnServer]);
 
   return (
     <UserContext.Provider value={{ user, allUsers, allPlayers: ALL_PLAYERS, purchasePlayer, purchasePlayerByPeakMmr, sellPlayer, updateRoster, updateWeeklyScores, switchUser, buyoutPlayer, getPlayerById, loadAllData, assignPlayer, increaseBuyoutClause, isUserLoading: isDataLoading }}>
