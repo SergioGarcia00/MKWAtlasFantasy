@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
-import { Sparkles, Loader2, RefreshCw, Gavel } from 'lucide-react';
+import { Sparkles, Loader2, RefreshCw, Gavel, Clock } from 'lucide-react';
 import { AuctionListItem } from '@/components/auction-list-item';
 import { Player } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -11,6 +11,67 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from '@/components/ui/input';
 
 export type Bid = { userId: string; userName: string; amount: number };
+
+const getTargetTime = () => {
+    const now = new Date();
+    // Use Europe/Madrid which is CEST during summer and CET during winter.
+    const target = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+    target.setHours(20, 0, 0, 0);
+
+    // If target time has already passed for today, set it for tomorrow
+    if (new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' })) > target) {
+        target.setDate(target.getDate() + 1);
+    }
+    return target;
+};
+
+const CountdownClock = ({ targetDate }: { targetDate: Date }) => {
+    const [timeLeft, setTimeLeft] = useState({ hours: '00', minutes: '00', seconds: '00' });
+    const [now, setNow] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const currentTime = new Date();
+            setNow(currentTime);
+            const difference = targetDate.getTime() - currentTime.getTime();
+            
+            let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+            let minutes = Math.floor((difference / 1000 / 60) % 60);
+            let seconds = Math.floor((difference / 1000) % 60);
+
+            if (difference < 0) {
+                 hours = 0;
+                 minutes = 0;
+                 seconds = 0;
+            }
+
+            setTimeLeft({
+                hours: hours.toString().padStart(2, '0'),
+                minutes: minutes.toString().padStart(2, '0'),
+                seconds: seconds.toString().padStart(2, '0'),
+            });
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [targetDate]);
+
+    return (
+        <div className="text-center bg-card border rounded-lg p-4 shadow-sm">
+            <div className="flex items-center justify-center gap-2 text-muted-foreground text-sm mb-2">
+                <Clock className="w-4 h-4" />
+                <span>Next Market Refresh</span>
+            </div>
+            <div className="font-mono text-4xl font-bold text-primary tracking-tight">
+                <span>{timeLeft.hours}</span>:
+                <span>{timeLeft.minutes}</span>:
+                <span>{timeLeft.seconds}</span>
+            </div>
+             <div className="text-xs text-muted-foreground mt-2">
+               Resets daily at 20:00 CEST
+            </div>
+        </div>
+    );
+};
 
 export default function DailyMarketPage() {
   const { user, allUsers, switchUser, getPlayerById, loadAllData } = useUser();
@@ -26,6 +87,8 @@ export default function DailyMarketPage() {
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
   const [bidAmount, setBidAmount] = useState(0);
   const [isBidLoading, setIsBidLoading] = useState(false);
+
+  const [targetTime, setTargetTime] = useState(getTargetTime());
 
 
   const fetchMarket = useCallback(async () => {
@@ -102,7 +165,7 @@ export default function DailyMarketPage() {
   };
 
 
-  const handleRefreshMarket = async () => {
+  const handleRefreshMarket = useCallback(async () => {
     setIsRefreshing(true);
     try {
       const response = await fetch('/api/market/refresh', { method: 'POST' });
@@ -121,9 +184,9 @@ export default function DailyMarketPage() {
     } finally {
         setIsRefreshing(false);
     }
-  };
+  }, [toast, loadAllData, fetchMarket]);
 
-  const handleLockIn = async () => {
+  const handleLockIn = useCallback(async () => {
     setIsLocking(true);
 
     // Download CSV before processing
@@ -151,7 +214,31 @@ export default function DailyMarketPage() {
     } finally {
         setIsLocking(false);
     }
-  };
+  }, [loadAllData, fetchMarket, toast, marketPlayersWithBids]);
+
+  const runAutomatedTasks = useCallback(async () => {
+        toast({ title: 'Automated Market Update', description: 'Locking in auctions and regenerating market...' });
+        await handleLockIn();
+        await handleRefreshMarket();
+        setTargetTime(getTargetTime()); // Reset timer for the next day
+    }, [handleLockIn, handleRefreshMarket]);
+
+
+    useEffect(() => {
+        if (user?.id !== 'user-sipgb') {
+            return;
+        }
+
+        const interval = setInterval(() => {
+            const now = new Date();
+            if (now >= targetTime) {
+                runAutomatedTasks();
+            }
+        }, 1000 * 30); // Check every 30 seconds
+
+        return () => clearInterval(interval);
+    }, [user, targetTime, runAutomatedTasks]);
+
 
   const handleBidClick = (player: Player) => {
     const highestBid = (player.bids || []).reduce((max, b) => Math.max(max, b.amount), 0);
@@ -194,8 +281,8 @@ export default function DailyMarketPage() {
 
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <header className="mb-8 flex items-center justify-between">
-        <div>
+      <header className="mb-8 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="md:col-span-2">
             <div className="flex items-center gap-3">
             <Sparkles className="w-8 h-8 text-primary" />
             <h1 className="text-4xl font-bold font-headline">
@@ -203,22 +290,29 @@ export default function DailyMarketPage() {
             </h1>
             </div>
             <p className="text-muted-foreground mt-2">
-            Bid on new talent! The market is static until you regenerate it or lock in the auctions.
+            Bid on new talent! The market automatically resets daily.
             </p>
         </div>
-         <div className="flex items-center gap-2">
-            <Button onClick={handleRefreshMarket} variant="outline" disabled={loading || isRefreshing}>
-                {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
-                Regenerate Market
-            </Button>
-            {user?.id === 'user-sipgb' && (
-                <Button onClick={handleLockIn} disabled={isLocking}>
-                    {isLocking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Gavel className="mr-2 h-4 w-4" />}
-                    Lock In Auctions
-                </Button>
-            )}
+        <div className="w-full md:w-auto md:justify-self-end">
+          <CountdownClock targetDate={targetTime} />
         </div>
       </header>
+
+      {user?.id === 'user-sipgb' && (
+        <div className="flex items-center gap-2 mb-8 p-4 border-l-4 border-amber-500 bg-amber-50 rounded-lg">
+             <p className="text-sm text-amber-800">
+              Admin controls: Manually trigger market events if needed.
+            </p>
+            <Button onClick={handleRefreshMarket} variant="outline" size="sm" disabled={loading || isRefreshing}>
+                {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+                Regenerate Now
+            </Button>
+             <Button onClick={handleLockIn} size="sm" disabled={isLocking}>
+                {isLocking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Gavel className="mr-2 h-4 w-4" />}
+                Lock In Now
+            </Button>
+        </div>
+      )}
 
       <div>
         {loading ? (
@@ -231,7 +325,7 @@ export default function DailyMarketPage() {
               <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
             )) : (
               <div className="text-center py-20 border-2 border-dashed rounded-lg">
-                <p className="text-lg text-muted-foreground">The market is empty. Click "Regenerate Market" to get started!</p>
+                <p className="text-lg text-muted-foreground">The market is empty. It will refresh at the next reset time.</p>
               </div>
             )}
           </div>
