@@ -43,8 +43,12 @@ export async function POST(
       // File might not exist, that's okay for a full update.
     }
     
+    // Merge updates into the current data, ensuring all top-level keys from the new data are included.
     const finalData = { ...currentUserData, ...updatedData };
     
+    // Ensure the ID in the file always matches the file name
+    finalData.id = userId;
+
     await fs.writeFile(filePath, JSON.stringify(finalData, null, 2), 'utf-8');
     return NextResponse.json(finalData);
   } catch (error) {
