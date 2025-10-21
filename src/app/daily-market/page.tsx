@@ -13,14 +13,22 @@ import { Input } from '@/components/ui/input';
 export type Bid = { userId: string; userName: string; amount: number };
 
 const getTargetTime = () => {
-    const now = new Date();
     // Use Europe/Madrid which is CEST during summer and CET during winter.
-    const target = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
-    target.setHours(20, 0, 0, 0);
+    const nowInMadrid = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Madrid' }));
+    const target = new Date(nowInMadrid);
+
+    const isSunday = nowInMadrid.getDay() === 0;
+    const resetHour = isSunday ? 19 : 20;
+
+    target.setHours(resetHour, 0, 0, 0);
 
     // If target time has already passed for today, set it for tomorrow
-    if (new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Madrid' })) > target) {
+    if (nowInMadrid > target) {
         target.setDate(target.getDate() + 1);
+        // Check day again for tomorrow
+        const tomorrowIsSunday = target.getDay() === 0;
+        const tomorrowResetHour = tomorrowIsSunday ? 19 : 20;
+        target.setHours(tomorrowResetHour, 0, 0, 0);
     }
     return target;
 };
@@ -28,6 +36,9 @@ const getTargetTime = () => {
 const CountdownClock = ({ targetDate }: { targetDate: Date }) => {
     const [timeLeft, setTimeLeft] = useState({ hours: '00', minutes: '00', seconds: '00' });
     const [now, setNow] = useState(new Date());
+
+    const isSunday = useMemo(() => new Date(targetDate.toLocaleString('en-US', { timeZone: 'Europe/Madrid' })).getDay() === 0, [targetDate]);
+    const resetTime = isSunday ? '19:00' : '20:00';
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -67,7 +78,7 @@ const CountdownClock = ({ targetDate }: { targetDate: Date }) => {
                 <span>{timeLeft.seconds}</span>
             </div>
              <div className="text-xs text-muted-foreground mt-2">
-               Resets daily at 20:00 CEST
+               Resets at {resetTime} CEST (Sun: 19:00, Mon-Sat: 20:00)
             </div>
         </div>
     );
