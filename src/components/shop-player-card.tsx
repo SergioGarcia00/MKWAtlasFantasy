@@ -30,7 +30,6 @@ export function ShopPlayerCard({ player }: ShopPlayerCardProps) {
   
   const owner = allUsers.find(u => u.players.some(p => p.id === player.id));
   const isOwned = !!owner;
-  const isOwnedByCurrentUser = owner?.id === user.id;
 
   const handleAssignPlayer = async () => {
     if (!selectedUserId) {
@@ -52,17 +51,10 @@ export function ShopPlayerCard({ player }: ShopPlayerCardProps) {
   };
   
   const getButton = () => {
-    if (isOwned) {
-      return (
-        <div className="w-full text-center text-sm text-muted-foreground py-2">
-            Owned by: {owner.name}
-        </div>
-      );
-    }
     return (
         <Button className="w-full bg-accent hover:bg-accent/90" onClick={() => setIsAssigning(true)}>
             <UserPlus className="mr-2 h-4 w-4" />
-            Assign Player
+            {isOwned ? 'Re-assign Player' : 'Assign Player'}
         </Button>
     );
   }
@@ -75,7 +67,7 @@ export function ShopPlayerCard({ player }: ShopPlayerCardProps) {
                 {isOwned && (
                 <Badge variant="secondary" className="absolute top-2 right-2 z-10">
                     <Shield className="w-3 h-3 mr-1"/>
-                    Owned
+                    Owned by {owner.name}
                 </Badge>
                 )}
                 <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
@@ -102,7 +94,7 @@ export function ShopPlayerCard({ player }: ShopPlayerCardProps) {
             <DialogHeader>
                 <DialogTitle>Assign {player.name}</DialogTitle>
                 <DialogDescription>
-                    Select a user to give this player to for free. This will add the player to their bench.
+                    Select a user to give this player to for free. If the player is already owned, they will be transferred.
                 </DialogDescription>
             </DialogHeader>
             <div className="py-4 space-y-2">

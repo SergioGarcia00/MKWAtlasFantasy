@@ -71,7 +71,11 @@ export async function POST(request: Request) {
                 if (winningUser) {
                     if (winningUser.players.length < 10 && winningUser.currency >= winner.amount) {
                         // --- Update User ---
-                        const newUserPlayer: UserPlayer = { id: winner.playerId, purchasedAt: Date.now() };
+                        const newUserPlayer: UserPlayer = { 
+                            id: winner.playerId, 
+                            purchasedAt: Date.now(),
+                            purchasePrice: winner.amount 
+                        };
                         
                         winningUser.players.push(newUserPlayer);
                         if (!winningUser.roster.bench.includes(winner.playerId)) {

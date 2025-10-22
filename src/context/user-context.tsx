@@ -115,7 +115,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now(), purchasePrice: player.cost };
     const updatedUser = {
         id: user.id,
         currency: user.currency - player.cost,
@@ -141,7 +141,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return;
     }
 
-    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now(), purchasePrice: price };
     const updatedUser = {
         id: user.id,
         currency: user.currency - price,
@@ -165,7 +165,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return;
     }
 
-    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now(), purchasePrice: player.cost };
 
     const updatedTargetUser = {
         ...targetUser,
@@ -192,7 +192,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
-    const sellPrice = player.cost;
+    const playerToSell = user.players.find(p => p.id === player.id);
+    if (!playerToSell) {
+      toast({ title: 'Player not found', description: 'Could not find this player in your roster.', variant: 'destructive'});
+      return;
+    }
+    const sellPrice = playerToSell.purchasePrice || player.cost; // Fallback to base cost
+
     const updatedUser = {
         id: user.id,
         currency: user.currency + sellPrice,
@@ -226,7 +232,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     try {
         // Step 1: Update the new owner
-        const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+        const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now(), purchasePrice: buyoutPrice };
         const newOwnerUser = {
             ...user,
             currency: user.currency - buyoutPrice,

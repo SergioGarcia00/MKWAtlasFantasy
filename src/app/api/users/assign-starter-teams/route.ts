@@ -127,7 +127,7 @@ export async function POST(request: Request) {
         allUsers.forEach((user, index) => {
             const team = teamsWithCosts[index]?.team;
             if (team) {
-                user.players = team.map(p => ({ id: p.id, purchasedAt: Date.now() }));
+                user.players = team.map(p => ({ id: p.id, purchasedAt: Date.now(), purchasePrice: p.cost }));
                 user.roster.lineup = team.map(p => p.id);
                 user.roster.bench = [];
             } else {
