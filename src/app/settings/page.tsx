@@ -27,6 +27,7 @@ export default function SettingsPage() {
     const [isExporting, setIsExporting] = useState(false);
     const [isImporting, setIsImporting] = useState(false);
     const [isFixingIds, setIsFixingIds] = useState(false);
+    const [isApplyingBids, setIsApplyingBids] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [weeks, setWeeks] = useState<Week[]>([]);
     const [selectedWeek, setSelectedWeek] = useState<string>('');
@@ -121,6 +122,29 @@ export default function SettingsPage() {
             });
         } finally {
             setIsRecalculating(false);
+        }
+    };
+
+    const handleApplyOldBids = async () => {
+        setIsApplyingBids(true);
+        try {
+            const response = await fetch('/api/market/apply-old-bids', { method: 'POST' });
+            const result = await response.json();
+            if (!response.ok) {
+                throw new Error(result.message || 'Failed to apply old bids');
+            }
+            toast({
+                title: 'Old Bids Applied!',
+                description: result.message,
+            });
+        } catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: 'Error Applying Bids',
+                description: error.message,
+            });
+        } finally {
+            setIsApplyingBids(false);
         }
     };
     
@@ -344,6 +368,14 @@ export default function SettingsPage() {
                         </div>
                     </div>
                     <Separator />
+                     <div className="flex flex-col gap-2">
+                        <h4 className="font-semibold">Apply Old Bid Data</h4>
+                        <p className="text-sm text-muted-foreground">This will update all player costs to match the highest bid from `all_bids.csv`.</p>
+                         <Button onClick={handleApplyOldBids} disabled={isApplyingBids} className="w-fit">
+                            {isApplyingBids ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                            Apply Old Bids
+                        </Button>
+                    </div>
                     <div className="flex flex-col gap-2">
                         <h4 className="font-semibold">Recalculate Player Market Prices</h4>
                         <p className="text-sm text-muted-foreground">This will apply a random variation of +/-10% to every player's cost based on their `peak_mmr`.</p>
