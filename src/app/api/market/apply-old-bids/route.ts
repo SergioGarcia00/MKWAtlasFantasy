@@ -5,13 +5,9 @@ import path from 'path';
 import fs from 'fs/promises';
 import type { RosterTeam } from '@/lib/types';
 
-// Path to the main player data file
 const ROSTERS_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
-// Path to the CSV with old bids
 const BIDS_CSV_PATH = path.join(process.cwd(), 'src', 'lib', 'oldBids', 'all_bids.csv');
 
-
-// Helper function to parse CSV content
 const parseCsv = (content: string): Record<string, any>[] => {
     const lines = content.trim().split('\n');
     if (lines.length < 2) return [];
@@ -20,12 +16,18 @@ const parseCsv = (content: string): Record<string, any>[] => {
     const rows = [];
 
     for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(',');
+        // Handle cases where values might contain commas
+        const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
         const row: Record<string, any> = {};
         for (let j = 0; j < headers.length; j++) {
             const key = headers[j];
-            const value = values[j] ? values[j].trim().replace(/"/g, '') : '';
-            row[key] = isNaN(Number(value)) ? value : Number(value);
+            let value = values[j] ? values[j].trim().replace(/"/g, '') : '';
+             // If the value is a number, parse it as such
+            if (key === 'Bid Amount' && !isNaN(Number(value))) {
+                 row[key] = Number(value);
+            } else {
+                 row[key] = value;
+            }
         }
         rows.push(row);
     }
@@ -35,7 +37,6 @@ const parseCsv = (content: string): Record<string, any>[] => {
 
 export async function POST(request: Request) {
     try {
-        // --- 1. Read and parse the bids CSV ---
         let bidsCsvContent;
         try {
             bidsCsvContent = await fs.readFile(BIDS_CSV_PATH, 'utf-8');
@@ -45,33 +46,35 @@ export async function POST(request: Request) {
 
         const bids = parseCsv(bidsCsvContent);
         
-        // --- 2. Find the highest bid for each player ---
-        const highestBids: Record<string, number> = {};
+        // Find the highest bid for each player by name
+        const highestBidsByName: Record<string, number> = {};
         for (const bid of bids) {
-            const playerId = bid['Player ID'];
+            const playerName = bid['Player Name'];
             const bidAmount = bid['Bid Amount'];
-            if (playerId && typeof bidAmount === 'number') {
-                if (!highestBids[playerId] || bidAmount > highestBids[playerId]) {
-                    highestBids[playerId] = bidAmount;
+            if (playerName && typeof bidAmount === 'number') {
+                const normalizedName = playerName.toLowerCase();
+                if (!highestBidsByName[normalizedName] || bidAmount > highestBidsByName[normalizedName]) {
+                    highestBidsByName[normalizedName] = bidAmount;
                 }
             }
         }
 
-        // --- 3. Read the rosters file ---
         const rosters: RosterTeam[] = JSON.parse(await fs.readFile(ROSTERS_PATH, 'utf-8'));
         let playersUpdatedCount = 0;
 
-        // --- 4. Update player costs ---
+        // Update player costs
         for (const team of rosters) {
             for (const player of team.players) {
-                 if (player.id && highestBids[player.id]) {
-                    player.cost = highestBids[player.id];
-                    playersUpdatedCount++;
-                }
+                 if (player.name) {
+                    const normalizedPlayerName = player.name.toLowerCase();
+                    if (highestBidsByName[normalizedPlayerName]) {
+                        player.cost = highestBidsByName[normalizedPlayerName];
+                        playersUpdatedCount++;
+                    }
+                 }
             }
         }
 
-        // --- 5. Write the updated data back ---
         await fs.writeFile(ROSTERS_PATH, JSON.stringify(rosters, null, 2), 'utf-8');
 
         return NextResponse.json({ 
