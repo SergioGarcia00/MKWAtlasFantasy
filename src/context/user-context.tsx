@@ -244,7 +244,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         // Step 2: Update the previous owner
         const previousOwnerUser = {
             ...owner,
-            currency: owner.currency + player.cost,
+            currency: owner.currency + (ownerPlayerInfo?.purchasePrice || player.cost),
             players: owner.players.filter(p => p.id !== player.id),
             roster: {
                 lineup: owner.roster.lineup.filter(id => id !== player.id),

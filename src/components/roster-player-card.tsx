@@ -163,7 +163,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                       <div className="p-4 bg-muted rounded-lg text-center">
                         <p className="text-sm text-muted-foreground">Current Buyout Price</p>
                         <p className="text-3xl font-bold">{currentBuyoutClause.toLocaleString()}</p>
-                        <p className="text-xs text-muted-foreground">({sellPrice.toLocaleString()} base + {(currentInvestment * 2).toLocaleString()} from investment)</p>
+                        <p className="text-xs text-muted-foreground">({(userPlayer?.purchasePrice || player.cost).toLocaleString()} base + {(currentInvestment * 2).toLocaleString()} from investment)</p>
                       </div>
                       <div>
                         <Label htmlFor="investment">Amount to Invest</Label>
@@ -211,7 +211,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                   <AlertDialogHeader>
                     <AlertDialogTitle>Are you sure you want to sell {player.name}?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      You will receive {sellPrice.toLocaleString()} coins ({userPlayer?.purchasePrice ? 'your original purchase price' : '100% of the base cost'}). This action is irreversible.
+                      You will receive {sellPrice.toLocaleString()} coins (your original purchase price). This action is irreversible.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
