@@ -1,6 +1,5 @@
-
 // This file is now primarily for providing the initial list of user IDs for login/switching.
-// The full user data will be loaded from Firestore.
+// The full user data will be loaded from the local filesystem via API routes.
 
 export const USER_IDS = [
   'user-sipgb',
@@ -10,6 +9,5 @@ export const USER_IDS = [
   'user-vick',
   'user-elgraco',
   'user-tario',
-  'user-wolfeet',
-  'user-oniix',
+  'user-wolfeet'
 ];

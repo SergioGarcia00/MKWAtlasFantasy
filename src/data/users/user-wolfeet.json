@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 1810,
+  "currency": 1570,
   "players": [
     {
       "id": "Yasn-5383-7699",
@@ -25,7 +25,8 @@
     },
     {
       "id": "Xray-8087-7902",
-      "purchasedAt": 1760893279442
+      "purchasedAt": 1760893279442,
+      "clauseInvestment": 240
     },
     {
       "id": "chema06-4606-8434",
@@ -38,16 +39,16 @@
   ],
   "roster": {
     "lineup": [
-      "Yasn-5383-7699",
-      "Twingy-6990-8435",
       "Plug-in-Baby-7475-4111",
       "Piero-8601-9715",
       "Xray-8087-7902",
-      "Shin-Godzilla-6752-8953"
-    ],
-    "bench": [
+      "Shin-Godzilla-6752-8953",
       "chema06-4606-8434",
       "Baptboy-5252-3713"
+    ],
+    "bench": [
+      "Yasn-5383-7699",
+      "Twingy-6990-8435"
     ]
   },
   "weeklyScores": {

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -58,7 +57,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const isOwned = isOwnedByCurrentUser || isOwnedByOtherUser;
 
   const isRosterFull = user.players.length >= 10;
-  const canAfford = user.currency >= player.cost;
   
   const baseBuyoutPrice = player.cost;
   const totalBuyoutPrice = baseBuyoutPrice + ((ownerInfo?.clauseInvestment || 0) * 2);
@@ -118,13 +116,13 @@ export function PlayerCard({ player }: PlayerCardProps) {
      return (
         <Button
             className="w-full bg-accent hover:bg-accent/90"
-            disabled={isOwned || isRosterFull || !canAfford}
+            disabled={isOwned || isRosterFull}
             onClick={(e) => {
               e.stopPropagation();
               setIsOpen(true);
             }}
         >
-            {isOwned ? 'Owned' : isRosterFull ? 'Roster Full' : !canAfford ? 'Insufficient Funds' : 'View Details'}
+            {isOwned ? 'Owned' : isRosterFull ? 'Roster Full' : 'View Details'}
         </Button>
     )
   }
@@ -156,7 +154,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
         </CardHeader>
         <CardContent className="p-4 pt-0 flex-grow">
           <h3 className="font-bold text-lg font-headline">{player.name}</h3>
-            <div className="flex items-center gap-2 mt-2 text-primary">
+            <div className="flex items-center gap-2 mt-2 text-muted-foreground">
               <DollarSign className="w-4 h-4" />
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
             </div>
@@ -238,9 +236,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
                  <Button
                     className="bg-accent hover:bg-accent/90"
                     onClick={handlePurchase}
-                    disabled={isRosterFull || !canAfford}
+                    disabled={isRosterFull || user.currency < player.cost}
                 >
-                    {isRosterFull ? 'Roster Full' : !canAfford ? 'Insufficient Funds' : 'Purchase Player'}
+                    {isRosterFull ? 'Roster Full' : user.currency < player.cost ? 'Insufficient Funds' : 'Purchase Player'}
                 </Button>
             )}
             {!isStorePage && isOwnedByOtherUser && (

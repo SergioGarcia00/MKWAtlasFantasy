@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 2107,
+  "currency": 12253,
   "players": [
     {
       "id": "Hazza-7290-5141",
@@ -16,10 +16,6 @@
       "purchasedAt": 1760390360539
     },
     {
-      "id": "zecarsito-jr.-5221-0529",
-      "purchasedAt": 1760464836458
-    },
-    {
       "id": "Dark-5432-8982",
       "purchasedAt": 1760464836460
     },
@@ -28,12 +24,8 @@
       "purchasedAt": 1760464836462
     },
     {
-      "id": "Ulquiorra-7377-0331",
-      "purchasedAt": 1760464836463
-    },
-    {
-      "id": "Zebrax-5553-1820",
-      "purchasedAt": 1760551285472
+      "id": "CaliforniaX2-7260-0909",
+      "purchasedAt": 1761076936976
     }
   ],
   "roster": {
@@ -41,14 +33,11 @@
       "Hazza-7290-5141",
       "Gerson-Boom-8371-0799",
       "Daisam-5752-5827",
-      "Ulquiorra-7377-0331",
       "Cole-Palmer-5044-0536",
-      "Dark-5432-8982"
+      "Dark-5432-8982",
+      "CaliforniaX2-7260-0909"
     ],
-    "bench": [
-      "zecarsito-jr.-5221-0529",
-      "Zebrax-5553-1820"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "Hazza-7290-5141": {
@@ -112,5 +101,7 @@
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "elgraco-5968-7506": 6295
+  }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode, useMemo } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import type { User, Player, WeeklyScore, UserPlayer } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { ALL_PLAYERS } from '@/data/players';
@@ -60,10 +60,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     return ALL_PLAYERS.find(p => p.id === playerId);
   }, []);
 
-  const loadAllData = useCallback(async (reloadingUser: boolean = false) => {
-    if (!reloadingUser) {
-        setIsDataLoading(true);
-    }
+  const loadAllData = useCallback(async () => {
+    setIsDataLoading(true);
     try {
         const users = await Promise.all(USER_IDS.map(id => fetchJson(`/api/users/${id}`)));
         setAllUsers(users);
@@ -77,30 +75,25 @@ export function UserProvider({ children }: { children: ReactNode }) {
         console.error("Failed to load all data:", error);
         toast({ title: 'Error Loading Data', description: error.message, variant: 'destructive' });
     } finally {
-        if (!reloadingUser) {
-            setIsDataLoading(false);
-        }
+        setIsDataLoading(false);
     }
   }, [toast]);
-
 
   useEffect(() => {
     loadAllData();
   }, [loadAllData]);
   
- const updateUserOnServer = useCallback(async (updatedUser: User) => {
+  const updateUserOnServer = useCallback(async (updatedUser: Partial<User> & { id: string }) => {
     try {
-      const finalUserData = await postJson(`/api/users/${updatedUser.id}`, updatedUser);
-      await loadAllData(true); // Recargar todos los datos para asegurar consistencia
-      return finalUserData;
+      await postJson(`/api/users/${updatedUser.id}`, updatedUser);
+      await loadAllData(); 
     } catch (error: any) {
       console.error("Update failed: ", error);
       toast({ title: 'Error', description: `Failed to update user data: ${error.message}`, variant: 'destructive' });
-      await loadAllData(true); // Re-sync with server state on failure
+      await loadAllData(); 
       throw error;
     }
   }, [toast, loadAllData]);
-
 
   const switchUser = useCallback((userId: string) => {
     if (user?.id === userId) return;
@@ -112,8 +105,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, [allUsers, user?.id]);
 
   const purchasePlayer = useCallback(async (player: Player) => {
-    if (!user || !allUsers) return;
-    
+    if (!user) return;
     if (user.players.length >= 10) {
       toast({ title: 'Roster Full', description: 'You cannot purchase more than 10 players.', variant: 'destructive' });
       return;
@@ -125,7 +117,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
     const updatedUser = {
-        ...user,
+        id: user.id,
         currency: user.currency - player.cost,
         players: [...user.players, newUserPlayer],
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
@@ -134,14 +126,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
         await updateUserOnServer(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-    } catch (e) {
-      // Error is already toasted by updateUserOnServer
-    }
-  }, [user, allUsers, toast, updateUserOnServer]);
+    } catch (e) { /* error already handled */ }
+  }, [user, toast, updateUserOnServer]);
 
   const purchasePlayerByPeakMmr = useCallback(async (player: Player) => {
-    if (!user || !allUsers) return;
-
+    if (!user) return;
     if (user.players.length >= 10) {
         toast({ title: 'Roster Full', description: 'Your roster is full.', variant: 'destructive' });
         return;
@@ -154,7 +143,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
     const updatedUser = {
-        ...user,
+        id: user.id,
         currency: user.currency - price,
         players: [...user.players, newUserPlayer],
         roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
@@ -163,10 +152,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
         await updateUserOnServer(updatedUser);
         toast({ title: 'Purchase Successful!', description: `${player.name} has been added to your bench.` });
-    } catch(e) {
-      // Error is already toasted
-    }
-  }, [user, allUsers, toast, updateUserOnServer]);
+    } catch(e) { /* error already handled */ }
+  }, [user, toast, updateUserOnServer]);
 
  const assignPlayer = useCallback(async (player: Player, targetUser: User, currentOwner?: User) => {
     if (targetUser.players.some(p => p.id === player.id)) {
@@ -199,15 +186,15 @@ export function UserProvider({ children }: { children: ReactNode }) {
        await postJson(`/api/users/${updatedOwnerUser.id}`, updatedOwnerUser);
     }
     
-    await loadAllData(true);
+    await loadAllData();
     toast({ title: "Player Assigned!", description: `${player.name} has been given to ${targetUser.name}.`});
   }, [toast, loadAllData]);
 
   const sellPlayer = useCallback(async (player: Player) => {
     if (!user) return;
     const sellPrice = player.cost;
-    const updatedUser: User = {
-        ...user,
+    const updatedUser = {
+        id: user.id,
         currency: user.currency + sellPrice,
         players: user.players.filter(p => p.id !== player.id),
         roster: {
@@ -218,13 +205,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
         await updateUserOnServer(updatedUser);
         toast({ title: 'Player Sold!', description: `You sold ${player.name} for ${sellPrice.toLocaleString()} coins.` });
-    } catch (e) {
-      // Error already handled
-    }
+    } catch (e) { /* error already handled */ }
   }, [user, toast, updateUserOnServer]);
 
   const buyoutPlayer = useCallback(async (player: Player, owner: User) => {
-    if (!user || !allUsers) return;
+    if (!user) return;
     
     const ownerPlayerInfo = owner.players.find(p => p.id === player.id);
     const clauseInvestment = ownerPlayerInfo?.clauseInvestment || 0;
@@ -239,34 +224,35 @@ export function UserProvider({ children }: { children: ReactNode }) {
         return;
     }
 
-    const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
-    const newOwnerUser = {
-        ...user,
-        currency: user.currency - buyoutPrice,
-        players: [...user.players, newUserPlayer],
-        roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
-    };
-    
-    const previousOwnerUser = {
-        ...owner,
-        currency: owner.currency + player.cost,
-        players: owner.players.filter(p => p.id !== player.id),
-        roster: {
-            lineup: owner.roster.lineup.filter(id => id !== player.id),
-            bench: owner.roster.bench.filter(id => id !== player.id),
-        }
-    };
-    
     try {
+        // Step 1: Update the new owner
+        const newUserPlayer: UserPlayer = { id: player.id, purchasedAt: Date.now() };
+        const newOwnerUser = {
+            ...user,
+            currency: user.currency - buyoutPrice,
+            players: [...user.players, newUserPlayer],
+            roster: { ...user.roster, bench: [...user.roster.bench, player.id] }
+        };
         await postJson(`/api/users/${newOwnerUser.id}`, newOwnerUser);
+        
+        // Step 2: Update the previous owner
+        const previousOwnerUser = {
+            ...owner,
+            currency: owner.currency + player.cost,
+            players: owner.players.filter(p => p.id !== player.id),
+            roster: {
+                lineup: owner.roster.lineup.filter(id => id !== player.id),
+                bench: owner.roster.bench.filter(id => id !== player.id),
+            }
+        };
         await postJson(`/api/users/${previousOwnerUser.id}`, previousOwnerUser);
         
-        await loadAllData(true);
+        await loadAllData();
         toast({ title: 'Buyout Successful!', description: `You purchased ${player.name} from ${owner.name}!` });
     } catch(e) {
          toast({ title: 'Buyout Failed', description: 'Could not complete the transaction.', variant: 'destructive'});
     }
-  }, [user, allUsers, toast, loadAllData]);
+  }, [user, toast, loadAllData]);
 
   const increaseBuyoutClause = useCallback(async (playerId: string, investmentAmount: number) => {
     if (!user) return;
@@ -286,7 +272,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     });
 
     const updatedUser = {
-      ...user,
+      id: user.id,
       currency: user.currency - investmentAmount,
       players: updatedPlayers
     };
@@ -294,21 +280,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       await updateUserOnServer(updatedUser);
       toast({ title: 'Clause Increased!', description: `You invested ${investmentAmount.toLocaleString()} coins in ${getPlayerById(playerId)?.name}.` });
-    } catch (e) {
-      // Error handled in updateUserOnServer
-    }
+    } catch (e) { /* error handled in updateUserOnServer */ }
   }, [user, toast, updateUserOnServer, getPlayerById]);
 
 
   const updateRoster = useCallback(async (lineup: string[], bench: string[]) => {
     if (!user) return;
-    const updatedUser = { ...user, roster: { lineup, bench } };
+    const updatedUser = { id: user.id, roster: { lineup, bench } };
     try {
         await updateUserOnServer(updatedUser);
         toast({ title: 'Roster Updated' });
-    } catch (e) {
-        // Error handled in updateUserOnServer
-    }
+    } catch (e) { /* error handled */ }
   }, [user, toast, updateUserOnServer]);
 
   const updateWeeklyScores = useCallback(async (playerId: string, weekId: string, scores: WeeklyScore) => {
@@ -318,11 +300,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         [playerId]: { ...user.weeklyScores?.[playerId], [weekId]: scores }
     };
     try {
-        await updateUserOnServer({ ...user, weeklyScores: updatedScores });
+        await updateUserOnServer({ id: user.id, weeklyScores: updatedScores });
         toast({ title: 'Scores Updated', description: `Scores for player ${playerId} for week ${weekId} saved.` });
-    } catch (e) {
-        // Error handled in updateUserOnServer
-    }
+    } catch (e) { /* error handled */ }
   }, [user, toast, updateUserOnServer]);
 
   return (

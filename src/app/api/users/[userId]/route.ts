@@ -34,16 +34,16 @@ export async function POST(
   try {
     const updatedData = await request.json();
 
-    // Read-Modify-Write: Read the latest data first
+    // Read-Modify-Write: Read the latest data first to prevent race conditions
     let currentUserData = {};
     try {
       const currentContent = await fs.readFile(filePath, 'utf-8');
       currentUserData = JSON.parse(currentContent);
     } catch (e) {
-      // File might not exist, that's okay for a full update.
+      // File might not exist yet, that's okay.
     }
     
-    // Merge updates into the current data, ensuring all top-level keys from the new data are included.
+    // Merge updates, ensuring nested objects are merged correctly
     const finalData = { ...currentUserData, ...updatedData };
     
     // Ensure the ID in the file always matches the file name
