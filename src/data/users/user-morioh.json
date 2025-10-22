@@ -1,7 +1,7 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 1906,
+  "currency": 10257,
   "players": [
     {
       "id": "Corvious-5520-7718",
@@ -28,10 +28,6 @@
       "purchasedAt": 1760464836461
     },
     {
-      "id": "sumosuma-8555-0348",
-      "purchasedAt": 1760551285473
-    },
-    {
       "id": "ybloo-5114-9487",
       "purchasedAt": 1760983862051
     }
@@ -39,15 +35,14 @@
   "roster": {
     "lineup": [
       "CHaL-7199-5511",
-      "sumosuma-8555-0348",
-      "CASTILLA-5326-1113",
       "Plush-6582-7033",
+      "CASTILLA-5326-1113",
+      "ybloo-5114-9487",
       "Solution-6951-5014",
       "Kaofie-5843-0202"
     ],
     "bench": [
-      "Corvious-5520-7718",
-      "ybloo-5114-9487"
+      "Corvious-5520-7718"
     ]
   },
   "weeklyScores": {
@@ -70,5 +65,7 @@
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "Naldo-7484-9386": 9000
+  }
 }

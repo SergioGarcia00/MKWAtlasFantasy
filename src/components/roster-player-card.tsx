@@ -11,13 +11,14 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { useUser } from '@/context/user-context';
-import { ArrowRightLeft, Banknote, DollarSign, Loader2 } from 'lucide-react';
+import { ArrowRightLeft, Banknote, DollarSign, Loader2, Link as LinkIcon } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { useState, useEffect } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Label } from './ui/label';
+import Link from 'next/link';
 
 interface RosterPlayerCardProps {
   player: Player;
@@ -125,6 +126,20 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
           </div>
           <div className="flex items-center gap-2">
             <TooltipProvider>
+              {player.registry_url && (
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button asChild size="icon" variant="ghost" className="w-8 h-8 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500">
+                           <Link href={player.registry_url} target="_blank">
+                                <LinkIcon className="w-4 h-4" />
+                            </Link>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p>View on MKCentral Registry</p>
+                    </TooltipContent>
+                </Tooltip>
+              )}
               <Dialog open={isClauseDialogOpen} onOpenChange={setIsClauseDialogOpen}>
                 <Tooltip>
                     <TooltipTrigger asChild>
