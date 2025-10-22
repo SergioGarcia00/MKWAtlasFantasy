@@ -27,7 +27,7 @@ interface AuctionListItemProps {
   onBid: (player: Player) => void;
 }
 
-const Stat = ({ icon, label, value, url }: { icon: React.ReactNode, label: string, value: string | number | undefined, url?: string }) => (
+const Stat = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number | undefined }) => (
     <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {icon}
@@ -35,22 +35,6 @@ const Stat = ({ icon, label, value, url }: { icon: React.ReactNode, label: strin
         </div>
         <div className="flex items-center gap-2">
             <span className="font-semibold">{value || 'N/A'}</span>
-            {url && (
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Button asChild variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
-                                <Link href={url} target="_blank">
-                                    <LinkIcon className="w-3 h-3" />
-                                </Link>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>View player profile on mkcentral.com</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            )}
         </div>
     </div>
 )
@@ -136,6 +120,14 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                            Base Cost
                         </span>
                     </div>
+                     {player.registry_url && (
+                        <Button asChild variant="outline" size="sm" className="mt-2" onClick={(e) => e.stopPropagation()}>
+                            <Link href={player.registry_url} target="_blank">
+                                <LinkIcon className="mr-2 h-4 w-4"/>
+                                View Profile on MKCentral
+                            </Link>
+                        </Button>
+                    )}
                 </div>
             </div>
             {/* Right side: Stats & Bids */}
@@ -143,7 +135,7 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                  <div className="space-y-2 mb-4">
                      <Stat icon={<TrendingUp/>} label="MMR" value={player.mmr?.toLocaleString()} />
                      <Stat icon={<BarChartHorizontal/>} label="Rank" value={player.rank ? `#${player.rank}` : 'N/A'} />
-                     <Stat icon={<Globe/>} label="Country" value={player.country} url={player.registry_url} />
+                     <Stat icon={<Globe/>} label="Country" value={player.country} />
                 </div>
                 <Separator className="my-2"/>
                  <div className="flex justify-between items-center pt-2">
