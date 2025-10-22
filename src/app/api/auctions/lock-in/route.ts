@@ -4,9 +4,11 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import { USER_IDS } from '@/data/users';
-import type { User, UserPlayer } from '@/lib/types';
+import type { User, UserPlayer, Player, RosterTeam } from '@/lib/types';
+import { ALL_PLAYERS } from '@/data/players';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
+const ROSTERS_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
 
 async function getUser(userId: string): Promise<User | null> {
     const filePath = path.join(USERS_DIR, `${userId}.json`);
@@ -57,16 +59,20 @@ export async function POST(request: Request) {
             }
         }
         
-        // 3. Process winners and update user files
+        // --- Read rosters file to update costs ---
+        const rostersContent = await fs.readFile(ROSTERS_PATH, 'utf-8');
+        const rosters: RosterTeam[] = JSON.parse(rostersContent);
+
+        // 3. Process winners, update user files AND player costs
         for (const winner of winners) {
             const userFilePath = path.join(USERS_DIR, `${winner.userId}.json`);
             try {
                 const winningUser = await getUser(winner.userId);
                 if (winningUser) {
                     if (winningUser.players.length < 10 && winningUser.currency >= winner.amount) {
+                        // --- Update User ---
                         const newUserPlayer: UserPlayer = { id: winner.playerId, purchasedAt: Date.now() };
                         
-                        // Add to both players list and bench
                         winningUser.players.push(newUserPlayer);
                         if (!winningUser.roster.bench.includes(winner.playerId)) {
                             winningUser.roster.bench.push(winner.playerId);
@@ -74,12 +80,30 @@ export async function POST(request: Request) {
                         
                         winningUser.currency -= winner.amount;
                         await fs.writeFile(userFilePath, JSON.stringify(winningUser, null, 2), 'utf-8');
+                        
+                        // --- Update Player Cost ---
+                        let playerFoundAndUpdated = false;
+                        for (const team of rosters) {
+                            const playerToUpdate = team.players.find(p => p.id === winner.playerId);
+                            if (playerToUpdate) {
+                                playerToUpdate.cost = winner.amount;
+                                playerFoundAndUpdated = true;
+                                break;
+                            }
+                        }
+                        if (!playerFoundAndUpdated) {
+                            console.warn(`Could not find player ${winner.playerId} in rosters_actualizado.json to update cost.`);
+                        }
+
                     }
                 }
             } catch (error) {
                 console.error(`Failed to update winner ${winner.userId}:`, error);
             }
         }
+        
+        // --- Write the updated rosters file back ---
+        await fs.writeFile(ROSTERS_PATH, JSON.stringify(rosters, null, 2), 'utf-8');
 
         // 4. Clear all bids for all users
         for (const userId of USER_IDS) {
