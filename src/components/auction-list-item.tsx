@@ -27,10 +27,31 @@ interface AuctionListItemProps {
   onBid: (player: Player) => void;
 }
 
-const Stat = ({ label, value }: { label: string, value: string | number | undefined }) => (
-    <div className="text-center">
-        <p className="text-sm text-muted-foreground">{label}</p>
-        <p className="font-bold text-lg">{value || 'N/A'}</p>
+const Stat = ({ icon, label, value, url }: { icon: React.ReactNode, label: string, value: string | number | undefined, url?: string }) => (
+    <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {icon}
+            <span>{label}</span>
+        </div>
+        <div className="flex items-center gap-2">
+            <span className="font-semibold">{value || 'N/A'}</span>
+            {url && (
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button asChild variant="ghost" size="icon" className="h-6 w-6 text-muted-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
+                                <Link href={url} target="_blank">
+                                    <LinkIcon className="w-3 h-3" />
+                                </Link>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>View player profile on mkcentral.com</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            )}
+        </div>
     </div>
 )
 
@@ -86,91 +107,80 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
   return (
     <>
     <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer" onClick={() => setIsDetailsOpen(true)}>
-        <div className="p-4 bg-gradient-to-tr from-card to-secondary/50">
-            <div className="flex justify-between items-start">
-                <div className="flex items-center gap-4">
-                    <PlayerIcon iconName={player.icon} className="w-20 h-20 text-primary" />
-                    <div>
-                        <h3 className="font-bold text-2xl font-headline">{player.name}</h3>
-                        <div className="flex items-baseline gap-2 text-primary">
-                           <span className="font-bold text-3xl">{priceToShow.toLocaleString()}</span>
-                            <span className="text-sm text-muted-foreground -translate-y-1">
-                               Base Cost
-                            </span>
-                        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3">
+            {/* Left side: Player info */}
+            <div className="md:col-span-2 p-4 bg-gradient-to-r from-card to-secondary/30 flex items-center gap-6">
+                <div className="relative">
+                    <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary drop-shadow-lg" />
+                     {owner ? (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Avatar className="absolute -bottom-2 -right-2 w-8 h-8 border-2 border-background">
+                                        <AvatarFallback className="text-xs">{owner.name.substring(0,2)}</AvatarFallback>
+                                    </Avatar>
+                                </TooltipTrigger>
+                                <TooltipContent>Owned by {owner.name}</TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    ) : currentUserHasBid ? (
+                         <Badge variant="default" className="absolute -bottom-2 right-0 bg-green-600">Bid Placed</Badge>
+                    ) : null}
+                </div>
+                <div className="flex-grow">
+                    <h3 className="font-bold text-2xl font-headline">{player.name}</h3>
+                    <div className="flex items-baseline gap-2 text-primary mt-1">
+                        <DollarSign className="w-5 h-5"/>
+                        <span className="font-bold text-3xl">{priceToShow.toLocaleString()}</span>
+                        <span className="text-sm text-muted-foreground -translate-y-1">
+                           Base Cost
+                        </span>
                     </div>
                 </div>
-                 <div className="text-right">
-                    {owner ? (
-                        <Badge variant="secondary">Owned by {owner.name}</Badge>
-                    ) : currentUserHasBid ? (
-                         <Badge variant="default" className="bg-green-600">Bid Placed</Badge>
-                    ) : (
-                         <Badge variant="outline">No Bids Yet</Badge>
-                    )}
-                </div>
             </div>
-        </div>
-        <Separator />
-        <div className="p-4 grid grid-cols-3 gap-4 bg-card items-center">
-            <Stat label="MMR" value={player.mmr?.toLocaleString()} />
-            <Stat label="Rank" value={player.rank ? `#${player.rank}` : 'N/A'} />
-            <div className="flex justify-center items-center gap-2">
-                <Stat label="Country" value={player.country} />
-                {player.registry_url && (
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
-                                    <Link href={player.registry_url} target="_blank">
-                                        <LinkIcon className="w-4 h-4" />
-                                    </Link>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>View player profile on mkcentral.com</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                )}
-            </div>
-        </div>
-        <Separator />
-         <div className="p-4 bg-secondary/30">
-            <div className="flex justify-between items-center">
-                <div className="flex flex-col">
-                    <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
-                        <Users className="text-muted-foreground"/>
-                        Bidders ({bidsCount})
-                    </h4>
-                     {player.bids && player.bids.length > 0 ? (
-                        <div className="flex -space-x-2">
-                             <TooltipProvider>
-                                {player.bids.slice(0, 5).map((bid, index) => (
-                                    <Tooltip key={bid.userId}>
-                                        <TooltipTrigger asChild>
-                                            <Avatar className={`w-8 h-8 border-2 border-card`}>
-                                                <AvatarFallback className="text-xs">{bid.userName.substring(0, 2).toUpperCase()}</AvatarFallback>
-                                            </Avatar>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>{bid.userName} has placed a bid</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                ))}
-                             </TooltipProvider>
-                            {player.bids.length > 5 && (
-                                 <Avatar className="w-8 h-8 border-2 border-card">
-                                    <AvatarFallback className="text-xs">+{player.bids.length - 5}</AvatarFallback>
-                                </Avatar>
-                            )}
-                        </div>
-                    ) : (
-                        <p className="text-xs text-muted-foreground italic">Be the first to bid!</p>
-                    )}
+            {/* Right side: Stats & Bids */}
+            <div className="md:col-span-1 p-4 flex flex-col justify-between bg-secondary/50 md:bg-secondary/80">
+                 <div className="space-y-2 mb-4">
+                     <Stat icon={<TrendingUp/>} label="MMR" value={player.mmr?.toLocaleString()} />
+                     <Stat icon={<BarChartHorizontal/>} label="Rank" value={player.rank ? `#${player.rank}` : 'N/A'} />
+                     <Stat icon={<Globe/>} label="Country" value={player.country} url={player.registry_url} />
                 </div>
-                <div className="w-40">
-                     {getButton()}
+                <Separator className="my-2"/>
+                 <div className="flex justify-between items-center pt-2">
+                    <div className="flex flex-col">
+                        <h4 className="font-semibold text-sm mb-1 flex items-center gap-2">
+                            <Users className="text-muted-foreground"/>
+                            Bidders ({bidsCount})
+                        </h4>
+                        {player.bids && player.bids.length > 0 ? (
+                            <div className="flex -space-x-2">
+                                <TooltipProvider>
+                                    {player.bids.slice(0, 5).map((bid, index) => (
+                                        <Tooltip key={bid.userId}>
+                                            <TooltipTrigger asChild>
+                                                <Avatar className={`w-8 h-8 border-2 border-background`}>
+                                                    <AvatarFallback className="text-xs">{bid.userName.substring(0, 2).toUpperCase()}</AvatarFallback>
+                                                </Avatar>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>{bid.userName} has placed a bid</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    ))}
+                                </TooltipProvider>
+                                {player.bids.length > 5 && (
+                                    <Avatar className="w-8 h-8 border-2 border-background">
+                                        <AvatarFallback className="text-xs">+{player.bids.length - 5}</AvatarFallback>
+                                    </Avatar>
+                                )}
+                            </div>
+                        ) : (
+                            <p className="text-xs text-muted-foreground italic">Be the first to bid!</p>
+                        )}
+                    </div>
+                    <div className="w-40">
+                        {getButton()}
+                    </div>
                 </div>
             </div>
         </div>
