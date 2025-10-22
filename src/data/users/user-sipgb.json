@@ -1,12 +1,8 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 3978,
+  "currency": 10491,
   "players": [
-    {
-      "id": "Torte-5227-0818",
-      "purchasedAt": 1760389692005
-    },
     {
       "id": "Togore-Dreemurr-6731-0027",
       "purchasedAt": 1760389741574
@@ -41,9 +37,7 @@
       "Kiria-3848-0816",
       "Korni-6903-4006"
     ],
-    "bench": [
-      "Torte-5227-0818"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "Torte-5227-0818": {
@@ -83,5 +77,7 @@
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "Sipgb-5495-5827": 10491
+  }
 }

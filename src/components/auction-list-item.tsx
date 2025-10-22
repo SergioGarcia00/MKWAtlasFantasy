@@ -4,7 +4,7 @@ import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gavel, Crown, Users } from 'lucide-react';
+import { Gavel, Crown, Users, Link as LinkIcon } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
@@ -18,6 +18,7 @@ import { differenceInDays } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 type Bid = { userId: string; userName: string; amount: number };
 
@@ -170,10 +171,20 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                  {owner && !isOwnedByCurrentUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
                 </DialogTitle>
                 <DialogDescription>Review the player's stats to see if they're a good fit for your team.</DialogDescription>
-                <div className="flex items-baseline gap-2 mt-3 text-primary">
-                  <DollarSign className="w-6 h-6" />
-                  <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
-                  <span className="text-sm text-muted-foreground ml-1">cost</span>
+                 <div className="flex items-center gap-4 mt-3">
+                    <div className="flex items-baseline gap-2 text-primary">
+                        <DollarSign className="w-6 h-6" />
+                        <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
+                        <span className="text-sm text-muted-foreground ml-1">cost</span>
+                    </div>
+                    {player.registry_url && (
+                        <Button asChild variant="outline" size="sm">
+                            <Link href={player.registry_url} target="_blank">
+                                <LinkIcon className="mr-2 h-4 w-4" />
+                                View Profile
+                            </Link>
+                        </Button>
+                    )}
                 </div>
               </div>
             </div>

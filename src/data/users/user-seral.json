@@ -1,23 +1,15 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 4131,
+  "currency": 2545,
   "players": [
     {
       "id": "Lecka-6711-0982",
       "purchasedAt": 1760389950949
     },
     {
-      "id": "PATATA-7568-8305",
-      "purchasedAt": 1760438324174
-    },
-    {
       "id": "Dragnir-6756-1529",
       "purchasedAt": 1760551285470
-    },
-    {
-      "id": "Lock-in-8616-6385",
-      "purchasedAt": 1760551285471
     },
     {
       "id": "Milkshake-7008-1877",
@@ -26,16 +18,24 @@
     {
       "id": "Steffi-5402-7983",
       "purchasedAt": 1760893279441
+    },
+    {
+      "id": "georgio-6225-8628",
+      "purchasedAt": 1761156093705
+    },
+    {
+      "id": "Charging-Charles-8526-9694",
+      "purchasedAt": 1761156093706
     }
   ],
   "roster": {
     "lineup": [
-      "PATATA-7568-8305",
-      "Lock-in-8616-6385",
       "Dragnir-6756-1529",
       "Lecka-6711-0982",
       "Steffi-5402-7983",
-      "Milkshake-7008-1877"
+      "Milkshake-7008-1877",
+      "georgio-6225-8628",
+      "Charging-Charles-8526-9694"
     ],
     "bench": []
   },

@@ -1,7 +1,7 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 10925,
+  "currency": 14429,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
@@ -14,10 +14,6 @@
     {
       "id": "tys-9433-3605",
       "purchasedAt": 1760390206665
-    },
-    {
-      "id": "Ty-Beyonce-3824-9018",
-      "purchasedAt": 1760390209965
     },
     {
       "id": "MattyPatty-5716-1110",
@@ -41,9 +37,7 @@
       "tys-9433-3605",
       "Roni24-6797-7986"
     ],
-    "bench": [
-      "Ty-Beyonce-3824-9018"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "MattyPatty-5716-1110": {
