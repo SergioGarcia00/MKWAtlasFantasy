@@ -8,7 +8,7 @@ import type { RosterTeam } from '@/lib/types';
 // Path to the main player data file
 const ROSTERS_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
 // Path to the CSV with old bids
-const BIDS_CSV_PATH = path.join(process.cwd(), 'src', 'lib', 'all_bids.csv');
+const BIDS_CSV_PATH = path.join(process.cwd(), 'src', 'lib', 'oldBids', 'all_bids.csv');
 
 
 // Helper function to parse CSV content
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         try {
             bidsCsvContent = await fs.readFile(BIDS_CSV_PATH, 'utf-8');
         } catch (error) {
-            return NextResponse.json({ message: 'all_bids.csv not found in src/lib/. Please add the file to run this script.' }, { status: 404 });
+            return NextResponse.json({ message: 'all_bids.csv not found in src/lib/oldBids. Please add the file to run this script.' }, { status: 404 });
         }
 
         const bids = parseCsv(bidsCsvContent);
