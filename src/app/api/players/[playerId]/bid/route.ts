@@ -5,6 +5,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { USER_IDS } from '@/data/users';
 import type { User } from '@/lib/types';
+import { ALL_PLAYERS } from '@/data/players';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
@@ -16,17 +17,6 @@ async function getUser(userId: string): Promise<User | null> {
     } catch (error) {
         return null;
     }
-}
-
-async function getAllUsers(): Promise<User[]> {
-    const users: User[] = [];
-    for (const id of USER_IDS) {
-        const user = await getUser(id);
-        if (user) {
-            users.push(user);
-        }
-    }
-    return users;
 }
 
 export async function POST(
@@ -41,17 +31,13 @@ export async function POST(
       return NextResponse.json({ message: 'User ID and bid amount are required' }, { status: 400 });
     }
     
-    const allUsers = await getAllUsers();
-    
-    let highestBid = 0;
-    for (const user of allUsers) {
-        if (user.bids && user.bids[playerId]) {
-            highestBid = Math.max(highestBid, user.bids[playerId]);
-        }
+    const playerToBidOn = ALL_PLAYERS.find(p => p.id === playerId);
+    if (!playerToBidOn) {
+      return NextResponse.json({ message: 'Player not found' }, { status: 404 });
     }
 
-    if (bidAmount <= highestBid) {
-        return NextResponse.json({ message: `Your bid must be higher than the current highest bid of ${highestBid.toLocaleString()}.` }, { status: 400 });
+    if (bidAmount < playerToBidOn.cost) {
+      return NextResponse.json({ message: `Your bid must be at least the base cost of ${playerToBidOn.cost.toLocaleString()}.` }, { status: 400 });
     }
 
     // --- Read-Modify-Write Start ---
