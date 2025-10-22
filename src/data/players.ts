@@ -38,6 +38,7 @@ const rawPlayers: Player[] = allRosterPlayers
     events_played: p.events_played,
     country: p.country,
     game_stats: p.game_stats,
+    registry_url: p.registry_url,
 }));
 
 // Create a map to ensure no duplicate IDs are generated.

@@ -28,6 +28,7 @@ export type Player = {
     '2v2'?: GameStats;
   };
   bids?: Bid[];
+  registry_url?: string;
 };
 
 export type WeeklyScore = {

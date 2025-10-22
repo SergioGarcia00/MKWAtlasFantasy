@@ -1,14 +1,10 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 1570,
+  "currency": 8261,
   "players": [
     {
       "id": "Yasn-5383-7699",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "Twingy-6990-8435",
       "purchasedAt": 1760389560870
     },
     {
@@ -47,8 +43,7 @@
       "Baptboy-5252-3713"
     ],
     "bench": [
-      "Yasn-5383-7699",
-      "Twingy-6990-8435"
+      "Yasn-5383-7699"
     ]
   },
   "weeklyScores": {
@@ -89,5 +84,7 @@
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "georgio-6225-8628": 6404
+  }
 }

@@ -6,7 +6,7 @@ import { useUser } from '@/context/user-context';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from './ui/dialog';
-import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe, ArrowRightLeft, Gavel, Loader2 } from 'lucide-react';
+import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe, ArrowRightLeft, Gavel, Loader2, Link as LinkIcon } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
@@ -15,6 +15,7 @@ import { differenceInDays } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface PlayerCardProps {
   player: Player;
@@ -59,7 +60,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const isRosterFull = user.players.length >= 10;
   
   const baseBuyoutPrice = player.cost;
-  const totalBuyoutPrice = baseBuyoutPrice + ((ownerInfo?.clauseInvestment || 0) * 2);
+  const totalBuyoutPrice = baseBuyoutPrice + (ownerInfo?.clauseInvestment || 0);
   const canAffordBuyout = user.currency >= totalBuyoutPrice;
 
   const daysSincePurchase = ownerInfo ? differenceInDays(new Date(), new Date(ownerInfo.purchasedAt)) : 0;
@@ -81,6 +82,17 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const gameStats2v2 = player.game_stats?.['2v2'];
 
   const getButton = () => {
+    if (isStorePage && player.registry_url) {
+        return (
+            <Button asChild className="w-full" variant="outline">
+                <Link href={player.registry_url} target="_blank">
+                    <LinkIcon className="mr-2 h-4 w-4" />
+                    View Profile
+                </Link>
+            </Button>
+        )
+    }
+    
     if (isStorePage) {
         return null;
     }
@@ -165,8 +177,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
           </CardFooter>
         )}
       </Card>
-
-      {/* Player Details Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
