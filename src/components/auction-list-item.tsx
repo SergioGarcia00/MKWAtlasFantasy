@@ -112,10 +112,28 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
             </div>
         </div>
         <Separator />
-        <div className="p-4 grid grid-cols-3 gap-4 bg-card">
+        <div className="p-4 grid grid-cols-3 gap-4 bg-card items-center">
             <Stat label="MMR" value={player.mmr?.toLocaleString()} />
             <Stat label="Rank" value={player.rank ? `#${player.rank}` : 'N/A'} />
-            <Stat label="Country" value={player.country} />
+            <div className="flex justify-center items-center gap-2">
+                <Stat label="Country" value={player.country} />
+                {player.registry_url && (
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button asChild variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
+                                    <Link href={player.registry_url} target="_blank">
+                                        <LinkIcon className="w-4 h-4" />
+                                    </Link>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>View player profile on mkcentral.com</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                )}
+            </div>
         </div>
         <Separator />
          <div className="p-4 bg-secondary/30">
@@ -177,14 +195,6 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
                         <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
                         <span className="text-sm text-muted-foreground ml-1">cost</span>
                     </div>
-                    {player.registry_url && (
-                        <Button asChild variant="outline" size="sm">
-                            <Link href={player.registry_url} target="_blank">
-                                <LinkIcon className="mr-2 h-4 w-4" />
-                                View Profile
-                            </Link>
-                        </Button>
-                    )}
                 </div>
               </div>
             </div>
