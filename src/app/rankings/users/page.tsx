@@ -8,15 +8,18 @@ import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 
 const calculateTotalScore = (user: User): number => {
-  if (!user.roster || user.roster.lineup.length === 0 || !user.weeklyScores) return 0;
-  
+  if (!user.weeklyScores) return 0;
+
   let totalScore = 0;
-  for (const playerId of user.roster.lineup) {
-    if (!user.weeklyScores[playerId]) continue;
-    
-    for (const week in user.weeklyScores[playerId]) {
-        const scores = user.weeklyScores[playerId][week];
+  // Iterate over all players who have ever scored for the user
+  for (const playerId in user.weeklyScores) {
+    const playerScoresByWeek = user.weeklyScores[playerId];
+    if (playerScoresByWeek) {
+      // Iterate over all weeks for that player
+      for (const weekId in playerScoresByWeek) {
+        const scores = playerScoresByWeek[weekId];
         totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
+      }
     }
   }
   return totalScore;
