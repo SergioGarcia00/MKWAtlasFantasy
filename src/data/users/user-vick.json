@@ -2,80 +2,11 @@
   "id": "user-vick",
   "name": "Vick",
   "currency": 11860,
-  "players": [
-    {
-      "id": "Ralsei-Plush-8856-1607",
-      "purchasedAt": 1760390153650
-    },
-    {
-      "id": "Pecii-7694-6730",
-      "purchasedAt": 1760390162879
-    },
-    {
-      "id": "DVD93-4718-6517",
-      "purchasedAt": 1760390174849
-    },
-    {
-      "id": "Minh-7222-4619",
-      "purchasedAt": 1760439034678
-    },
-    {
-      "id": "Kenai-7080-1894",
-      "purchasedAt": 1760439034679
-    },
-    {
-      "id": "aleexpro-4769-4797",
-      "purchasedAt": 1760811393614
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Ralsei-Plush-8856-1607",
-      "Pecii-7694-6730",
-      "DVD93-4718-6517",
-      "Minh-7222-4619",
-      "Kenai-7080-1894",
-      "aleexpro-4769-4797"
-    ],
+    "lineup": [],
     "bench": []
   },
-  "weeklyScores": {
-    "Minh-7222-4619": {
-      "1": {
-        "race1": 116,
-        "race2": 109
-      }
-    },
-    "Pecii-7694-6730": {
-      "1": {
-        "race1": 111,
-        "race2": 106
-      }
-    },
-    "Ralsei-Plush-8856-1607": {
-      "1": {
-        "race1": 96,
-        "race2": 0
-      }
-    },
-    "DVD93-4718-6517": {
-      "1": {
-        "race1": 82,
-        "race2": 103
-      }
-    },
-    "Kenai-7080-1894": {
-      "1": {
-        "race1": 83,
-        "race2": 0
-      }
-    },
-    "aleexpro-4769-4797": {
-      "1": {
-        "race1": 118,
-        "race2": 113
-      }
-    }
-  },
+  "weeklyScores": {},
   "bids": {}
 }

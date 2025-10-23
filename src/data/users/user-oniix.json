@@ -2,41 +2,9 @@
   "id": "user-oniix",
   "name": "Oniix",
   "currency": 17000,
-  "players": [
-    {
-      "id": "Warmthaholic-7239-8308",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "Pereeira7-7652-9547",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "runo-7143-3803",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "on1x-4752-3980",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "Chloe-4221-2211",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "Chomp-Caller-5951-2413",
-      "purchasedAt": 1760389560870
-    }
-  ],
+  "players": [],
   "roster": {
-    "lineup": [
-      "Warmthaholic-7239-8308",
-      "Pereeira7-7652-9547",
-      "runo-7143-3803",
-      "on1x-4752-3980",
-      "Chloe-4221-2211",
-      "Chomp-Caller-5951-2413"
-    ],
+    "lineup": [],
     "bench": []
   },
   "weeklyScores": {},

@@ -3,17 +3,14 @@ import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
 import { Sparkles, Loader2, RefreshCw, Gavel, Clock } from 'lucide-react';
 import { AuctionListItem } from '@/components/auction-list-item';
-import { Player } from '@/lib/types';
+import { Player, Bid } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useCollection } from '@/firebase';
-import { collection } from 'firebase/firestore';
-import { useFirebase } from '@/firebase';
 
-export type Bid = { userId: string; userName: string; amount: number };
+type MarketPlayer = Player & { bids?: Bid[] };
 
 const getTargetTime = () => {
     const nowInStockholm = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Stockholm' }));
@@ -83,116 +80,126 @@ const CountdownClock = ({ onTimerEnd }: { onTimerEnd: () => void }) => {
 };
 
 export default function DailyMarketPage() {
-  const { user, allUsers, switchUser, getPlayerById, loadAllData } = useUser();
-  const { firestore } = useFirebase();
-  const { toast } = useToast();
-  
-  const marketCollectionRef = useMemo(() => firestore ? collection(firestore, 'market') : null, [firestore]);
-  const { data: marketPlayers, isLoading: isMarketLoading } = useCollection<Player>(marketCollectionRef);
-
+  const { user, switchUser, getPlayerById, loadAllData } = useUser();
+  const [marketPlayers, setMarketPlayers] = useState<MarketPlayer[]>([]);
+  const [isMarketLoading, setIsMarketLoading] = useState(true);
   const [isLocking, setIsLocking] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const [isBidding, setIsBidding] = useState(false);
+  const [isBidDialogOpen, setIsBidDialogOpen] = useState(false);
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
   const [bidAmount, setBidAmount] = useState(0);
-  const [isBidLoading, setIsBidLoading] = useState(false);
-
-  const allBidsByPlayer = useMemo(() => {
-    return (allUsers || []).reduce<Record<string, Bid[]>>((acc, u) => {
-        Object.entries(u.bids || {}).forEach(([playerId, amount]) => {
-            if (!acc[playerId]) {
-                acc[playerId] = [];
-            }
-            acc[playerId].push({ amount, userId: u.id, userName: u.name });
-        });
-        return acc;
-    }, {});
-  }, [allUsers]);
-
-  const marketPlayersWithBids = useMemo(() => {
-    if (!marketPlayers) return [];
-    return marketPlayers.map(player => {
-        const bids = allBidsByPlayer[player.id] || [];
-        const sortedBids = bids.sort((a, b) => b.amount - a.amount);
-        const fullPlayer = getPlayerById(player.id);
-        return {
-            ...(fullPlayer || player),
-            bids: sortedBids,
-        };
-    }).sort((a, b) => (b.bids?.length || 0) - (a.bids?.length || 0));
-  }, [marketPlayers, allBidsByPlayer, getPlayerById]);
+  const { toast } = useToast();
   
-  const handleDownloadBidsCsv = () => {
-    // This is a client-side function and doesn't need to be migrated for now.
-  };
+  const fetchMarket = useCallback(async () => {
+    setIsMarketLoading(true);
+    try {
+        const res = await fetch('/api/market');
+        if (!res.ok) throw new Error('Failed to fetch market');
+        const data = await res.json();
+        const playersWithFullData = data.map((mp: MarketPlayer) => {
+            const fullPlayer = getPlayerById(mp.id);
+            return {
+                ...(fullPlayer || {}), // Spread full player data if found
+                ...mp, // Spread market player data, overwriting if needed
+            }
+        }).sort((a: MarketPlayer, b: MarketPlayer) => (b.bids?.length || 0) - (a.bids?.length || 0));
+        setMarketPlayers(playersWithFullData);
+    } catch (error) {
+        console.error(error);
+        toast({ title: 'Error', description: 'Could not load market data.', variant: 'destructive'});
+    } finally {
+        setIsMarketLoading(false);
+    }
+  }, [getPlayerById, toast]);
+
+  useEffect(() => {
+    fetchMarket();
+  }, [fetchMarket]);
 
   const handleRefreshMarket = useCallback(async () => {
-    // This action would now be a server-side function (e.g., Firebase Function)
-    // triggered by an API call. For now, we'll show a toast.
-    toast({ title: 'Action Not Migrated', description: 'Market refresh logic needs to be a server-side function.' });
-  }, [toast]);
+    setIsRefreshing(true);
+    try {
+      const response = await fetch('/api/market/refresh', { method: 'POST' });
+      if (!response.ok) {
+        throw new Error('Failed to refresh market');
+      }
+      await fetchMarket();
+      toast({ title: 'Market Refreshed', description: 'New players are available for auction.' });
+    } catch (error) {
+      console.error(error);
+      toast({ title: 'Error', description: 'Could not refresh market.', variant: 'destructive' });
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [fetchMarket, toast]);
 
   const handleLockIn = useCallback(async () => {
-    // This action would now be a server-side function (e.g., Firebase Function)
-    toast({ title: 'Action Not Migrated', description: 'Auction lock-in logic needs to be a server-side function.' });
-  }, [toast]);
+    setIsLocking(true);
+    try {
+      const response = await fetch('/api/auctions/lock-in', { method: 'POST' });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to lock in auctions');
+      }
+      toast({ title: 'Auctions Locked In!', description: result.message });
+      await loadAllData();
+      await fetchMarket();
+    } catch (error: any) {
+      toast({ title: 'Error Locking In', description: error.message, variant: 'destructive' });
+    } finally {
+      setIsLocking(false);
+    }
+  }, [loadAllData, toast, fetchMarket]);
 
   const runAutomatedTasks = useCallback(async () => {
         if (user?.id !== 'user-sipgb') return;
-        toast({ title: 'Automated Market Update', description: 'This would trigger a server function.' });
-    }, [user, toast]);
+
+        try {
+            await handleLockIn();
+            await handleRefreshMarket();
+            toast({ title: 'Automated Market Update', description: 'Auctions locked and market refreshed successfully.' });
+        } catch (error) {
+             toast({ title: 'Automated Update Failed', description: 'There was an error during the automated market update.', variant: 'destructive' });
+        }
+    }, [user, handleLockIn, handleRefreshMarket, toast]);
 
 
   const handleBidClick = (player: Player) => {
     setBidAmount(player.cost);
     setBiddingPlayer(player);
-    setIsBidding(true);
+    setIsBidDialogOpen(true);
   };
 
   const handlePlaceBid = async () => {
-    if (!biddingPlayer || !user || !firestore) return;
+    if (!biddingPlayer || !user) return;
 
     if (bidAmount < biddingPlayer.cost) {
       toast({ variant: 'destructive', title: 'Invalid Bid', description: `Your bid must be at least the base cost of ${biddingPlayer.cost.toLocaleString()}.` });
       return;
     }
 
-    setIsBidLoading(true);
-    const userRef = doc(firestore, 'users', user.id);
-
     try {
-      await runTransaction(firestore, async (transaction) => {
-        const userDoc = await transaction.get(userRef);
-        if (!userDoc.exists()) throw new Error("User document does not exist!");
-        
-        const userData = userDoc.data();
-        const otherBidsAmount = Object.entries(userData.bids || {})
-          .filter(([pId]) => pId !== biddingPlayer.id)
-          .reduce((sum, [, amount]) => sum + (amount as number), 0);
-
-        if (userData.currency < (otherBidsAmount + bidAmount)) {
-          throw new Error('Insufficient funds for this bid considering your other active bids.');
-        }
-
-        const newBids = { ...userData.bids, [biddingPlayer.id]: bidAmount };
-        transaction.update(userRef, { bids: newBids });
+      const response = await fetch(`/api/players/${biddingPlayer.id}/bid`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: user.id, amount: bidAmount }),
       });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message);
       
       toast({
           title: 'Bid Placed!',
           description: `You have bid ${bidAmount.toLocaleString()} for ${biddingPlayer.name}.`,
       });
+      setIsBidDialogOpen(false);
+      await fetchMarket(); // Refresh market to show new bid status
+      await loadAllData(); // Refresh user data to reflect new currency/bid state
     } catch (error: any) {
         toast({
             variant: 'destructive',
             title: 'Error placing bid',
             description: error.message,
         });
-    } finally {
-        setIsBidLoading(false);
-        setIsBidding(false);
-        setBiddingPlayer(null);
     }
   };
 
@@ -218,7 +225,7 @@ export default function DailyMarketPage() {
       {user?.id === 'user-sipgb' && (
         <div className="flex items-center gap-2 mb-8 p-4 border-l-4 border-amber-500 bg-amber-50 rounded-lg">
              <p className="text-sm text-amber-800">
-              Admin controls: These actions should be migrated to server-side Firebase Functions.
+              Admin controls: Manually trigger market events if needed.
             </p>
             <Button onClick={handleRefreshMarket} variant="outline" size="sm" disabled={isMarketLoading || isRefreshing}>
                 {isRefreshing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
@@ -238,7 +245,7 @@ export default function DailyMarketPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            {marketPlayersWithBids.length > 0 ? marketPlayersWithBids.map((player) => (
+            {marketPlayers.length > 0 ? marketPlayers.map((player) => (
               <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
             )) : (
               <div className="text-center py-20 border-2 border-dashed rounded-lg">
@@ -250,7 +257,7 @@ export default function DailyMarketPage() {
       </div>
 
        {biddingPlayer && (
-        <Dialog open={isBidding} onOpenChange={setIsBidding}>
+        <Dialog open={isBidDialogOpen} onOpenChange={setIsBidDialogOpen}>
             <DialogContent>
             <DialogHeader>
                 <DialogTitle>Place a bid for {biddingPlayer.name}</DialogTitle>
@@ -277,8 +284,8 @@ export default function DailyMarketPage() {
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button onClick={handlePlaceBid} disabled={isBidLoading || bidAmount < biddingPlayer.cost}>
-                    {isBidLoading ? <Loader2 className="animate-spin" /> : `Bid ${bidAmount.toLocaleString()}`}
+                <Button onClick={handlePlaceBid} disabled={bidAmount < biddingPlayer.cost}>
+                   {`Bid ${bidAmount.toLocaleString()}`}
                 </Button>
             </DialogFooter>
             </DialogContent>

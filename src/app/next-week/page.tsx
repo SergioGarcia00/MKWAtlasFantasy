@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronRight, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
-import { useCollection, useFirebase } from '@/firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 interface Week {
   id: string;
@@ -15,20 +13,32 @@ interface Week {
 }
 
 export default function WeeksListPage() {
-  const { firestore } = useFirebase();
+  const [weeks, setWeeks] = useState<Week[]>([]);
   const { toast } = useToast();
 
-  const weeksCollectionRef = useMemo(() => firestore ? collection(firestore, 'weeks') : null, [firestore]);
-  const { data: weeks, isLoading } = useCollection<Week>(weeksCollectionRef);
+  const fetchWeeks = useCallback(async () => {
+    try {
+      const response = await fetch('/api/weeks');
+      const data = await response.json();
+      setWeeks(data);
+    } catch (error) {
+      console.error("Failed to fetch weeks", error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Could not fetch weeks data.'});
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    fetchWeeks();
+  }, [fetchWeeks]);
 
   const handleCreateNewWeek = async () => {
-    if (!weeksCollectionRef || !weeks) return;
-
-    const newWeekId = (weeks.length + 1).toString();
-    const newWeek = { id: newWeekId, name: `Week ${newWeekId}` };
-
     try {
-      await addDoc(weeksCollectionRef, newWeek);
+      const response = await fetch('/api/weeks', { method: 'POST' });
+      if (!response.ok) {
+        throw new Error('Failed to create new week');
+      }
+      const newWeek = await response.json();
+      setWeeks(prev => [...prev, newWeek]);
       toast({ title: "Week created!", description: `${newWeek.name} has been added.`});
     } catch (error) {
       toast({ variant: 'destructive', title: 'Error', description: 'Could not create new week.'});
@@ -51,7 +61,7 @@ export default function WeeksListPage() {
       </header>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {weeks?.map(week => (
+        {weeks.map(week => (
           <Link href={`/weeks/${week.id}`} key={week.id} className="block">
             <Card className="hover:bg-muted/50 transition-colors">
               <CardHeader className="flex flex-row items-center justify-between">
