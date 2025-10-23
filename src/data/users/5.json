@@ -1,0 +1,111 @@
+{
+  "id": "user-elgraco",
+  "name": "Elgraco",
+  "currency": 5958,
+  "players": [
+    {
+      "id": "Hazza-7290-5141",
+      "purchasedAt": 1760390231705
+    },
+    {
+      "id": "Gerson-Boom-8371-0799",
+      "purchasedAt": 1760390295580
+    },
+    {
+      "id": "Daisam-5752-5827",
+      "purchasedAt": 1760390360539
+    },
+    {
+      "id": "Dark-5432-8982",
+      "purchasedAt": 1760464836460
+    },
+    {
+      "id": "Cole-Palmer-5044-0536",
+      "purchasedAt": 1760464836462
+    },
+    {
+      "id": "CaliforniaX2-7260-0909",
+      "purchasedAt": 1761076936976
+    },
+    {
+      "id": "elgraco-5968-7506",
+      "purchasedAt": 1761156093707
+    }
+  ],
+  "roster": {
+    "lineup": [
+      "Hazza-7290-5141",
+      "Gerson-Boom-8371-0799",
+      "Daisam-5752-5827",
+      "Cole-Palmer-5044-0536",
+      "Dark-5432-8982",
+      "CaliforniaX2-7260-0909"
+    ],
+    "bench": [
+      "elgraco-5968-7506"
+    ]
+  },
+  "weeklyScores": {
+    "Hazza-7290-5141": {
+      "1": {
+        "race1": 106,
+        "race2": 80
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Gerson-Boom-8371-0799": {
+      "1": {
+        "race1": 92,
+        "race2": 109
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Daisam-5752-5827": {
+      "1": {
+        "race1": 92,
+        "race2": 0
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Ulquiorra-7377-0331": {
+      "1": {
+        "race1": 86,
+        "race2": 72
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Cole-Palmer-5044-0536": {
+      "1": {
+        "race1": 90,
+        "race2": 99
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Dark-5432-8982": {
+      "1": {
+        "race1": 122,
+        "race2": 113
+      },
+      "2": {
+        "race1": 0,
+        "race2": 0
+      }
+    }
+  },
+  "bids": {}
+}

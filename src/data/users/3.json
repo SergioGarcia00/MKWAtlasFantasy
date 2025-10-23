@@ -1,0 +1,71 @@
+{
+  "id": "user-morioh",
+  "name": "Morioh",
+  "currency": 10257,
+  "players": [
+    {
+      "id": "Corvious-5520-7718",
+      "purchasedAt": 1760390000250
+    },
+    {
+      "id": "Kaofie-5843-0202",
+      "purchasedAt": 1760390007123
+    },
+    {
+      "id": "Solution-6951-5014",
+      "purchasedAt": 1760390019509
+    },
+    {
+      "id": "CASTILLA-5326-1113",
+      "purchasedAt": 1760390036198
+    },
+    {
+      "id": "Plush-6582-7033",
+      "purchasedAt": 1760390044224
+    },
+    {
+      "id": "CHaL-7199-5511",
+      "purchasedAt": 1760464836461
+    },
+    {
+      "id": "ybloo-5114-9487",
+      "purchasedAt": 1760983862051
+    }
+  ],
+  "roster": {
+    "lineup": [
+      "CHaL-7199-5511",
+      "Plush-6582-7033",
+      "CASTILLA-5326-1113",
+      "ybloo-5114-9487",
+      "Solution-6951-5014",
+      "Kaofie-5843-0202"
+    ],
+    "bench": [
+      "Corvious-5520-7718"
+    ]
+  },
+  "weeklyScores": {
+    "CASTILLA-5326-1113": {
+      "1": {
+        "race1": 85,
+        "race2": 88
+      }
+    },
+    "Plush-6582-7033": {
+      "1": {
+        "race1": 107,
+        "race2": 113
+      }
+    },
+    "CHaL-7199-5511": {
+      "1": {
+        "race1": 95,
+        "race2": 85
+      }
+    }
+  },
+  "bids": {
+    "Naldo-7484-9386": 9000
+  }
+}

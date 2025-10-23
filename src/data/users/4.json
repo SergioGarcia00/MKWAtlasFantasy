@@ -5,33 +5,27 @@
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
-      "purchasedAt": 1760390153650,
-      "purchasePrice": 9390
+      "purchasedAt": 1760390153650
     },
     {
       "id": "Pecii-7694-6730",
-      "purchasedAt": 1760390162879,
-      "purchasePrice": 8444
+      "purchasedAt": 1760390162879
     },
     {
       "id": "DVD93-4718-6517",
-      "purchasedAt": 1760390174849,
-      "purchasePrice": 4425
+      "purchasedAt": 1760390174849
     },
     {
       "id": "Minh-7222-4619",
-      "purchasedAt": 1760439034678,
-      "purchasePrice": 7160
+      "purchasedAt": 1760439034678
     },
     {
       "id": "Kenai-7080-1894",
-      "purchasedAt": 1760439034679,
-      "purchasePrice": 7635
+      "purchasedAt": 1760439034679
     },
     {
       "id": "aleexpro-4769-4797",
-      "purchasedAt": 1760811393614,
-      "purchasePrice": 4705
+      "purchasedAt": 1760811393614
     }
   ],
   "roster": {

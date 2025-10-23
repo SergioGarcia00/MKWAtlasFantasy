@@ -1,0 +1,83 @@
+{
+  "id": "user-sipgb",
+  "name": "Sipgb",
+  "currency": 10491,
+  "players": [
+    {
+      "id": "Togore-Dreemurr-6731-0027",
+      "purchasedAt": 1760389741574
+    },
+    {
+      "id": "Cozmic-6706-5616",
+      "purchasedAt": 1760389766469
+    },
+    {
+      "id": "AxelTS-7913-9686",
+      "purchasedAt": 1760389830320
+    },
+    {
+      "id": "Pein36-5539-7293",
+      "purchasedAt": 1760464836457
+    },
+    {
+      "id": "Kiria-3848-0816",
+      "purchasedAt": 1760731612115
+    },
+    {
+      "id": "Korni-6903-4006",
+      "purchasedAt": 1760983753046
+    }
+  ],
+  "roster": {
+    "lineup": [
+      "Togore-Dreemurr-6731-0027",
+      "Cozmic-6706-5616",
+      "AxelTS-7913-9686",
+      "Pein36-5539-7293",
+      "Kiria-3848-0816",
+      "Korni-6903-4006"
+    ],
+    "bench": []
+  },
+  "weeklyScores": {
+    "Torte-5227-0818": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "Togore-Dreemurr-6731-0027": {
+      "1": {
+        "race1": 75,
+        "race2": 95
+      }
+    },
+    "AxelTS-7913-9686": {
+      "1": {
+        "race1": 91,
+        "race2": 125
+      }
+    },
+    "Cozmic-6706-5616": {
+      "1": {
+        "race1": 64,
+        "race2": 99
+      }
+    },
+    "Pein36-5539-7293": {
+      "1": {
+        "race1": 106,
+        "race2": 113
+      }
+    },
+    "Kiria-3848-0816": {
+      "1": {
+        "race1": 84,
+        "race2": 90
+      }
+    }
+  },
+  "bids": {
+    "Sipgb-5495-5827": 10491
+  }
+}

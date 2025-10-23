@@ -1,0 +1,81 @@
+{
+  "id": "user-seral",
+  "name": "Seral",
+  "currency": 2545,
+  "players": [
+    {
+      "id": "Lecka-6711-0982",
+      "purchasedAt": 1760389950949
+    },
+    {
+      "id": "Dragnir-6756-1529",
+      "purchasedAt": 1760551285470
+    },
+    {
+      "id": "Milkshake-7008-1877",
+      "purchasedAt": 1760731612116
+    },
+    {
+      "id": "Steffi-5402-7983",
+      "purchasedAt": 1760893279441
+    },
+    {
+      "id": "georgio-6225-8628",
+      "purchasedAt": 1761156093705
+    },
+    {
+      "id": "Charging-Charles-8526-9694",
+      "purchasedAt": 1761156093706
+    }
+  ],
+  "roster": {
+    "lineup": [
+      "Dragnir-6756-1529",
+      "Lecka-6711-0982",
+      "Steffi-5402-7983",
+      "Milkshake-7008-1877",
+      "georgio-6225-8628",
+      "Charging-Charles-8526-9694"
+    ],
+    "bench": []
+  },
+  "weeklyScores": {
+    "Milkshake-7008-1877": {
+      "1": {
+        "race1": 107,
+        "race2": 105
+      }
+    },
+    "Steffi-5402-7983": {
+      "1": {
+        "race1": 96,
+        "race2": 82
+      }
+    },
+    "Lecka-6711-0982": {
+      "1": {
+        "race1": 100,
+        "race2": 84
+      }
+    },
+    "Dragnir-6756-1529": {
+      "1": {
+        "race1": 0,
+        "race2": 0
+      }
+    },
+    "PATATA-7568-8305": {
+      "1": {
+        "race1": 78,
+        "race2": 82
+      }
+    },
+    "Lock-in-8616-6385": {
+      "1": {
+        "race1": 73,
+        "race2": 0
+      }
+    }
+  },
+  "bids": {}
+}
