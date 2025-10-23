@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     const content = await file.text();
     const importData = JSON.parse(content);
 
-    // Write to main data files
+    // Write to main data files, including daily_market.json
     for (const filename in importData) {
       if (filename.endsWith('.json') && filename !== 'rosters_actualizado.json' && filename !== 'users') {
         const filePath = path.join(DATA_DIR, filename);
@@ -30,13 +30,13 @@ export async function POST(request: Request) {
     // Write to user files
     if (importData.users) {
         const usersDir = path.join(DATA_DIR, 'users');
+        await fs.mkdir(usersDir, { recursive: true }); // Ensure the directory exists
         for (const userKey in importData.users) {
             const userFilePath = path.join(usersDir, `${userKey}.json`);
             await fs.writeFile(userFilePath, JSON.stringify(importData.users[userKey], null, 2), 'utf-8');
         }
     }
     
-
     // Write to the main rosters file
     if (importData['rosters_actualizado.json']) {
       await fs.writeFile(ROSTERS_PATH, JSON.stringify(importData['rosters_actualizado.json'], null, 2), 'utf-8');
