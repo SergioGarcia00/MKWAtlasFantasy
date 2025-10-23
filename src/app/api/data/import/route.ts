@@ -24,46 +24,71 @@ export async function POST(request: Request) {
 
     let filesWritten = 0;
     const writtenFiles: string[] = [];
+    const errors: string[] = [];
+
+    // --- Write Daily Market Data (This is the fix) ---
+    if (importData['daily_market.json']) {
+      try {
+        await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(importData['daily_market.json'], null, 2), 'utf-8');
+        filesWritten++;
+        writtenFiles.push('daily_market.json');
+      } catch (e: any) {
+        errors.push(`Failed to write daily_market.json: ${e.message}`);
+      }
+    }
 
     // --- Write User Data ---
     if (importData.users && typeof importData.users === 'object') {
-      await fs.mkdir(USERS_DIR, { recursive: true });
-      for (const userKey in importData.users) {
-        if (Object.prototype.hasOwnProperty.call(importData.users, userKey)) {
-          const userFilePath = path.join(USERS_DIR, `${userKey}.json`);
-          await fs.writeFile(userFilePath, JSON.stringify(importData.users[userKey], null, 2), 'utf-8');
-          filesWritten++;
+      try {
+        await fs.mkdir(USERS_DIR, { recursive: true });
+        let userFilesCount = 0;
+        for (const userKey in importData.users) {
+          if (Object.prototype.hasOwnProperty.call(importData.users, userKey)) {
+            const userFilePath = path.join(USERS_DIR, `${userKey}.json`);
+            await fs.writeFile(userFilePath, JSON.stringify(importData.users[userKey], null, 2), 'utf-8');
+            userFilesCount++;
+          }
         }
+        if (userFilesCount > 0) {
+            writtenFiles.push(`${userFilesCount} user files`);
+            filesWritten += userFilesCount;
+        }
+      } catch (e: any) {
+        errors.push(`Failed to write user data: ${e.message}`);
       }
-      writtenFiles.push(`${Object.keys(importData.users).length} user files`);
     }
 
     // --- Write Rosters Data ---
     if (importData['rosters_actualizado.json']) {
-      await fs.writeFile(ROSTERS_PATH, JSON.stringify(importData['rosters_actualizado.json'], null, 2), 'utf-8');
-      filesWritten++;
-      writtenFiles.push('rosters_actualizado.json');
-    }
-
-    // --- Write Daily Market Data ---
-    if (importData['daily_market.json']) {
-        await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(importData['daily_market.json'], null, 2), 'utf-8');
+      try {
+        await fs.writeFile(ROSTERS_PATH, JSON.stringify(importData['rosters_actualizado.json'], null, 2), 'utf-8');
         filesWritten++;
-        writtenFiles.push('daily_market.json');
+        writtenFiles.push('rosters_actualizado.json');
+      } catch (e: any) {
+        errors.push(`Failed to write rosters_actualizado.json: ${e.message}`);
+      }
     }
-
+    
     // --- Write Weeks Data ---
     if (importData['weeks.json']) {
-      await fs.writeFile(WEEKS_PATH, JSON.stringify(importData['weeks.json'], null, 2), 'utf-8');
-      filesWritten++;
-      writtenFiles.push('weeks.json');
+      try {
+        await fs.writeFile(WEEKS_PATH, JSON.stringify(importData['weeks.json'], null, 2), 'utf-8');
+        filesWritten++;
+        writtenFiles.push('weeks.json');
+      } catch (e: any) {
+        errors.push(`Failed to write weeks.json: ${e.message}`);
+      }
+    }
+
+    if (errors.length > 0) {
+        throw new Error(errors.join('; '));
     }
 
     if (filesWritten === 0) {
         return NextResponse.json({ message: 'Import finished, but no data was updated. Check the structure of your JSON file.' }, { status: 400 });
     }
 
-    return NextResponse.json({ message: `Data imported successfully. ${filesWritten} files/sections were processed: ${writtenFiles.join(', ')}` });
+    return NextResponse.json({ message: `Data imported successfully. ${writtenFiles.length > 0 ? writtenFiles.join(', ') : '0 sections'} were processed.` });
 
   } catch (error: any) {
     console.error('Data import failed:', error);
