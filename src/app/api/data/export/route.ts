@@ -11,13 +11,16 @@ export async function GET(request: Request) {
   try {
     const exportData: Record<string, any> = {};
 
-    // Read all files in the data directory
+    // Read all files in the data directory, EXCEPT subdirectories
     const dataFilenames = await fs.readdir(DATA_DIR);
     for (const filename of dataFilenames) {
       if (filename.endsWith('.json')) {
         const filePath = path.join(DATA_DIR, filename);
-        const content = await fs.readFile(filePath, 'utf-8');
-        exportData[filename] = JSON.parse(content);
+        const fileStat = await fs.stat(filePath);
+        if (fileStat.isFile()) {
+            const content = await fs.readFile(filePath, 'utf-8');
+            exportData[filename] = JSON.parse(content);
+        }
       }
     }
     
@@ -38,16 +41,11 @@ export async function GET(request: Request) {
     const rostersContent = await fs.readFile(ROSTERS_PATH, 'utf-8');
     exportData['rosters_actualizado.json'] = JSON.parse(rostersContent);
 
-    // Create the final export object
-    const finalExport = {
-      ...exportData,
-    };
-
     const headers = new Headers();
     headers.set('Content-Type', 'application/json');
     headers.set('Content-Disposition', `attachment; filename="data_export.json"`);
 
-    return new NextResponse(JSON.stringify(finalExport, null, 2), { headers });
+    return new NextResponse(JSON.stringify(exportData, null, 2), { headers });
 
   } catch (error: any) {
     console.error('Data export failed:', error);

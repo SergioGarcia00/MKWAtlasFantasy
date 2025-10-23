@@ -19,27 +19,23 @@ export async function POST(request: Request) {
     const content = await file.text();
     const importData = JSON.parse(content);
 
-    // Write to main data files, including daily_market.json
-    for (const filename in importData) {
-      if (filename.endsWith('.json') && filename !== 'rosters_actualizado.json' && filename !== 'users') {
-        const filePath = path.join(DATA_DIR, filename);
-        await fs.writeFile(filePath, JSON.stringify(importData[filename], null, 2), 'utf-8');
-      }
-    }
+    // Process all keys in the imported data
+    for (const key in importData) {
+        if (!importData.hasOwnProperty(key)) continue;
 
-    // Write to user files
-    if (importData.users) {
-        const usersDir = path.join(DATA_DIR, 'users');
-        await fs.mkdir(usersDir, { recursive: true }); // Ensure the directory exists
-        for (const userKey in importData.users) {
-            const userFilePath = path.join(usersDir, `${userKey}.json`);
-            await fs.writeFile(userFilePath, JSON.stringify(importData.users[userKey], null, 2), 'utf-8');
+        if (key === 'users') {
+            const usersDir = path.join(DATA_DIR, 'users');
+            await fs.mkdir(usersDir, { recursive: true });
+            for (const userKey in importData.users) {
+                const userFilePath = path.join(usersDir, `${userKey}.json`);
+                await fs.writeFile(userFilePath, JSON.stringify(importData.users[userKey], null, 2), 'utf-8');
+            }
+        } else if (key === 'rosters_actualizado.json') {
+             await fs.writeFile(ROSTERS_PATH, JSON.stringify(importData[key], null, 2), 'utf-8');
+        } else if (key.endsWith('.json')) {
+            const filePath = path.join(DATA_DIR, key);
+            await fs.writeFile(filePath, JSON.stringify(importData[key], null, 2), 'utf-8');
         }
-    }
-    
-    // Write to the main rosters file
-    if (importData['rosters_actualizado.json']) {
-      await fs.writeFile(ROSTERS_PATH, JSON.stringify(importData['rosters_actualizado.json'], null, 2), 'utf-8');
     }
 
     return NextResponse.json({ message: 'Data imported successfully.' });
