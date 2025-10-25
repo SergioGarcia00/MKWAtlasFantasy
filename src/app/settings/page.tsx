@@ -332,7 +332,7 @@ export default function SettingsPage() {
                                 </div>
                                 <Button onClick={() => handleUpdateCurrency(specificAmount, true)} disabled={isUpdatingCurrency || !selectedUser}>
                                     {isUpdatingCurrency ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Wallet className="mr-2 h-4 w-4" />}
-                                    Esta funcion no funciona
+                                    Set Amount
                                 </Button>
                             </div>
                             <Button onClick={() => handleUpdateCurrency(1000)} disabled={isUpdatingCurrency || !selectedUser}>
