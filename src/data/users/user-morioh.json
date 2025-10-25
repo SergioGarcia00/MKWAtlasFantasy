@@ -1,7 +1,7 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": null,
+  "currency": 10000,
   "players": [
     {
       "id": "Kaofie-5843-0202",
