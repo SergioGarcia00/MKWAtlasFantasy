@@ -36,7 +36,8 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         }
         
         const playerToSell = user.players[playerIndex];
-        const sellPrice = playerToSell.purchasePrice;
+        // Ensure purchasePrice is a number, default to player's base cost if not found.
+        const sellPrice = playerToSell.purchasePrice || ALL_PLAYERS.find(p => p.id === playerId)?.cost || 0;
 
         // Add currency and remove player
         user.currency += sellPrice;

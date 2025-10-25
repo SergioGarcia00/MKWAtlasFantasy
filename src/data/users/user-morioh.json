@@ -1,12 +1,8 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 10257,
+  "currency": null,
   "players": [
-    {
-      "id": "Corvious-5520-7718",
-      "purchasedAt": 1760390000250
-    },
     {
       "id": "Kaofie-5843-0202",
       "purchasedAt": 1760390007123
@@ -41,9 +37,7 @@
       "Solution-6951-5014",
       "Kaofie-5843-0202"
     ],
-    "bench": [
-      "Corvious-5520-7718"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "CASTILLA-5326-1113": {
