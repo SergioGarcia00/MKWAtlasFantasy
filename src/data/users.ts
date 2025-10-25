@@ -9,5 +9,6 @@ export const USER_IDS = [
   'user-vick',
   'user-elgraco',
   'user-tario',
-  'user-wolfeet'
+  'user-wolfeet',
+  'user-oniix'
 ];
