@@ -1,10 +1,48 @@
 {
   "id": "user-oniix",
   "name": "Oniix",
-  "currency": 17000,
-  "players": [],
+  "currency": 435,
+  "players": [
+    {
+      "id": "Joj-8422-9019",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 8116
+    },
+    {
+      "id": "Copter-6147-1602",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 6251
+    },
+    {
+      "id": "Conk-6780-7038",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 6607
+    },
+    {
+      "id": "Shun-v-6134-8717",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 6457
+    },
+    {
+      "id": "FHD-7076-7494",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 6961
+    },
+    {
+      "id": "Swoop-10288-6605",
+      "purchasedAt": 1761400000000,
+      "purchasePrice": 10260
+    }
+  ],
   "roster": {
-    "lineup": [],
+    "lineup": [
+      "Joj-8422-9019",
+      "Copter-6147-1602",
+      "Conk-6780-7038",
+      "Shun-v-6134-8717",
+      "FHD-7076-7494",
+      "Swoop-10288-6605"
+    ],
     "bench": []
   },
   "weeklyScores": {},
