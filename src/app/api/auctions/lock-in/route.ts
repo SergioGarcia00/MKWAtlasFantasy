@@ -5,21 +5,24 @@ import path from 'path';
 import fs from 'fs/promises';
 import type { Player, User, UserPlayer } from '@/lib/types';
 import { ALL_PLAYERS } from '@/data/players';
+import { USER_IDS } from '@/data/users';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 const ROSTERS_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
 
 async function getAllUsers(): Promise<User[]> {
   try {
-    const filenames = await fs.readdir(USERS_DIR);
     const users = await Promise.all(
-      filenames.map(async (filename) => {
-        if (filename.endsWith('.json')) {
-          const content = await fs.readFile(path.join(USERS_DIR, filename), 'utf-8');
-          return JSON.parse(content) as User;
-        }
-        return null;
-      })
+        USER_IDS.map(async (id) => {
+            const filePath = path.join(USERS_DIR, `${id}.json`);
+            try {
+                const content = await fs.readFile(filePath, 'utf-8');
+                return JSON.parse(content) as User;
+            } catch (error) {
+                console.warn(`Could not read or parse user file for ${id}. Skipping.`);
+                return null;
+            }
+        })
     );
     return users.filter((u): u is User => u !== null);
   } catch (error) {
@@ -63,10 +66,17 @@ export async function POST() {
         bids.sort((a, b) => b.amount - a.amount);
         const winningBid = bids[0];
         
+        // IMPORTANT: Always find the LATEST state of the winner from the array
         const winner = allUsers.find(u => u.id === winningBid.userId);
         const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         
         if (winner && playerInfo) {
+            // Check if winner already owns this player
+            if (winner.players.some(p => p.id === playerId)) {
+                messages.push(`${winner.name} tried to bid on ${playerInfo.name}, but they already own this player.`);
+                continue;
+            }
+            
              // Check if winner's roster is full
             if (winner.players.length >= 10) {
                 messages.push(`${winner.name} could not receive ${playerInfo.name} because their roster is full.`);
@@ -136,3 +146,4 @@ export async function POST() {
     return NextResponse.json({ message: `Error locking in auctions: ${error.message}` }, { status: 500 });
   }
 }
+    
