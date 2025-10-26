@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 8261,
+  "currency": 261,
   "players": [
     {
       "id": "Yasn-5383-7699",
@@ -31,6 +31,12 @@
     {
       "id": "Baptboy-5252-3713",
       "purchasedAt": 1760983607168
+    },
+    {
+      "id": "ZaDi-7162-0329",
+      "purchasedAt": 1761503307701,
+      "purchasePrice": 8000,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -43,7 +49,8 @@
       "Baptboy-5252-3713"
     ],
     "bench": [
-      "Yasn-5383-7699"
+      "Yasn-5383-7699",
+      "ZaDi-7162-0329"
     ]
   },
   "weeklyScores": {
@@ -84,7 +91,5 @@
       }
     }
   },
-  "bids": {
-    "ZaDi-7162-0329": 8000
-  }
+  "bids": {}
 }

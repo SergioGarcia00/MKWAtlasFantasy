@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 11860,
+  "currency": 6227,
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
@@ -32,6 +32,12 @@
       "id": "aleexpro-4769-4797",
       "purchasedAt": 1760811393614,
       "purchasePrice": 4705
+    },
+    {
+      "id": "Kuppa-5885-2013",
+      "purchasedAt": 1761503307381,
+      "purchasePrice": 5633,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -43,7 +49,9 @@
       "Kenai-7080-1894",
       "aleexpro-4769-4797"
     ],
-    "bench": []
+    "bench": [
+      "Kuppa-5885-2013"
+    ]
   },
   "weeklyScores": {
     "Minh-7222-4619": {
@@ -83,7 +91,5 @@
       }
     }
   },
-  "bids": {
-    "Kuppa-5885-2013": 5633
-  }
+  "bids": {}
 }

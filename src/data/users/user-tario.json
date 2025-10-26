@@ -1,7 +1,7 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 10634,
+  "currency": 2883,
   "players": [
     {
       "id": "EYEKON-8673-8107",
@@ -26,6 +26,12 @@
     {
       "id": "Ryukano-6213-1225",
       "purchasedAt": 1760811393616
+    },
+    {
+      "id": "ballhog-6871-8899",
+      "purchasedAt": 1761503307485,
+      "purchasePrice": 7751,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -37,7 +43,9 @@
       "Kaffee-um-9-5920-3971",
       "Ryukano-6213-1225"
     ],
-    "bench": []
+    "bench": [
+      "ballhog-6871-8899"
+    ]
   },
   "weeklyScores": {
     "Chaozu-8544-6051": {
@@ -77,7 +85,5 @@
       }
     }
   },
-  "bids": {
-    "ballhog-6871-8899": 7751
-  }
+  "bids": {}
 }
