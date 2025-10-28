@@ -5,7 +5,6 @@ import path from 'path';
 import fs from 'fs/promises';
 import type { Player, User, UserPlayer } from '@/lib/types';
 import { ALL_PLAYERS } from '@/data/players';
-import { USER_IDS } from '@/data/users';
 import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
@@ -13,14 +12,17 @@ const ROSTERS_PATH = path.join(process.cwd(), 'src/lib/rosters_actualizado.json'
 
 async function getAllUsers(): Promise<User[]> {
   try {
+    const filenames = await fs.readdir(USERS_DIR);
     const users = await Promise.all(
-        USER_IDS.map(async (id) => {
-            const filePath = path.join(USERS_DIR, `${id}.json`);
+      filenames
+        .filter(filename => filename.endsWith('.json'))
+        .map(async (filename) => {
+            const filePath = path.join(USERS_DIR, filename);
             try {
                 const content = await fs.readFile(filePath, 'utf-8');
                 return JSON.parse(content) as User;
             } catch (error) {
-                console.warn(`Could not read or parse user file for ${id}. Skipping.`);
+                console.warn(`Could not read or parse user file for ${filename}. Skipping.`);
                 return null;
             }
         })
@@ -68,7 +70,10 @@ export async function POST() {
         const winningBid = bids[0];
         
         // IMPORTANT: Always find the LATEST state of the winner from the array
-        const winner = allUsers.find(u => u.id === winningBid.userId);
+        const winnerIndex = allUsers.findIndex(u => u.id === winningBid.userId);
+        if (winnerIndex === -1) continue;
+
+        const winner = allUsers[winnerIndex];
         const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         
         if (winner && playerInfo) {
@@ -102,29 +107,9 @@ export async function POST() {
             if (!winner.roster.bench.includes(playerId)) {
                 winner.roster.bench.push(playerId);
             }
-
-            // Update player's base cost in the main player data
-            try {
-                const rostersContent = await fs.readFile(ROSTERS_PATH, 'utf-8');
-                const rosters = JSON.parse(rostersContent);
-
-                let playerUpdated = false;
-                for (const team of rosters) {
-                    const playerToUpdate = team.players.find((p: any) => p.name === playerInfo.name);
-                    if (playerToUpdate) {
-                        playerToUpdate.cost = winningBid.amount;
-                        playerUpdated = true;
-                        break;
-                    }
-                }
-
-                if (playerUpdated) {
-                    await fs.writeFile(ROSTERS_PATH, JSON.stringify(rosters, null, 2), 'utf-8');
-                }
-                
-            } catch (e) {
-                console.error(`Could not update cost for player ${playerId}:`, e);
-            }
+            
+            // Update the user in the main array
+            allUsers[winnerIndex] = winner;
 
             playersAwardedCount++;
             totalCoinsSpent += winningBid.amount;
