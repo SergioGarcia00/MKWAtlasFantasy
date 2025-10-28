@@ -10,16 +10,12 @@ import { useUser } from '@/context/user-context';
 
 const calculateUserTotalScore = (user: User): number => {
     if (!user.weeklyScores) return 0;
-
     let totalScore = 0;
-    // Only sum scores from players currently in the lineup
-    for (const playerId of user.roster.lineup) {
-        if (user.weeklyScores[playerId]) {
-            const playerScoresByWeek = user.weeklyScores[playerId];
-            for (const weekId in playerScoresByWeek) {
-                const scores = playerScoresByWeek[weekId];
-                totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
-            }
+    for (const playerId in user.weeklyScores) {
+        const playerScoresByWeek = user.weeklyScores[playerId];
+        for (const weekId in playerScoresByWeek) {
+            const scores = playerScoresByWeek[weekId];
+            totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
         }
     }
     return totalScore;
@@ -99,3 +95,5 @@ export default function UserRankingsPage() {
     </div>
   );
 }
+
+    

@@ -41,16 +41,15 @@ const calculatePlayerTotalScore = (playerId: string, user: User | null): number 
 
 const calculateUserTotalScore = (user: User): number => {
     if (!user.weeklyScores) return 0;
-
     let totalScore = 0;
-    // Only sum scores from players currently in the lineup
-    for (const playerId of user.roster.lineup) {
-        if (user.weeklyScores[playerId]) {
-            const playerScoresByWeek = user.weeklyScores[playerId];
-            for (const weekId in playerScoresByWeek) {
-                const scores = playerScoresByWeek[weekId];
-                totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
-            }
+    for (const playerId in user.weeklyScores) {
+        // Check if the player ID is in the user's lineup for that week's scoring
+        // This logic can be improved if weekly lineups are stored.
+        // For now, we assume all scores for a user should count.
+        const playerScoresByWeek = user.weeklyScores[playerId];
+        for (const weekId in playerScoresByWeek) {
+            const scores = playerScoresByWeek[weekId];
+            totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
         }
     }
     return totalScore;
@@ -342,3 +341,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    
