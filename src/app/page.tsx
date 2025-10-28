@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge';
 import type { Player, User } from '@/lib/types';
 import Link from 'next/link';
 import { useLanguage } from '@/context/language-context';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface NewsItem {
   id: string;
