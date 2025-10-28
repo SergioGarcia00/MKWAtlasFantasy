@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Gem, TrendingUp } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Gem } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Badge } from '@/components/ui/badge';
@@ -86,16 +86,14 @@ const JuicyPlayerCard = () => {
         return (
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Gem className="text-amber-500" /> Juiciest Player</CardTitle>
-                    <CardDescription>Best value player in the market.</CardDescription>
+                    <CardTitle className="flex items-center gap-2 text-base"><Gem className="text-amber-500 w-5 h-5" /> Juiciest Player</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center gap-4">
-                        <Avatar className="w-16 h-16"><Skeleton className="w-full h-full rounded-full" /></Avatar>
+                        <Skeleton className="w-12 h-12 rounded-lg" />
                         <div className="space-y-2 flex-1">
                             <Skeleton className="h-5 w-3/4" />
                             <Skeleton className="h-4 w-1/2" />
-                            <Skeleton className="h-8 w-full" />
                         </div>
                     </div>
                 </CardContent>
@@ -110,25 +108,18 @@ const JuicyPlayerCard = () => {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Gem className="text-amber-500" /> Juiciest Player</CardTitle>
-                <CardDescription>The player with the best MMR-to-cost ratio in the current market.</CardDescription>
+                 <CardTitle className="flex items-center gap-2 text-base"><Gem className="text-amber-500 w-5 h-5" /> Juiciest Player</CardTitle>
             </CardHeader>
             <CardContent>
                  <div className="flex items-center gap-4">
-                    <PlayerIcon iconName={juicyPlayer.icon} className="w-16 h-16" />
+                    <PlayerIcon iconName={juicyPlayer.icon} className="w-12 h-12" />
                     <div>
-                        <p className="font-bold text-lg">{juicyPlayer.name}</p>
+                        <p className="font-bold">{juicyPlayer.name}</p>
                         <p className="text-sm text-muted-foreground">{juicyPlayer.cost.toLocaleString()} Coins</p>
-                        <div className="flex items-center gap-4 mt-2">
-                            <div className="text-center">
-                                <p className="font-bold text-xl text-primary">{juicyPlayer.mmr?.toLocaleString()}</p>
-                                <p className="text-xs text-muted-foreground">MMR</p>
-                            </div>
-                            <div className="text-center">
-                                <p className="font-bold text-xl text-primary">{((juicyPlayer.mmr || 0) / juicyPlayer.cost).toFixed(2)}</p>
-                                <p className="text-xs text-muted-foreground">MMR/Coin</p>
-                            </div>
-                        </div>
+                    </div>
+                    <div className="ml-auto text-right">
+                        <p className="font-bold text-lg text-primary">{((juicyPlayer.mmr || 0) / juicyPlayer.cost).toFixed(2)}</p>
+                        <p className="text-xs text-muted-foreground">MMR/Coin</p>
                     </div>
                 </div>
             </CardContent>
@@ -271,86 +262,11 @@ export default function DashboardPage() {
         <h1 className="text-4xl font-bold font-headline">{t('dashboard_title')}</h1>
         <p className="text-muted-foreground mt-2">{t('dashboard_subtitle')}</p>
       </header>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle>{t('your_stats')}</CardTitle>
-                </CardHeader>
-                <CardContent className="grid grid-cols-2 gap-4">
-                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                        <Trophy className="w-8 h-8 text-primary mb-2" />
-                        <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
-                        <p className="text-sm text-muted-foreground">{t('your_rank')}</p>
-                    </div>
-                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                        <Users className="w-8 h-8 text-primary mb-2" />
-                        <p className="text-2xl font-bold">{user.players.length} / 10</p>
-                        <p className="text-sm text-muted-foreground">{t('players_owned')}</p>
-                    </div>
-                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
-                        <DollarSign className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
-                        <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
-                    </div>
-                </CardContent>
-            </Card>
-            <Card className="flex flex-col">
-                <CardHeader>
-                    <CardTitle>{t('top_users')}</CardTitle>
-                    <CardDescription>{t('top_users_subtitle')}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 space-y-4">
-                    {rankedUsers.slice(0, 3).map((u, index) => (
-                        <div key={u.id} className="flex items-center">
-                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary mr-3">
-                            {getRankBadge(index + 1)}
-                            </div>
-                            <Avatar className="h-9 w-9">
-                                <AvatarFallback>{u.name.substring(0, 2)}</AvatarFallback>
-                            </Avatar>
-                            <div className="ml-3 flex-1">
-                                <p className="font-semibold text-sm truncate">{u.name}</p>
-                                <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} {t('points')}</p>
-                            </div>
-                        </div>
-                    ))}
-                </CardContent>
-                <CardContent>
-                    <Button variant="outline" size="sm" className="w-full" asChild>
-                        <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
-                    </Button>
-                </CardContent>
-            </Card>
-        </div>
-
-        <div className="space-y-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> {t('starting_lineup')}</CardTitle>
-                    <CardDescription>{t('starting_lineup_subtitle')}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="space-y-3">
-                    {lineupPlayers.map(player => (
-                        <div key={player.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
-                        <div className="flex items-center gap-3">
-                            <PlayerIcon iconName={player.icon} className="w-8 h-8" />
-                            <p className="font-medium text-sm">{player.name}</p>
-                        </div>
-                        <Badge variant="secondary" className="font-bold">{calculatePlayerTotalScore(player.id, user).toLocaleString()}</Badge>
-                        </div>
-                    ))}
-                    </div>
-                </CardContent>
-            </Card>
-            <JuicyPlayerCard />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        {/* Left Column */}
+        <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
@@ -386,9 +302,7 @@ export default function DashboardPage() {
               )}
             </CardContent>
           </Card>
-        </div>
-
-        <div className="lg:col-span-1">
+          
           <Card className="flex flex-col h-full">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
@@ -440,7 +354,86 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Right Column */}
+        <div className="lg:col-span-1 space-y-8 sticky top-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t('your_stats')}</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                        <Trophy className="w-8 h-8 text-primary mb-2" />
+                        <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
+                        <p className="text-sm text-muted-foreground">{t('your_rank')}</p>
+                    </div>
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                        <Users className="w-8 h-8 text-primary mb-2" />
+                        <p className="text-2xl font-bold">{user.players.length} / 10</p>
+                        <p className="text-sm text-muted-foreground">{t('players_owned')}</p>
+                    </div>
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
+                        <DollarSign className="w-8 h-8 text-green-500 mb-2" />
+                        <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
+                        <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card className="flex flex-col">
+                <CardHeader>
+                    <CardTitle>{t('top_users')}</CardTitle>
+                    <CardDescription>{t('top_users_subtitle')}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 space-y-4">
+                    {rankedUsers.slice(0, 3).map((u, index) => (
+                        <div key={u.id} className="flex items-center">
+                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary mr-3">
+                            {getRankBadge(index + 1)}
+                            </div>
+                            <Avatar className="h-9 w-9">
+                                <AvatarFallback>{u.name.substring(0, 2)}</AvatarFallback>
+                            </Avatar>
+                            <div className="ml-3 flex-1">
+                                <p className="font-semibold text-sm truncate">{u.name}</p>
+                                <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} {t('points')}</p>
+                            </div>
+                        </div>
+                    ))}
+                </CardContent>
+                <CardContent>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                        <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
+                    </Button>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-base"><Star className="text-primary w-5 h-5"/> {t('starting_lineup')}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-3">
+                    {lineupPlayers.map(player => (
+                        <div key={player.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+                        <div className="flex items-center gap-3">
+                            <PlayerIcon iconName={player.icon} className="w-8 h-8" />
+                            <p className="font-medium text-sm">{player.name}</p>
+                        </div>
+                        <Badge variant="secondary" className="font-bold">{calculatePlayerTotalScore(player.id, user).toLocaleString()}</Badge>
+                        </div>
+                    ))}
+                     {lineupPlayers.length === 0 && <p className="text-sm text-center text-muted-foreground py-4">No players in lineup.</p>}
+                    </div>
+                </CardContent>
+            </Card>
+
+            <JuicyPlayerCard />
+        </div>
+
       </div>
     </div>
   );
 }
+
+    
