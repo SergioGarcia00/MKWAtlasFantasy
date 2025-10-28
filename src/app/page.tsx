@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Wallet } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Badge } from '@/components/ui/badge';
 import type { Player, User } from '@/lib/types';
+import Link from 'next/link';
 
 interface NewsItem {
   id: string;
@@ -126,8 +127,9 @@ export default function DashboardPage() {
   };
 
   const rankedUsers = useMemo(() => {
-    return allUsers.map(u => ({ ...u, totalScore: calculateUserTotalScore(u) }))
-                   .sort((a, b) => b.totalScore - a.totalScore);
+    return allUsers
+      .map(u => ({ ...u, totalScore: calculateUserTotalScore(u) }))
+      .sort((a, b) => b.totalScore - a.totalScore);
   }, [allUsers]);
 
   const userRank = useMemo(() => {
@@ -147,6 +149,14 @@ export default function DashboardPage() {
   if (!user) {
     return <div className="flex h-screen items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
   }
+
+  const getRankBadge = (rank: number) => {
+    if (rank === 1) return <Trophy className="w-5 h-5 text-amber-400" />;
+    if (rank === 2) return <Trophy className="w-5 h-5 text-slate-400" />;
+    if (rank === 3) return <Trophy className="w-5 h-5 text-orange-600" />;
+    return <span className="font-mono text-sm text-muted-foreground">{rank}</span>;
+  };
+
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -185,22 +195,23 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
-                    {rankedUsers.slice(0,3).map((u, index) => (
-                        <div key={u.id} className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <Avatar>
-                                    <AvatarFallback>{u.name.substring(0,2)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                    <p className="font-semibold">{index + 1}. {u.name}</p>
-                                    <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} points</p>
-                                </div>
+                    {rankedUsers.slice(0, 3).map((u, index) => (
+                        <div key={u.id} className="flex items-center">
+                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary mr-3">
+                               {getRankBadge(index + 1)}
                             </div>
-                           {index === 0 && <Trophy className="text-amber-400" />}
-                           {index === 1 && <Trophy className="text-slate-400" />}
-                           {index === 2 && <Trophy className="text-orange-600" />}
+                            <Avatar className="h-9 w-9">
+                                <AvatarFallback>{u.name.substring(0, 2)}</AvatarFallback>
+                            </Avatar>
+                            <div className="ml-3 flex-1">
+                                <p className="font-semibold text-sm truncate">{u.name}</p>
+                                <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} points</p>
+                            </div>
                         </div>
                     ))}
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                        <Link href="/rankings/users">View Full Rankings <ArrowRight className="ml-2" /></Link>
+                    </Button>
                 </div>
             </CardContent>
         </Card>
