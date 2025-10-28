@@ -28,7 +28,7 @@ ALL_PLAYERS.forEach(p => {
 });
 
 
-const getCorrectPlayerId = (oldId: string): string | undefined => {
+const getCorrectPlayerId = (oldId: string): string => {
     // Try to find a direct match first
     const directMatch = ALL_PLAYERS.find(p => p.id === oldId);
     if (directMatch) return directMatch.id;
@@ -55,7 +55,7 @@ const getCorrectPlayerId = (oldId: string): string | undefined => {
     if (simpleNameMatch) return simpleNameMatch.id;
 
 
-    return undefined; // No match found
+    return oldId; // **FIX**: Return original ID if no match is found
 };
 
 
@@ -88,17 +88,21 @@ export async function POST(request: Request) {
             };
 
             // --- Fix user.players ---
-            user.players = user.players.map(p => ({ ...p, id: fixId(p.id) }));
+            if (user.players) {
+                user.players = user.players.map(p => ({ ...p, id: fixId(p.id) }));
+            }
 
             // --- Fix user.roster.lineup & bench ---
-            user.roster.lineup = user.roster.lineup.map(fixId);
-            user.roster.bench = user.roster.bench.map(fixId);
+            if (user.roster) {
+                user.roster.lineup = user.roster.lineup.map(fixId);
+                user.roster.bench = user.roster.bench.map(fixId);
+            }
             
             // --- Fix user.bids ---
             const fixedBids: Record<string, number> = {};
             if(user.bids) {
                 for (const oldPlayerId in user.bids) {
-                    const newId = getCorrectPlayerId(oldPlayerId) || oldPlayerId;
+                    const newId = getCorrectPlayerId(oldPlayerId);
                     if (newId !== oldPlayerId) userWasModified = true;
                     fixedBids[newId] = user.bids[oldPlayerId];
                 }
@@ -109,7 +113,7 @@ export async function POST(request: Request) {
             const fixedWeeklyScores: Record<string, Record<string, any>> = {};
             if(user.weeklyScores) {
                 for (const oldPlayerId in user.weeklyScores) {
-                    const newId = getCorrectPlayerId(oldPlayerId) || oldPlayerId;
+                    const newId = getCorrectPlayerId(oldPlayerId);
                     if (newId !== oldPlayerId) userWasModified = true;
                     fixedWeeklyScores[newId] = user.weeklyScores[oldPlayerId];
                 }

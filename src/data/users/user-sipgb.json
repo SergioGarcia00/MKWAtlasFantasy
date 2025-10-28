@@ -16,13 +16,15 @@
       "purchasedAt": 1760464836457
     },
     {
-      "id": "Kiria-3848-0816",
-      "purchasedAt": 1760731612115
-    },
-    {
       "id": "Korni-6903-4006",
       "purchasedAt": 1760983753046,
       "clauseInvestment": 5000
+    },
+    {
+      "id": "Kiria-3848-0816",
+      "purchasedAt": 1761650272756,
+      "purchasePrice": 4004,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -30,10 +32,11 @@
       "Togore-Dreemurr-6731-0027",
       "AxelTS-7913-9686",
       "Pein36-5539-7293",
-      "Kiria-3848-0816",
       "Korni-6903-4006"
     ],
-    "bench": []
+    "bench": [
+      "Kiria-3848-0816"
+    ]
   },
   "weeklyScores": {
     "Torte-5227-0818": {
