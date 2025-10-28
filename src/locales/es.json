@@ -28,5 +28,16 @@
   "shoutbox": "Chat General",
   "no_shouts_yet": "¡Sé el primero en decir algo!",
   "shoutbox_placeholder": "Escribe tu mensaje...",
-  "shoutbox_post_button": "Publicar Mensaje"
+  "shoutbox_post_button": "Publicar Mensaje",
+
+  "news.auction_win": "¡<strong>{0}</strong> ganó la subasta por <strong>{1}</strong> con una puja de {2} monedas!",
+  "news.buyout": "¡<strong>{0}</strong> ejecutó una compra directa por <strong>{1}</strong> de {2} por {3} monedas!",
+  "news.sell": "<strong>{0}</strong> vendió a <strong>{1}</strong> por {2} monedas.",
+  "news.high_score": "¡<strong>{0}</strong> ({1}) logró una puntuación impresionante de <strong>{2}</strong> en la Semana {3}!",
+  "news.massive_score": "¡<strong>{0}</strong> ({1}) logró una puntuación masiva de <strong>{2}</strong> en la Semana {3}!",
+  "news.welcome": "¡Bienvenidos a la Kart Fantasy League! El mercado está abierto y la primera semana de carreras ha comenzado.",
+  "news.investment": "¡<strong>{0}</strong> invirtió <strong>{1}</strong> monedas en <strong>{2}</strong>, aumentando la cláusula de rescisión!",
+  "news.new_challenger": "¡Un nuevo retador aparece! <strong>{0}</strong> se ha unido a la liga con una nueva plantilla.",
+  "news.team_welcome": "{0} da la bienvenida a <strong>{1}</strong> al equipo por <strong>{2}</strong> monedas.",
+  "news.acquisition": "¡{0} adquirió a <strong>{1}</strong> por la increíble suma de <strong>{2}</strong> monedas!"
 }

@@ -45,7 +45,11 @@ export async function POST(request: Request, { params }: { params: { userId: str
         const totalScore = (scores.race1 || 0) + (scores.race2 || 0);
         if (totalScore > 150) { // Threshold for a high score worth announcing
             const playerName = ALL_PLAYERS.find(p => p.id === playerId)?.name || 'A player';
-            await addNewsItem(`🔥 <strong>${playerName}</strong> (${user.name}) put up a massive score of <strong>${totalScore}</strong> in Week ${weekId}!`);
+            if (totalScore > 250) {
+                 await addNewsItem('news.massive_score', [playerName, user.name, totalScore, weekId], '🔥');
+            } else {
+                 await addNewsItem('news.high_score', [playerName, user.name, totalScore, weekId], '🔥');
+            }
         }
 
         return NextResponse.json({ message: 'Scores updated successfully', user });

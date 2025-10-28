@@ -9,7 +9,7 @@ import { USER_IDS } from '@/data/users';
 import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
-const ROSTERS_PATH = path.join(process.cwd(), 'src', 'lib', 'rosters_actualizado.json');
+const ROSTERS_PATH = path.join(process.cwd(), 'src/lib/rosters_actualizado.json');
 
 async function getAllUsers(): Promise<User[]> {
   try {
@@ -58,7 +58,6 @@ export async function POST() {
     let playersAwardedCount = 0;
     let totalCoinsSpent = 0;
     const messages: string[] = [];
-    const newsItems: string[] = [];
 
     // Step 2: Process each player auction
     for (const [playerId, bids] of Object.entries(allBidsByPlayer)) {
@@ -129,9 +128,9 @@ export async function POST() {
 
             playersAwardedCount++;
             totalCoinsSpent += winningBid.amount;
-            const winMessage = `${winner.name} won the auction for <strong>${playerInfo.name}</strong> with a bid of ${winningBid.amount.toLocaleString()} coins!`;
+            const winMessage = `${winner.name} won the auction for ${playerInfo.name} with a bid of ${winningBid.amount.toLocaleString()} coins!`;
             messages.push(winMessage);
-            newsItems.push(`🎉 ${winMessage}`);
+            await addNewsItem('news.auction_win', [winner.name, playerInfo.name, winningBid.amount.toLocaleString()], '🎉');
         }
     }
     
@@ -139,11 +138,6 @@ export async function POST() {
     for (const user of allUsers) {
         user.bids = {};
         await saveUser(user);
-    }
-    
-    // Step 4: Add news items
-    for (const news of newsItems) {
-        await addNewsItem(news);
     }
     
     const finalMessage = `Auction processing complete. ${playersAwardedCount} players awarded. Total coins spent: ${totalCoinsSpent.toLocaleString()}.`;

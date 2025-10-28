@@ -86,7 +86,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         await saveUser(owner);
         
         // 4. Add news item
-        await addNewsItem(`🔄 <strong>${buyer.name}</strong> executed a buyout for <strong>${playerToBuyout.name}</strong> from ${owner.name} for ${totalBuyoutPrice.toLocaleString()} coins!`);
+        await addNewsItem('news.buyout', [buyer.name, playerToBuyout.name, owner.name, totalBuyoutPrice.toLocaleString()], '🔄');
 
         return NextResponse.json({ message: `Successfully bought out ${playerToBuyout.name} from ${owner.name}` });
 

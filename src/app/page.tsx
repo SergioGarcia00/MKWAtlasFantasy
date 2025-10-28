@@ -19,7 +19,9 @@ import { useLanguage } from '@/context/language-context';
 interface NewsItem {
   id: string;
   timestamp: number;
-  message: string;
+  messageKey: string;
+  params: (string | number)[];
+  icon?: string;
 }
 
 interface ShoutboxMessage {
@@ -57,7 +59,7 @@ const calculateUserTotalScore = (user: User): number => {
 export default function DashboardPage() {
   const { user, allUsers, getPlayerById } = useUser();
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   const [news, setNews] = useState<NewsItem[]>([]);
   const [shoutboxMessages, setShoutboxMessages] = useState<ShoutboxMessage[]>([]);
@@ -147,6 +149,13 @@ export default function DashboardPage() {
       .filter((p): p is Player => p !== undefined);
   }, [user, getPlayerById]);
 
+  const formatNewsMessage = (key: string, params: (string | number)[]) => {
+    let message = t(key);
+    params.forEach((param, index) => {
+        message = message.replace(`{${index}}`, String(param));
+    });
+    return message;
+  };
 
   if (!user) {
     return <div className="flex h-screen items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
@@ -258,11 +267,11 @@ export default function DashboardPage() {
                     <div key={item.id} className="flex items-start gap-4">
                        <Avatar>
                           <AvatarFallback>
-                            <Newspaper className="text-muted-foreground" />
+                            {item.icon ? <span>{item.icon}</span> : <Newspaper className="text-muted-foreground" />}
                           </AvatarFallback>
                        </Avatar>
                       <div className="flex-1">
-                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: item.message }} />
+                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: formatNewsMessage(item.messageKey, item.params) }} />
                         <p className="text-xs text-muted-foreground mt-1">
                           {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true })}
                         </p>

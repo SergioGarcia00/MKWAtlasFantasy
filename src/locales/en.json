@@ -28,5 +28,16 @@
   "shoutbox": "Shoutbox",
   "no_shouts_yet": "Be the first to say something!",
   "shoutbox_placeholder": "Type your message...",
-  "shoutbox_post_button": "Post Message"
+  "shoutbox_post_button": "Post Message",
+
+  "news.auction_win": "<strong>{0}</strong> won the auction for <strong>{1}</strong> with a bid of {2} coins!",
+  "news.buyout": "<strong>{0}</strong> executed a buyout for <strong>{1}</strong> from {2} for {3} coins!",
+  "news.sell": "<strong>{0}</strong> sold <strong>{1}</strong> for {2} coins.",
+  "news.high_score": "<strong>{0}</strong> ({1}) put up an impressive score of <strong>{2}</strong> in Week {3}!",
+  "news.massive_score": "<strong>{0}</strong> ({1}) put up a massive score of <strong>{2}</strong> in Week {3}!",
+  "news.welcome": "Welcome to the Kart Fantasy League! The market is open and the first week of races is underway.",
+  "news.investment": "<strong>{0}</strong> invested <strong>{1}</strong> coins into <strong>{2}</strong>, raising the buyout clause!",
+  "news.new_challenger": "A new challenger appears! <strong>{0}</strong> has joined the league with a fresh roster.",
+  "news.team_welcome": "{0} welcomes <strong>{1}</strong> to the team for <strong>{2}</strong> coins.",
+  "news.acquisition": "{0} acquired <strong>{1}</strong> for a whopping <strong>{2}</strong> coins!"
 }

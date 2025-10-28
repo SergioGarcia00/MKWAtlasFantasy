@@ -6,7 +6,15 @@ import fs from 'fs/promises';
 const NEWS_PATH = path.join(process.cwd(), 'src', 'data', 'news.json');
 const MAX_NEWS_ITEMS = 100;
 
-async function getNews(): Promise<any[]> {
+interface NewsItem {
+    id: string;
+    timestamp: number;
+    messageKey: string;
+    params: (string | number)[];
+    icon?: string;
+}
+
+async function getNews(): Promise<NewsItem[]> {
     try {
         const fileContent = await fs.readFile(NEWS_PATH, 'utf-8');
         return JSON.parse(fileContent);
@@ -18,13 +26,15 @@ async function getNews(): Promise<any[]> {
     }
 }
 
-export async function addNewsItem(message: string) {
+export async function addNewsItem(messageKey: string, params: (string | number)[], icon?: string) {
     try {
         const news = await getNews();
-        const newNewsItem = {
+        const newNewsItem: NewsItem = {
             id: `news-${Date.now()}-${Math.random()}`,
             timestamp: Date.now(),
-            message,
+            messageKey,
+            params,
+            icon,
         };
 
         const updatedNews = [newNewsItem, ...news].slice(0, MAX_NEWS_ITEMS);

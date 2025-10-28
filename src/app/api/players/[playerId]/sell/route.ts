@@ -55,7 +55,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         await saveUser(user);
 
         // Add news item
-        await addNewsItem(`<strong>${user.name}</strong> sold <strong>${playerInfo?.name || 'a player'}</strong> for ${sellPrice.toLocaleString()} coins.`);
+        await addNewsItem('news.sell', [user.name, playerInfo?.name || 'a player', sellPrice.toLocaleString()]);
 
         return NextResponse.json({ message: 'Player sold successfully', user });
 
