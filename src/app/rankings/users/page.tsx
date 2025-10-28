@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useMemo } from 'react';
@@ -7,22 +8,21 @@ import { Badge } from '@/components/ui/badge';
 import { Trophy } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 
-const calculateTotalScore = (user: User): number => {
-  if (!user.weeklyScores) return 0;
+const calculateUserTotalScore = (user: User): number => {
+    if (!user.weeklyScores) return 0;
 
-  let totalScore = 0;
-  // Iterate over all players who have ever scored for the user
-  for (const playerId in user.weeklyScores) {
-    const playerScoresByWeek = user.weeklyScores[playerId];
-    if (playerScoresByWeek) {
-      // Iterate over all weeks for that player
-      for (const weekId in playerScoresByWeek) {
-        const scores = playerScoresByWeek[weekId];
-        totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
-      }
+    let totalScore = 0;
+    // Only sum scores from players currently in the lineup
+    for (const playerId of user.roster.lineup) {
+        if (user.weeklyScores[playerId]) {
+            const playerScoresByWeek = user.weeklyScores[playerId];
+            for (const weekId in playerScoresByWeek) {
+                const scores = playerScoresByWeek[weekId];
+                totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
+            }
+        }
     }
-  }
-  return totalScore;
+    return totalScore;
 };
 
 
@@ -34,7 +34,7 @@ export default function UserRankingsPage() {
     
     return allUsers.map(user => ({
       ...user,
-      totalScore: calculateTotalScore(user),
+      totalScore: calculateUserTotalScore(user),
     }))
       .filter(user => user.roster.lineup.length >= 6) // Only rank users with a full lineup
       .sort((a, b) => b.totalScore - a.totalScore);

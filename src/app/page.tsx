@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
@@ -7,17 +8,16 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2 } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { PlayerIcon } from '@/components/icons/player-icon';
+import { Badge } from '@/components/ui/badge';
+import type { Player, User } from '@/lib/types';
 
 interface NewsItem {
   id: string;
   timestamp: number;
   message: string;
-  user?: {
-    id: string;
-    name: string;
-  };
 }
 
 interface ShoutboxMessage {
@@ -28,8 +28,32 @@ interface ShoutboxMessage {
   message: string;
 }
 
+const calculatePlayerTotalScore = (playerId: string, user: User | null): number => {
+    if (!user || !user.weeklyScores || !user.weeklyScores[playerId]) return 0;
+    
+    const playerScores = user.weeklyScores[playerId];
+    return Object.values(playerScores).reduce((total, week) => total + (week.race1 || 0) + (week.race2 || 0), 0);
+};
+
+const calculateUserTotalScore = (user: User): number => {
+    if (!user.weeklyScores) return 0;
+
+    let totalScore = 0;
+    // Only sum scores from players currently in the lineup
+    for (const playerId of user.roster.lineup) {
+        if (user.weeklyScores[playerId]) {
+            const playerScoresByWeek = user.weeklyScores[playerId];
+            for (const weekId in playerScoresByWeek) {
+                const scores = playerScoresByWeek[weekId];
+                totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
+            }
+        }
+    }
+    return totalScore;
+};
+
 export default function DashboardPage() {
-  const { user, allUsers } = useUser();
+  const { user, allUsers, getPlayerById } = useUser();
   const { toast } = useToast();
   
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -101,7 +125,24 @@ export default function DashboardPage() {
     }
   };
 
-  const getUserById = (id: string) => allUsers.find(u => u.id === id);
+  const rankedUsers = useMemo(() => {
+    return allUsers.map(u => ({ ...u, totalScore: calculateUserTotalScore(u) }))
+                   .sort((a, b) => b.totalScore - a.totalScore);
+  }, [allUsers]);
+
+  const userRank = useMemo(() => {
+    if (!user) return null;
+    const rank = rankedUsers.findIndex(u => u.id === user.id);
+    return rank !== -1 ? rank + 1 : null;
+  }, [user, rankedUsers]);
+  
+  const lineupPlayers = useMemo(() => {
+    if (!user) return [];
+    return user.roster.lineup
+      .map(id => getPlayerById(id))
+      .filter((p): p is Player => p !== undefined);
+  }, [user, getPlayerById]);
+
 
   if (!user) {
     return <div className="flex h-screen items-center justify-center"><div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
@@ -110,12 +151,81 @@ export default function DashboardPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">League Activity</h1>
-        <p className="text-muted-foreground mt-2">Catch up on the latest news and what players are talking about.</p>
+        <h1 className="text-4xl font-bold font-headline">League Dashboard</h1>
+        <p className="text-muted-foreground mt-2">An overview of your team and the latest league buzz.</p>
       </header>
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+        <Card>
+            <CardHeader>
+                <CardTitle>Your Stats</CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                    <Trophy className="w-8 h-8 text-primary mb-2" />
+                    <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
+                    <p className="text-sm text-muted-foreground">Your Rank</p>
+                </div>
+                 <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                    <Users className="w-8 h-8 text-primary mb-2" />
+                    <p className="text-2xl font-bold">{user.players.length} / 10</p>
+                    <p className="text-sm text-muted-foreground">Players Owned</p>
+                </div>
+                 <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
+                    <DollarSign className="w-8 h-8 text-green-500 mb-2" />
+                    <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
+                    <p className="text-sm text-muted-foreground">Fantasy Coins</p>
+                </div>
+            </CardContent>
+        </Card>
+         <Card>
+            <CardHeader>
+                <CardTitle>Top Users</CardTitle>
+                <CardDescription>League leaders by total score.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                    {rankedUsers.slice(0,3).map((u, index) => (
+                        <div key={u.id} className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                                <Avatar>
+                                    <AvatarFallback>{u.name.substring(0,2)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-semibold">{index + 1}. {u.name}</p>
+                                    <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} points</p>
+                                </div>
+                            </div>
+                           {index === 0 && <Trophy className="text-amber-400" />}
+                           {index === 1 && <Trophy className="text-slate-400" />}
+                           {index === 2 && <Trophy className="text-orange-600" />}
+                        </div>
+                    ))}
+                </div>
+            </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> Starting Lineup</CardTitle>
+            <CardDescription>Your team's main point scorers.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {lineupPlayers.map(player => (
+                <div key={player.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+                   <div className="flex items-center gap-3">
+                      <PlayerIcon iconName={player.icon} className="w-8 h-8" />
+                      <p className="font-medium text-sm">{player.name}</p>
+                   </div>
+                   <Badge variant="secondary" className="font-bold">{calculatePlayerTotalScore(player.id, user).toLocaleString()}</Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* News Feed */}
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
@@ -123,7 +233,6 @@ export default function DashboardPage() {
                 <Newspaper className="text-primary" />
                 League News
               </CardTitle>
-              <CardDescription>The latest transactions and events from around the league.</CardDescription>
             </CardHeader>
             <CardContent>
               {isLoadingNews ? (
@@ -131,7 +240,7 @@ export default function DashboardPage() {
                   {[...Array(5)].map((_, i) => <div key={i} className="h-12 w-full bg-muted rounded-md animate-pulse" />)}
                 </div>
               ) : news.length > 0 ? (
-                <div className="space-y-4 max-h-[600px] overflow-y-auto pr-4">
+                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-4">
                   {news.map(item => (
                     <div key={item.id} className="flex items-start gap-4">
                        <Avatar>
@@ -155,7 +264,6 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Shoutbox */}
         <div className="lg:col-span-1">
           <Card className="flex flex-col h-full">
             <CardHeader>
@@ -163,7 +271,6 @@ export default function DashboardPage() {
                 <MessageSquare className="text-primary" />
                 Shoutbox
               </CardTitle>
-              <CardDescription>Share your thoughts with the league.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden">
                 {isLoadingShoutbox ? (
