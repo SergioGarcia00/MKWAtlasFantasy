@@ -1,11 +1,12 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 8378,
+  "currency": 7266,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
-      "purchasedAt": 1760390195260
+      "purchasedAt": 1760390195260,
+      "clauseInvestment": 1112
     },
     {
       "id": "Utah-Grim-Reaper-9881-2206",
@@ -54,12 +55,20 @@
       "1": {
         "race1": 85,
         "race2": 126
+      },
+      "2": {
+        "race1": 118,
+        "race2": 100
       }
     },
     "Sung-JinWoo-7078-2543": {
       "1": {
         "race1": 97,
         "race2": 109
+      },
+      "2": {
+        "race1": 80,
+        "race2": 93
       }
     },
     "Utah-Grim-Reaper-9881-2206": {
@@ -78,6 +87,22 @@
       "1": {
         "race1": 79,
         "race2": 85
+      },
+      "2": {
+        "race1": 96,
+        "race2": 87
+      }
+    },
+    "Bamtop-6348-5922": {
+      "2": {
+        "race1": 69,
+        "race2": 99
+      }
+    },
+    "syn.-9641-3220": {
+      "2": {
+        "race1": 86,
+        "race2": 122
       }
     }
   },

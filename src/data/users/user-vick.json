@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 6227,
+  "currency": 0,
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
@@ -14,43 +14,46 @@
       "purchasePrice": 8444
     },
     {
-      "id": "DVD93-4718-6517",
-      "purchasedAt": 1760390174849,
-      "purchasePrice": 4425
-    },
-    {
       "id": "Minh-7222-4619",
       "purchasedAt": 1760439034678,
       "purchasePrice": 7160
     },
     {
-      "id": "Kenai-7080-1894",
-      "purchasedAt": 1760439034679,
-      "purchasePrice": 7635
-    },
-    {
       "id": "aleexpro-4769-4797",
       "purchasedAt": 1760811393614,
-      "purchasePrice": 4705
+      "purchasePrice": 4705,
+      "clauseInvestment": 2650
     },
     {
       "id": "Kuppa-5885-2013",
       "purchasedAt": 1761503307381,
       "purchasePrice": 5633,
       "clauseInvestment": 0
+    },
+    {
+      "id": "FitnessBoy-6515-7636",
+      "purchasedAt": 1761594653860,
+      "purchasePrice": 8212,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "yukino00000-7119-6187",
+      "purchasedAt": 1761594654566,
+      "purchasePrice": 7425,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
       "Ralsei-Plush-8856-1607",
-      "Pecii-7694-6730",
-      "DVD93-4718-6517",
       "Minh-7222-4619",
-      "Kenai-7080-1894",
-      "aleexpro-4769-4797"
+      "aleexpro-4769-4797",
+      "yukino00000-7119-6187",
+      "FitnessBoy-6515-7636",
+      "Kuppa-5885-2013"
     ],
     "bench": [
-      "Kuppa-5885-2013"
+      "Pecii-7694-6730"
     ]
   },
   "weeklyScores": {
@@ -58,24 +61,40 @@
       "1": {
         "race1": 116,
         "race2": 109
+      },
+      "2": {
+        "race1": 100,
+        "race2": 78
       }
     },
     "Pecii-7694-6730": {
       "1": {
         "race1": 111,
         "race2": 106
+      },
+      "2": {
+        "race1": 84,
+        "race2": 82
       }
     },
     "Ralsei-Plush-8856-1607": {
       "1": {
         "race1": 96,
         "race2": 0
+      },
+      "2": {
+        "race1": 100,
+        "race2": 59
       }
     },
     "DVD93-4718-6517": {
       "1": {
         "race1": 82,
         "race2": 103
+      },
+      "2": {
+        "race1": 74,
+        "race2": 75
       }
     },
     "Kenai-7080-1894": {
@@ -88,6 +107,16 @@
       "1": {
         "race1": 118,
         "race2": 113
+      },
+      "2": {
+        "race1": 118,
+        "race2": 96
+      }
+    },
+    "Kuppa-5885-2013": {
+      "2": {
+        "race1": 87,
+        "race2": 82
       }
     }
   },

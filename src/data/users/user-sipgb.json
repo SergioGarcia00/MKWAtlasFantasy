@@ -1,15 +1,11 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 14495,
+  "currency": 11886,
   "players": [
     {
       "id": "Togore-Dreemurr-6731-0027",
       "purchasedAt": 1760389741574
-    },
-    {
-      "id": "Cozmic-6706-5616",
-      "purchasedAt": 1760389766469
     },
     {
       "id": "AxelTS-7913-9686",
@@ -20,16 +16,21 @@
       "purchasedAt": 1760464836457
     },
     {
+      "id": "Kiria-3848-0816",
+      "purchasedAt": 1760731612115
+    },
+    {
       "id": "Korni-6903-4006",
-      "purchasedAt": 1760983753046
+      "purchasedAt": 1760983753046,
+      "clauseInvestment": 5000
     }
   ],
   "roster": {
     "lineup": [
       "Togore-Dreemurr-6731-0027",
-      "Cozmic-6706-5616",
       "AxelTS-7913-9686",
       "Pein36-5539-7293",
+      "Kiria-3848-0816",
       "Korni-6903-4006"
     ],
     "bench": []
@@ -45,12 +46,20 @@
       "1": {
         "race1": 75,
         "race2": 95
+      },
+      "2": {
+        "race1": 47,
+        "race2": 0
       }
     },
     "AxelTS-7913-9686": {
       "1": {
         "race1": 91,
         "race2": 125
+      },
+      "2": {
+        "race1": 130,
+        "race2": 106
       }
     },
     "Cozmic-6706-5616": {
@@ -63,12 +72,30 @@
       "1": {
         "race1": 106,
         "race2": 113
+      },
+      "2": {
+        "race1": 103,
+        "race2": 114
       }
     },
     "Kiria-3848-0816": {
       "1": {
         "race1": 84,
         "race2": 90
+      },
+      "2": {
+        "race1": 0,
+        "race2": 75
+      }
+    },
+    "Korni-6903-4006": {
+      "1": {
+        "race1": 122,
+        "race2": 132
+      },
+      "2": {
+        "race1": 122,
+        "race2": 132
       }
     }
   },

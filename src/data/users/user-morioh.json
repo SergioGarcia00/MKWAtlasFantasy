@@ -1,7 +1,7 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 3293,
+  "currency": 1793,
   "players": [
     {
       "id": "Kaofie-5843-0202",
@@ -17,7 +17,8 @@
     },
     {
       "id": "Plush-6582-7033",
-      "purchasedAt": 1760390044224
+      "purchasedAt": 1760390044224,
+      "clauseInvestment": 1500
     },
     {
       "id": "CHaL-7199-5511",
@@ -59,18 +60,48 @@
       "1": {
         "race1": 85,
         "race2": 88
+      },
+      "2": {
+        "race1": 75,
+        "race2": 99
       }
     },
     "Plush-6582-7033": {
       "1": {
         "race1": 107,
         "race2": 113
+      },
+      "2": {
+        "race1": 98,
+        "race2": 108
       }
     },
     "CHaL-7199-5511": {
       "1": {
         "race1": 95,
         "race2": 85
+      },
+      "2": {
+        "race1": 93,
+        "race2": 72
+      }
+    },
+    "ybloo-5114-9487": {
+      "2": {
+        "race1": 82,
+        "race2": 85
+      }
+    },
+    "latias-6100-7108": {
+      "2": {
+        "race1": 71,
+        "race2": 64
+      }
+    },
+    "KrioK-5990-2908": {
+      "2": {
+        "race1": 97,
+        "race2": 88
       }
     }
   },

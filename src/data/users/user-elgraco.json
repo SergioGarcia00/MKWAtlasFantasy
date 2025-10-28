@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 5958,
+  "currency": 11294,
   "players": [
     {
       "id": "Hazza-7290-5141",
@@ -10,10 +10,6 @@
     {
       "id": "Gerson-Boom-8371-0799",
       "purchasedAt": 1760390295580
-    },
-    {
-      "id": "Daisam-5752-5827",
-      "purchasedAt": 1760390360539
     },
     {
       "id": "Dark-5432-8982",
@@ -36,14 +32,12 @@
     "lineup": [
       "Hazza-7290-5141",
       "Gerson-Boom-8371-0799",
-      "Daisam-5752-5827",
       "Cole-Palmer-5044-0536",
       "Dark-5432-8982",
-      "CaliforniaX2-7260-0909"
-    ],
-    "bench": [
+      "CaliforniaX2-7260-0909",
       "elgraco-5968-7506"
-    ]
+    ],
+    "bench": []
   },
   "weeklyScores": {
     "Hazza-7290-5141": {
@@ -52,8 +46,8 @@
         "race2": 80
       },
       "2": {
-        "race1": 0,
-        "race2": 0
+        "race1": 78,
+        "race2": 116
       }
     },
     "Gerson-Boom-8371-0799": {
@@ -62,8 +56,8 @@
         "race2": 109
       },
       "2": {
-        "race1": 0,
-        "race2": 0
+        "race1": 101,
+        "race2": 85
       }
     },
     "Daisam-5752-5827": {
@@ -92,8 +86,8 @@
         "race2": 99
       },
       "2": {
-        "race1": 0,
-        "race2": 0
+        "race1": 117,
+        "race2": 116
       }
     },
     "Dark-5432-8982": {
@@ -102,10 +96,24 @@
         "race2": 113
       },
       "2": {
+        "race1": 133,
+        "race2": 84
+      }
+    },
+    "CaliforniaX2-7260-0909": {
+      "2": {
+        "race1": 102,
+        "race2": 108
+      }
+    },
+    "elgraco-5968-7506": {
+      "2": {
         "race1": 0,
-        "race2": 0
+        "race2": 79
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "CowPizzaGamer-5672-5898": 6000
+  }
 }

@@ -1,16 +1,8 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 261,
+  "currency": 11578,
   "players": [
-    {
-      "id": "Yasn-5383-7699",
-      "purchasedAt": 1760389560870
-    },
-    {
-      "id": "Shin-Godzilla-6752-8953",
-      "purchasedAt": 1760389560870
-    },
     {
       "id": "Plug-in-Baby-7475-4111",
       "purchasedAt": 1760389560870
@@ -41,35 +33,44 @@
   ],
   "roster": {
     "lineup": [
-      "Plug-in-Baby-7475-4111",
       "Piero-8601-9715",
       "Xray-8087-7902",
-      "Shin-Godzilla-6752-8953",
       "chema06-4606-8434",
-      "Baptboy-5252-3713"
+      "ZaDi-7162-0329",
+      "Baptboy-5252-3713",
+      "Plug-in-Baby-7475-4111"
     ],
-    "bench": [
-      "Yasn-5383-7699",
-      "ZaDi-7162-0329"
-    ]
+    "bench": []
   },
   "weeklyScores": {
     "Piero-8601-9715": {
       "1": {
         "race1": 83,
         "race2": 88
+      },
+      "2": {
+        "race1": 85,
+        "race2": 101
       }
     },
     "Xray-8087-7902": {
       "1": {
         "race1": 86,
         "race2": 113
+      },
+      "2": {
+        "race1": 71,
+        "race2": 88
       }
     },
     "Plug-in-Baby-7475-4111": {
       "1": {
         "race1": 84,
         "race2": 96
+      },
+      "2": {
+        "race1": 101,
+        "race2": 83
       }
     },
     "Shin-Godzilla-6752-8953": {
@@ -88,6 +89,24 @@
       "1": {
         "race1": 0,
         "race2": 0
+      }
+    },
+    "chema06-4606-8434": {
+      "2": {
+        "race1": 104,
+        "race2": 115
+      }
+    },
+    "ZaDi-7162-0329": {
+      "2": {
+        "race1": 128,
+        "race2": 97
+      }
+    },
+    "Baptboy-5252-3713": {
+      "2": {
+        "race1": 68,
+        "race2": 107
       }
     }
   },
