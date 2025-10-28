@@ -8,7 +8,6 @@ import { ALL_PLAYERS } from '@/data/players';
 import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
-const ROSTERS_PATH = path.join(process.cwd(), 'src/lib/rosters_actualizado.json');
 
 async function getAllUsers(): Promise<User[]> {
   try {
