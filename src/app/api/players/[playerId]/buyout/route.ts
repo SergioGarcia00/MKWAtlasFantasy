@@ -6,6 +6,7 @@ import fs from 'fs/promises';
 import { ALL_PLAYERS } from '@/data/players';
 import type { User, UserPlayer } from '@/lib/types';
 import { differenceInDays } from 'date-fns';
+import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
@@ -83,6 +84,9 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         // 3. Save changes
         await saveUser(buyer);
         await saveUser(owner);
+        
+        // 4. Add news item
+        await addNewsItem(`🔄 <strong>${buyer.name}</strong> executed a buyout for <strong>${playerToBuyout.name}</strong> from ${owner.name} for ${totalBuyoutPrice.toLocaleString()} coins!`);
 
         return NextResponse.json({ message: `Successfully bought out ${playerToBuyout.name} from ${owner.name}` });
 

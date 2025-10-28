@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import type { User, WeeklyScore } from '@/lib/types';
+import { ALL_PLAYERS } from '@/data/players';
+import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
@@ -39,6 +41,12 @@ export async function POST(request: Request, { params }: { params: { userId: str
         user.weeklyScores[playerId][weekId] = scores;
 
         await saveUser(user);
+
+        const totalScore = (scores.race1 || 0) + (scores.race2 || 0);
+        if (totalScore > 150) { // Threshold for a high score worth announcing
+            const playerName = ALL_PLAYERS.find(p => p.id === playerId)?.name || 'A player';
+            await addNewsItem(`🔥 <strong>${playerName}</strong> (${user.name}) put up a massive score of <strong>${totalScore}</strong> in Week ${weekId}!`);
+        }
 
         return NextResponse.json({ message: 'Scores updated successfully', user });
 

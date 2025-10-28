@@ -5,6 +5,8 @@ import path from 'path';
 import fs from 'fs/promises';
 import { ALL_PLAYERS } from '@/data/players';
 import type { User, UserPlayer } from '@/lib/types';
+import { addNewsItem } from '@/lib/news-helpers';
+
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 
@@ -36,10 +38,11 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         }
         
         const playerToSell = user.players[playerIndex];
+        const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         // Fallback to player's base cost if purchasePrice is missing or not a number
         const sellPrice = (typeof playerToSell.purchasePrice === 'number' && !isNaN(playerToSell.purchasePrice))
             ? playerToSell.purchasePrice
-            : ALL_PLAYERS.find(p => p.id === playerId)?.cost || 0;
+            : playerInfo?.cost || 0;
 
         // Add currency and remove player
         user.currency += sellPrice;
@@ -50,6 +53,9 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         user.roster.bench = user.roster.bench.filter(id => id !== playerId);
         
         await saveUser(user);
+
+        // Add news item
+        await addNewsItem(`<strong>${user.name}</strong> sold <strong>${playerInfo?.name || 'a player'}</strong> for ${sellPrice.toLocaleString()} coins.`);
 
         return NextResponse.json({ message: 'Player sold successfully', user });
 
