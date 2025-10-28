@@ -39,5 +39,6 @@
   "news.investment": "<strong>{0}</strong> invested <strong>{1}</strong> coins into <strong>{2}</strong>, raising the buyout clause!",
   "news.new_challenger": "A new challenger appears! <strong>{0}</strong> has joined the league with a fresh roster.",
   "news.team_welcome": "{0} welcomes <strong>{1}</strong> to the team for <strong>{2}</strong> coins.",
-  "news.acquisition": "{0} acquired <strong>{1}</strong> for a whopping <strong>{2}</strong> coins!"
+  "news.acquisition": "{0} acquired <strong>{1}</strong> for a whopping <strong>{2}</strong> coins!",
+  "news.payout": "Weekly Payout for Week {0} has been distributed! A total of <strong>{1}</strong> coins were awarded to {2} users."
 }

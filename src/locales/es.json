@@ -39,5 +39,6 @@
   "news.investment": "¡<strong>{0}</strong> invirtió <strong>{1}</strong> monedas en <strong>{2}</strong>, aumentando la cláusula de rescisión!",
   "news.new_challenger": "¡Un nuevo retador aparece! <strong>{0}</strong> se ha unido a la liga con una nueva plantilla.",
   "news.team_welcome": "{0} da la bienvenida a <strong>{1}</strong> al equipo por <strong>{2}</strong> monedas.",
-  "news.acquisition": "¡{0} adquirió a <strong>{1}</strong> por la increíble suma de <strong>{2}</strong> monedas!"
+  "news.acquisition": "¡{0} adquirió a <strong>{1}</strong> por la increíble suma de <strong>{2}</strong> monedas!",
+  "news.payout": "¡Se ha distribuido el pago semanal de la Semana {0}! Se otorgaron un total de <strong>{1}</strong> monedas a {2} usuarios."
 }
