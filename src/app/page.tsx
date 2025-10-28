@@ -33,10 +33,15 @@ interface ShoutboxMessage {
 }
 
 const calculatePlayerTotalScore = (playerId: string, user: User | null): number => {
-    if (!user || !user.weeklyScores || !user.weeklyScores[playerId]) return 0;
+    if (!user || !user.weeklyScores) return 0;
     
-    const playerScores = user.weeklyScores[playerId];
-    return Object.values(playerScores).reduce((total, week) => total + (week.race1 || 0) + (week.race2 || 0), 0);
+    let totalScore = 0;
+    if (user.weeklyScores[playerId]) {
+      const playerScores = user.weeklyScores[playerId];
+      totalScore = Object.values(playerScores).reduce((total, week) => total + (week.race1 || 0) + (week.race2 || 0), 0);
+    }
+    
+    return totalScore;
 };
 
 const calculateUserTotalScore = (user: User): number => {
@@ -198,12 +203,12 @@ export default function DashboardPage() {
                 </div>
             </CardContent>
         </Card>
-         <Card>
+         <Card className="flex flex-col">
             <CardHeader>
                 <CardTitle>{t('top_users')}</CardTitle>
                 <CardDescription>{t('top_users_subtitle')}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex-1">
                 <div className="space-y-4">
                     {rankedUsers.slice(0, 3).map((u, index) => (
                         <div key={u.id} className="flex items-center">
@@ -219,11 +224,13 @@ export default function DashboardPage() {
                             </div>
                         </div>
                     ))}
-                    <Button variant="outline" size="sm" className="w-full" asChild>
-                        <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
-                    </Button>
                 </div>
             </CardContent>
+             <CardContent>
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                    <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
+                </Button>
+             </CardContent>
         </Card>
         <Card>
           <CardHeader>

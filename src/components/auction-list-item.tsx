@@ -4,7 +4,7 @@ import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gavel, Crown, Users, Link as LinkIcon } from 'lucide-react';
+import { Gavel, Crown, Users, Link as LinkIcon, Gem } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
@@ -19,12 +19,15 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 type Bid = { userId: string; userName: string; amount: number };
 
 interface AuctionListItemProps {
   player: Player & { bids?: Bid[] };
   onBid: (player: Player) => void;
+  isJuicy?: boolean;
+  juicyReason?: string;
 }
 
 const Stat = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number | undefined }) => (
@@ -53,7 +56,7 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
 );
 
 
-export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
+export function AuctionListItem({ player, onBid, isJuicy, juicyReason }: AuctionListItemProps) {
   const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const pathname = usePathname();
@@ -90,10 +93,25 @@ export function AuctionListItem({ player, onBid }: AuctionListItemProps) {
 
   return (
     <>
-    <Card className="overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer" onClick={() => setIsDetailsOpen(true)}>
+    <Card className={cn("overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer", isJuicy && "ring-2 ring-amber-400 shadow-amber-500/20 shadow-lg")} onClick={() => setIsDetailsOpen(true)}>
         <div className="grid grid-cols-1 md:grid-cols-3">
             {/* Left side: Player info */}
-            <div className="md:col-span-2 p-4 bg-gradient-to-r from-card to-secondary/30 flex items-center gap-6">
+            <div className="md:col-span-2 p-4 bg-gradient-to-r from-card to-secondary/30 flex items-center gap-6 relative">
+                {isJuicy && (
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Badge className="absolute top-2 left-2 bg-amber-400 text-amber-900 font-bold hover:bg-amber-400">
+                                    <Gem className="mr-2"/>
+                                    Juicy Find!
+                                </Badge>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="max-w-xs">{juicyReason}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                )}
                 <div className="relative">
                     <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary drop-shadow-lg" />
                      {owner ? (
