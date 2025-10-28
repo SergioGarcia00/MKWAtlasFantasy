@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Wallet } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Badge } from '@/components/ui/badge';
@@ -43,9 +43,6 @@ const calculateUserTotalScore = (user: User): number => {
     if (!user.weeklyScores) return 0;
     let totalScore = 0;
     for (const playerId in user.weeklyScores) {
-        // Check if the player ID is in the user's lineup for that week's scoring
-        // This logic can be improved if weekly lineups are stored.
-        // For now, we assume all scores for a user should count.
         const playerScoresByWeek = user.weeklyScores[playerId];
         for (const weekId in playerScoresByWeek) {
             const scores = playerScoresByWeek[weekId];
@@ -147,11 +144,14 @@ export default function DashboardPage() {
       .map(id => getPlayerById(id))
       .filter((p): p is Player => p !== undefined);
   }, [user, getPlayerById]);
-
+  
   const formatNewsMessage = (key: string, params: (string | number)[]) => {
     let message = t(key);
     params.forEach((param, index) => {
-        message = message.replace(`{${index}}`, String(param));
+        // Try to find if the parameter is a player ID and replace it with the name
+        const player = getPlayerById(String(param));
+        const finalParam = player ? player.name : param;
+        message = message.replace(`{${index}}`, String(finalParam));
     });
     return message;
   };
@@ -341,5 +341,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    
