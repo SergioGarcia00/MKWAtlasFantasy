@@ -46,6 +46,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     const [isUserLoading, setIsUserLoading] = useState(true);
     const { toast } = useToast();
 
+    const getPlayerById = useCallback((playerId: string) => {
+        return ALL_PLAYERS.find(p => p.id === playerId);
+    }, []);
+
     const loadAllData = useCallback(async () => {
         setIsUserLoading(true);
         try {
@@ -86,10 +90,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
             console.warn(`User with id ${userId} not found.`);
         }
     }, [allUsers, user?.id]);
-
-    const getPlayerById = useCallback((playerId: string) => {
-        return ALL_PLAYERS.find(p => p.id === playerId);
-    }, []);
 
     const purchasePlayer = useCallback(async (player: Player) => {
         if (!user) return;
@@ -152,6 +152,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
         const userPlayer = user.players.find(p => p.id === player.id);
         if (!userPlayer) return;
 
+        const sellPrice = (typeof userPlayer.purchasePrice === 'number' && !isNaN(userPlayer.purchasePrice)) 
+            ? userPlayer.purchasePrice 
+            : player.cost;
+
         try {
             const response = await fetch(`/api/players/${player.id}/sell`, {
                 method: 'POST',
@@ -162,7 +166,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
                 const error = await response.json();
                 throw new Error(error.message || 'Failed to sell player');
             }
-            toast({ title: 'Player Sold!', description: `You received ${userPlayer.purchasePrice.toLocaleString()} for ${player.name}.` });
+            toast({ title: 'Player Sold!', description: `You received ${sellPrice.toLocaleString()} for ${player.name}.` });
             await loadAllData();
         } catch (error: any) {
             toast({ title: 'Sale Failed', description: error.message, variant: 'destructive' });

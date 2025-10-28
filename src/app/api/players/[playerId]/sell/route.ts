@@ -36,8 +36,10 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         }
         
         const playerToSell = user.players[playerIndex];
-        // Ensure purchasePrice is a number, default to player's base cost if not found.
-        const sellPrice = playerToSell.purchasePrice || ALL_PLAYERS.find(p => p.id === playerId)?.cost || 0;
+        // Fallback to player's base cost if purchasePrice is missing or not a number
+        const sellPrice = (typeof playerToSell.purchasePrice === 'number' && !isNaN(playerToSell.purchasePrice))
+            ? playerToSell.purchasePrice
+            : ALL_PLAYERS.find(p => p.id === playerId)?.cost || 0;
 
         // Add currency and remove player
         user.currency += sellPrice;
