@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Wallet } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Gem, TrendingUp } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Badge } from '@/components/ui/badge';
@@ -32,17 +32,7 @@ interface ShoutboxMessage {
   message: string;
 }
 
-const calculatePlayerTotalScore = (playerId: string, user: User | null): number => {
-    if (!user || !user.weeklyScores) return 0;
-    
-    let totalScore = 0;
-    if (user.weeklyScores[playerId]) {
-      const playerScores = user.weeklyScores[playerId];
-      totalScore = Object.values(playerScores).reduce((total, week) => total + (week.race1 || 0) + (week.race2 || 0), 0);
-    }
-    
-    return totalScore;
-};
+type MarketPlayer = Player & { bids?: any[] };
 
 const calculateUserTotalScore = (user: User): number => {
     if (!user.weeklyScores) return 0;
@@ -56,6 +46,95 @@ const calculateUserTotalScore = (user: User): number => {
     }
     return totalScore;
 };
+
+const JuicyPlayerCard = () => {
+    const [juicyPlayer, setJuicyPlayer] = useState<Player | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchMarketData = async () => {
+            setIsLoading(true);
+            try {
+                const res = await fetch('/api/market');
+                const marketPlayers: MarketPlayer[] = await res.json();
+                
+                if (marketPlayers.length > 0) {
+                    const playersWithRatio = marketPlayers
+                        .filter(p => p.mmr && p.cost > 0)
+                        .map(p => ({
+                            ...p,
+                            ratio: (p.mmr || 0) / p.cost
+                        }));
+
+                    if (playersWithRatio.length > 0) {
+                        const juiciest = playersWithRatio.reduce((best, current) => current.ratio > best.ratio ? current : best);
+                        setJuicyPlayer(juiciest);
+                    }
+                }
+            } catch (error) {
+                console.error("Failed to fetch juicy player", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchMarketData();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Gem className="text-amber-500" /> Juiciest Player</CardTitle>
+                    <CardDescription>Best value player in the market.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex items-center gap-4">
+                        <Avatar className="w-16 h-16"><Skeleton className="w-full h-full rounded-full" /></Avatar>
+                        <div className="space-y-2 flex-1">
+                            <Skeleton className="h-5 w-3/4" />
+                            <Skeleton className="h-4 w-1/2" />
+                            <Skeleton className="h-8 w-full" />
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        )
+    }
+
+    if (!juicyPlayer) {
+        return null;
+    }
+
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Gem className="text-amber-500" /> Juiciest Player</CardTitle>
+                <CardDescription>The player with the best MMR-to-cost ratio in the current market.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                 <div className="flex items-center gap-4">
+                    <PlayerIcon iconName={juicyPlayer.icon} className="w-16 h-16" />
+                    <div>
+                        <p className="font-bold text-lg">{juicyPlayer.name}</p>
+                        <p className="text-sm text-muted-foreground">{juicyPlayer.cost.toLocaleString()} Coins</p>
+                        <div className="flex items-center gap-4 mt-2">
+                            <div className="text-center">
+                                <p className="font-bold text-xl text-primary">{juicyPlayer.mmr?.toLocaleString()}</p>
+                                <p className="text-xs text-muted-foreground">MMR</p>
+                            </div>
+                            <div className="text-center">
+                                <p className="font-bold text-xl text-primary">{((juicyPlayer.mmr || 0) / juicyPlayer.cost).toFixed(2)}</p>
+                                <p className="text-xs text-muted-foreground">MMR/Coin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 export default function DashboardPage() {
   const { user, allUsers, getPlayerById } = useUser();
@@ -150,13 +229,25 @@ export default function DashboardPage() {
       .filter((p): p is Player => p !== undefined);
   }, [user, getPlayerById]);
   
+  const calculatePlayerTotalScore = (playerId: string, user: User | null): number => {
+    if (!user || !user.weeklyScores || !user.weeklyScores[playerId]) return 0;
+    
+    let totalScore = 0;
+    const playerScoresByWeek = user.weeklyScores[playerId];
+    for (const weekId in playerScoresByWeek) {
+        const scores = playerScoresByWeek[weekId];
+        totalScore += (scores?.race1 || 0) + (scores?.race2 || 0);
+    }
+    
+    return totalScore;
+  };
+  
   const formatNewsMessage = (key: string, params: (string | number)[]) => {
     let message = t(key);
     params.forEach((param, index) => {
-        // Try to find if the parameter is a player ID and replace it with the name
         const player = getPlayerById(String(param));
         const finalParam = player ? player.name : param;
-        message = message.replace(`{${index}}`, String(finalParam));
+        message = message.replace(`{${index}}`, `<strong>${String(finalParam)}</strong>`);
     });
     return message;
   };
@@ -181,39 +272,39 @@ export default function DashboardPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        <Card>
-            <CardHeader>
-                <CardTitle>{t('your_stats')}</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                    <Trophy className="w-8 h-8 text-primary mb-2" />
-                    <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
-                    <p className="text-sm text-muted-foreground">{t('your_rank')}</p>
-                </div>
-                 <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
-                    <Users className="w-8 h-8 text-primary mb-2" />
-                    <p className="text-2xl font-bold">{user.players.length} / 10</p>
-                    <p className="text-sm text-muted-foreground">{t('players_owned')}</p>
-                </div>
-                 <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
-                    <DollarSign className="w-8 h-8 text-green-500 mb-2" />
-                    <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
-                </div>
-            </CardContent>
-        </Card>
-         <Card className="flex flex-col">
-            <CardHeader>
-                <CardTitle>{t('top_users')}</CardTitle>
-                <CardDescription>{t('top_users_subtitle')}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1">
-                <div className="space-y-4">
+        <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t('your_stats')}</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                        <Trophy className="w-8 h-8 text-primary mb-2" />
+                        <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
+                        <p className="text-sm text-muted-foreground">{t('your_rank')}</p>
+                    </div>
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
+                        <Users className="w-8 h-8 text-primary mb-2" />
+                        <p className="text-2xl font-bold">{user.players.length} / 10</p>
+                        <p className="text-sm text-muted-foreground">{t('players_owned')}</p>
+                    </div>
+                    <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
+                        <DollarSign className="w-8 h-8 text-green-500 mb-2" />
+                        <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
+                        <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
+                    </div>
+                </CardContent>
+            </Card>
+            <Card className="flex flex-col">
+                <CardHeader>
+                    <CardTitle>{t('top_users')}</CardTitle>
+                    <CardDescription>{t('top_users_subtitle')}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 space-y-4">
                     {rankedUsers.slice(0, 3).map((u, index) => (
                         <div key={u.id} className="flex items-center">
                             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-secondary mr-3">
-                               {getRankBadge(index + 1)}
+                            {getRankBadge(index + 1)}
                             </div>
                             <Avatar className="h-9 w-9">
                                 <AvatarFallback>{u.name.substring(0, 2)}</AvatarFallback>
@@ -224,33 +315,37 @@ export default function DashboardPage() {
                             </div>
                         </div>
                     ))}
-                </div>
-            </CardContent>
-             <CardContent>
-                <Button variant="outline" size="sm" className="w-full" asChild>
-                    <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
-                </Button>
-             </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> {t('starting_lineup')}</CardTitle>
-            <CardDescription>{t('starting_lineup_subtitle')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {lineupPlayers.map(player => (
-                <div key={player.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
-                   <div className="flex items-center gap-3">
-                      <PlayerIcon iconName={player.icon} className="w-8 h-8" />
-                      <p className="font-medium text-sm">{player.name}</p>
-                   </div>
-                   <Badge variant="secondary" className="font-bold">{calculatePlayerTotalScore(player.id, user).toLocaleString()}</Badge>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                </CardContent>
+                <CardContent>
+                    <Button variant="outline" size="sm" className="w-full" asChild>
+                        <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
+
+        <div className="space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> {t('starting_lineup')}</CardTitle>
+                    <CardDescription>{t('starting_lineup_subtitle')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-3">
+                    {lineupPlayers.map(player => (
+                        <div key={player.id} className="flex items-center justify-between bg-muted/50 p-2 rounded-md">
+                        <div className="flex items-center gap-3">
+                            <PlayerIcon iconName={player.icon} className="w-8 h-8" />
+                            <p className="font-medium text-sm">{player.name}</p>
+                        </div>
+                        <Badge variant="secondary" className="font-bold">{calculatePlayerTotalScore(player.id, user).toLocaleString()}</Badge>
+                        </div>
+                    ))}
+                    </div>
+                </CardContent>
+            </Card>
+            <JuicyPlayerCard />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

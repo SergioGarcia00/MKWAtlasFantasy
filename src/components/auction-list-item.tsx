@@ -4,20 +4,15 @@ import type { Player } from '@/lib/types';
 import { useUser } from '@/context/user-context';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Gavel, Crown, Users, Link as LinkIcon, Gem } from 'lucide-react';
+import { Gavel, Users, Link as LinkIcon } from 'lucide-react';
 import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from './ui/tooltip';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from './ui/dialog';
-import { DollarSign, BarChartHorizontal, TrendingUp, Star, Shield, Globe, ArrowRightLeft, Gavel as GavelIcon, Loader2 } from 'lucide-react';
+import { DollarSign, BarChartHorizontal, TrendingUp } from 'lucide-react';
 import React, { useState } from 'react';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
-import { differenceInDays } from 'date-fns';
-import { useToast } from '@/hooks/use-toast';
-import { Input } from './ui/input';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -57,16 +52,13 @@ const StatItem = ({ label, value, isBoolean }: { label: string; value: React.Rea
 
 
 export function AuctionListItem({ player, onBid, isJuicy, juicyReason }: AuctionListItemProps) {
-  const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
+  const { user, allUsers } = useUser();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const pathname = usePathname();
-  const { toast } = useToast();
 
   if (!player || !user) {
     return null;
   }
   
-  const isOwnedByCurrentUser = user.players.some(p => p.id === player.id);
   const owner = allUsers.find(u => u.players.some(p => p.id === player.id));
   const isOwned = !!owner;
 
@@ -205,8 +197,7 @@ export function AuctionListItem({ player, onBid, isJuicy, juicyReason }: Auction
               </div>
               <div className="pt-2">
                 <DialogTitle className="text-4xl font-bold font-headline mb-1 flex items-center gap-4">{player.name}
-                 {isOwnedByCurrentUser && <Badge variant="default">On your team</Badge>}
-                 {owner && !isOwnedByCurrentUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
+                 {owner && <Badge variant={owner.id === user.id ? 'default' : 'destructive'}>Owned by {owner.name}</Badge>}
                 </DialogTitle>
                 <DialogDescription>Review the player's stats to see if they're a good fit for your team.</DialogDescription>
                  <div className="flex items-center gap-4 mt-3">

@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/context/user-context';
-import { Sparkles, Loader2, RefreshCw, Gavel, Clock, Gem } from 'lucide-react';
+import { Sparkles, Loader2, RefreshCw, Gavel, Clock } from 'lucide-react';
 import { AuctionListItem } from '@/components/auction-list-item';
 import { Player, Bid } from '@/lib/types';
 import { useState, useEffect, useCallback, useMemo } from 'react';
@@ -9,7 +9,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { findJuiciestPlayer, JuiciestPlayerOutput } from '@/ai/flows/find-juiciest-player-flow';
 
 type MarketPlayer = Player & { bids?: Bid[] };
 
@@ -89,8 +88,6 @@ export default function DailyMarketPage() {
   const [isBidDialogOpen, setIsBidDialogOpen] = useState(false);
   const [biddingPlayer, setBiddingPlayer] = useState<Player | null>(null);
   const [bidAmount, setBidAmount] = useState(0);
-  const [isFindingJuicy, setIsFindingJuicy] = useState(false);
-  const [juicyPlayer, setJuicyPlayer] = useState<JuiciestPlayerOutput | null>(null);
   const { toast } = useToast();
   
   const fetchMarket = useCallback(async () => {
@@ -121,7 +118,6 @@ export default function DailyMarketPage() {
 
   const handleRefreshMarket = useCallback(async () => {
     setIsRefreshing(true);
-    setJuicyPlayer(null); // Reset juicy find on refresh
     try {
       const response = await fetch('/api/market/refresh', { method: 'POST' });
       if (!response.ok) {
@@ -174,24 +170,6 @@ export default function DailyMarketPage() {
     setIsBidDialogOpen(true);
   };
 
-  const handleFindJuiciest = async () => {
-    setIsFindingJuicy(true);
-    setJuicyPlayer(null);
-    try {
-        const result = await findJuiciestPlayer({ players: marketPlayers });
-        setJuicyPlayer(result);
-        toast({
-            title: "Juicy Find!",
-            description: `The AI recommends ${result.name} as the best value pick!`
-        });
-    } catch (error) {
-        console.error(error);
-        toast({ title: 'AI Error', description: 'Could not find the juiciest player.', variant: 'destructive'});
-    } finally {
-        setIsFindingJuicy(false);
-    }
-  }
-
   const handlePlaceBid = async () => {
     if (!biddingPlayer || !user) return;
 
@@ -238,10 +216,6 @@ export default function DailyMarketPage() {
             <p className="text-muted-foreground mt-2">
             Bid on new talent! The market automatically resets daily.
             </p>
-            <Button onClick={handleFindJuiciest} disabled={isFindingJuicy || isMarketLoading || marketPlayers.length === 0} className="mt-4 bg-amber-500 hover:bg-amber-600">
-                {isFindingJuicy ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Gem className="mr-2 h-4 w-4" />}
-                Find the Juiciest Player!
-            </Button>
         </div>
         <div className="w-full md:w-auto md:justify-self-end">
           <CountdownClock onTimerEnd={runAutomatedTasks} />
@@ -272,7 +246,7 @@ export default function DailyMarketPage() {
         ) : (
           <div className="space-y-6">
             {marketPlayers.length > 0 ? marketPlayers.map((player) => (
-              <AuctionListItem key={player.id} player={player} onBid={handleBidClick} isJuicy={juicyPlayer?.id === player.id} juicyReason={juicyPlayer?.reason} />
+              <AuctionListItem key={player.id} player={player} onBid={handleBidClick} />
             )) : (
               <div className="text-center py-20 border-2 border-dashed rounded-lg">
                 <p className="text-lg text-muted-foreground">The market is empty. It will refresh at the next reset time.</p>
