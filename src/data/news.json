@@ -1,5 +1,16 @@
 [
   {
+    "id": "news-1761667280549-0.08287437338280457",
+    "timestamp": 1761667280549,
+    "messageKey": "news.payout",
+    "params": [
+      "2",
+      "3,808",
+      8
+    ],
+    "icon": "💸"
+  },
+  {
     "id": "news-1761594654566-0.8",
     "timestamp": 1761594654566,
     "messageKey": "news.acquisition",
