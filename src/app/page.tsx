@@ -8,12 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign, Wallet } from 'lucide-react';
+import { ArrowRight, Newspaper, MessageSquare, Send, Loader2, Trophy, Users, Star, DollarSign } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { PlayerIcon } from '@/components/icons/player-icon';
 import { Badge } from '@/components/ui/badge';
 import type { Player, User } from '@/lib/types';
 import Link from 'next/link';
+import { useLanguage } from '@/context/language-context';
 
 interface NewsItem {
   id: string;
@@ -56,6 +57,7 @@ const calculateUserTotalScore = (user: User): number => {
 export default function DashboardPage() {
   const { user, allUsers, getPlayerById } = useUser();
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const [news, setNews] = useState<NewsItem[]>([]);
   const [shoutboxMessages, setShoutboxMessages] = useState<ShoutboxMessage[]>([]);
@@ -161,37 +163,37 @@ export default function DashboardPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8">
-        <h1 className="text-4xl font-bold font-headline">League Dashboard</h1>
-        <p className="text-muted-foreground mt-2">An overview of your team and the latest league buzz.</p>
+        <h1 className="text-4xl font-bold font-headline">{t('dashboard_title')}</h1>
+        <p className="text-muted-foreground mt-2">{t('dashboard_subtitle')}</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         <Card>
             <CardHeader>
-                <CardTitle>Your Stats</CardTitle>
+                <CardTitle>{t('your_stats')}</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
                     <Trophy className="w-8 h-8 text-primary mb-2" />
                     <p className="text-2xl font-bold">#{userRank || 'N/A'}</p>
-                    <p className="text-sm text-muted-foreground">Your Rank</p>
+                    <p className="text-sm text-muted-foreground">{t('your_rank')}</p>
                 </div>
                  <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg">
                     <Users className="w-8 h-8 text-primary mb-2" />
                     <p className="text-2xl font-bold">{user.players.length} / 10</p>
-                    <p className="text-sm text-muted-foreground">Players Owned</p>
+                    <p className="text-sm text-muted-foreground">{t('players_owned')}</p>
                 </div>
                  <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
                     <DollarSign className="w-8 h-8 text-green-500 mb-2" />
                     <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
-                    <p className="text-sm text-muted-foreground">Fantasy Coins</p>
+                    <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
                 </div>
             </CardContent>
         </Card>
          <Card>
             <CardHeader>
-                <CardTitle>Top Users</CardTitle>
-                <CardDescription>League leaders by total score.</CardDescription>
+                <CardTitle>{t('top_users')}</CardTitle>
+                <CardDescription>{t('top_users_subtitle')}</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
@@ -205,20 +207,20 @@ export default function DashboardPage() {
                             </Avatar>
                             <div className="ml-3 flex-1">
                                 <p className="font-semibold text-sm truncate">{u.name}</p>
-                                <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} points</p>
+                                <p className="text-xs text-muted-foreground">{u.totalScore.toLocaleString()} {t('points')}</p>
                             </div>
                         </div>
                     ))}
                     <Button variant="outline" size="sm" className="w-full" asChild>
-                        <Link href="/rankings/users">View Full Rankings <ArrowRight className="ml-2" /></Link>
+                        <Link href="/rankings/users">{t('view_full_rankings')} <ArrowRight className="ml-2" /></Link>
                     </Button>
                 </div>
             </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> Starting Lineup</CardTitle>
-            <CardDescription>Your team's main point scorers.</CardDescription>
+            <CardTitle className="flex items-center gap-2"><Star className="text-primary"/> {t('starting_lineup')}</CardTitle>
+            <CardDescription>{t('starting_lineup_subtitle')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -242,7 +244,7 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <Newspaper className="text-primary" />
-                League News
+                {t('league_news')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -269,7 +271,7 @@ export default function DashboardPage() {
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground text-center py-8">No news yet. Let the games begin!</p>
+                <p className="text-muted-foreground text-center py-8">{t('no_news_yet')}</p>
               )}
             </CardContent>
           </Card>
@@ -280,7 +282,7 @@ export default function DashboardPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
                 <MessageSquare className="text-primary" />
-                Shoutbox
+                {t('shoutbox')}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col gap-4 overflow-hidden">
@@ -306,7 +308,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                     )) : (
-                        <p className="text-muted-foreground text-center py-8">Be the first to say something!</p>
+                        <p className="text-muted-foreground text-center py-8">{t('no_shouts_yet')}</p>
                     )}
                 </div>
                 )}
@@ -314,14 +316,14 @@ export default function DashboardPage() {
             <CardContent className="border-t pt-4">
                <div className="space-y-2">
                  <Textarea 
-                    placeholder="Type your message..."
+                    placeholder={t('shoutbox_placeholder')}
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     className="h-24"
                  />
                  <Button onClick={handlePostMessage} className="w-full" disabled={isPosting}>
                     {isPosting ? <Loader2 className="animate-spin" /> : <Send />}
-                    Post Message
+                    {t('shoutbox_post_button')}
                  </Button>
                </div>
             </CardContent>

@@ -28,6 +28,7 @@ import {
   Gavel,
   Repeat,
   Gift,
+  Languages,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -37,29 +38,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useLanguage } from '@/context/language-context';
 
 const navItems = [
-  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/store', label: 'Player Database', icon: Store },
-  { href: '/player-market', label: 'Player Market', icon: Repeat },
-  { href: '/roster', label: 'My Roster', icon: Users },
-  { href: '/daily-market', label: 'Daily Market', icon: Gavel },
-  { href: '/rankings', label: 'Rankings', icon: BarChart },
-  { href: '/next-week', label: 'Weekly Summary', icon: Calendar },
-  { href: '/smaller-ranking', label: 'League Honors', icon: Award },
+  { href: '/', label: 'dashboard', icon: LayoutDashboard },
+  { href: '/store', label: 'playerDatabase', icon: Store },
+  { href: '/player-market', label: 'playerMarket', icon: Repeat },
+  { href: '/roster', label: 'myRoster', icon: Users },
+  { href: '/daily-market', label: 'dailyMarket', icon: Gavel },
+  { href: '/rankings', label: 'rankings', icon: BarChart },
+  { href: '/next-week', label: 'weeklySummary', icon: Calendar },
+  { href: '/smaller-ranking', label: 'leagueHonors', icon: Award },
 ];
 
-const playerShopItem = { href: '/player-shop', label: 'Assign Player', icon: Gift };
-const settingsItem = { href: '/settings', label: 'Settings', icon: Settings };
+const playerShopItem = { href: '/player-shop', label: 'assignPlayer', icon: Gift };
+const settingsItem = { href: '/settings', label: 'settings', icon: Settings };
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { user, switchUser, allUsers } = useUser();
+  const { t, setLanguage, language } = useLanguage();
 
   const getPageTitle = () => {
     if (pathname.startsWith('/weeks/')) {
       const weekId = pathname.split('/')[2];
-      return `Week ${weekId} Summary`;
+      return `${t('week')} ${weekId} ${t('summary')}`;
     }
     const allNavItems =
       user?.id === 'user-sipgb' ? [...navItems, playerShopItem, settingsItem] : navItems;
@@ -67,8 +70,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       (item) =>
         item.href !== '/' && pathname.startsWith(item.href)
     );
-     if (pathname === '/') return 'Dashboard';
-    return currentNav?.label || 'Kart Fantasy League';
+     if (pathname === '/') return t('dashboard');
+    return currentNav ? t(currentNav.label) : 'Kart Fantasy League';
   };
 
   if (!user) {
@@ -102,13 +105,13 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                     asChild
                     isActive={isActive}
                     tooltip={{
-                      children: item.label,
+                      children: t(item.label),
                       className: 'font-body',
                     }}
                   >
                     <Link href={item.href}>
                       <item.icon />
-                      <span>{item.label}</span>
+                      <span>{t(item.label)}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -128,6 +131,18 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
               <DollarSign className="w-5 h-5" />
               <span>{user ? user.currency.toLocaleString() : '...'}</span>
             </div>
+             <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon" className="w-auto px-2 flex items-center gap-2">
+                  <Languages className="w-4 h-4"/>
+                  <span className="uppercase text-xs font-bold">{language}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                  <DropdownMenuItem onSelect={() => setLanguage('en')} disabled={language === 'en'}>English</DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => setLanguage('es')} disabled={language === 'es'}>Español</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
@@ -154,5 +169,3 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
-
-    
