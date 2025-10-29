@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 360,
+  "currency": 720,
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
@@ -49,11 +49,11 @@
       "Minh-7222-4619",
       "aleexpro-4769-4797",
       "yukino00000-7119-6187",
-      "FitnessBoy-6515-7636",
-      "Kuppa-5885-2013"
+      "Kuppa-5885-2013",
+      "Pecii-7694-6730"
     ],
     "bench": [
-      "Pecii-7694-6730"
+      "FitnessBoy-6515-7636"
     ]
   },
   "weeklyScores": {

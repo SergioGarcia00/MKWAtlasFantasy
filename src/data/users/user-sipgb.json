@@ -1,7 +1,7 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 12300,
+  "currency": 7714,
   "players": [
     {
       "id": "Togore-Dreemurr-6731-0027",
@@ -9,7 +9,8 @@
     },
     {
       "id": "AxelTS-7913-9686",
-      "purchasedAt": 1760389830320
+      "purchasedAt": 1760389830320,
+      "clauseInvestment": 5000
     },
     {
       "id": "Pein36-5539-7293",

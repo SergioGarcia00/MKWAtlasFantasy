@@ -1,7 +1,7 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 7741,
+  "currency": null,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
@@ -14,15 +14,12 @@
     },
     {
       "id": "MattyPatty-5716-1110",
-      "purchasedAt": 1760390212210
+      "purchasedAt": 1760390212210,
+      "clauseInvestment": 1500
     },
     {
       "id": "Gity-5717-1910",
       "purchasedAt": 1760390214564
-    },
-    {
-      "id": "Roni24-6797-7986",
-      "purchasedAt": 1760439034677
     },
     {
       "id": "syn.-9641-3220",
@@ -42,7 +39,6 @@
       "Sung-JinWoo-7078-2543",
       "Utah-Grim-Reaper-9881-2206",
       "MattyPatty-5716-1110",
-      "Roni24-6797-7986",
       "Bamtop-6348-5922",
       "syn.-9641-3220"
     ],

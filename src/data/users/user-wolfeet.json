@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 12152,
+  "currency": 6579,
   "players": [
     {
       "id": "Plug-in-Baby-7475-4111",
@@ -29,6 +29,12 @@
       "purchasedAt": 1761503307701,
       "purchasePrice": 8000,
       "clauseInvestment": 0
+    },
+    {
+      "id": "Chomp-Caller-5951-2413",
+      "purchasedAt": 1761767512465,
+      "purchasePrice": 6147,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -40,7 +46,9 @@
       "Baptboy-5252-3713",
       "Plug-in-Baby-7475-4111"
     ],
-    "bench": []
+    "bench": [
+      "Chomp-Caller-5951-2413"
+    ]
   },
   "weeklyScores": {
     "Piero-8601-9715": {

@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 2984,
+  "currency": 1767,
   "players": [
     {
       "id": "Lecka-6711-0982",
@@ -16,28 +16,31 @@
       "purchasedAt": 1760731612116
     },
     {
-      "id": "Steffi-5402-7983",
-      "purchasedAt": 1760893279441
-    },
-    {
       "id": "georgio-6225-8628",
       "purchasedAt": 1761156093705
     },
     {
       "id": "Charging-Charles-8526-9694",
       "purchasedAt": 1761156093706
+    },
+    {
+      "id": "Roni24-6797-7986",
+      "purchasedAt": 1761768066210,
+      "purchasePrice": 7243,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
       "Dragnir-6756-1529",
       "Lecka-6711-0982",
-      "Steffi-5402-7983",
       "Milkshake-7008-1877",
       "georgio-6225-8628",
       "Charging-Charles-8526-9694"
     ],
-    "bench": []
+    "bench": [
+      "Roni24-6797-7986"
+    ]
   },
   "weeklyScores": {
     "Milkshake-7008-1877": {
@@ -113,5 +116,7 @@
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "pigeon-6427-3413": 6508
+  }
 }

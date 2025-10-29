@@ -1,11 +1,12 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 3354,
+  "currency": 1825,
   "players": [
     {
       "id": "EYEKON-8673-8107",
-      "purchasedAt": 1760389853780
+      "purchasedAt": 1760389853780,
+      "clauseInvestment": 2000
     },
     {
       "id": "Chaozu-8544-6051",

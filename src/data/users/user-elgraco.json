@@ -1,27 +1,32 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 11853,
+  "currency": 1912,
   "players": [
     {
       "id": "Hazza-7290-5141",
-      "purchasedAt": 1760390231705
+      "purchasedAt": 1760390231705,
+      "clauseInvestment": 2000
     },
     {
       "id": "Gerson-Boom-8371-0799",
-      "purchasedAt": 1760390295580
+      "purchasedAt": 1760390295580,
+      "clauseInvestment": 1500
     },
     {
       "id": "Dark-5432-8982",
-      "purchasedAt": 1760464836460
+      "purchasedAt": 1760464836460,
+      "clauseInvestment": 3000
     },
     {
       "id": "Cole-Palmer-5044-0536",
-      "purchasedAt": 1760464836462
+      "purchasedAt": 1760464836462,
+      "clauseInvestment": 2500
     },
     {
       "id": "CaliforniaX2-7260-0909",
-      "purchasedAt": 1761076936976
+      "purchasedAt": 1761076936976,
+      "clauseInvestment": 1500
     },
     {
       "id": "elgraco-5968-7506",
