@@ -33,8 +33,8 @@ export async function POST(request: Request, { params }: { params: { playerId: s
             return NextResponse.json({ message: 'Cannot buyout a player you already own.' }, { status: 400 });
         }
         
-        const playerToBuyout = ALL_PLAYERS.find(p => p.id === playerId);
-        if (!playerToBuyout) {
+        const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
+        if (!playerInfo) {
             return NextResponse.json({ message: 'Player not found' }, { status: 404 });
         }
 
@@ -52,7 +52,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
              return NextResponse.json({ message: `This player is protected from buyout for ${14 - daysSincePurchase} more day(s).` }, { status: 403 });
         }
 
-        const baseBuyoutPrice = playerToBuyout.cost;
+        const baseBuyoutPrice = playerInfo.cost;
         const totalBuyoutPrice = baseBuyoutPrice + (ownerPlayer.clauseInvestment || 0);
 
         if (buyer.players.length >= 10) {
@@ -73,10 +73,13 @@ export async function POST(request: Request, { params }: { params: { playerId: s
             clauseInvestment: 0
         };
         buyer.players.push(newPlayerForBuyer);
-        buyer.roster.bench.push(playerId); // Add to bench
+        if (!buyer.roster.bench.includes(playerId)) {
+            buyer.roster.bench.push(playerId);
+        }
 
         // 2. Handle Owner
-        owner.currency += ownerPlayer.purchasePrice; // Refund original purchase price
+        const refundAmount = typeof ownerPlayer.purchasePrice === 'number' ? ownerPlayer.purchasePrice : playerInfo.cost;
+        owner.currency += refundAmount;
         owner.players.splice(ownerPlayerIndex, 1);
         owner.roster.lineup = owner.roster.lineup.filter(id => id !== playerId);
         owner.roster.bench = owner.roster.bench.filter(id => id !== playerId);
@@ -86,9 +89,9 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         await saveUser(owner);
         
         // 4. Add news item
-        await addNewsItem('news.buyout', [buyer.name, playerToBuyout.name, owner.name, totalBuyoutPrice.toLocaleString()], '🔄');
+        await addNewsItem('news.buyout', [buyer.name, playerInfo.name, owner.name, totalBuyoutPrice.toLocaleString()], '🔄');
 
-        return NextResponse.json({ message: `Successfully bought out ${playerToBuyout.name} from ${owner.name}` });
+        return NextResponse.json({ message: `Successfully bought out ${playerInfo.name} from ${owner.name}` });
 
     } catch (error: any) {
         console.error('Failed to buyout player:', error);
