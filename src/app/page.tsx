@@ -374,7 +374,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="flex flex-col items-center p-4 bg-muted/50 rounded-lg col-span-2">
                         <DollarSign className="w-8 h-8 text-green-500 mb-2" />
-                        <p className="text-2xl font-bold">{user.currency.toLocaleString()}</p>
+                        <p className="text-2xl font-bold">{(user.currency || 0).toLocaleString()}</p>
                         <p className="text-sm text-muted-foreground">{t('fantasy_coins')}</p>
                     </div>
                 </CardContent>
