@@ -10,5 +10,6 @@ export const USER_IDS = [
   'user-elgraco',
   'user-tario',
   'user-wolfeet',
-  'user-oniix'
+  'user-oniix',
+  'user-mauri'
 ];
