@@ -45,7 +45,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
             : playerInfo?.cost || 0;
 
         // Add currency and remove player
-        user.currency += sellPrice;
+        user.currency = (user.currency || 0) + sellPrice;
         user.players.splice(playerIndex, 1);
 
         // Remove from roster
