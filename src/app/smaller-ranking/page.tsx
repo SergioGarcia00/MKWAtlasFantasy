@@ -95,7 +95,7 @@ export default function SmallerRankingsPage() {
 
   const rankedUsersByCurrency = useMemo((): User[] => {
     if (!allUsers || allUsers.length === 0) return [];
-    return [...allUsers].sort((a, b) => b.currency - a.currency);
+    return [...allUsers].sort((a, b) => (b.currency || 0) - (a.currency || 0));
   }, [allUsers]);
 
   const topMMRPlayer = useMemo((): TopMMRPlayerInfo => {
@@ -308,8 +308,8 @@ export default function SmallerRankingsPage() {
              <UserStatCard 
                 icon={<WalletCards className="w-6 h-6 text-orange-500" />}
                 title="Poorest User"
-                user={poorestUser ? {...poorestUser, value: poorestUser.currency} : null}
-                value={poorestUser?.currency.toLocaleString()}
+                user={poorestUser ? {...poorestUser, value: poorestUser.currency || 0} : null}
+                value={(poorestUser?.currency || 0).toLocaleString()}
                 valueLabel="Fantasy Coins"
             />
             <HallOfFameCard 
@@ -342,7 +342,7 @@ export default function SmallerRankingsPage() {
                             <TableRow key={user.id}>
                                 <TableCell className="text-center font-medium">{index + 1}</TableCell>
                                 <TableCell className="font-semibold">{user.name}</TableCell>
-                                <TableCell className="text-right font-bold text-lg text-green-500">{user.currency.toLocaleString()}</TableCell>
+                                <TableCell className="text-right font-bold text-lg text-green-500">{(user.currency || 0).toLocaleString()}</TableCell>
                             </TableRow>
                             ))}
                         </TableBody>

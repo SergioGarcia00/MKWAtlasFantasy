@@ -86,7 +86,7 @@ export default function SettingsPage() {
             const result = await response.json();
              toast({
                 title: 'Currency Updated!',
-                description: `${result.name}'s new balance is ${result.currency.toLocaleString()}.`,
+                description: `${result.name}'s new balance is ${(result.currency || 0).toLocaleString()}.`,
             });
             await loadAllData();
 
@@ -428,3 +428,5 @@ export default function SettingsPage() {
         </div>
     );
 }
+
+    

@@ -277,7 +277,7 @@ export default function DailyMarketPage() {
                 <span className="text-muted-foreground">coins</span>
                 </div>
                 {user && <p className="text-xs text-muted-foreground mt-2">
-                    Your balance: {user.currency.toLocaleString()} coins.
+                    Your balance: {(user.currency || 0).toLocaleString()} coins.
                 </p>}
             </div>
             <DialogFooter>
@@ -294,3 +294,5 @@ export default function DailyMarketPage() {
     </div>
   );
 }
+
+    
