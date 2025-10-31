@@ -124,7 +124,7 @@ export async function POST() {
             if (winner.roster?.bench) {
                 winner.roster.bench.push(playerId);
             } else {
-                winner.roster = { lineup: [], bench: [playerId] };
+                 winner.roster = { lineup: [], bench: [playerId] };
             }
 
             // --- Log results and mark for removal ---

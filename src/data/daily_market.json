@@ -1,39 +1,5 @@
 [
   {
-    "id": "ElAron-4595-6882",
-    "name": "ElAron",
-    "icon": "Peach",
-    "cost": 4814,
-    "stats": {
-      "speed": 5,
-      "acceleration": 8,
-      "weight": 6,
-      "handling": 3,
-      "traction": 6
-    },
-    "mmr": 3823,
-    "peak_mmr": 4595,
-    "rank": 4380,
-    "events_played": 20,
-    "country": "Mexico",
-    "game_stats": {
-      "1v1": {
-        "events_played": 20,
-        "win_rate": "45.0%",
-        "win_loss_last_10": "2 - 8",
-        "gainloss_last_10": -848,
-        "largest_gain": 184,
-        "average_score": 77.7,
-        "average_score_no_sq": 79.8,
-        "average_score_last_10": 77.5,
-        "partner_average_score": 81.4,
-        "partner_average_score_no_sq": 69.4
-      },
-      "2v2": {}
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=77276"
-  },
-  {
     "id": "Seraaph-6136-7702",
     "name": "Seraaph",
     "icon": "Bowser",
