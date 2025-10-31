@@ -1,49 +1,5 @@
 [
   {
-    "id": "Xosman-6945-0058",
-    "name": "Xosman",
-    "icon": "Bowser",
-    "cost": 6657,
-    "stats": {
-      "speed": 3,
-      "acceleration": 3,
-      "weight": 3,
-      "handling": 4,
-      "traction": 2
-    },
-    "mmr": 5333,
-    "peak_mmr": 6945,
-    "rank": 520,
-    "events_played": 41,
-    "country": "France",
-    "game_stats": {
-      "1v1": {
-        "events_played": 36,
-        "win_rate": "61.1%",
-        "win_loss_last_10": "8 - 2",
-        "gainloss_last_10": 688,
-        "largest_gain": 214,
-        "average_score": 85.2,
-        "average_score_no_sq": 86.3,
-        "average_score_last_10": 90.5,
-        "partner_average_score": 83.4,
-        "partner_average_score_no_sq": 83.6
-      },
-      "2v2": {
-        "events_played": 5,
-        "win_rate": "40.0%",
-        "win_loss_last_10": "2 - 3",
-        "gainloss_last_10": -137,
-        "largest_gain": 156,
-        "average_score": 68.2,
-        "average_score_no_sq": 66.5,
-        "average_score_last_10": 68.2,
-        "partner_average_score": 74
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=17450"
-  },
-  {
     "id": "ElAron-4595-6882",
     "name": "ElAron",
     "icon": "Peach",

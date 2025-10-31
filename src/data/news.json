@@ -1,5 +1,16 @@
 [
   {
+    "id": "news-1761905528291-0.28529893206197166",
+    "timestamp": 1761905528291,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Sipgb",
+      "Xosman",
+      "6,657"
+    ],
+    "icon": "🎉"
+  },
+  {
     "id": "news-1761905422724-0.20823368368300033",
     "timestamp": 1761905422724,
     "messageKey": "news.auction_win",
