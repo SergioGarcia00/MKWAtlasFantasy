@@ -10,24 +10,25 @@ import { addNewsItem } from '@/lib/news-helpers';
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 const DAILY_MARKET_PATH = path.join(process.cwd(), 'src', 'data', 'daily_market.json');
 
-async function getAllUsers(): Promise<User[]> {
+async function getAllUserFiles(): Promise<{ id: string; user: User }[]> {
   try {
     const filenames = await fs.readdir(USERS_DIR);
-    const users = await Promise.all(
+    const userFiles = await Promise.all(
       filenames
         .filter(filename => filename.endsWith('.json'))
         .map(async (filename) => {
+            const id = filename.replace('.json', '');
             const filePath = path.join(USERS_DIR, filename);
             try {
                 const content = await fs.readFile(filePath, 'utf-8');
-                return JSON.parse(content) as User;
+                return { id, user: JSON.parse(content) as User };
             } catch (error) {
                 console.warn(`Could not read or parse user file for ${filename}. Skipping.`);
                 return null;
             }
         })
     );
-    return users.filter((u): u is User => u !== null);
+    return userFiles.filter((u): u is { id: string; user: User } => u !== null);
   } catch (error) {
     console.error("Failed to read user files:", error);
     return [];
@@ -51,20 +52,20 @@ async function saveUser(user: User): Promise<void> {
 
 export async function POST() {
   try {
-    let allUsers = await getAllUsers();
-    const marketPlayers = await getMarketPlayers();
+    const allUserData = await getAllUserFiles();
+    let marketPlayers = await getMarketPlayers();
     
-    const allBidsByPlayer: Record<string, { userId: string; amount: number }[]> = {};
+    const allBidsByPlayer: Record<string, { userId: string; userName: string; amount: number }[]> = {};
     const marketPlayerIds = new Set(marketPlayers.map(p => p.id));
 
-    for (const user of allUsers) {
+    for (const { user } of allUserData) {
       if (user.bids) {
         for (const [playerId, bidAmount] of Object.entries(user.bids)) {
           if (marketPlayerIds.has(playerId)) {
             if (!allBidsByPlayer[playerId]) {
               allBidsByPlayer[playerId] = [];
             }
-            allBidsByPlayer[playerId].push({ userId: user.id, amount: bidAmount });
+            allBidsByPlayer[playerId].push({ userId: user.id, userName: user.name, amount: bidAmount });
           }
         }
       }
@@ -73,6 +74,7 @@ export async function POST() {
     let playersAwardedCount = 0;
     let totalCoinsSpent = 0;
     const messages: string[] = [];
+    const awardedPlayerIds = new Set<string>();
 
     for (const [playerId, bids] of Object.entries(allBidsByPlayer)) {
         if (bids.length === 0) continue;
@@ -80,10 +82,10 @@ export async function POST() {
         bids.sort((a, b) => b.amount - a.amount);
         const winningBid = bids[0];
         
-        const winnerIndex = allUsers.findIndex(u => u.id === winningBid.userId);
-        if (winnerIndex === -1) continue;
+        const winnerData = allUserData.find(ud => ud.user.id === winningBid.userId);
+        if (!winnerData) continue;
 
-        let winner = allUsers[winnerIndex];
+        let winner = winnerData.user;
         const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         
         if (winner && playerInfo) {
@@ -113,17 +115,26 @@ export async function POST() {
             if (winner.roster?.bench && !winner.roster.bench.includes(playerId)) {
                 winner.roster.bench.push(playerId);
             }
-            
-            allUsers[winnerIndex] = winner;
 
             playersAwardedCount++;
             totalCoinsSpent += winningBid.amount;
             const winMessage = `${winner.name} won the auction for ${playerInfo.name} with a bid of ${winningBid.amount.toLocaleString()} coins!`;
             messages.push(winMessage);
             await addNewsItem('news.auction_win', [winner.name, playerInfo.name, winningBid.amount.toLocaleString()], '🎉');
+
+            // Mark player as awarded to remove from market later
+            awardedPlayerIds.add(playerId);
+            // Save the updated winner immediately
+            await saveUser(winner);
         }
     }
-    
+
+    // Filter out awarded players from the market
+    marketPlayers = marketPlayers.filter(p => !awardedPlayerIds.has(p.id));
+    await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(marketPlayers, null, 2), 'utf-8');
+
+    // Clear all bids from all users
+    const allUsers = allUserData.map(ud => ud.user);
     for (const user of allUsers) {
         user.bids = {};
         await saveUser(user);
