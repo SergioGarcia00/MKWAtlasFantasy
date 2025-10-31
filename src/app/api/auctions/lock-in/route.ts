@@ -34,6 +34,16 @@ async function getAllUsers(): Promise<User[]> {
   }
 }
 
+async function getMarketPlayers(): Promise<Player[]> {
+  try {
+    const fileContent = await fs.readFile(DAILY_MARKET_PATH, 'utf-8');
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error("Failed to read daily market file:", error);
+    return [];
+  }
+}
+
 async function saveUser(user: User): Promise<void> {
     const filePath = path.join(USERS_DIR, `${user.id}.json`);
     await fs.writeFile(filePath, JSON.stringify(user, null, 2), 'utf-8');
@@ -42,17 +52,21 @@ async function saveUser(user: User): Promise<void> {
 export async function POST() {
   try {
     let allUsers = await getAllUsers();
+    const marketPlayers = await getMarketPlayers();
     
-    // Step 1: Collect all bids from all users
+    // Step 1: Collect all bids from all users for players *currently in the market*
     const allBidsByPlayer: Record<string, { userId: string; amount: number }[]> = {};
-    
+    const marketPlayerIds = new Set(marketPlayers.map(p => p.id));
+
     for (const user of allUsers) {
       if (user.bids) {
         for (const [playerId, bidAmount] of Object.entries(user.bids)) {
-          if (!allBidsByPlayer[playerId]) {
-            allBidsByPlayer[playerId] = [];
+          if (marketPlayerIds.has(playerId)) {
+            if (!allBidsByPlayer[playerId]) {
+              allBidsByPlayer[playerId] = [];
+            }
+            allBidsByPlayer[playerId].push({ userId: user.id, amount: bidAmount });
           }
-          allBidsByPlayer[playerId].push({ userId: user.id, amount: bidAmount });
         }
       }
     }
@@ -61,7 +75,7 @@ export async function POST() {
     let totalCoinsSpent = 0;
     const messages: string[] = [];
 
-    // Step 2: Process each player auction
+    // Step 2: Process each player auction for players in the market
     for (const [playerId, bids] of Object.entries(allBidsByPlayer)) {
         if (bids.length === 0) continue;
 
@@ -72,7 +86,7 @@ export async function POST() {
         const winnerIndex = allUsers.findIndex(u => u.id === winningBid.userId);
         if (winnerIndex === -1) continue;
 
-        const winner = allUsers[winnerIndex];
+        let winner = allUsers[winnerIndex];
         const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         
         if (winner && playerInfo) {
@@ -118,10 +132,10 @@ export async function POST() {
         }
     }
     
-    // Step 3: Clear all bids and save users
-    for (let i = 0; i < allUsers.length; i++) {
-        allUsers[i].bids = {};
-        await saveUser(allUsers[i]);
+    // Step 3: Clear all bids from all users and save their updated data
+    for (const user of allUsers) {
+        user.bids = {};
+        await saveUser(user);
     }
     
     const finalMessage = `Auction processing complete. ${playersAwardedCount} players awarded. Total coins spent: ${totalCoinsSpent.toLocaleString()}.`;

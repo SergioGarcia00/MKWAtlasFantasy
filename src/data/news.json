@@ -1,5 +1,27 @@
 [
   {
+    "id": "news-1761904729694-0.8547910296688044",
+    "timestamp": 1761904729694,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Morioh",
+      "Naldo",
+      "9,000"
+    ],
+    "icon": "🎉"
+  },
+  {
+    "id": "news-1761904729693-0.7821380482456841",
+    "timestamp": 1761904729693,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Sipgb",
+      "Sipgb",
+      "10,491"
+    ],
+    "icon": "🎉"
+  },
+  {
     "id": "news-1761688163714-0.22929851838178816",
     "timestamp": 1761688163714,
     "messageKey": "news.auction_win",
