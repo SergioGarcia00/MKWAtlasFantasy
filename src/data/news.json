@@ -1,5 +1,16 @@
 [
   {
+    "id": "news-1761904854392-0.817208176281367",
+    "timestamp": 1761904854392,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Sipgb",
+      "Xerneas.exe",
+      "6,707"
+    ],
+    "icon": "🎉"
+  },
+  {
     "id": "news-1761904729694-0.8547910296688044",
     "timestamp": 1761904729694,
     "messageKey": "news.auction_win",

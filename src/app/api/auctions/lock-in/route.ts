@@ -54,7 +54,6 @@ export async function POST() {
     let allUsers = await getAllUsers();
     const marketPlayers = await getMarketPlayers();
     
-    // Step 1: Collect all bids from all users for players *currently in the market*
     const allBidsByPlayer: Record<string, { userId: string; amount: number }[]> = {};
     const marketPlayerIds = new Set(marketPlayers.map(p => p.id));
 
@@ -75,11 +74,9 @@ export async function POST() {
     let totalCoinsSpent = 0;
     const messages: string[] = [];
 
-    // Step 2: Process each player auction for players in the market
     for (const [playerId, bids] of Object.entries(allBidsByPlayer)) {
         if (bids.length === 0) continue;
 
-        // Sort bids to find the highest
         bids.sort((a, b) => b.amount - a.amount);
         const winningBid = bids[0];
         
@@ -90,25 +87,21 @@ export async function POST() {
         const playerInfo = ALL_PLAYERS.find(p => p.id === playerId);
         
         if (winner && playerInfo) {
-            // Check if winner already owns this player
             if (winner.players.some(p => p.id === playerId)) {
                 messages.push(`${winner.name} tried to bid on ${playerInfo.name}, but they already own this player.`);
                 continue;
             }
             
-             // Check if winner's roster is full
             if (winner.players.length >= 10) {
                 messages.push(`${winner.name} could not receive ${playerInfo.name} because their roster is full.`);
                 continue;
             }
 
-            // Check if winner can afford it
             if ((winner.currency || 0) < winningBid.amount) {
                 messages.push(`${winner.name}'s bid for ${playerInfo.name} failed due to insufficient funds.`);
                 continue;
             }
             
-            // Award player to winner
             winner.currency = (winner.currency || 0) - winningBid.amount;
             const newUserPlayer: UserPlayer = {
                 id: playerId,
@@ -117,11 +110,10 @@ export async function POST() {
                 clauseInvestment: 0
             };
             winner.players.push(newUserPlayer);
-            if (!winner.roster.bench.includes(playerId)) {
+            if (winner.roster?.bench && !winner.roster.bench.includes(playerId)) {
                 winner.roster.bench.push(playerId);
             }
             
-            // Update the user in the main array
             allUsers[winnerIndex] = winner;
 
             playersAwardedCount++;
@@ -132,7 +124,6 @@ export async function POST() {
         }
     }
     
-    // Step 3: Clear all bids from all users and save their updated data
     for (const user of allUsers) {
         user.bids = {};
         await saveUser(user);
