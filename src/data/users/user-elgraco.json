@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 1912,
+  "currency": 1000,
   "players": [
     {
       "id": "Hazza-7290-5141",
@@ -16,7 +16,7 @@
     {
       "id": "Dark-5432-8982",
       "purchasedAt": 1760464836460,
-      "clauseInvestment": 3000
+      "clauseInvestment": 3900
     },
     {
       "id": "Cole-Palmer-5044-0536",
@@ -26,7 +26,7 @@
     {
       "id": "CaliforniaX2-7260-0909",
       "purchasedAt": 1761076936976,
-      "clauseInvestment": 1500
+      "clauseInvestment": 1512
     },
     {
       "id": "elgraco-5968-7506",

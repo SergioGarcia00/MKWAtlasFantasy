@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 1767,
+  "currency": 0,
   "players": [
     {
       "id": "Lecka-6711-0982",
@@ -9,11 +9,13 @@
     },
     {
       "id": "Dragnir-6756-1529",
-      "purchasedAt": 1760551285470
+      "purchasedAt": 1760551285470,
+      "clauseInvestment": 1000
     },
     {
       "id": "Milkshake-7008-1877",
-      "purchasedAt": 1760731612116
+      "purchasedAt": 1760731612116,
+      "clauseInvestment": 767
     },
     {
       "id": "georgio-6225-8628",
@@ -36,11 +38,10 @@
       "Lecka-6711-0982",
       "Milkshake-7008-1877",
       "georgio-6225-8628",
-      "Charging-Charles-8526-9694"
-    ],
-    "bench": [
+      "Charging-Charles-8526-9694",
       "Roni24-6797-7986"
-    ]
+    ],
+    "bench": []
   },
   "weeklyScores": {
     "Milkshake-7008-1877": {
@@ -116,7 +117,5 @@
       }
     }
   },
-  "bids": {
-    "pigeon-6427-3413": 6508
-  }
+  "bids": {}
 }

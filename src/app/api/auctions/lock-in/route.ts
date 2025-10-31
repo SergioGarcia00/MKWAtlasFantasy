@@ -8,6 +8,7 @@ import { ALL_PLAYERS } from '@/data/players';
 import { addNewsItem } from '@/lib/news-helpers';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
+const DAILY_MARKET_PATH = path.join(process.cwd(), 'src', 'data', 'daily_market.json');
 
 async function getAllUsers(): Promise<User[]> {
   try {
@@ -68,7 +69,6 @@ export async function POST() {
         bids.sort((a, b) => b.amount - a.amount);
         const winningBid = bids[0];
         
-        // IMPORTANT: Always find the LATEST state of the winner from the array
         const winnerIndex = allUsers.findIndex(u => u.id === winningBid.userId);
         if (winnerIndex === -1) continue;
 
@@ -89,13 +89,13 @@ export async function POST() {
             }
 
             // Check if winner can afford it
-            if (winner.currency < winningBid.amount) {
+            if ((winner.currency || 0) < winningBid.amount) {
                 messages.push(`${winner.name}'s bid for ${playerInfo.name} failed due to insufficient funds.`);
                 continue;
             }
             
             // Award player to winner
-            winner.currency -= winningBid.amount;
+            winner.currency = (winner.currency || 0) - winningBid.amount;
             const newUserPlayer: UserPlayer = {
                 id: playerId,
                 purchasedAt: Date.now(),
@@ -119,9 +119,9 @@ export async function POST() {
     }
     
     // Step 3: Clear all bids and save users
-    for (const user of allUsers) {
-        user.bids = {};
-        await saveUser(user);
+    for (let i = 0; i < allUsers.length; i++) {
+        allUsers[i].bids = {};
+        await saveUser(allUsers[i]);
     }
     
     const finalMessage = `Auction processing complete. ${playersAwardedCount} players awarded. Total coins spent: ${totalCoinsSpent.toLocaleString()}.`;
