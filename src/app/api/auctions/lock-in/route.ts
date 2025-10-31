@@ -6,32 +6,24 @@ import fs from 'fs/promises';
 import type { Player, User, UserPlayer } from '@/lib/types';
 import { ALL_PLAYERS } from '@/data/players';
 import { addNewsItem } from '@/lib/news-helpers';
+import { USER_IDS } from '@/data/users';
 
 const USERS_DIR = path.join(process.cwd(), 'src', 'data', 'users');
 const DAILY_MARKET_PATH = path.join(process.cwd(), 'src', 'data', 'daily_market.json');
 
 async function getAllUsers(): Promise<User[]> {
-  try {
-    const filenames = await fs.readdir(USERS_DIR);
-    const userFiles = await Promise.all(
-      filenames
-        .filter(filename => filename.endsWith('.json'))
-        .map(async (filename) => {
-            const filePath = path.join(USERS_DIR, filename);
-            try {
-                const content = await fs.readFile(filePath, 'utf-8');
-                return JSON.parse(content) as User;
-            } catch (error) {
-                console.warn(`Could not read or parse user file for ${filename}. Skipping.`);
-                return null;
-            }
-        })
-    );
-    return userFiles.filter((u): u is User => u !== null);
-  } catch (error) {
-    console.error("Failed to read user files:", error);
-    return [];
-  }
+    const userPromises = USER_IDS.map(async (userId) => {
+        const filePath = path.join(USERS_DIR, `${userId}.json`);
+        try {
+            const content = await fs.readFile(filePath, 'utf-8');
+            return JSON.parse(content) as User;
+        } catch (error) {
+            console.warn(`Could not read or parse user file for ${userId}.json. Skipping.`);
+            return null;
+        }
+    });
+    const users = await Promise.all(userPromises);
+    return users.filter((u): u is User => u !== null);
 }
 
 async function getMarketPlayers(): Promise<Player[]> {

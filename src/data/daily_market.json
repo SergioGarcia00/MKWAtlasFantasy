@@ -1,47 +1,5 @@
 [
   {
-    "id": "Seraaph-6136-7702",
-    "name": "Seraaph",
-    "icon": "Bowser",
-    "cost": 6194,
-    "stats": {
-      "speed": 2,
-      "acceleration": 4,
-      "weight": 8,
-      "handling": 4,
-      "traction": 6
-    },
-    "mmr": 5421,
-    "peak_mmr": 6136,
-    "rank": 1908,
-    "events_played": 38,
-    "country": "France",
-    "game_stats": {
-      "1v1": {
-        "events_played": 36,
-        "win_rate": "44.4%",
-        "win_loss_last_10": "5 - 5",
-        "gainloss_last_10": -81,
-        "largest_gain": 216,
-        "average_score": 78.6,
-        "average_score_no_sq": 80.3,
-        "average_score_last_10": 83.4,
-        "partner_average_score": 83.7,
-        "partner_average_score_no_sq": 85.2
-      },
-      "2v2": {
-        "events_played": 2,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 2",
-        "gainloss_last_10": -322,
-        "average_score": 64.5,
-        "average_score_last_10": 64.5,
-        "partner_average_score": 62.7
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=72284"
-  },
-  {
     "id": "RK-Denial-5248-2404",
     "name": "RK Denial",
     "icon": "Bowser",

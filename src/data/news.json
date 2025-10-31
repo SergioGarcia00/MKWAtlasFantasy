@@ -1,5 +1,16 @@
 [
   {
+    "id": "news-1761905864959-0.8080495610259022",
+    "timestamp": 1761905864959,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Sipgb",
+      "Seraaph",
+      "6,194"
+    ],
+    "icon": "🎉"
+  },
+  {
     "id": "news-1761905665090-0.1875639245786085",
     "timestamp": 1761905665090,
     "messageKey": "news.auction_win",
