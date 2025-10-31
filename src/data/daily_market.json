@@ -1,39 +1,5 @@
 [
   {
-    "id": "Xerneas.exe-6608-3101",
-    "name": "Xerneas.exe",
-    "icon": "Toad",
-    "cost": 6707,
-    "stats": {
-      "speed": 2,
-      "acceleration": 5,
-      "weight": 3,
-      "handling": 5,
-      "traction": 6
-    },
-    "mmr": 7289,
-    "peak_mmr": 6608,
-    "rank": 604,
-    "events_played": 25,
-    "country": "United States",
-    "game_stats": {
-      "1v1": {
-        "events_played": 25,
-        "win_rate": "56.0%",
-        "win_loss_last_10": "7 - 3",
-        "gainloss_last_10": 682,
-        "largest_gain": 213,
-        "average_score": 87.4,
-        "average_score_no_sq": 87.4,
-        "average_score_last_10": 91.6,
-        "partner_average_score": 73.8,
-        "partner_average_score_no_sq": 73.8
-      },
-      "2v2": {}
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=57791"
-  },
-  {
     "id": "Xosman-6945-0058",
     "name": "Xosman",
     "icon": "Bowser",

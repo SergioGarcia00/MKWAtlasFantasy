@@ -38,9 +38,9 @@ export type WeeklyScore = {
 
 export type UserPlayer = {
   id: string;
-  purchasedAt: number; // Timestamp of purchase
-  purchasePrice: number; // Price the user paid for the player
-  clauseInvestment?: number; // Amount invested by user to increase buyout clause
+  purchasedAt: number;
+  purchasePrice?: number;
+  clauseInvestment?: number;
 }
 
 export type User = {
