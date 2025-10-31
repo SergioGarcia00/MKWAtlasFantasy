@@ -42,13 +42,6 @@ export async function POST(request: Request) {
 
     await fs.writeFile(DAILY_MARKET_PATH, JSON.stringify(newMarketPlayers, null, 2), 'utf-8');
 
-    // Also, clear all bids from all users
-    for (const user of allUsers) {
-        user.bids = {};
-        const userFilePath = path.join(USERS_DIR, `${user.id}.json`);
-        await fs.writeFile(userFilePath, JSON.stringify(user, null, 2), 'utf-8');
-    }
-
     return NextResponse.json({ message: 'Market refreshed successfully', newMarketCount: newMarketPlayers.length });
   } catch (error: any) {
     console.error('Failed to refresh market:', error);
