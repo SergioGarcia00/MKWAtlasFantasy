@@ -29,6 +29,7 @@
   "no_shouts_yet": "Be the first to say something!",
   "shoutbox_placeholder": "Type your message...",
   "shoutbox_post_button": "Post Message",
+  "playerBuyout": "Player Buyout",
 
   "news.auction_win": "<strong>{0}</strong> won the auction for <strong>{1}</strong> with a bid of {2} coins!",
   "news.buyout": "<strong>{0}</strong> executed a buyout for <strong>{1}</strong> from {2} for {3} coins!",

@@ -29,6 +29,7 @@
   "no_shouts_yet": "¡Sé el primero en decir algo!",
   "shoutbox_placeholder": "Escribe tu mensaje...",
   "shoutbox_post_button": "Publicar Mensaje",
+  "playerBuyout": "Cláusula de Rescisión",
 
   "news.auction_win": "¡<strong>{0}</strong> ganó la subasta por <strong>{1}</strong> con una puja de {2} monedas!",
   "news.buyout": "¡<strong>{0}</strong> ejecutó una compra directa por <strong>{1}</strong> de {2} por {3} monedas!",

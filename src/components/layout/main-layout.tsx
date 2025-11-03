@@ -29,6 +29,7 @@ import {
   Repeat,
   Gift,
   Languages,
+  Handshake,
 } from 'lucide-react';
 import { useUser } from '@/context/user-context';
 import { Button } from '@/components/ui/button';
@@ -44,6 +45,7 @@ const navItems = [
   { href: '/', label: 'dashboard', icon: LayoutDashboard },
   { href: '/store', label: 'playerDatabase', icon: Store },
   { href: '/daily-market', label: 'dailyMarket', icon: Gavel },
+  { href: '/player-buyout', label: 'playerBuyout', icon: Handshake },
   { href: '/roster', label: 'myRoster', icon: Users },
   { href: '/rankings', label: 'rankings', icon: BarChart },
   { href: '/next-week', label: 'weeklySummary', icon: Calendar },
