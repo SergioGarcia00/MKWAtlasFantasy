@@ -129,7 +129,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
     )
   }
   
-  const priceToShow = player.cost;
+  const priceToShow = isBuyoutPage && isOwnedByOtherUser ? totalBuyoutPrice : player.cost;
 
   const cardFooter = getButton();
 
@@ -165,6 +165,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
             <div className="flex items-center gap-2 mt-2 text-muted-foreground">
               <DollarSign className="w-4 h-4" />
               <span className="font-semibold">{priceToShow.toLocaleString()}</span>
+               {isBuyoutPage && isOwnedByOtherUser && <span className="text-xs">(Buyout)</span>}
             </div>
         </CardContent>
         {cardFooter && (
