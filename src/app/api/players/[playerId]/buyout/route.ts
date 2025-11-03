@@ -73,13 +73,16 @@ export async function POST(request: Request, { params }: { params: { playerId: s
             clauseInvestment: 0
         };
         buyer.players.push(newPlayerForBuyer);
-        if (!buyer.roster.bench.includes(playerId)) {
+        if (buyer.roster && !buyer.roster.bench.includes(playerId)) {
             buyer.roster.bench.push(playerId);
+        } else if (!buyer.roster) {
+            buyer.roster = { lineup: [], bench: [playerId] };
         }
+
 
         // 2. Handle Owner
         const refundAmount = typeof ownerPlayer.purchasePrice === 'number' ? ownerPlayer.purchasePrice : playerInfo.cost;
-        owner.currency = (owner.currency || 0) + refundAmount;
+        owner.currency = (owner.currency || 0) + refundAmount + (ownerPlayer.clauseInvestment || 0); // Refund purchase price AND clause investment
         owner.players.splice(ownerPlayerIndex, 1);
         owner.roster.lineup = owner.roster.lineup.filter(id => id !== playerId);
         owner.roster.bench = owner.roster.bench.filter(id => id !== playerId);

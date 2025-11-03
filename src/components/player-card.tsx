@@ -187,11 +187,11 @@ export function PlayerCard({ player }: PlayerCardProps) {
                  {isOwnedByOtherUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
                 </DialogTitle>
                 <DialogDescription>Review the player's stats to see if they're a good fit for your team.</DialogDescription>
-                <div className="flex items-center gap-4 mt-3">
+                 <div className="flex items-center gap-4 mt-3">
                     <div className="flex items-baseline gap-2 text-primary">
-                      <DollarSign className="w-6 h-6" />
-                      <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
-                      <span className="text-sm text-muted-foreground ml-1">cost</span>
+                        <DollarSign className="w-6 h-6" />
+                        <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
+                        <span className="text-sm text-muted-foreground ml-1">cost</span>
                     </div>
                      {player.registry_url && (
                         <Button asChild variant="outline" size="sm">
