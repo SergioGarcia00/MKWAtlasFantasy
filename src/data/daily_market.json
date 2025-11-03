@@ -1,436 +1,592 @@
 [
   {
-    "id": "RK-Denial-5248-2404",
-    "name": "RK Denial",
-    "icon": "Bowser",
-    "cost": 5324,
+    "id": "Flexing-5161-8025",
+    "name": "Flexing",
+    "icon": "Luigi",
+    "cost": 4895,
+    "stats": {
+      "speed": 3,
+      "acceleration": 9,
+      "weight": 2,
+      "handling": 2,
+      "traction": 5
+    },
+    "mmr": 5157,
+    "peak_mmr": 5161,
+    "rank": 2523,
+    "events_played": 16,
+    "country": "Canada",
+    "game_stats": {
+      "1v1": {
+        "events_played": 15,
+        "win_rate": "46.7%",
+        "win_loss_last_10": "4 - 6",
+        "gainloss_last_10": -264,
+        "largest_gain": 176,
+        "average_score": 82.8,
+        "average_score_no_sq": 82.8,
+        "average_score_last_10": 79.1,
+        "partner_average_score": 67.6,
+        "partner_average_score_no_sq": 67.6
+      },
+      "2v2": {
+        "events_played": 1,
+        "win_rate": "100.0%",
+        "win_loss_last_10": "1 - 0",
+        "gainloss_last_10": 101,
+        "largest_gain": 101,
+        "average_score": 81,
+        "average_score_no_sq": 81,
+        "average_score_last_10": 81
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=71994"
+  },
+  {
+    "id": "Xerneas.exe-6608-3101",
+    "name": "Xerneas.exe",
+    "icon": "Toad",
+    "cost": 6707,
     "stats": {
       "speed": 2,
-      "acceleration": 6,
-      "weight": 7,
-      "handling": 6,
+      "acceleration": 5,
+      "weight": 3,
+      "handling": 5,
       "traction": 6
     },
-    "mmr": 6022,
-    "peak_mmr": 5248,
-    "rank": 2420,
-    "events_played": 13,
-    "country": "Spain",
+    "mmr": 7289,
+    "peak_mmr": 6608,
+    "rank": 604,
+    "events_played": 25,
+    "country": "United States",
+    "game_stats": {
+      "1v1": {
+        "events_played": 25,
+        "win_rate": "56.0%",
+        "win_loss_last_10": "7 - 3",
+        "gainloss_last_10": 682,
+        "largest_gain": 213,
+        "average_score": 87.4,
+        "average_score_no_sq": 87.4,
+        "average_score_last_10": 91.6,
+        "partner_average_score": 73.8,
+        "partner_average_score_no_sq": 73.8
+      },
+      "2v2": {}
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=57791"
+  },
+  {
+    "id": "Jsaav-6976-3823",
+    "name": "Jsaav",
+    "icon": "Koopa",
+    "cost": 7409,
+    "stats": {
+      "speed": 2,
+      "acceleration": 3,
+      "weight": 6,
+      "handling": 3,
+      "traction": 4
+    },
+    "mmr": 6333,
+    "peak_mmr": 6976,
+    "rank": 882,
+    "events_played": 108,
+    "country": "United States",
+    "game_stats": {
+      "1v1": {
+        "events_played": 108,
+        "win_rate": "51.9%",
+        "win_loss_last_10": "3 - 7",
+        "gainloss_last_10": -244,
+        "largest_gain": 241,
+        "average_score": 81.8,
+        "average_score_no_sq": 82.1,
+        "average_score_last_10": 78.1,
+        "partner_average_score": 81.1,
+        "partner_average_score_no_sq": 81.4
+      },
+      "2v2": {}
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=72610"
+  },
+  {
+    "id": "7o7-7106-7910",
+    "name": "7o7",
+    "icon": "Toad",
+    "cost": 7546,
+    "stats": {
+      "speed": 4,
+      "acceleration": 4,
+      "weight": 6,
+      "handling": 6,
+      "traction": 2
+    },
+    "mmr": 7528,
+    "peak_mmr": 7106,
+    "rank": 560,
+    "events_played": 28,
+    "country": "France",
+    "game_stats": {
+      "1v1": {
+        "events_played": 26,
+        "win_rate": "38.5%",
+        "win_loss_last_10": "2 - 8",
+        "gainloss_last_10": -269,
+        "largest_gain": 217,
+        "average_score": 80.7,
+        "average_score_no_sq": 77.2,
+        "average_score_last_10": 84.6,
+        "partner_average_score": 82.4,
+        "partner_average_score_no_sq": 84
+      },
+      "2v2": {
+        "events_played": 2,
+        "win_rate": "50.0%",
+        "win_loss_last_10": "1 - 1",
+        "gainloss_last_10": -183,
+        "largest_gain": 71,
+        "average_score": 80,
+        "average_score_last_10": 80,
+        "partner_average_score": 60.3
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=39311"
+  },
+  {
+    "id": "Tylerrr-6850-6912",
+    "name": "Tylerrr",
+    "icon": "Luigi",
+    "cost": 7492,
+    "stats": {
+      "speed": 4,
+      "acceleration": 6,
+      "weight": 7,
+      "handling": 8,
+      "traction": 6
+    },
+    "mmr": 7561,
+    "peak_mmr": 6850,
+    "rank": 892,
+    "events_played": 21,
+    "country": "United States",
+    "game_stats": {
+      "1v1": {
+        "events_played": 21,
+        "win_rate": "47.6%",
+        "win_loss_last_10": "4 - 6",
+        "gainloss_last_10": -361,
+        "largest_gain": 216,
+        "average_score": 83.9,
+        "average_score_no_sq": 84.4,
+        "average_score_last_10": 77.6,
+        "partner_average_score": 86.1,
+        "partner_average_score_no_sq": 86.3
+      },
+      "2v2": {}
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=1226"
+  },
+  {
+    "id": "antoine_ma-5389-2727",
+    "name": "antoine_ma",
+    "icon": "Mario",
+    "cost": 5908,
+    "stats": {
+      "speed": 7,
+      "acceleration": 6,
+      "weight": 3,
+      "handling": 3,
+      "traction": 3
+    },
+    "mmr": 5030,
+    "peak_mmr": 5389,
+    "rank": 2025,
+    "events_played": 17,
+    "country": "Sweden",
+    "game_stats": {
+      "1v1": {
+        "events_played": 16,
+        "win_rate": "43.8%",
+        "win_loss_last_10": "6 - 4",
+        "gainloss_last_10": 67,
+        "largest_gain": 223,
+        "average_score": 74.4,
+        "average_score_no_sq": 74.6,
+        "average_score_last_10": 76.2,
+        "partner_average_score": 85,
+        "partner_average_score_no_sq": 83.5
+      },
+      "2v2": {
+        "events_played": 1,
+        "win_rate": "100.0%",
+        "win_loss_last_10": "1 - 0",
+        "gainloss_last_10": 179,
+        "largest_gain": 179,
+        "average_score": 66,
+        "average_score_last_10": 66,
+        "partner_average_score": 83.4
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=21367"
+  },
+  {
+    "id": "Ruhestand-5075-3729",
+    "name": "Ruhestand",
+    "icon": "Luigi",
+    "cost": 4662,
+    "stats": {
+      "speed": 5,
+      "acceleration": 8,
+      "weight": 6,
+      "handling": 3,
+      "traction": 4
+    },
+    "mmr": 3775,
+    "peak_mmr": 5075,
+    "rank": 2874,
+    "events_played": 12,
+    "country": "Germany",
     "game_stats": {
       "1v1": {
         "events_played": 12,
         "win_rate": "41.7%",
-        "win_loss_last_10": "3 - 7",
-        "gainloss_last_10": -370,
-        "largest_gain": 213,
-        "average_score": 75.5,
-        "average_score_no_sq": 78.8,
-        "average_score_last_10": 73.6,
-        "partner_average_score": 87.3,
-        "partner_average_score_no_sq": 82.6
-      },
-      "2v2": {
-        "events_played": 1,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 1",
-        "gainloss_last_10": -44,
-        "average_score": 62,
-        "average_score_last_10": 62,
-        "partner_average_score": 72
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=77338"
-  },
-  {
-    "id": "Turtwig-8837-4190",
-    "name": "Turtwig",
-    "icon": "Peach",
-    "cost": 9166,
-    "stats": {
-      "speed": 7,
-      "acceleration": 8,
-      "weight": 6,
-      "handling": 5,
-      "traction": 8
-    },
-    "mmr": 8511,
-    "peak_mmr": 8837,
-    "rank": 142,
-    "events_played": 92,
-    "country": "Spain",
-    "game_stats": {
-      "1v1": {
-        "events_played": 92,
-        "win_rate": "58.7%",
-        "win_loss_last_10": "6 - 4",
-        "gainloss_last_10": 373,
-        "largest_gain": 309,
-        "average_score": 84.4,
-        "average_score_no_sq": 83.1,
-        "average_score_last_10": 91.6,
-        "partner_average_score": 80.5,
-        "partner_average_score_no_sq": 82.4
-      },
-      "2v2": {
-        "events_played": 1,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 1",
-        "gainloss_last_10": -77,
-        "average_score": 65,
-        "average_score_last_10": 65,
-        "partner_average_score": 69
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=35765"
-  },
-  {
-    "id": "Sokram-6563-1339",
-    "name": "Sokram",
-    "icon": "Peach",
-    "cost": 6334,
-    "stats": {
-      "speed": 5,
-      "acceleration": 8,
-      "weight": 4,
-      "handling": 3,
-      "traction": 8
-    },
-    "mmr": 6334,
-    "peak_mmr": 6563,
-    "rank": 630,
-    "events_played": 154,
-    "country": "Spain",
-    "game_stats": {
-      "1v1": {
-        "events_played": 147,
-        "win_rate": "53.1%",
-        "win_loss_last_10": "7 - 3",
-        "gainloss_last_10": 309,
-        "largest_gain": 221,
-        "average_score": 84,
-        "average_score_no_sq": 85.4,
-        "average_score_last_10": 87.8,
-        "partner_average_score": 82.5,
-        "partner_average_score_no_sq": 84.2
-      },
-      "2v2": {
-        "events_played": 7,
-        "win_rate": "71.4%",
-        "win_loss_last_10": "5 - 2",
-        "gainloss_last_10": 113,
-        "largest_gain": 149,
-        "average_score": 72.1,
-        "average_score_no_sq": 58,
-        "average_score_last_10": 72.1,
-        "partner_average_score": 74.2
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=76314"
-  },
-  {
-    "id": "frozen-8999-8246",
-    "name": "frozen",
-    "icon": "Bowser",
-    "cost": 9060,
-    "stats": {
-      "speed": 9,
-      "acceleration": 6,
-      "weight": 6,
-      "handling": 5,
-      "traction": 7
-    },
-    "mmr": 9173,
-    "peak_mmr": 8999,
-    "rank": 133,
-    "events_played": 28,
-    "country": "United States",
-    "game_stats": {
-      "1v1": {
-        "events_played": 19,
-        "win_rate": "42.1%",
         "win_loss_last_10": "4 - 6",
-        "gainloss_last_10": -84,
-        "largest_gain": 215,
-        "average_score": 81.7,
-        "average_score_no_sq": 79.7,
-        "average_score_last_10": 79.6,
-        "partner_average_score": 79.3,
-        "partner_average_score_no_sq": 85.7
-      },
-      "2v2": {
-        "events_played": 9,
-        "win_rate": "55.6%",
-        "win_loss_last_10": "5 - 4",
-        "gainloss_last_10": 144,
-        "largest_gain": 264,
-        "average_score": 74.8,
-        "average_score_no_sq": 72,
-        "average_score_last_10": 74.8,
-        "partner_average_score": 87
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=1752"
-  },
-  {
-    "id": "Marlon-8001-6695",
-    "name": "Marlon",
-    "icon": "Koopa",
-    "cost": 7435,
-    "stats": {
-      "speed": 3,
-      "acceleration": 5,
-      "weight": 5,
-      "handling": 6,
-      "traction": 3
-    },
-    "mmr": 8075,
-    "peak_mmr": 8001,
-    "rank": 225,
-    "events_played": 11,
-    "country": "Chile",
-    "game_stats": {
-      "1v1": {
-        "events_played": 11,
-        "win_rate": "72.7%",
-        "win_loss_last_10": "8 - 2",
-        "gainloss_last_10": 961,
-        "largest_gain": 208,
-        "average_score": 86.3,
-        "average_score_no_sq": 85,
-        "average_score_last_10": 87.3,
-        "partner_average_score": 89.2,
-        "partner_average_score_no_sq": 91.2
+        "gainloss_last_10": -421,
+        "largest_gain": 220,
+        "average_score": 73.9,
+        "average_score_no_sq": 73.9,
+        "average_score_last_10": 71.8,
+        "partner_average_score": 90.9,
+        "partner_average_score_no_sq": 90.9
       },
       "2v2": {}
     },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=322"
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=51545"
   },
   {
-    "id": "Bond-4493-3125",
-    "name": "Bond",
-    "icon": "DK",
-    "cost": 4403,
-    "stats": {
-      "speed": 7,
-      "acceleration": 5,
-      "weight": 5,
-      "handling": 2,
-      "traction": 2
-    },
-    "mmr": 4647,
-    "peak_mmr": 4493,
-    "rank": 3920,
-    "events_played": 11,
-    "country": "Spain",
-    "game_stats": {
-      "1v1": {
-        "events_played": 11,
-        "win_rate": "36.4%",
-        "win_loss_last_10": "4 - 6",
-        "gainloss_last_10": -135,
-        "largest_gain": 202,
-        "average_score": 74.4,
-        "average_score_no_sq": 75.5,
-        "average_score_last_10": 75.3,
-        "partner_average_score": 83.7,
-        "partner_average_score_no_sq": 84.6
-      },
-      "2v2": {}
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=27877"
-  },
-  {
-    "id": "Kazuki974-3242-4325",
-    "name": "Kazuki974",
-    "icon": "Yoshi",
-    "cost": 3039,
+    "id": "Feathers-McGraw-8874-7378",
+    "name": "Feathers McGraw",
+    "icon": "Toad",
+    "cost": 8410,
     "stats": {
       "speed": 4,
-      "acceleration": 9,
-      "weight": 7,
-      "handling": 3,
-      "traction": 8
+      "acceleration": 4,
+      "weight": 9,
+      "handling": 6,
+      "traction": 4
     },
-    "mmr": 3634,
-    "peak_mmr": 3242,
-    "rank": 4614,
-    "events_played": 5,
-    "country": "Réunion",
-    "game_stats": {
-      "1v1": {
-        "events_played": 5,
-        "win_rate": "20.0%",
-        "win_loss_last_10": "1 - 4",
-        "gainloss_last_10": -448,
-        "largest_gain": 64,
-        "average_score": 75.2,
-        "average_score_no_sq": 75.2,
-        "average_score_last_10": 75.2,
-        "partner_average_score": 69,
-        "partner_average_score_no_sq": 69
-      },
-      "2v2": {}
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=56299"
-  },
-  {
-    "id": "Mick-McCarthy-4476-6919",
-    "name": "Mick McCarthy",
-    "icon": "Mario",
-    "cost": 4915,
-    "stats": {
-      "speed": 6,
-      "acceleration": 5,
-      "weight": 5,
-      "handling": 9,
-      "traction": 8
-    },
-    "mmr": 4403,
-    "peak_mmr": 4476,
-    "rank": 4038,
-    "events_played": 11,
+    "mmr": 8767,
+    "peak_mmr": 8874,
+    "rank": 138,
+    "events_played": 7,
     "country": "United Kingdom",
     "game_stats": {
       "1v1": {
-        "events_played": 9,
-        "win_rate": "22.2%",
-        "win_loss_last_10": "2 - 7",
-        "gainloss_last_10": -334,
-        "largest_gain": 182,
-        "average_score": 64.6,
-        "average_score_no_sq": 56,
-        "average_score_last_10": 64.6,
-        "partner_average_score": 89.1
-      },
-      "2v2": {
-        "events_played": 2,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 2",
-        "gainloss_last_10": -168,
-        "average_score": 62,
-        "average_score_last_10": 62,
-        "partner_average_score": 73.7
-      }
-    },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=25077"
-  },
-  {
-    "id": "MichaelH-6944-9796",
-    "name": "MichaelH",
-    "icon": "Bowser",
-    "cost": 6510,
-    "stats": {
-      "speed": 2,
-      "acceleration": 8,
-      "weight": 4,
-      "handling": 8,
-      "traction": 4
-    },
-    "mmr": 5956,
-    "peak_mmr": 6944,
-    "rank": 474,
-    "events_played": 42,
-    "country": "United States",
-    "game_stats": {
-      "1v1": {
-        "events_played": 42,
-        "win_rate": "52.4%",
-        "win_loss_last_10": "6 - 4",
-        "gainloss_last_10": 249,
-        "largest_gain": 223,
-        "average_score": 81.4,
-        "average_score_no_sq": 82.2,
+        "events_played": 7,
+        "win_rate": "42.9%",
+        "win_loss_last_10": "3 - 4",
+        "gainloss_last_10": -143,
+        "largest_gain": 72,
+        "average_score": 81.1,
+        "average_score_no_sq": 78.8,
         "average_score_last_10": 81.1,
-        "partner_average_score": 84.5,
-        "partner_average_score_no_sq": 75.4
+        "partner_average_score": 85.8,
+        "partner_average_score_no_sq": 99
       },
       "2v2": {}
     },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=15916"
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=43846"
   },
   {
-    "id": "NERD-4578-8792",
-    "name": "NERD",
-    "icon": "Bowser",
-    "cost": 4662,
+    "id": "FraX-6094-4045",
+    "name": "FraX",
+    "icon": "Peach",
+    "cost": 6586,
+    "stats": {
+      "speed": 8,
+      "acceleration": 4,
+      "weight": 9,
+      "handling": 2,
+      "traction": 3
+    },
+    "mmr": 4836,
+    "peak_mmr": 6094,
+    "rank": 1481,
+    "events_played": 39,
+    "country": "Germany",
+    "game_stats": {
+      "1v1": {
+        "events_played": 34,
+        "win_rate": "61.8%",
+        "win_loss_last_10": "7 - 3",
+        "gainloss_last_10": 267,
+        "largest_gain": 201,
+        "average_score": 83,
+        "average_score_no_sq": 85.1,
+        "average_score_last_10": 88.9,
+        "partner_average_score": 81.3,
+        "partner_average_score_no_sq": 84.4
+      },
+      "2v2": {
+        "events_played": 5,
+        "win_rate": "40.0%",
+        "win_loss_last_10": "2 - 3",
+        "gainloss_last_10": -209,
+        "largest_gain": 141,
+        "average_score": 83.4,
+        "average_score_last_10": 83.4,
+        "partner_average_score": 68.4
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=109"
+  },
+  {
+    "id": "King-Von-8346-4218",
+    "name": "King Von",
+    "icon": "DK",
+    "cost": 9054,
     "stats": {
       "speed": 4,
       "acceleration": 8,
-      "weight": 6,
+      "weight": 9,
       "handling": 2,
-      "traction": 3
+      "traction": 9
     },
-    "mmr": 4628,
-    "peak_mmr": 4578,
-    "rank": 4289,
-    "events_played": 20,
+    "mmr": 8519,
+    "peak_mmr": 8346,
+    "rank": 255,
+    "events_played": 39,
     "country": "United States",
     "game_stats": {
       "1v1": {
-        "events_played": 17,
-        "win_rate": "47.1%",
+        "events_played": 38,
+        "win_rate": "47.4%",
         "win_loss_last_10": "4 - 6",
-        "gainloss_last_10": -405,
-        "largest_gain": 193,
-        "average_score": 82.4,
-        "average_score_no_sq": 81.2,
-        "average_score_last_10": 75.6,
-        "partner_average_score": 83.5,
-        "partner_average_score_no_sq": 86.9
+        "gainloss_last_10": -387,
+        "largest_gain": 261,
+        "average_score": 81.1,
+        "average_score_no_sq": 79,
+        "average_score_last_10": 79.3,
+        "partner_average_score": 77.3,
+        "partner_average_score_no_sq": 73.8
       },
       "2v2": {
-        "events_played": 3,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 3",
-        "gainloss_last_10": -222,
-        "average_score": 57.7,
-        "average_score_last_10": 57.7,
-        "partner_average_score": 75.4
+        "events_played": 1,
+        "win_rate": "100.0%",
+        "win_loss_last_10": "1 - 0",
+        "gainloss_last_10": 115,
+        "largest_gain": 115,
+        "average_score": 100,
+        "average_score_no_sq": 100,
+        "average_score_last_10": 100
       }
     },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=4472"
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=31502"
   },
   {
-    "id": "MR-TENNA-TV-TIME-6421-5914",
-    "name": "MR TENNA TV TIME",
-    "icon": "Yoshi",
-    "cost": 6243,
+    "id": "Weegah-5823-4901",
+    "name": "Weegah",
+    "icon": "Koopa",
+    "cost": 5737,
     "stats": {
-      "speed": 7,
-      "acceleration": 5,
-      "weight": 6,
+      "speed": 9,
+      "acceleration": 3,
+      "weight": 7,
       "handling": 2,
-      "traction": 3
+      "traction": 9
     },
-    "mmr": 5236,
-    "peak_mmr": 6421,
-    "rank": 1241,
-    "events_played": 36,
-    "country": "France",
+    "mmr": 5582,
+    "peak_mmr": 5823,
+    "rank": 1399,
+    "events_played": 29,
+    "country": "Spain",
     "game_stats": {
       "1v1": {
-        "events_played": 32,
-        "win_rate": "62.5%",
-        "win_loss_last_10": "6 - 4",
-        "gainloss_last_10": 100,
-        "largest_gain": 221,
-        "average_score": 84.4,
-        "average_score_no_sq": 84.5,
-        "average_score_last_10": 87.5,
-        "partner_average_score": 83,
-        "partner_average_score_no_sq": 84.5
+        "events_played": 29,
+        "win_rate": "69.0%",
+        "win_loss_last_10": "8 - 2",
+        "gainloss_last_10": 400,
+        "largest_gain": 198,
+        "average_score": 85.2,
+        "average_score_no_sq": 85.9,
+        "average_score_last_10": 84,
+        "partner_average_score": 81.7,
+        "partner_average_score_no_sq": 81.1
+      },
+      "2v2": {}
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=30695"
+  },
+  {
+    "id": "Akaza-Hakuji-6120-8603",
+    "name": "Akaza Hakuji",
+    "icon": "Luigi",
+    "cost": 5955,
+    "stats": {
+      "speed": 2,
+      "acceleration": 5,
+      "weight": 2,
+      "handling": 5,
+      "traction": 4
+    },
+    "mmr": 4819,
+    "peak_mmr": 6120,
+    "rank": 1642,
+    "events_played": 32,
+    "country": "Spain",
+    "game_stats": {
+      "1v1": {
+        "events_played": 28,
+        "win_rate": "42.9%",
+        "win_loss_last_10": "4 - 6",
+        "gainloss_last_10": 97,
+        "largest_gain": 211,
+        "average_score": 80.2,
+        "average_score_no_sq": 80,
+        "average_score_last_10": 86.8,
+        "partner_average_score": 79.7,
+        "partner_average_score_no_sq": 70.4
       },
       "2v2": {
         "events_played": 4,
-        "win_rate": "0.0%",
-        "win_loss_last_10": "0 - 4",
-        "gainloss_last_10": -459,
-        "average_score": 61.2,
-        "average_score_no_sq": 62,
-        "average_score_last_10": 61.2,
-        "partner_average_score": 72
+        "win_rate": "75.0%",
+        "win_loss_last_10": "3 - 1",
+        "gainloss_last_10": 346,
+        "largest_gain": 186,
+        "average_score": 83.5,
+        "average_score_last_10": 83.5,
+        "partner_average_score": 68.7
       }
     },
-    "registry_url": "https://mkcentral.com/registry/players/profile?id=8954"
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=28339"
+  },
+  {
+    "id": "Lore-7468-5039",
+    "name": "Lore",
+    "icon": "Peach",
+    "cost": 7193,
+    "stats": {
+      "speed": 6,
+      "acceleration": 3,
+      "weight": 4,
+      "handling": 7,
+      "traction": 8
+    },
+    "mmr": 7076,
+    "peak_mmr": 7468,
+    "rank": 502,
+    "events_played": 82,
+    "country": "Italy",
+    "game_stats": {
+      "1v1": {
+        "events_played": 79,
+        "win_rate": "48.1%",
+        "win_loss_last_10": "6 - 4",
+        "gainloss_last_10": 303,
+        "largest_gain": 225,
+        "average_score": 82.1,
+        "average_score_no_sq": 82.7,
+        "average_score_last_10": 86.5,
+        "partner_average_score": 79.1,
+        "partner_average_score_no_sq": 79.6
+      },
+      "2v2": {
+        "events_played": 3,
+        "win_rate": "33.3%",
+        "win_loss_last_10": "1 - 2",
+        "gainloss_last_10": 45,
+        "largest_gain": 266,
+        "average_score": 74.7,
+        "average_score_no_sq": 74.7,
+        "average_score_last_10": 74.7
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=56030"
+  },
+  {
+    "id": "izzy-6186-8905",
+    "name": "izzy",
+    "icon": "Yoshi",
+    "cost": 6148,
+    "stats": {
+      "speed": 4,
+      "acceleration": 6,
+      "weight": 3,
+      "handling": 8,
+      "traction": 7
+    },
+    "mmr": 5691,
+    "peak_mmr": 6186,
+    "rank": 877,
+    "events_played": 9,
+    "country": "Austria",
+    "game_stats": {
+      "1v1": {
+        "events_played": 8,
+        "win_rate": "75.0%",
+        "win_loss_last_10": "6 - 2",
+        "gainloss_last_10": 397,
+        "largest_gain": 178,
+        "average_score": 84.2,
+        "average_score_no_sq": 83.2,
+        "average_score_last_10": 84.2,
+        "partner_average_score": 82.4,
+        "partner_average_score_no_sq": 72.8
+      },
+      "2v2": {
+        "events_played": 1,
+        "win_rate": "100.0%",
+        "win_loss_last_10": "1 - 0",
+        "gainloss_last_10": 141,
+        "largest_gain": 141,
+        "average_score": 74,
+        "average_score_last_10": 74,
+        "partner_average_score": 83
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=31018"
+  },
+  {
+    "id": "NickM7874-3571-7771",
+    "name": "NickM7874",
+    "icon": "Bowser",
+    "cost": 3305,
+    "stats": {
+      "speed": 5,
+      "acceleration": 3,
+      "weight": 2,
+      "handling": 6,
+      "traction": 4
+    },
+    "mmr": 3600,
+    "peak_mmr": 3571,
+    "rank": 4586,
+    "events_played": 32,
+    "country": "United States",
+    "game_stats": {
+      "1v1": {
+        "events_played": 31,
+        "win_rate": "32.3%",
+        "win_loss_last_10": "5 - 5",
+        "gainloss_last_10": 57,
+        "largest_gain": 218,
+        "average_score": 78.9,
+        "average_score_no_sq": 78.9,
+        "average_score_last_10": 84.8,
+        "partner_average_score": 84.1,
+        "partner_average_score_no_sq": 84.1
+      },
+      "2v2": {
+        "events_played": 1,
+        "win_rate": "0.0%",
+        "win_loss_last_10": "0 - 1",
+        "gainloss_last_10": -60,
+        "average_score": 66,
+        "average_score_no_sq": 66,
+        "average_score_last_10": 66
+      }
+    },
+    "registry_url": "https://mkcentral.com/registry/players/profile?id=71849"
   }
 ]

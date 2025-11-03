@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 720,
+  "currency": 0,
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
@@ -11,7 +11,8 @@
     {
       "id": "Pecii-7694-6730",
       "purchasedAt": 1760390162879,
-      "purchasePrice": 8444
+      "purchasePrice": 8444,
+      "clauseInvestment": 720
     },
     {
       "id": "Minh-7222-4619",
@@ -45,15 +46,15 @@
   ],
   "roster": {
     "lineup": [
-      "Ralsei-Plush-8856-1607",
       "Minh-7222-4619",
       "aleexpro-4769-4797",
       "yukino00000-7119-6187",
       "Kuppa-5885-2013",
-      "Pecii-7694-6730"
+      "Pecii-7694-6730",
+      "FitnessBoy-6515-7636"
     ],
     "bench": [
-      "FitnessBoy-6515-7636"
+      "Ralsei-Plush-8856-1607"
     ]
   },
   "weeklyScores": {

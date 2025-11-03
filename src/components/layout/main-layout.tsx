@@ -43,12 +43,11 @@ import { useLanguage } from '@/context/language-context';
 const navItems = [
   { href: '/', label: 'dashboard', icon: LayoutDashboard },
   { href: '/store', label: 'playerDatabase', icon: Store },
-  { href: '/player-market', label: 'playerMarket', icon: Repeat },
-  { href: '/roster', label: 'myRoster', icon: Users },
   { href: '/daily-market', label: 'dailyMarket', icon: Gavel },
+  { href: '/roster', label: 'myRoster', icon: Users },
   { href: '/rankings', label: 'rankings', icon: BarChart },
   { href: '/next-week', label: 'weeklySummary', icon: Calendar },
-  { href: '/smaller-ranking', label: 'leagueHonors', icon: Award },
+  { href: '/player-market', label: 'leagueHonors', icon: Award },
 ];
 
 const playerShopItem = { href: '/player-shop', label: 'assignPlayer', icon: Gift };
@@ -129,7 +128,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           <div className="ml-auto flex items-center gap-4">
             <div className="flex items-center gap-2 font-semibold text-primary">
               <DollarSign className="w-5 h-5" />
-              <span>{user && typeof user.currency === 'number' ? user.currency.toLocaleString() : '...'}</span>
+              <span>{(user?.currency ?? 0).toLocaleString()}</span>
             </div>
              <DropdownMenu>
               <DropdownMenuTrigger asChild>

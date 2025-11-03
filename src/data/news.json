@@ -1,5 +1,16 @@
 [
   {
+    "id": "news-1761906156331-0.30977459794455053",
+    "timestamp": 1761906156331,
+    "messageKey": "news.auction_win",
+    "params": [
+      "Sipgb",
+      "RK Denial",
+      "5,324"
+    ],
+    "icon": "🎉"
+  },
+  {
     "id": "news-1761905864959-0.8080495610259022",
     "timestamp": 1761905864959,
     "messageKey": "news.auction_win",

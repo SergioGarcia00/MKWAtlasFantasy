@@ -1,7 +1,7 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 1825,
+  "currency": 786,
   "players": [
     {
       "id": "EYEKON-8673-8107",
@@ -25,13 +25,15 @@
       "purchasedAt": 1760731612117
     },
     {
-      "id": "Ryukano-6213-1225",
-      "purchasedAt": 1760811393616
-    },
-    {
       "id": "ballhog-6871-8899",
       "purchasedAt": 1761503307485,
       "purchasePrice": 7751,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "CoinBlockBuster-7013-2955",
+      "purchasedAt": 1762106297070,
+      "purchasePrice": 7560,
       "clauseInvestment": 0
     }
   ],
@@ -41,8 +43,8 @@
       "Sharpy-5868-4983",
       "Tunamii-5183-8228",
       "Kaffee-um-9-5920-3971",
-      "Ryukano-6213-1225",
-      "ballhog-6871-8899"
+      "ballhog-6871-8899",
+      "CoinBlockBuster-7013-2955"
     ],
     "bench": [
       "Chaozu-8544-6051"
@@ -63,6 +65,10 @@
       "2": {
         "race1": 93,
         "race2": 137
+      },
+      "3": {
+        "race1": 131,
+        "race2": 0
       }
     },
     "Sharpy-5868-4983": {
@@ -73,6 +79,10 @@
       "2": {
         "race1": 88,
         "race2": 69
+      },
+      "3": {
+        "race1": 69,
+        "race2": 86
       }
     },
     "Tunamii-5183-8228": {
@@ -83,6 +93,10 @@
       "2": {
         "race1": 76,
         "race2": 100
+      },
+      "3": {
+        "race1": 95,
+        "race2": 105
       }
     },
     "Kaffee-um-9-5920-3971": {
@@ -93,6 +107,10 @@
       "2": {
         "race1": 105,
         "race2": 100
+      },
+      "3": {
+        "race1": 80,
+        "race2": 106
       }
     },
     "Ryukano-6213-1225": {
@@ -105,6 +123,10 @@
       "2": {
         "race1": 98,
         "race2": 76
+      },
+      "3": {
+        "race1": 102,
+        "race2": 71
       }
     }
   },
