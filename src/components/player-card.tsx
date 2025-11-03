@@ -63,7 +63,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const isRosterFull = user.players.length >= 10;
   
   const baseBuyoutPrice = player.cost;
-  const totalBuyoutPrice = baseBuyoutPrice + (ownerInfo?.clauseInvestment || 0);
+  const totalBuyoutPrice = baseBuyoutPrice + (ownerInfo?.clauseInvestment || 0) * 2;
   const canAffordBuyout = user.currency >= totalBuyoutPrice;
 
   const daysSincePurchase = ownerInfo ? differenceInDays(new Date(), new Date(ownerInfo.purchasedAt)) : 0;

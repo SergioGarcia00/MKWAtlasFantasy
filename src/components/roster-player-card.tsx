@@ -82,7 +82,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
   const userPlayer = user?.players.find(p => p.id === player.id);
   const currentInvestment = userPlayer?.clauseInvestment || 0;
   const sellPrice = userPlayer?.purchasePrice || player.cost;
-  const currentBuyoutClause = sellPrice + (currentInvestment * 2);
+  const currentBuyoutClause = player.cost + (currentInvestment * 2);
 
   const handleWeekChange = (weekId: string) => {
     setSelectedWeek(weekId);
@@ -165,7 +165,7 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
                       <div className="p-4 bg-muted rounded-lg text-center">
                         <p className="text-sm text-muted-foreground">Current Buyout Price</p>
                         <p className="text-3xl font-bold">{currentBuyoutClause.toLocaleString()}</p>
-                        <p className="text-xs text-muted-foreground">({(userPlayer?.purchasePrice || player.cost).toLocaleString()} base + {(currentInvestment * 2).toLocaleString()} from investment)</p>
+                        <p className="text-xs text-muted-foreground">({(player.cost).toLocaleString()} base + {(currentInvestment * 2).toLocaleString()} from investment)</p>
                       </div>
                       <div>
                         <Label htmlFor="investment">Amount to Invest</Label>

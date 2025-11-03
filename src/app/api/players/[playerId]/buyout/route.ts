@@ -53,7 +53,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         }
 
         const baseBuyoutPrice = playerInfo.cost;
-        const totalBuyoutPrice = baseBuyoutPrice + (ownerPlayer.clauseInvestment || 0);
+        const totalBuyoutPrice = baseBuyoutPrice + (ownerPlayer.clauseInvestment || 0) * 2;
 
         if (buyer.players.length >= 10) {
             return NextResponse.json({ message: 'Your roster is full.' }, { status: 400 });
