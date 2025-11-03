@@ -141,22 +141,6 @@ export function PlayerCard({ player }: PlayerCardProps) {
       >
         <CardHeader className="p-4">
           <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center rounded-lg">
-            {player.registry_url && (
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button asChild variant="outline" size="icon" className="absolute top-2 left-2 z-10 w-8 h-8" onClick={(e) => e.stopPropagation()}>
-                                <Link href={player.registry_url} target="_blank">
-                                    <LinkIcon className="w-4 h-4"/>
-                                </Link>
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>View on MKCentral Registry</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            )}
             {isOwnedByOtherUser && (
               <Badge variant="secondary" className="absolute top-2 right-2 z-10">
                 Owned by: {owner.name}

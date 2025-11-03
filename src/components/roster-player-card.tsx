@@ -120,25 +120,27 @@ export function RosterPlayerCard({ player, isLineup, onMove, onSell, canMoveToLi
             </div>
             <div>
               <h3 className="font-bold font-headline">{player.name}</h3>
-              <p className="text-sm text-muted-foreground">{player.mmr?.toLocaleString()} MMR</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-muted-foreground">{player.mmr?.toLocaleString()} MMR</p>
+                {player.registry_url && (
+                <TooltipProvider>
+                  <Tooltip>
+                      <TooltipTrigger asChild>
+                         <Link href={player.registry_url} target="_blank" onClick={(e) => e.stopPropagation()}>
+                              <LinkIcon className="w-4 h-4 text-blue-500 hover:text-blue-700" />
+                          </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                          <p>View on MKCentral Registry</p>
+                      </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                )}
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <TooltipProvider>
-              {player.registry_url && (
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <Button asChild size="icon" variant="ghost" className="w-8 h-8 text-blue-500 hover:bg-blue-500/10 hover:text-blue-500">
-                           <Link href={player.registry_url} target="_blank">
-                                <LinkIcon className="w-4 h-4" />
-                            </Link>
-                        </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p>View on MKCentral Registry</p>
-                    </TooltipContent>
-                </Tooltip>
-              )}
               <Dialog open={isClauseDialogOpen} onOpenChange={setIsClauseDialogOpen}>
                 <Tooltip>
                     <TooltipTrigger asChild>
