@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from './ui/tooltip';
 
 interface PlayerCardProps {
   player: Player;
@@ -84,20 +85,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const gameStats2v2 = player.game_stats?.['2v2'];
 
   const getButton = () => {
-    if (isStorePage && player.registry_url) {
-        return (
-            <Button asChild className="w-full" variant="outline">
-                <Link href={player.registry_url} target="_blank">
-                    <LinkIcon className="mr-2 h-4 w-4" />
-                    View Profile
-                </Link>
-            </Button>
-        )
-    }
-    
-    if (isStorePage) {
-        return null;
-    }
+    if (isStorePage) return null;
 
     if (isOwnedByCurrentUser) {
       return <Button className="w-full" disabled>Owned by you</Button>;
@@ -153,6 +141,22 @@ export function PlayerCard({ player }: PlayerCardProps) {
       >
         <CardHeader className="p-4">
           <div className="relative bg-gradient-to-br from-primary/20 to-secondary p-6 flex items-center justify-center rounded-lg">
+            {player.registry_url && (
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                           <Button asChild variant="outline" size="icon" className="absolute top-2 left-2 z-10 w-8 h-8" onClick={(e) => e.stopPropagation()}>
+                                <Link href={player.registry_url} target="_blank">
+                                    <LinkIcon className="w-4 h-4"/>
+                                </Link>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>View on MKCentral Registry</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            )}
             {isOwnedByOtherUser && (
               <Badge variant="secondary" className="absolute top-2 right-2 z-10">
                 Owned by: {owner.name}
@@ -198,10 +202,20 @@ export function PlayerCard({ player }: PlayerCardProps) {
                  {isOwnedByOtherUser && <Badge variant="destructive">Owned by {owner.name}</Badge>}
                 </DialogTitle>
                 <DialogDescription>Review the player's stats to see if they're a good fit for your team.</DialogDescription>
-                <div className="flex items-baseline gap-2 mt-3 text-primary">
-                  <DollarSign className="w-6 h-6" />
-                  <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
-                  <span className="text-sm text-muted-foreground ml-1">cost</span>
+                <div className="flex items-center gap-4 mt-3">
+                    <div className="flex items-baseline gap-2 text-primary">
+                      <DollarSign className="w-6 h-6" />
+                      <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
+                      <span className="text-sm text-muted-foreground ml-1">cost</span>
+                    </div>
+                     {player.registry_url && (
+                        <Button asChild variant="outline" size="sm">
+                            <Link href={player.registry_url} target="_blank">
+                                <LinkIcon className="mr-2 h-4 w-4"/>
+                                View on MKCentral Registry
+                            </Link>
+                        </Button>
+                    )}
                 </div>
               </div>
             </div>

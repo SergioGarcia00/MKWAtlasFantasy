@@ -130,14 +130,6 @@ export function AuctionListItem({ player, onBid, isJuicy, juicyReason }: Auction
                            Base Cost
                         </span>
                     </div>
-                     {player.registry_url && (
-                        <Button asChild variant="outline" size="sm" className="mt-2" onClick={(e) => e.stopPropagation()}>
-                            <Link href={player.registry_url} target="_blank">
-                                <LinkIcon className="mr-2 h-4 w-4"/>
-                                View Profile on MKCentral
-                            </Link>
-                        </Button>
-                    )}
                 </div>
             </div>
             {/* Right side: Stats & Bids */}
@@ -206,6 +198,14 @@ export function AuctionListItem({ player, onBid, isJuicy, juicyReason }: Auction
                         <span className="font-bold text-3xl">{player.cost.toLocaleString()}</span>
                         <span className="text-sm text-muted-foreground ml-1">cost</span>
                     </div>
+                     {player.registry_url && (
+                        <Button asChild variant="outline" size="sm">
+                            <Link href={player.registry_url} target="_blank">
+                                <LinkIcon className="mr-2 h-4 w-4"/>
+                                View on MKCentral Registry
+                            </Link>
+                        </Button>
+                    )}
                 </div>
               </div>
             </div>
