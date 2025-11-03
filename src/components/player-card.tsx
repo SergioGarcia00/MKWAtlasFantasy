@@ -11,7 +11,7 @@ import { PlayerIcon } from './icons/player-icon';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from './ui/alert-dialog';
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, formatDistanceToNowStrict } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from './ui/input';
 import { usePathname } from 'next/navigation';
@@ -41,6 +41,8 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const { user, allUsers, purchasePlayer, buyoutPlayer } = useUser();
   const pathname = usePathname();
   const isStorePage = pathname === '/store';
+  const isBuyoutPage = pathname === '/player-buyout';
+
 
   if (!player || !user) {
     return null;
@@ -101,7 +103,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
       return <Button className="w-full" disabled>Owned by you</Button>;
     }
 
-    if (isOwnedByOtherUser && pathname === '/player-market') {
+    if (isOwnedByOtherUser && pathname === '/player-buyout') {
         if (isBuyoutProtected) {
              return (
                 <Button 
@@ -156,9 +158,15 @@ export function PlayerCard({ player }: PlayerCardProps) {
                 Owned by: {owner.name}
               </Badge>
             )}
-             {isOwnedByCurrentUser && (
+            {isOwnedByCurrentUser && (
               <Badge variant="default" className="absolute top-2 right-2 z-10">
                 On your team
+              </Badge>
+            )}
+             {isBuyoutProtected && isBuyoutPage && (
+              <Badge variant="destructive" className="absolute top-2 left-2 z-10">
+                <Shield className="w-3 h-3 mr-1.5"/>
+                {buyoutProtectionDaysLeft}d left
               </Badge>
             )}
             <PlayerIcon iconName={player.icon} className="w-24 h-24 text-primary" />
