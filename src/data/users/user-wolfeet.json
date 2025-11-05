@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 6579,
+  "currency": 4579,
   "players": [
     {
       "id": "Plug-in-Baby-7475-4111",
@@ -18,7 +18,8 @@
     },
     {
       "id": "chema06-4606-8434",
-      "purchasedAt": 1760983607167
+      "purchasedAt": 1760983607167,
+      "clauseInvestment": 2000
     },
     {
       "id": "Baptboy-5252-3713",
@@ -43,8 +44,8 @@
       "Xray-8087-7902",
       "chema06-4606-8434",
       "ZaDi-7162-0329",
-      "Baptboy-5252-3713",
-      "Plug-in-Baby-7475-4111"
+      "Plug-in-Baby-7475-4111",
+      "Baptboy-5252-3713"
     ],
     "bench": [
       "Chomp-Caller-5951-2413"
