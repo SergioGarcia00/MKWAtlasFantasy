@@ -1,7 +1,7 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 11706,
+  "currency": 636,
   "players": [
     {
       "id": "Kaofie-5843-0202",
@@ -42,6 +42,12 @@
       "purchasedAt": 1761767512325,
       "purchasePrice": 9011,
       "clauseInvestment": 0
+    },
+    {
+      "id": "xAlex-10406-0111",
+      "purchasedAt": 1762437023750,
+      "purchasePrice": 11070,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -55,7 +61,8 @@
     ],
     "bench": [
       "Kaofie-5843-0202",
-      "latias-6100-7108"
+      "latias-6100-7108",
+      "xAlex-10406-0111"
     ]
   },
   "weeklyScores": {
