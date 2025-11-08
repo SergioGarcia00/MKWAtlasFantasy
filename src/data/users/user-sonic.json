@@ -1,16 +1,12 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 15737,
+  "currency": 3554,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
       "purchasedAt": 1760390195260,
       "clauseInvestment": 1112
-    },
-    {
-      "id": "Utah-Grim-Reaper-9881-2206",
-      "purchasedAt": 1760390199808
     },
     {
       "id": "MattyPatty-5716-1110",
@@ -32,18 +28,32 @@
       "purchasedAt": 1761399014575,
       "purchasePrice": 5933,
       "clauseInvestment": 0
+    },
+    {
+      "id": "Starlow-12745-7283",
+      "purchasedAt": 1762542311511,
+      "purchasePrice": 13213,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "Dragnir-6756-1529",
+      "purchasedAt": 1762542848350,
+      "purchasePrice": 9142,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
       "Sung-JinWoo-7078-2543",
-      "Utah-Grim-Reaper-9881-2206",
       "MattyPatty-5716-1110",
       "Bamtop-6348-5922",
       "syn.-9641-3220",
-      "Gity-5717-1910"
+      "Starlow-12745-7283",
+      "Dragnir-6756-1529"
     ],
-    "bench": []
+    "bench": [
+      "Gity-5717-1910"
+    ]
   },
   "weeklyScores": {
     "MattyPatty-5716-1110": {

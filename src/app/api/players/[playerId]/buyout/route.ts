@@ -81,7 +81,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
 
 
         // 2. Handle Owner
-        const refundAmount = typeof ownerPlayer.purchasePrice === 'number' ? ownerPlayer.purchasePrice : playerInfo.cost;
+        const refundAmount = ownerPlayer.purchasePrice || playerInfo.cost;
         owner.currency = (owner.currency || 0) + refundAmount + (ownerPlayer.clauseInvestment || 0); // Refund purchase price AND clause investment
         owner.players.splice(ownerPlayerIndex, 1);
         owner.roster.lineup = owner.roster.lineup.filter(id => id !== playerId);

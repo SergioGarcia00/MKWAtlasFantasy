@@ -1,16 +1,11 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 1191,
+  "currency": 9333,
   "players": [
     {
       "id": "Lecka-6711-0982",
       "purchasedAt": 1760389950949
-    },
-    {
-      "id": "Dragnir-6756-1529",
-      "purchasedAt": 1760551285470,
-      "clauseInvestment": 1000
     },
     {
       "id": "Milkshake-7008-1877",
@@ -34,7 +29,6 @@
   ],
   "roster": {
     "lineup": [
-      "Dragnir-6756-1529",
       "Lecka-6711-0982",
       "Milkshake-7008-1877",
       "georgio-6225-8628",

@@ -1,16 +1,12 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 2052,
+  "currency": 3137,
   "players": [
     {
       "id": "EYEKON-8673-8107",
       "purchasedAt": 1760389853780,
       "clauseInvestment": 2000
-    },
-    {
-      "id": "Chaozu-8544-6051",
-      "purchasedAt": 1760389901105
     },
     {
       "id": "Tunamii-5183-8228",
@@ -35,19 +31,25 @@
       "purchasedAt": 1762106297070,
       "purchasePrice": 7560,
       "clauseInvestment": 0
+    },
+    {
+      "id": "Sneaky-Golem-7366-3798",
+      "purchasedAt": 1762476485372,
+      "purchasePrice": 7630,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
       "EYEKON-8673-8107",
-      "Sharpy-5868-4983",
       "Tunamii-5183-8228",
       "Kaffee-um-9-5920-3971",
       "ballhog-6871-8899",
-      "CoinBlockBuster-7013-2955"
+      "CoinBlockBuster-7013-2955",
+      "Sneaky-Golem-7366-3798"
     ],
     "bench": [
-      "Chaozu-8544-6051"
+      "Sharpy-5868-4983"
     ]
   },
   "weeklyScores": {

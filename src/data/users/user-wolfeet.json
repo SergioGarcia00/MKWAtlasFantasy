@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 5953,
+  "currency": 5732,
   "players": [
     {
       "id": "Plug-in-Baby-7475-4111",
@@ -22,10 +22,6 @@
       "clauseInvestment": 2000
     },
     {
-      "id": "Baptboy-5252-3713",
-      "purchasedAt": 1760983607168
-    },
-    {
       "id": "ZaDi-7162-0329",
       "purchasedAt": 1761503307701,
       "purchasePrice": 8000,
@@ -36,19 +32,25 @@
       "purchasedAt": 1761767512465,
       "purchasePrice": 6147,
       "clauseInvestment": 0
+    },
+    {
+      "id": "Artem-Kotenko-5303-5225",
+      "purchasedAt": 1762476485395,
+      "purchasePrice": 5364,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
-      "Piero-8601-9715",
       "Xray-8087-7902",
       "chema06-4606-8434",
       "ZaDi-7162-0329",
       "Plug-in-Baby-7475-4111",
-      "Chomp-Caller-5951-2413"
+      "Chomp-Caller-5951-2413",
+      "Artem-Kotenko-5303-5225"
     ],
     "bench": [
-      "Baptboy-5252-3713"
+      "Piero-8601-9715"
     ]
   },
   "weeklyScores": {
