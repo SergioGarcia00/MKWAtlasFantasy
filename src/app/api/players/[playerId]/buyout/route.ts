@@ -53,7 +53,8 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         }
 
         const baseBuyoutPrice = playerInfo.cost;
-        const totalBuyoutPrice = baseBuyoutPrice + (ownerPlayer.clauseInvestment || 0) * 2;
+        const clauseInvestment = ownerPlayer.clauseInvestment || 0;
+        const totalBuyoutPrice = baseBuyoutPrice + clauseInvestment * 2;
 
         if (buyer.players.length >= 10) {
             return NextResponse.json({ message: 'Your roster is full.' }, { status: 400 });
@@ -82,7 +83,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
 
         // 2. Handle Owner
         const refundAmount = ownerPlayer.purchasePrice || playerInfo.cost;
-        owner.currency = (owner.currency || 0) + refundAmount + (ownerPlayer.clauseInvestment || 0); // Refund purchase price AND clause investment
+        owner.currency = (owner.currency || 0) + refundAmount + (clauseInvestment * 2);
         owner.players.splice(ownerPlayerIndex, 1);
         owner.roster.lineup = owner.roster.lineup.filter(id => id !== playerId);
         owner.roster.bench = owner.roster.bench.filter(id => id !== playerId);
