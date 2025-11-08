@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 10457,
+  "currency": 0,
   "players": [
     {
       "id": "Lecka-6711-0982",
@@ -18,12 +18,19 @@
     },
     {
       "id": "Charging-Charles-8526-9694",
-      "purchasedAt": 1761156093706
+      "purchasedAt": 1761156093706,
+      "clauseInvestment": 573
     },
     {
       "id": "Roni24-6797-7986",
       "purchasedAt": 1761768066210,
       "purchasePrice": 7243,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "Pecii-7694-6730",
+      "purchasedAt": 1762626523248,
+      "purchasePrice": 9884,
       "clauseInvestment": 0
     }
   ],
@@ -33,7 +40,8 @@
       "Milkshake-7008-1877",
       "georgio-6225-8628",
       "Charging-Charles-8526-9694",
-      "Roni24-6797-7986"
+      "Roni24-6797-7986",
+      "Pecii-7694-6730"
     ],
     "bench": []
   },
