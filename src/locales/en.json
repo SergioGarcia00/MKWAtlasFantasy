@@ -32,7 +32,7 @@
   "playerBuyout": "Player Buyout",
 
   "news.auction_win": "<strong>{0}</strong> won the auction for <strong>{1}</strong> with a bid of {2} coins!",
-  "news.buyout": "<strong>{0}</strong> executed a buyout for <strong>{1}</strong> from {2} for {3} coins!",
+  "news.buyout": "A hostile takeover! <strong>{0}</strong> triggered the buyout clause for <strong>{1}</strong>, snatching them from {2} for a total of <strong>{3}</strong> coins!",
   "news.sell": "<strong>{0}</strong> sold <strong>{1}</strong> for {2} coins.",
   "news.high_score": "<strong>{0}</strong> ({1}) put up an impressive score of <strong>{2}</strong> in Week {3}!",
   "news.massive_score": "<strong>{0}</strong> ({1}) put up a massive score of <strong>{2}</strong> in Week {3}!",

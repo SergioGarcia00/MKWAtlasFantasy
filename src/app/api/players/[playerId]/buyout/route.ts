@@ -93,7 +93,7 @@ export async function POST(request: Request, { params }: { params: { playerId: s
         await saveUser(owner);
         
         // 4. Add news item
-        await addNewsItem('news.buyout', [buyer.name, playerInfo.name, owner.name, totalBuyoutPrice.toLocaleString()], '🔄');
+        await addNewsItem('news.buyout', [buyer.name, playerInfo.name, owner.name, totalBuyoutPrice.toLocaleString()], '🚨');
 
         return NextResponse.json({ message: `Successfully bought out ${playerInfo.name} from ${owner.name}` });
 

@@ -32,7 +32,7 @@
   "playerBuyout": "Cláusula de Rescisión",
 
   "news.auction_win": "¡<strong>{0}</strong> ganó la subasta por <strong>{1}</strong> con una puja de {2} monedas!",
-  "news.buyout": "¡<strong>{0}</strong> ejecutó una compra directa por <strong>{1}</strong> de {2} por {3} monedas!",
+  "news.buyout": "¡Una adquisición hostil! <strong>{0}</strong> activó la cláusula de rescisión de <strong>{1}</strong>, arrebatándoselo a {2} por un total de <strong>{3}</strong> monedas.",
   "news.sell": "<strong>{0}</strong> vendió a <strong>{1}</strong> por {2} monedas.",
   "news.high_score": "¡<strong>{0}</strong> ({1}) logró una puntuación impresionante de <strong>{2}</strong> en la Semana {3}!",
   "news.massive_score": "¡<strong>{0}</strong> ({1}) logró una puntuación masiva de <strong>{2}</strong> en la Semana {3}!",
