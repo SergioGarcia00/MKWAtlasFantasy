@@ -1,17 +1,8 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 0,
+  "currency": 23842,
   "players": [
-    {
-      "id": "Lecka-6711-0982",
-      "purchasedAt": 1760389950949
-    },
-    {
-      "id": "Milkshake-7008-1877",
-      "purchasedAt": 1760731612116,
-      "clauseInvestment": 767
-    },
     {
       "id": "georgio-6225-8628",
       "purchasedAt": 1761156093705
@@ -26,22 +17,13 @@
       "purchasedAt": 1761768066210,
       "purchasePrice": 7243,
       "clauseInvestment": 0
-    },
-    {
-      "id": "Pecii-7694-6730",
-      "purchasedAt": 1762626523248,
-      "purchasePrice": 9884,
-      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
-      "Lecka-6711-0982",
-      "Milkshake-7008-1877",
       "georgio-6225-8628",
       "Charging-Charles-8526-9694",
-      "Roni24-6797-7986",
-      "Pecii-7694-6730"
+      "Roni24-6797-7986"
     ],
     "bench": []
   },
@@ -132,6 +114,14 @@
       "3": {
         "race1": 103,
         "race2": 107
+      },
+      "4": {
+        "race1": 105,
+        "race2": 112
+      },
+      "5": {
+        "race1": 112,
+        "race2": 105
       }
     },
     "Roni24-6797-7986": {
@@ -142,8 +132,14 @@
       "3": {
         "race1": 70,
         "race2": 103
+      },
+      "4": {
+        "race1": 115,
+        "race2": 122
       }
     }
   },
-  "bids": {}
+  "bids": {
+    "TheMagicalLoaf-6287-2112": 5932
+  }
 }
