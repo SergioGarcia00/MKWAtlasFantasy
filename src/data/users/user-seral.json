@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 23842,
+  "currency": 17910,
   "players": [
     {
       "id": "georgio-6225-8628",
@@ -17,6 +17,12 @@
       "purchasedAt": 1761768066210,
       "purchasePrice": 7243,
       "clauseInvestment": 0
+    },
+    {
+      "id": "TheMagicalLoaf-6287-2112",
+      "purchasedAt": 1762864761812,
+      "purchasePrice": 5932,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
@@ -25,7 +31,9 @@
       "Charging-Charles-8526-9694",
       "Roni24-6797-7986"
     ],
-    "bench": []
+    "bench": [
+      "TheMagicalLoaf-6287-2112"
+    ]
   },
   "weeklyScores": {
     "Milkshake-7008-1877": {
@@ -139,7 +147,5 @@
       }
     }
   },
-  "bids": {
-    "TheMagicalLoaf-6287-2112": 5932
-  }
+  "bids": {}
 }
