@@ -1,7 +1,7 @@
 {
   "id": "user-vick",
   "name": "Vick",
-  "currency": 11615,
+  "currency": 5915,
   "players": [
     {
       "id": "Ralsei-Plush-8856-1607",
@@ -11,19 +11,20 @@
     {
       "id": "Minh-7222-4619",
       "purchasedAt": 1760439034678,
-      "purchasePrice": 7160
+      "purchasePrice": 7160,
+      "clauseInvestment": 1500
     },
     {
       "id": "aleexpro-4769-4797",
       "purchasedAt": 1760811393614,
       "purchasePrice": 4705,
-      "clauseInvestment": 2650
+      "clauseInvestment": 4650
     },
     {
       "id": "Kuppa-5885-2013",
       "purchasedAt": 1761503307381,
       "purchasePrice": 5633,
-      "clauseInvestment": 0
+      "clauseInvestment": 2200
     },
     {
       "id": "FitnessBoy-6515-7636",
@@ -62,6 +63,10 @@
       "3": {
         "race1": 96,
         "race2": 90
+      },
+      "4": {
+        "race1": 81,
+        "race2": 111
       }
     },
     "Pecii-7694-6730": {
@@ -86,6 +91,10 @@
       "2": {
         "race1": 100,
         "race2": 59
+      },
+      "4": {
+        "race1": 106,
+        "race2": 73
       }
     },
     "DVD93-4718-6517": {
@@ -116,6 +125,10 @@
       "3": {
         "race1": 90,
         "race2": 103
+      },
+      "4": {
+        "race1": 103,
+        "race2": 109
       }
     },
     "Kuppa-5885-2013": {
@@ -126,18 +139,30 @@
       "3": {
         "race1": 87,
         "race2": 87
+      },
+      "4": {
+        "race1": 102,
+        "race2": 83
       }
     },
     "yukino00000-7119-6187": {
       "3": {
         "race1": 97,
         "race2": 72
+      },
+      "4": {
+        "race1": 74,
+        "race2": 93
       }
     },
     "FitnessBoy-6515-7636": {
       "3": {
         "race1": 107,
         "race2": 107
+      },
+      "4": {
+        "race1": 100,
+        "race2": 69
       }
     }
   },
