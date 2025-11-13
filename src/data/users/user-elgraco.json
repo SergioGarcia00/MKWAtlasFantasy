@@ -1,7 +1,7 @@
 {
   "id": "user-elgraco",
   "name": "Elgraco",
-  "currency": 2533,
+  "currency": 1533,
   "players": [
     {
       "id": "Hazza-7290-5141",
@@ -16,7 +16,7 @@
     {
       "id": "Dark-5432-8982",
       "purchasedAt": 1760464836460,
-      "clauseInvestment": 3900
+      "clauseInvestment": 4900
     },
     {
       "id": "Cole-Palmer-5044-0536",
@@ -78,7 +78,7 @@
       },
       "4": {
         "race1": 114,
-        "race2": 0
+        "race2": 73
       }
     },
     "Daisam-5752-5827": {
@@ -148,7 +148,7 @@
       },
       "4": {
         "race1": 94,
-        "race2": 0
+        "race2": 99
       }
     },
     "elgraco-5968-7506": {

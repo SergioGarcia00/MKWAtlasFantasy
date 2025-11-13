@@ -1,7 +1,7 @@
 {
   "id": "user-wolfeet",
   "name": "Wolfeet",
-  "currency": 5732,
+  "currency": 7415,
   "players": [
     {
       "id": "Plug-in-Baby-7475-4111",
@@ -22,12 +22,6 @@
       "clauseInvestment": 2000
     },
     {
-      "id": "ZaDi-7162-0329",
-      "purchasedAt": 1761503307701,
-      "purchasePrice": 8000,
-      "clauseInvestment": 0
-    },
-    {
       "id": "Chomp-Caller-5951-2413",
       "purchasedAt": 1761767512465,
       "purchasePrice": 6147,
@@ -38,19 +32,25 @@
       "purchasedAt": 1762476485395,
       "purchasePrice": 5364,
       "clauseInvestment": 0
+    },
+    {
+      "id": "Kaffee-um-9-5920-3971",
+      "purchasedAt": 1763052725635,
+      "purchasePrice": 6317,
+      "clauseInvestment": 0
     }
   ],
   "roster": {
     "lineup": [
       "Xray-8087-7902",
       "chema06-4606-8434",
-      "ZaDi-7162-0329",
       "Plug-in-Baby-7475-4111",
       "Chomp-Caller-5951-2413",
       "Artem-Kotenko-5303-5225"
     ],
     "bench": [
-      "Piero-8601-9715"
+      "Piero-8601-9715",
+      "Kaffee-um-9-5920-3971"
     ]
   },
   "weeklyScores": {

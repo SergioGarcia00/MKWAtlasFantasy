@@ -1,7 +1,7 @@
 {
   "id": "user-sonic",
   "name": "Sonic",
-  "currency": 3554,
+  "currency": 1554,
   "players": [
     {
       "id": "Sung-JinWoo-7078-2543",
@@ -11,7 +11,7 @@
     {
       "id": "MattyPatty-5716-1110",
       "purchasedAt": 1760390212210,
-      "clauseInvestment": 1500
+      "clauseInvestment": 3500
     },
     {
       "id": "Gity-5717-1910",
@@ -68,6 +68,10 @@
       "3": {
         "race1": 113,
         "race2": 105
+      },
+      "4": {
+        "race1": 114,
+        "race2": 103
       }
     },
     "Sung-JinWoo-7078-2543": {
@@ -82,6 +86,10 @@
       "3": {
         "race1": 75,
         "race2": 86
+      },
+      "4": {
+        "race1": 88,
+        "race2": 3
       }
     },
     "Utah-Grim-Reaper-9881-2206": {
@@ -118,6 +126,10 @@
       "3": {
         "race1": 86,
         "race2": 73
+      },
+      "4": {
+        "race1": 96,
+        "race2": 79
       }
     },
     "syn.-9641-3220": {
@@ -128,6 +140,18 @@
       "3": {
         "race1": 78,
         "race2": 108
+      }
+    },
+    "Starlow-12745-7283": {
+      "4": {
+        "race1": 104,
+        "race2": 77
+      }
+    },
+    "Dragnir-6756-1529": {
+      "4": {
+        "race1": 75,
+        "race2": 89
       }
     }
   },

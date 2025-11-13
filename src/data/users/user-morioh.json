@@ -1,12 +1,8 @@
 {
   "id": "user-morioh",
   "name": "Morioh",
-  "currency": 4606,
+  "currency": 1799,
   "players": [
-    {
-      "id": "Kaofie-5843-0202",
-      "purchasedAt": 1760390007123
-    },
     {
       "id": "CASTILLA-5326-1113",
       "purchasedAt": 1760390036198
@@ -34,15 +30,15 @@
       "clauseInvestment": 0
     },
     {
-      "id": "jandro-7604-4442",
-      "purchasedAt": 1761767512325,
-      "purchasePrice": 9011,
-      "clauseInvestment": 0
-    },
-    {
       "id": "xAlex-10406-0111",
       "purchasedAt": 1762437023750,
       "purchasePrice": 11070,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "Korni-6903-4006",
+      "purchasedAt": 1763052711129,
+      "purchasePrice": 17548,
       "clauseInvestment": 0
     }
   ],
@@ -51,13 +47,12 @@
       "CHaL-7199-5511",
       "Plush-6582-7033",
       "CASTILLA-5326-1113",
-      "KrioK-5990-2908",
-      "jandro-7604-4442",
-      "xAlex-10406-0111"
+      "xAlex-10406-0111",
+      "latias-6100-7108",
+      "Korni-6903-4006"
     ],
     "bench": [
-      "Kaofie-5843-0202",
-      "latias-6100-7108"
+      "KrioK-5990-2908"
     ]
   },
   "weeklyScores": {

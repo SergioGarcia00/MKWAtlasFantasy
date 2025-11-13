@@ -1,7 +1,7 @@
 {
   "id": "user-tario",
   "name": "Tario",
-  "currency": 3137,
+  "currency": 9454,
   "players": [
     {
       "id": "EYEKON-8673-8107",
@@ -15,10 +15,6 @@
     {
       "id": "Sharpy-5868-4983",
       "purchasedAt": 1760644251468
-    },
-    {
-      "id": "Kaffee-um-9-5920-3971",
-      "purchasedAt": 1760731612117
     },
     {
       "id": "ballhog-6871-8899",
@@ -43,7 +39,6 @@
     "lineup": [
       "EYEKON-8673-8107",
       "Tunamii-5183-8228",
-      "Kaffee-um-9-5920-3971",
       "ballhog-6871-8899",
       "CoinBlockBuster-7013-2955",
       "Sneaky-Golem-7366-3798"

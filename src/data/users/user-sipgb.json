@@ -1,7 +1,7 @@
 {
   "id": "user-sipgb",
   "name": "Sipgb",
-  "currency": 2661,
+  "currency": 20209,
   "players": [
     {
       "id": "Togore-Dreemurr-6731-0027",
@@ -15,11 +15,6 @@
     {
       "id": "Pein36-5539-7293",
       "purchasedAt": 1760464836457,
-      "clauseInvestment": 5000
-    },
-    {
-      "id": "Korni-6903-4006",
-      "purchasedAt": 1760983753046,
       "clauseInvestment": 5000
     },
     {
@@ -45,14 +40,12 @@
     "lineup": [
       "AxelTS-7913-9686",
       "Pein36-5539-7293",
-      "Korni-6903-4006",
       "cano-6401-9493",
       "M1gu3l_33-5231-1421",
-      "rclo-5930-6812"
-    ],
-    "bench": [
+      "rclo-5930-6812",
       "Togore-Dreemurr-6731-0027"
-    ]
+    ],
+    "bench": []
   },
   "weeklyScores": {
     "Torte-5227-0818": {

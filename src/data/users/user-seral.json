@@ -1,7 +1,7 @@
 {
   "id": "user-seral",
   "name": "Seral",
-  "currency": 17910,
+  "currency": 0,
   "players": [
     {
       "id": "georgio-6225-8628",
@@ -16,12 +16,24 @@
       "id": "Roni24-6797-7986",
       "purchasedAt": 1761768066210,
       "purchasePrice": 7243,
-      "clauseInvestment": 0
+      "clauseInvestment": 899
     },
     {
       "id": "TheMagicalLoaf-6287-2112",
       "purchasedAt": 1762864761812,
       "purchasePrice": 5932,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "jandro-7604-4442",
+      "purchasedAt": 1763051897692,
+      "purchasePrice": 9011,
+      "clauseInvestment": 0
+    },
+    {
+      "id": "ZaDi-7162-0329",
+      "purchasedAt": 1763051902497,
+      "purchasePrice": 8000,
       "clauseInvestment": 0
     }
   ],
@@ -32,7 +44,9 @@
       "Roni24-6797-7986"
     ],
     "bench": [
-      "TheMagicalLoaf-6287-2112"
+      "TheMagicalLoaf-6287-2112",
+      "jandro-7604-4442",
+      "ZaDi-7162-0329"
     ]
   },
   "weeklyScores": {
