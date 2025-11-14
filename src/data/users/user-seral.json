@@ -39,15 +39,14 @@
   ],
   "roster": {
     "lineup": [
-      "georgio-6225-8628",
       "Charging-Charles-8526-9694",
-      "Roni24-6797-7986"
-    ],
-    "bench": [
-      "TheMagicalLoaf-6287-2112",
+      "Roni24-6797-7986",
+      "georgio-6225-8628",
+      "ZaDi-7162-0329",
       "jandro-7604-4442",
-      "ZaDi-7162-0329"
-    ]
+      "TheMagicalLoaf-6287-2112"
+    ],
+    "bench": []
   },
   "weeklyScores": {
     "Milkshake-7008-1877": {
@@ -122,6 +121,10 @@
       "3": {
         "race1": 78,
         "race2": 68
+      },
+      "4": {
+        "race1": 94,
+        "race2": 0
       }
     },
     "Charging-Charles-8526-9694": {
